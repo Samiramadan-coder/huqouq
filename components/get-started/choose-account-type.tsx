@@ -19,7 +19,7 @@ export default function ChooseAccountType() {
 
   function handleContinue() {
     const path =
-      accountType === "client" ? "/register/client" : "/register/lawyer";
+      accountType === "client" ? "/sign-up/client" : "/sign-up/lawyer";
 
     router.push(path);
   }

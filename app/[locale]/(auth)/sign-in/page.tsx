@@ -1,3 +1,5 @@
+import AuthCard from "@/components/auth/shared/auth-card";
+
 export default function SignInPage() {
-  return <>Sign In Page</>;
+  return <AuthCard>Sign In Page</AuthCard>;
 }

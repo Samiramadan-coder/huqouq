@@ -4,6 +4,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen grid place-content-center">{children}</main>
+    <main className="min-h-screen grid place-content-center py-20">
+      {children}
+    </main>
   );
 }
