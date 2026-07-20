@@ -1,20 +1,28 @@
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import ChooseAccountType from "@/components/get-started/choose-account-type";
 
 export default async function GetStartedPage() {
   const t = await getTranslations("GetStarted");
+  const locale = await getLocale();
 
   return (
     <main className="grid min-h-[calc(100vh-6rem)] lg:grid-cols-2">
       <section className="bg-[#f8f6f2] px-5 py-12 sm:px-10 lg:px-16 xl:px-20">
         <div className="mx-auto flex h-full max-w-xl flex-col justify-center">
-          <p className="mb-7 text-xs font-semibold uppercase tracking-[0.3em] text-secondary">
+          <p className="mb-7 text-sm font-semibold uppercase tracking-[0.3em] text-secondary">
             {t("eyebrow")}
           </p>
 
-          <h1 className="max-w-lg font-serif text-4xl font-semibold leading-tight text-primary sm:text-5xl">
+          <h1
+            className={cn(
+              "max-w-lg font-semibold leading-tight text-primary",
+              locale === "en" && "font-serif text-2xl sm:text-4xl",
+              locale === "ar" && "text-2xl sm:text-4xl",
+            )}
+          >
             {t("title")}
           </h1>
 

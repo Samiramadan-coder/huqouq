@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
-import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { ArrowRight, BriefcaseBusiness, Scale } from "lucide-react";
 
@@ -73,6 +73,8 @@ function AccountTypeCard({
   title: string;
   description: string;
 }) {
+  const locale = useLocale();
+
   return (
     <Label htmlFor={value} className="block cursor-pointer">
       <Card
@@ -93,7 +95,12 @@ function AccountTypeCard({
         </span>
 
         <span className="min-w-0 flex-1">
-          <span className="block font-serif text-lg font-semibold text-primary">
+          <span
+            className={cn(
+              "block text-lg font-semibold text-primary",
+              locale === "en" && "font-serif",
+            )}
+          >
             {title}
           </span>
 
