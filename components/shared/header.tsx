@@ -1,12 +1,13 @@
 import Logo from "../icons/logo";
+import { cn } from "@/lib/utils";
 import NavLink from "./header/nav-link";
 import { Link } from "@/i18n/navigation";
 import MobileMenu from "./header/mobile-menu";
 import { Button } from "@/components/ui/button";
 import { navigationItems } from "@/constants/shared";
+import HeaderContainer from "./header/header-container";
 import LanguageSwitcher from "./header/language-switcher";
 import { getLocale, getTranslations } from "next-intl/server";
-import { cn } from "@/lib/utils";
 
 export default async function Header() {
   const t = await getTranslations("Header");
@@ -14,7 +15,7 @@ export default async function Header() {
   const navItems = navigationItems(t);
 
   return (
-    <header className="bg-primary text-white">
+    <HeaderContainer>
       <div className="container max-w-7xl flex h-16 items-center justify-between">
         <Link
           href="/"
@@ -66,6 +67,6 @@ export default async function Header() {
 
         <MobileMenu />
       </div>
-    </header>
+    </HeaderContainer>
   );
 }

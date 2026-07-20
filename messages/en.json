@@ -49,5 +49,22 @@
     },
     "Copyright": "© {year} HUQUOQ. All rights reserved.",
     "TrustStatement": "Regulated · Verified · Trusted"
+  },
+  "GetStarted": {
+    "eyebrow": "Get Started",
+    "title": "How would you like to use Huquoq?",
+    "description": "Choose the path that fits you. You can always explore the other side later.",
+    "client": {
+      "title": "I'm a Client",
+      "description": "Post your case, compare offers, and connect with the right lawyer for your situation."
+    },
+    "lawyer": {
+      "title": "I'm a Lawyer",
+      "description": "Build your profile, browse cases, and grow your practice."
+    },
+    "continue": "Continue",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "imageAlt": "Client meeting with a legal professional"
   }
 }
