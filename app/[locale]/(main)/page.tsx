@@ -1,3 +1,3 @@
 export default async function LandingPage() {
-  return <div></div>;
+  return <div>Hello</div>;
 }

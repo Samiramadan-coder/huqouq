@@ -14,5 +14,40 @@
       "ForClients": "للعملاء",
       "About": "عن حقوق"
     }
+  },
+  "Footer": {
+    "LogoLabel": "الرئيسية",
+    "Description": "نربط العملاء بمحامين موثوقين ومعتمدين في جميع أنحاء دولة الإمارات. منصة تقوم على الشفافية والثقة وسهولة الوصول إلى العدالة.",
+    "AvailableAcross": "متاح في جميع أنحاء الإمارات",
+    "Sections": {
+      "Platform": "المنصة",
+      "ForLawyers": "للمحامين",
+      "Legal": "قانوني",
+      "Support": "الدعم"
+    },
+    "Links": {
+      "HowItWorks": "كيف تعمل المنصة",
+      "Specializations": "التخصصات",
+      "FindLawyer": "ابحث عن محام",
+      "EmergencyHelp": "مساعدة عاجلة",
+      "PostCase": "أضف قضية",
+      "JoinAsLawyer": "انضم كمحام",
+      "ForLawyers": "خدمات المحامين",
+      "PrivacyPolicy": "سياسة الخصوصية",
+      "TermsOfService": "شروط الاستخدام",
+      "CookiePolicy": "سياسة ملفات الارتباط",
+      "Disclaimer": "إخلاء المسؤولية",
+      "ContactUs": "تواصل معنا"
+    },
+    "AppStore": {
+      "Download": "حمّل من",
+      "Name": "App Store"
+    },
+    "GooglePlay": {
+      "Download": "حمّل من",
+      "Name": "Google Play"
+    },
+    "Copyright": "© {year} حقوق. جميع الحقوق محفوظة.",
+    "TrustStatement": "منظم · موثق · موثوق"
   }
 }

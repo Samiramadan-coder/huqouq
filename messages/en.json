@@ -14,5 +14,40 @@
       "ForClients": "For Clients",
       "About": "About"
     }
+  },
+  "Footer": {
+    "LogoLabel": "Huquoq home",
+    "Description": "Connecting clients with verified legal professionals across the UAE. Built on transparency, trust, and access to justice.",
+    "AvailableAcross": "Available across the UAE",
+    "Sections": {
+      "Platform": "Platform",
+      "ForLawyers": "For Lawyers",
+      "Legal": "Legal",
+      "Support": "Support"
+    },
+    "Links": {
+      "HowItWorks": "How It Works",
+      "Specializations": "Specializations",
+      "FindLawyer": "Find a Lawyer",
+      "EmergencyHelp": "Emergency Help",
+      "PostCase": "Post a Case",
+      "JoinAsLawyer": "Join as a Lawyer",
+      "ForLawyers": "For Lawyers",
+      "PrivacyPolicy": "Privacy Policy",
+      "TermsOfService": "Terms of Service",
+      "CookiePolicy": "Cookie Policy",
+      "Disclaimer": "Disclaimer",
+      "ContactUs": "Contact Us"
+    },
+    "AppStore": {
+      "Download": "Download on the",
+      "Name": "App Store"
+    },
+    "GooglePlay": {
+      "Download": "Get it on",
+      "Name": "Google Play"
+    },
+    "Copyright": "© {year} HUQUOQ. All rights reserved.",
+    "TrustStatement": "Regulated · Verified · Trusted"
   }
 }
