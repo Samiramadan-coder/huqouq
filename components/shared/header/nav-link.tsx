@@ -7,11 +7,9 @@ import { usePathname } from "@/i18n/navigation";
 export default function NavLink({
   href,
   label,
-  key,
 }: {
   href: string;
   label: string;
-  key: string;
 }) {
   const pathname = usePathname();
   const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
