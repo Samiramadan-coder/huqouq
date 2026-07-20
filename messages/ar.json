@@ -1,5 +1,18 @@
 {
-  "Home": {
-    "title": "الصفحة الرئيسية"
+  "Header": {
+    "Title": "حقوق",
+    "LogoLabel": "الرئيسية",
+    "NavigationLabel": "التنقل الرئيسي",
+    "OpenMenu": "فتح قائمة التنقل",
+    "MenuDescription": "روابط التنقل داخل الموقع",
+    "SignIn": "تسجيل الدخول",
+    "GetStarted": "ابدأ الآن",
+    "Navigation": {
+      "Home": "الرئيسية",
+      "HowItWorks": "كيف يعمل",
+      "ForLawyers": "للمحامين",
+      "ForClients": "للعملاء",
+      "About": "عن حقوق"
+    }
   }
 }

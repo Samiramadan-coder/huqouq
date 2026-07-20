@@ -1,5 +1,18 @@
 {
-  "Home": {
-    "title": "Home Page"
+  "Header": {
+    "Title": "HUQOUQ",
+    "LogoLabel": "Huquoq home",
+    "NavigationLabel": "Main navigation",
+    "OpenMenu": "Open navigation menu",
+    "MenuDescription": "Website navigation links",
+    "SignIn": "Sign In",
+    "GetStarted": "Get Started",
+    "Navigation": {
+      "Home": "Home",
+      "HowItWorks": "How It Works",
+      "ForLawyers": "For Lawyers",
+      "ForClients": "For Clients",
+      "About": "About"
+    }
   }
 }
