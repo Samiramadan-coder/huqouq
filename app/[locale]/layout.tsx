@@ -1,25 +1,30 @@
+import { Metadata } from "next";
+import "@/assets/css/globals.css";
 import { hasLocale } from "next-intl";
+import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { routing } from "@/i18n/routing";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Metadata } from "next";
+import { Inter, Lora, Cairo } from "next/font/google";
 import { DirectionProvider } from "@/components/ui/direction";
-import "@/assets/css/globals.css";
 
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+});
+
+const cairo = Cairo({
+  variable: "--font-cairo",
   subsets: ["latin"],
 });
 
@@ -47,7 +52,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html
       lang={locale}
       dir={dir}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${lora.variable} ${cairo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>

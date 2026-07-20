@@ -1,40 +1,17 @@
 import Logo from "../icons/logo";
-import { cn } from "@/lib/utils";
-import { Link } from "@/i18n/navigation";
-
-import { Button } from "@/components/ui/button";
-import LanguageSwitcher from "./header/language-switcher";
 import NavLink from "./header/nav-link";
-import { getTranslations } from "next-intl/server";
-import { navigationItems } from "@/constants/shared";
+import { Link } from "@/i18n/navigation";
 import MobileMenu from "./header/mobile-menu";
+import { Button } from "@/components/ui/button";
+import { navigationItems } from "@/constants/shared";
+import LanguageSwitcher from "./header/language-switcher";
+import { getLocale, getTranslations } from "next-intl/server";
+import { cn } from "@/lib/utils";
 
 export default async function Header() {
   const t = await getTranslations("Header");
+  const locale = await getLocale();
   const navItems = navigationItems(t);
-
-  // const navigationItems = [
-  //   {
-  //     label: t("Navigation.Home"),
-  //     href: "/",
-  //   },
-  //   {
-  //     label: t("Navigation.HowItWorks"),
-  //     href: "/how-it-works",
-  //   },
-  //   {
-  //     label: t("Navigation.ForLawyers"),
-  //     href: "/for-lawyers",
-  //   },
-  //   {
-  //     label: t("Navigation.ForClients"),
-  //     href: "/for-clients",
-  //   },
-  //   {
-  //     label: t("Navigation.About"),
-  //     href: "/about",
-  //   },
-  // ] as const;
 
   return (
     <header className="bg-primary text-white">
@@ -46,7 +23,12 @@ export default async function Header() {
         >
           <Logo />
 
-          <span className="font-serif text-xl font-semibold tracking-widest text-white leading-relaxed">
+          <span
+            className={cn(
+              "text-xl font-semibold tracking-widest text-white leading-relaxed",
+              locale === "en" && "font-lora",
+            )}
+          >
             {t("Title")}
           </span>
         </Link>

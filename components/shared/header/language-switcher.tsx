@@ -1,8 +1,8 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
