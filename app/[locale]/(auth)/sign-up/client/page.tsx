@@ -1,5 +1,10 @@
 import AuthCard from "@/components/auth/shared/auth-card";
+import SignUpForm from "@/components/auth/sign-up/form";
 
 export default function SignUpClientPage() {
-  return <AuthCard>Sign Up Client Page</AuthCard>;
+  return (
+    <AuthCard>
+      <SignUpForm />
+    </AuthCard>
+  );
 }
