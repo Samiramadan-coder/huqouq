@@ -127,8 +127,18 @@ export default function FormInput<T extends FieldValues>({
               aria-invalid={!!error}
               disabled={disabled}
               className={cn(
-                "h-11 rounded-none border-0 border-b border-border",
-                "focus-visible:border-b-ring focus-visible:ring-0 focus-visible:ring-offset-0",
+                "h-11 rounded-none border-0 border-b border-border bg-transparent shadow-none",
+
+                "focus-visible:border-b-ring",
+                "focus-visible:ring-0",
+                "focus-visible:ring-offset-0",
+
+                "aria-invalid:border-0",
+                "aria-invalid:border-b",
+                "aria-invalid:border-destructive",
+                "aria-invalid:ring-0",
+                "aria-invalid:ring-offset-0",
+
                 "placeholder:text-base placeholder:text-border",
                 inputClassName,
               )}

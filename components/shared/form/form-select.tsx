@@ -79,8 +79,18 @@ export default function FormSelect<T extends FieldValues>({
                   id={name}
                   aria-invalid={fieldState.invalid}
                   className={cn(
-                    "h-11 min-h-11 w-full rounded-none border-0 border-b border-border",
-                    "data-placeholder:text-base data-placeholder:text-border",
+                    "h-11 min-h-11 w-full rounded-none bg-transparent shadow-none",
+                    "border-0 border-b border-border",
+                    "focus:border-b-ring",
+                    "focus:ring-0 focus:ring-offset-0",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0",
+                    "aria-invalid:border-0",
+                    "aria-invalid:border-b",
+                    "aria-invalid:border-destructive",
+                    "aria-invalid:ring-0",
+                    "aria-invalid:ring-offset-0",
+                    "data-placeholder:text-base",
+                    "data-placeholder:text-border",
                     triggerClassName,
                   )}
                 >

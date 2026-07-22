@@ -1,42 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Eye, EyeOff } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-
-import FormInput from "@/components/shared/form/form-input";
-import FormSelect from "@/components/shared/form/form-select";
-import SubmitBtn from "@/components/shared/form/submit-btn";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "@/i18n/navigation";
-import Logo from "@/components/icons/logo";
-
-import type { GuestType } from "@/types/shared";
 import { cn } from "@/lib/utils";
-
-type SignUpFormValues = {
-  first_name: string;
-  last_name: string;
-  phone: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-  emirates_id: string;
-  terms: boolean;
-};
+import { Link } from "@/i18n/navigation";
+import { Eye, EyeOff } from "lucide-react";
+import Logo from "@/components/icons/logo";
+import { Label } from "@/components/ui/label";
+import type { GuestType } from "@/types/shared";
+import { Checkbox } from "@/components/ui/checkbox";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocale, useTranslations } from "next-intl";
+import FormInput from "@/components/shared/form/form-input";
+import SubmitBtn from "@/components/shared/form/submit-btn";
+import FormSelect from "@/components/shared/form/form-select";
+import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
+import { Controller, useForm, SubmitHandler } from "react-hook-form";
+import { FieldError } from "@/components/ui/field";
 
 export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const locale = useLocale();
   const t = useTranslations("SignUp");
   const [showPassword, setShowPassword] = useState(false);
+  const guestLabel =
+    guestType === "client" ? t("guestTypes.client") : t("guestTypes.lawyer");
 
   const {
     register,
     control,
+    handleSubmit,
     formState: { errors },
   } = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema(t)),
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -49,11 +43,15 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
     },
   });
 
-  const guestLabel =
-    guestType === "client" ? t("guestTypes.client") : t("guestTypes.lawyer");
+  const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
+    console.log(data);
+  };
 
   return (
-    <form className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <form
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="flex flex-col items-center gap-2 sm:col-span-2">
         <Logo />
 
@@ -218,40 +216,44 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
           name="terms"
           control={control}
           render={({ field }) => (
-            <div className="flex items-start gap-3">
-              <Checkbox
-                id="terms"
-                checked={field.value}
-                onCheckedChange={(checked) => {
-                  field.onChange(checked === true);
-                }}
-                className="mt-0.5 size-4 rounded-[3px] border-border data-[state=checked]:border-secondary data-[state=checked]:bg-secondary"
-              />
+            <>
+              <div className="flex items-start gap-3">
+                <Checkbox
+                  id="terms"
+                  checked={field.value}
+                  onCheckedChange={(checked) => {
+                    field.onChange(checked === true);
+                  }}
+                  className="mt-0.5 size-4 rounded-[3px] border-border data-[state=checked]:border-secondary data-[state=checked]:bg-secondary"
+                />
 
-              <Label
-                htmlFor="terms"
-                className="cursor-pointer text-sm font-normal leading-6 text-muted-foreground"
-              >
-                {t.rich("termsAgreement", {
-                  terms: (chunks) => (
-                    <Link
-                      href="/terms-of-use"
-                      className="text-secondary hover:underline"
-                    >
-                      {chunks}
-                    </Link>
-                  ),
-                  privacy: (chunks) => (
-                    <Link
-                      href="/privacy-policy"
-                      className="text-secondary hover:underline"
-                    >
-                      {chunks}
-                    </Link>
-                  ),
-                })}
-              </Label>
-            </div>
+                <Label
+                  htmlFor="terms"
+                  className="cursor-pointer text-sm font-normal leading-6 text-muted-foreground"
+                >
+                  {t.rich("termsAgreement", {
+                    terms: (chunks) => (
+                      <Link
+                        href="/terms-of-use"
+                        className="text-secondary hover:underline"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                    privacy: (chunks) => (
+                      <Link
+                        href="/privacy-policy"
+                        className="text-secondary hover:underline"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                  })}
+                </Label>
+              </div>
+
+              <FieldError errors={[errors.terms]} />
+            </>
           )}
         />
       </div>

@@ -78,31 +78,46 @@
     "fields": {
       "firstName": {
         "label": "First Name",
-        "placeholder": "Sami"
+        "placeholder": "Sami",
+        "required": "First name is required",
+        "min": "First name must be at least 2 characters"
       },
       "lastName": {
         "label": "Last Name",
-        "placeholder": "Ramadan"
+        "placeholder": "Ramadan",
+        "required": "Last name is required",
+        "min": "Last name must be at least 2 characters"
       },
       "phone": {
         "label": "Phone",
-        "placeholder": "50 123 4567"
+        "placeholder": "50 123 4567",
+        "invalid": "Please enter a valid phone number"
       },
       "email": {
         "label": "Email",
-        "placeholder": "your@example.com"
+        "placeholder": "your@example.com",
+        "invalid": "Please enter a valid email address"
       },
       "password": {
         "label": "Password",
-        "placeholder": "Create a strong password"
+        "placeholder": "Create a strong password",
+        "required": "Password is required",
+        "min": "Password must be at least 8 characters"
       },
       "confirmPassword": {
         "label": "Confirm Password",
-        "placeholder": "Confirm your password"
+        "placeholder": "Confirm your password",
+        "required": "Please confirm your password",
+        "min": "Confirm password must be at least 8 characters",
+        "match": "Passwords must match"
       },
       "emirate": {
         "label": "City / Emirate",
-        "placeholder": "Select your city or emirate"
+        "placeholder": "Select your city or emirate",
+        "required": "Please select your city or emirate"
+      },
+      "terms": {
+        "required": "You must agree to the terms and privacy policy"
       }
     },
     "emirates": {
