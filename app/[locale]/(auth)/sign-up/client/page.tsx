@@ -4,7 +4,7 @@ import SignUpForm from "@/components/auth/sign-up/form";
 export default function SignUpClientPage() {
   return (
     <AuthCard>
-      <SignUpForm />
+      <SignUpForm guestType="client" />
     </AuthCard>
   );
 }

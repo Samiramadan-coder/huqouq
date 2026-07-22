@@ -57,7 +57,7 @@ export default function FormSelect<T extends FieldValues>({
           <FieldLabel
             htmlFor={name}
             className={cn(
-              "text-xs text-primary/50 uppercase font-semibold",
+              "text-xs text-primary/50 uppercase tracking-widest font-semibold",
               required &&
                 "after:ms-1 after:text-destructive after:content-['*']",
             )}
@@ -73,6 +73,7 @@ export default function FormSelect<T extends FieldValues>({
                   aria-invalid={fieldState.invalid}
                   className={cn(
                     "h-11 min-h-11 w-full rounded-none border-0 border-b border-border",
+                    "data-placeholder:text-base data-placeholder:text-border",
                     triggerClassName,
                   )}
                 >

@@ -68,7 +68,7 @@ export default function FormInput<T extends FieldValues>({
         <FieldLabel
           htmlFor={name}
           className={cn(
-            "text-xs text-primary/50 uppercase tracking-[0.02em] font-semibold",
+            "text-xs text-primary/50 uppercase tracking-widest font-semibold",
             required && "after:ms-1 after:text-destructive after:content-['*']",
           )}
         >
