@@ -66,5 +66,61 @@
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign In",
     "imageAlt": "Client meeting with a legal professional"
+  },
+  "SignUp": {
+    "title": "Create Your Account",
+    "signingUpAs": "Signing up as a",
+    "change": "Change",
+    "guestTypes": {
+      "client": "Client",
+      "lawyer": "Lawyer"
+    },
+    "fields": {
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "Sami"
+      },
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Ramadan"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "50 123 4567"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your@example.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Create a strong password"
+      },
+      "confirmPassword": {
+        "label": "Confirm Password",
+        "placeholder": "Confirm your password"
+      },
+      "emirate": {
+        "label": "City / Emirate",
+        "placeholder": "Select your city or emirate"
+      }
+    },
+    "emirates": {
+      "dubai": "Dubai",
+      "abuDhabi": "Abu Dhabi",
+      "sharjah": "Sharjah",
+      "ajman": "Ajman",
+      "ummAlQuwain": "Umm Al Quwain",
+      "rasAlKhaimah": "Ras Al Khaimah",
+      "fujairah": "Fujairah"
+    },
+    "termsAgreement": "I agree to the <terms>Terms of Use</terms> and <privacy>Privacy Policy</privacy>",
+    "createAccount": "Create Account",
+    "continueWith": "Or continue with",
+    "socialSignUp": "Sign up with social media accounts such as Google or Apple",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   }
 }

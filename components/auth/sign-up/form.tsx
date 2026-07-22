@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+
 import FormInput from "@/components/shared/form/form-input";
 import FormSelect from "@/components/shared/form/form-select";
 import SubmitBtn from "@/components/shared/form/submit-btn";
@@ -12,48 +14,71 @@ import { Link } from "@/i18n/navigation";
 import Logo from "@/components/icons/logo";
 
 import type { GuestType } from "@/types/shared";
+import { cn } from "@/lib/utils";
+
+type SignUpFormValues = {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  emirates_id: string;
+  terms: boolean;
+};
 
 export default function SignUpForm({ guestType }: { guestType: GuestType }) {
+  const locale = useLocale();
+  const t = useTranslations("SignUp");
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     control,
     formState: { errors },
-  } = useForm<{
-    first_name: string;
-    last_name: string;
-    phone: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
-    emirates_id: string;
-    terms: boolean;
-  }>();
+  } = useForm<SignUpFormValues>({
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      phone: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      emirates_id: "",
+      terms: false,
+    },
+  });
+
+  const guestLabel =
+    guestType === "client" ? t("guestTypes.client") : t("guestTypes.lawyer");
 
   return (
-    <form className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div className="sm:col-span-2 flex flex-col items-center gap-4">
+    <form className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="flex flex-col items-center gap-2 sm:col-span-2">
         <Logo />
+
         <p className="text-xs text-foreground">
-          Signing up as a{" "}
-          <span className="text-secondary">
-            {guestType === "client" ? "Client" : "Lawyer"}
-          </span>{" "}
-          <span>·</span>{" "}
-          <Link href="/get-started" className="text-secondary">
-            Change
-          </Link>{" "}
+          {t("signingUpAs")}{" "}
+          <span className="text-secondary">{guestLabel}</span> <span>·</span>{" "}
+          <Link href="/get-started" className="text-secondary hover:underline">
+            {t("change")}
+          </Link>
         </p>
-        <h1 className="font-lora text-[1.6rem] font-bold text-primary text-center mb-1">
-          Create Your Account
+
+        <h1
+          className={cn(
+            "mb-1 text-center text-[1.6rem] font-bold text-primary",
+            { "font-lora": locale === "en" },
+          )}
+        >
+          {t("title")}
         </h1>
       </div>
 
       <FormInput
         name="first_name"
-        placeholder="Sami"
-        label="First Name"
+        placeholder={t("fields.firstName.placeholder")}
+        label={t("fields.firstName.label")}
         register={register}
         required
         errors={errors}
@@ -61,8 +86,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
       <FormInput
         name="last_name"
-        placeholder="Ramadan"
-        label="Last Name"
+        placeholder={t("fields.lastName.placeholder")}
+        label={t("fields.lastName.label")}
         register={register}
         required
         errors={errors}
@@ -70,8 +95,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
       <FormInput
         name="phone"
-        placeholder="50 123 4567"
-        label="Phone"
+        placeholder={t("fields.phone.placeholder")}
+        label={t("fields.phone.label")}
         className="sm:col-span-2"
         prefix="+971"
         register={register}
@@ -81,8 +106,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
       <FormInput
         name="email"
-        placeholder="your@example.com"
-        label="Email"
+        placeholder={t("fields.email.placeholder")}
+        label={t("fields.email.label")}
         className="sm:col-span-2"
         register={register}
         required
@@ -91,8 +116,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
       <FormInput
         name="password"
-        placeholder="Create a strong password"
-        label="Password"
+        placeholder={t("fields.password.placeholder")}
+        label={t("fields.password.label")}
         type={showPassword ? "text" : "password"}
         className="sm:col-span-2"
         register={register}
@@ -101,12 +126,18 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
         suffix={
           showPassword ? (
             <Eye
-              className="cursor-pointer size-5"
+              role="button"
+              tabIndex={0}
+              aria-label={t("hidePassword")}
+              className="size-5 cursor-pointer"
               onClick={() => setShowPassword(false)}
             />
           ) : (
             <EyeOff
-              className="cursor-pointer size-5"
+              role="button"
+              tabIndex={0}
+              aria-label={t("showPassword")}
+              className="size-5 cursor-pointer"
               onClick={() => setShowPassword(true)}
             />
           )
@@ -115,8 +146,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
       <FormInput
         name="password_confirmation"
-        placeholder="Confirm your password"
-        label="Confirm Password"
+        placeholder={t("fields.confirmPassword.placeholder")}
+        label={t("fields.confirmPassword.label")}
         type={showPassword ? "text" : "password"}
         className="sm:col-span-2"
         register={register}
@@ -125,12 +156,18 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
         suffix={
           showPassword ? (
             <Eye
-              className="cursor-pointer size-5"
+              role="button"
+              tabIndex={0}
+              aria-label={t("hidePassword")}
+              className="size-5 cursor-pointer"
               onClick={() => setShowPassword(false)}
             />
           ) : (
             <EyeOff
-              className="cursor-pointer size-5"
+              role="button"
+              tabIndex={0}
+              aria-label={t("showPassword")}
+              className="size-5 cursor-pointer"
               onClick={() => setShowPassword(true)}
             />
           )
@@ -139,11 +176,38 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
       <FormSelect
         name="emirates_id"
-        label="City / Emirates"
+        label={t("fields.emirate.label")}
+        placeholder={t("fields.emirate.placeholder")}
         control={control}
         options={[
-          { label: "Emirates ID 1", value: "eid1" },
-          { label: "Emirates ID 2", value: "eid2" },
+          {
+            label: t("emirates.dubai"),
+            value: "dubai",
+          },
+          {
+            label: t("emirates.abuDhabi"),
+            value: "abu-dhabi",
+          },
+          {
+            label: t("emirates.sharjah"),
+            value: "sharjah",
+          },
+          {
+            label: t("emirates.ajman"),
+            value: "ajman",
+          },
+          {
+            label: t("emirates.ummAlQuwain"),
+            value: "umm-al-quwain",
+          },
+          {
+            label: t("emirates.rasAlKhaimah"),
+            value: "ras-al-khaimah",
+          },
+          {
+            label: t("emirates.fujairah"),
+            value: "fujairah",
+          },
         ]}
         className="sm:col-span-2"
         required
@@ -154,32 +218,38 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
           name="terms"
           control={control}
           render={({ field }) => (
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-3">
               <Checkbox
                 id="terms"
                 checked={field.value}
-                onCheckedChange={field.onChange}
-                className="size-4 rounded-[3px] border-border data-[state=checked]:border-secondary data-[state=checked]:bg-secondary"
+                onCheckedChange={(checked) => {
+                  field.onChange(checked === true);
+                }}
+                className="mt-0.5 size-4 rounded-[3px] border-border data-[state=checked]:border-secondary data-[state=checked]:bg-secondary"
               />
 
               <Label
                 htmlFor="terms"
-                className="cursor-pointer text-sm font-normal text-muted-foreground"
+                className="cursor-pointer text-sm font-normal leading-6 text-muted-foreground"
               >
-                I agree to the
-                <Link
-                  href="/terms-of-use"
-                  className="text-secondary hover:underline"
-                >
-                  Terms of Use
-                </Link>
-                and
-                <Link
-                  href="/privacy-policy"
-                  className="text-secondary hover:underline"
-                >
-                  Privacy Policy
-                </Link>
+                {t.rich("termsAgreement", {
+                  terms: (chunks) => (
+                    <Link
+                      href="/terms-of-use"
+                      className="text-secondary hover:underline"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                  privacy: (chunks) => (
+                    <Link
+                      href="/privacy-policy"
+                      className="text-secondary hover:underline"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                })}
               </Label>
             </div>
           )}
@@ -187,8 +257,25 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       </div>
 
       <div className="sm:col-span-2">
-        <SubmitBtn label="Create Account" loading={false} />
+        <SubmitBtn label={t("createAccount")} loading={false} />
       </div>
+
+      <div className="relative border-t border-border sm:col-span-2">
+        <span className="absolute left-1/2 -top-2 -translate-x-1/2 inline-block bg-white px-2 text-xs text-border">
+          {t("continueWith")}
+        </span>
+      </div>
+
+      <div className="text-center text-xs text-muted-foreground sm:col-span-2">
+        {t("socialSignUp")}
+      </div>
+
+      <p className="text-center text-xs text-primary/80 sm:col-span-2">
+        {t("alreadyHaveAccount")}{" "}
+        <Link href="/sign-in" className="text-secondary hover:underline">
+          {t("signIn")}
+        </Link>
+      </p>
     </form>
   );
 }

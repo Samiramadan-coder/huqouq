@@ -67,7 +67,14 @@ export default function FormSelect<T extends FieldValues>({
 
           <FieldContent>
             <div className="space-y-1.5">
-              <Select value={field.value ?? ""} onValueChange={field.onChange}>
+              <Select
+                value={
+                  field.value == null || field.value === "" || field.value === 0
+                    ? undefined
+                    : String(field.value)
+                }
+                onValueChange={field.onChange}
+              >
                 <SelectTrigger
                   id={name}
                   aria-invalid={fieldState.invalid}
