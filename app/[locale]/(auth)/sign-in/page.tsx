@@ -1,5 +1,10 @@
 import AuthCard from "@/components/auth/shared/auth-card";
+import SignInForm from "@/components/auth/sign-in/form";
 
 export default function SignInPage() {
-  return <AuthCard>Sign In Page</AuthCard>;
+  return (
+    <AuthCard>
+      <SignInForm />
+    </AuthCard>
+  );
 }
