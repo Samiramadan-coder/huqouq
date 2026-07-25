@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/shared/form/form-input";
 import SubmitBtn from "@/components/shared/form/submit-btn";
+import { Link } from "@/i18n/navigation";
 
 export function SignInWithEmail() {
   const t = useTranslations("SignIn");
@@ -41,35 +42,42 @@ export function SignInWithEmail() {
         errors={errors}
       />
 
-      <FormInput
-        name="password"
-        placeholder={t("fields.password.placeholder")}
-        label={t("fields.password.label")}
-        type={showPassword ? "text" : "password"}
-        className="sm:col-span-2"
-        register={register}
-        required
-        errors={errors}
-        suffix={
-          showPassword ? (
-            <Eye
-              role="button"
-              tabIndex={0}
-              aria-label="Hide password"
-              className="size-5 cursor-pointer"
-              onClick={() => setShowPassword(false)}
-            />
-          ) : (
-            <EyeOff
-              role="button"
-              tabIndex={0}
-              aria-label="Show password"
-              className="size-5 cursor-pointer"
-              onClick={() => setShowPassword(true)}
-            />
-          )
-        }
-      />
+      <div className="space-y-2">
+        <FormInput
+          name="password"
+          placeholder={t("fields.password.placeholder")}
+          label={t("fields.password.label")}
+          type={showPassword ? "text" : "password"}
+          className="sm:col-span-2"
+          register={register}
+          required
+          errors={errors}
+          suffix={
+            showPassword ? (
+              <Eye
+                role="button"
+                tabIndex={0}
+                aria-label="Hide password"
+                className="size-5 cursor-pointer"
+                onClick={() => setShowPassword(false)}
+              />
+            ) : (
+              <EyeOff
+                role="button"
+                tabIndex={0}
+                aria-label="Show password"
+                className="size-5 cursor-pointer"
+                onClick={() => setShowPassword(true)}
+              />
+            )
+          }
+        />
+        <div className="flex justify-end">
+          <Link href="/forgot-password" className="text-secondary text-xs">
+            {t("forgotPassword")}
+          </Link>
+        </div>
+      </div>
 
       <div className="sm:col-span-2">
         <SubmitBtn label={"Sign In"} loading={false} />

@@ -1,6 +1,7 @@
 import z from "zod";
 import { T } from "./shared";
 
+// Sign In With Email Schema
 export const signInWithEmailSchema = (t: T) =>
   z.object({
     email: z.email(t("fields.email.invalid")),
@@ -12,4 +13,17 @@ export const signInWithEmailSchema = (t: T) =>
 
 export type SignInWithEmailFormValues = z.infer<
   ReturnType<typeof signInWithEmailSchema>
+>;
+
+// Sign In With Phone Schema
+export const signInWithPhoneSchema = (t: T) =>
+  z.object({
+    phone: z
+      .string()
+      .trim()
+      .regex(/^5[024568]\d{7}$/, t("fields.phone.invalid")),
+  });
+
+export type SignInWithPhoneFormValues = z.infer<
+  ReturnType<typeof signInWithPhoneSchema>
 >;

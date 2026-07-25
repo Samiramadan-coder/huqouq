@@ -1,34 +1,28 @@
 "use client";
 
+import {
+  signInWithPhoneSchema,
+  SignInWithPhoneFormValues,
+} from "@/types/sign-in";
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/shared/form/form-input";
 import SubmitBtn from "@/components/shared/form/submit-btn";
-import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 
 export function SignInWithPhone() {
-  const t = useTranslations("SignUp");
+  const t = useTranslations("SignIn");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormValues>({
-    resolver: zodResolver(signUpSchema(t)),
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      phone: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-      emirates_id: "",
-      terms: false,
-    },
+  } = useForm<SignInWithPhoneFormValues>({
+    resolver: zodResolver(signInWithPhoneSchema(t)),
+    defaultValues: { phone: "" },
   });
 
-  const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<SignInWithPhoneFormValues> = async (data) => {
     console.log(data);
   };
 

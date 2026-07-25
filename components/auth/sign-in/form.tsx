@@ -1,17 +1,17 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import Logo from "@/components/icons/logo";
+import { Button } from "@/components/ui/button";
 import { useLocale, useTranslations } from "next-intl";
 import { SignInWithEmail } from "./sign-in-with-email";
 import { SignInWithPhone } from "./sign-in-with-phone";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 export default function SignInForm() {
   const locale = useLocale();
-  const t = useTranslations("SignUp");
+  const t = useTranslations("SignIn");
   const [liveRegion, setLiveRegion] = useState<"email" | "phone">("email");
 
   return (
@@ -24,11 +24,9 @@ export default function SignInForm() {
             { "font-lora": locale === "en" },
           )}
         >
-          Welcome Back
+          {t("welcomeBack")}
         </h1>
-        <p className="text-sm text-foreground">
-          Sign in to continue to your account.
-        </p>
+        <p className="text-sm text-foreground">{t("signInToYourAccount")}</p>
       </div>
 
       <div className="flex p-1 h-12 bg-border/50 rounded-full">
@@ -39,7 +37,7 @@ export default function SignInForm() {
           variant="ghost"
           onClick={() => setLiveRegion("email")}
         >
-          Email
+          {t("fields.email.label")}
         </Button>
         <Button
           className={cn("flex-1 h-full rounded-full", {
@@ -48,7 +46,7 @@ export default function SignInForm() {
           variant="ghost"
           onClick={() => setLiveRegion("phone")}
         >
-          Phone
+          {t("fields.phone.label")}
         </Button>
       </div>
 
@@ -63,13 +61,13 @@ export default function SignInForm() {
       </div>
 
       <div className="text-center text-xs text-muted-foreground sm:col-span-2">
-        {t("socialSignUp")}
+        {t("socialSignIn")}
       </div>
 
       <p className="text-center text-xs text-primary/80 sm:col-span-2">
-        Don&apos;t have an account?{" "}
+        {t("dontHaveAccount")}{" "}
         <Link href="/get-started" className="text-secondary hover:underline">
-          Get started
+          {t("getStarted")}
         </Link>
       </p>
     </div>

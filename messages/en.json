@@ -139,6 +139,13 @@
     "hidePassword": "Hide password"
   },
   "SignIn": {
+    "welcomeBack": "Welcome Back",
+    "signInToYourAccount": "Sign in to continue to your account.",
+    "continueWith": "Or continue with",
+    "socialSignIn": "Sign in with social media accounts such as Google or Apple",
+    "dontHaveAccount": "Don't have an account?",
+    "getStarted": "Get started",
+    "forgotPassword": "Forgot Password?",
     "fields": {
       "email": {
         "label": "Email",
@@ -150,6 +157,11 @@
         "placeholder": "Enter your password",
         "required": "Password is required",
         "min": "Password must be at least 8 characters"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "50 123 4567",
+        "invalid": "Please enter a valid phone number"
       }
     }
   }
