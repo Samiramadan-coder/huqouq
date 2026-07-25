@@ -137,5 +137,20 @@
     "signIn": "Sign In",
     "showPassword": "Show password",
     "hidePassword": "Hide password"
+  },
+  "SignIn": {
+    "fields": {
+      "email": {
+        "label": "Email",
+        "placeholder": "your@example.com",
+        "invalid": "Please enter a valid email address"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "required": "Password is required",
+        "min": "Password must be at least 8 characters"
+      }
+    }
   }
 }

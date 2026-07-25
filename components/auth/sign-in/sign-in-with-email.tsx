@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  SignInWithEmailFormValues,
+  signInWithEmailSchema,
+} from "@/types/sign-in";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -7,31 +11,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/shared/form/form-input";
 import SubmitBtn from "@/components/shared/form/submit-btn";
-import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 
 export function SignInWithEmail() {
-  const t = useTranslations("SignUp");
+  const t = useTranslations("SignIn");
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormValues>({
-    resolver: zodResolver(signUpSchema(t)),
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      phone: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-      emirates_id: "",
-      terms: false,
-    },
+  } = useForm<SignInWithEmailFormValues>({
+    resolver: zodResolver(signInWithEmailSchema(t)),
+    defaultValues: { email: "", password: "" },
   });
 
-  const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<SignInWithEmailFormValues> = async (data) => {
     console.log(data);
   };
 
@@ -61,7 +55,7 @@ export function SignInWithEmail() {
             <Eye
               role="button"
               tabIndex={0}
-              aria-label={t("hidePassword")}
+              aria-label="Hide password"
               className="size-5 cursor-pointer"
               onClick={() => setShowPassword(false)}
             />
@@ -69,7 +63,7 @@ export function SignInWithEmail() {
             <EyeOff
               role="button"
               tabIndex={0}
-              aria-label={t("showPassword")}
+              aria-label="Show password"
               className="size-5 cursor-pointer"
               onClick={() => setShowPassword(true)}
             />
