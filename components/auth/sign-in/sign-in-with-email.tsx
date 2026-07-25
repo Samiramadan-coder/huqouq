@@ -79,9 +79,7 @@ export function SignInWithEmail() {
         </div>
       </div>
 
-      <div className="sm:col-span-2">
-        <SubmitBtn label={"Sign In"} loading={false} />
-      </div>
+      <SubmitBtn label={t("signIn")} loading={false} />
     </form>
   );
 }

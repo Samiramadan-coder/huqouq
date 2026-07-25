@@ -122,5 +122,46 @@
     "signIn": "تسجيل الدخول",
     "showPassword": "إظهار كلمة المرور",
     "hidePassword": "إخفاء كلمة المرور"
+  },
+  "SignIn": {
+    "welcomeBack": "مرحبًا بعودتك",
+    "signInToYourAccount": "سجّل الدخول لمتابعة حسابك.",
+    "continueWith": "أو المتابعة باستخدام",
+    "socialSignIn": "سجّل الدخول باستخدام حسابات وسائل التواصل الاجتماعي مثل Google أو Apple",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "getStarted": "ابدأ الآن",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "signIn": "تسجيل الدخول",
+    "fields": {
+      "email": {
+        "label": "البريد الإلكتروني",
+        "placeholder": "your@example.com",
+        "invalid": "يرجى إدخال عنوان بريد إلكتروني صالح"
+      },
+      "password": {
+        "label": "كلمة المرور",
+        "placeholder": "أدخل كلمة المرور الخاصة بك",
+        "required": "كلمة المرور مطلوبة",
+        "min": "يجب أن تكون كلمة المرور 8 أحرف على الأقل"
+      },
+      "phone": {
+        "label": "رقم الهاتف",
+        "placeholder": "50 123 4567",
+        "invalid": "يرجى إدخال رقم هاتف صالح"
+      }
+    }
+  },
+  "ForgotPassword": {
+    "title": "نسيت كلمة المرور؟",
+    "description": "أدخل عنوان بريدك الإلكتروني أدناه وسنرسل لك رابطًا لإعادة تعيين كلمة المرور الخاصة بك.",
+    "submit": "إرسال رابط إعادة التعيين",
+    "backToSignIn": "العودة لتسجيل الدخول",
+    "fields": {
+      "email": {
+        "label": "البريد الإلكتروني",
+        "placeholder": "your@example.com",
+        "invalid": "يرجى إدخال عنوان بريد إلكتروني صالح"
+      }
+    }
   }
 }

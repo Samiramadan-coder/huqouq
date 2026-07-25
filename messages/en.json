@@ -146,6 +146,7 @@
     "dontHaveAccount": "Don't have an account?",
     "getStarted": "Get started",
     "forgotPassword": "Forgot Password?",
+    "signIn": "Sign In",
     "fields": {
       "email": {
         "label": "Email",
@@ -162,6 +163,19 @@
         "label": "Phone",
         "placeholder": "50 123 4567",
         "invalid": "Please enter a valid phone number"
+      }
+    }
+  },
+  "ForgotPassword": {
+    "title": "Forgot Your Password?",
+    "description": "Enter your email address below and we'll send you a link to reset your password.",
+    "submit": "Send Reset Link",
+    "backToSignIn": "Back to Sign In",
+    "fields": {
+      "email": {
+        "label": "Email",
+        "placeholder": "your@example.com",
+        "invalid": "Please enter a valid email address"
       }
     }
   }
