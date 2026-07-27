@@ -203,5 +203,102 @@
         "match": "Passwords must match"
       }
     }
+  },
+  "Home": {
+    "Hero": {
+      "Eyebrow": "Trusted Legal Connections",
+      "Title": {
+        "Line1": "Connect with the",
+        "Line2": "Right Lawyer,",
+        "Highlight": "On Your Terms"
+      },
+      "Description": "Post your case, compare offers from verified legal professionals, and resolve what matters — backed by a platform built on trust.",
+      "Actions": {
+        "Client": "I Need a Lawyer",
+        "Lawyer": "I'm a Lawyer"
+      },
+      "Stats": {
+        "Lawyers": "500+ Verified Lawyers",
+        "Specializations": "12 Legal Specializations",
+        "Location": "Available Across the UAE"
+      },
+      "ImageAlt": "Lawyers"
+    },
+    "HowItWorks": {
+      "Label": "The Process",
+      "Title": "How HUQOUQ Works",
+      "Features": {
+        "Verified": {
+          "Title": "Verified",
+          "Text": "Lawyers Only"
+        },
+        "Specializations": {
+          "Title": "12",
+          "Text": "Legal Specializations"
+        },
+        "Reviewed": {
+          "Title": "Admin",
+          "Text": "Reviewed Cases"
+        },
+        "Emergency": {
+          "Title": "24/7",
+          "Text": "Emergency Access"
+        }
+      },
+      "Clients": {
+        "Title": "For Clients",
+        "Action": "Get Started as a Client",
+        "Steps": {
+          "1": {
+            "Title": "Post Your Case",
+            "Description": "Describe your legal matter in detail. Your case is reviewed and matched to qualified lawyers in the relevant specialization."
+          },
+          "2": {
+            "Title": "Receive Offers",
+            "Description": "Verified lawyers submit tailored proposals. Compare credentials, experience, and fees at a glance."
+          },
+          "3": {
+            "Title": "Choose & Connect Securely",
+            "Description": "Select the lawyer that fits your needs. All communications and agreements are handled securely through the platform."
+          }
+        }
+      },
+      "Lawyers": {
+        "Title": "For Lawyers",
+        "Action": "Join as a Lawyer",
+        "Steps": {
+          "1": {
+            "Title": "Create Your Profile",
+            "Description": "Submit your credentials for admin verification. Your verified profile signals trust and professionalism to potential clients."
+          },
+          "2": {
+            "Title": "Browse Matching Cases",
+            "Description": "Access a curated feed of cases within your specialization. Filter by urgency, jurisdiction, and case type."
+          },
+          "3": {
+            "Title": "Submit Offers & Grow",
+            "Description": "Send proposals, win clients, and build your practice — all within a platform designed for legal professionals."
+          }
+        }
+      }
+    },
+    "Expertise": {
+      "Label": "Expertise",
+      "Title": "Every Area of Law, Covered",
+      "Areas": {
+        "Criminal": "Criminal Law",
+        "Family": "Family Law",
+        "Commercial": "Commercial Law",
+        "RealEstate": "Real Estate Law",
+        "Civil": "Civil Law",
+        "Labor": "Labor Law",
+        "Constitutional": "Constitutional Law",
+        "Financial": "Financial Law",
+        "Maritime": "Maritime Law",
+        "PrivateInternational": "Private International",
+        "Public": "Public Law",
+        "Administrative": "Administrative Law"
+      }
+    }
   }
 }
