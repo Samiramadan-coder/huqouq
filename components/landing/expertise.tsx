@@ -69,7 +69,7 @@ export default async function Expertise() {
   ];
 
   return (
-    <section className="border-b border-border bg-white py-24 lg:py-28">
+    <section className="border-b border-border/30 bg-white py-24 lg:py-28">
       <div className="container max-w-7xl">
         <div className="mb-14 text-center">
           <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-secondary">
@@ -89,7 +89,7 @@ export default async function Expertise() {
                 group flex min-h-25 cursor-pointer
                 flex-col items-center justify-center gap-3
                 rounded-sm border border-border/55
-                bg-secondary/5 px-4 py-6
+                bg-background px-4 py-6
                 transition-colors
                 hover:border-secondary/50
                 hover:bg-secondary/5

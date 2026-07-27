@@ -299,6 +299,80 @@
         "Public": "Public Law",
         "Administrative": "Administrative Law"
       }
+    },
+    "LegalServices": {
+      "Label": "Legal Services",
+      "Title": {
+        "Line1": "Get Legal Work Done,",
+        "Highlight": "Without Going to Court"
+      },
+      "Description": "Need a contract drafted, a legal notice sent, or a company formed? Request the service, receive offers from verified lawyers, and pay securely through Huqouq — your payment is held until the work is delivered and approved.",
+      "Benefits": {
+        "ServiceTypes": "Choose from 8 legal service types",
+        "Compare": "Compare offers and prices from verified lawyers",
+        "Payment": "Payment secured by Huqouq until you approve the work"
+      },
+      "Action": "Request a Legal Service",
+      "Services": {
+        "ContractReview": "Contract Review",
+        "ContractDrafting": "Contract Drafting",
+        "LegalNotice": "Legal Notice",
+        "LegalMemos": "Legal Memos & Statements",
+        "CompanyFormation": "Company Formation",
+        "CompanyAmendment": "Company Amendment",
+        "TrademarkRegistration": "Trademark Registration",
+        "Other": "Other Legal Work"
+      }
+    },
+    "Professionals": {
+      "Label": "Our Professionals",
+      "Title": "Recognized Legal Professionals",
+      "BrowseAll": "Browse All Lawyers",
+      "Verified": "Verified",
+      "ViewProfile": "View Profile",
+      "Years": "{count} yrs"
+    },
+    "Consultations": {
+      "Label": "Scheduled Consultations",
+      "Title": {
+        "Line1": "Talk to a Lawyer,",
+        "Highlight": "On Your Schedule"
+      },
+      "Description": "Have a specific question or need expert advice before committing to a full case? Book a one-on-one consultation with any lawyer — choose the date, time, and format that works for you.",
+      "Benefits": {
+        "Video": "Choose voice or video",
+        "Schedule": "Pick a time that fits your schedule",
+        "Advice": "Get clear, focused advice — no long-term commitment"
+      },
+      "Action": "Browse Lawyers to Book",
+      "Card": {
+        "LawyerName": "Dr. Ahmed Al Mansoori",
+        "Specialization": "Family Law Specialist",
+        "Verified": "Verified",
+        "Price": "AED 150 / 30 min",
+        "SelectDate": "Select a date — July 2025",
+        "AvailableTimes": "Available Times",
+        "Confirm": "Confirm Booking"
+      },
+      "Footer": {
+        "Starting": "Consultations starting from AED 100",
+        "Specializations": "Available across all specializations",
+        "Response": "Most lawyers respond within an hour"
+      }
+    },
+    "CTA": {
+      "Label": "Begin Today",
+      "Title": "Ready to Get Started?",
+      "Description": "Whether you need legal guidance or you are a qualified lawyer looking to grow your practice — HUQOUQ is where the right connections are made.",
+      "Actions": {
+        "Client": "I Need a Lawyer",
+        "Lawyer": "I'm a Lawyer"
+      },
+      "Footer": {
+        "Subscription": "No subscription required",
+        "Verified": "Verified professionals only",
+        "Secure": "Secure platform"
+      }
     }
   }
 }
