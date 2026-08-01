@@ -6,10 +6,12 @@ import {
   SidebarContent,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { Link } from "@/i18n/navigation";
 import { getLocale } from "next-intl/server";
-import PrimaryLogo from "@/components/icons/primary-logo";
+import { clientSidebarLinks } from "@/constants/layout";
 import Header from "@/components/client-lawyer/shared/header";
+import SidebarNavLink from "@/components/client-lawyer/shared/layout/sidebar-nav-link";
+import SidebarLogo from "@/components/client-lawyer/shared/layout/sidebar-logo";
+import { Separator } from "@/components/ui/separator";
 
 export default async function ClientLayout({
   children,
@@ -27,15 +29,26 @@ export default async function ClientLayout({
       >
         <SidebarContent className="bg-white">
           <SidebarGroup className="p-0">
-            <Link href="/" className="w-full">
-              <div className="px-4 h-14 border-b border-secondary/20 flex items-center">
-                <PrimaryLogo />
-                <span className="uppercase font-semibold font-lora ms-1">
-                  huqouq
-                </span>
-              </div>
-            </Link>
-            <SidebarMenu>-</SidebarMenu>
+            <SidebarLogo />
+
+            <SidebarMenu className="p-4">
+              {clientSidebarLinks.map((link, index) => {
+                if (link.type === "divider") {
+                  return (
+                    <Separator key={index} className="bg-secondary/20 my-2" />
+                  );
+                }
+
+                return (
+                  <SidebarNavLink
+                    key={index}
+                    href={link.href}
+                    label={link.label}
+                    icon={link.icon}
+                  />
+                );
+              })}
+            </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
