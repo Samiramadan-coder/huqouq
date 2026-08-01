@@ -9,13 +9,13 @@ export default function Logo() {
       <path
         d="M16 1L2 7v10c0 9.5 6 18 14 19 8-1 14-9.5 14-19V7L16 1z"
         fill="none"
-        stroke="#C9A961"
+        stroke="var(--secondary)"
         strokeWidth="1.5"
         strokeLinejoin="round"
       ></path>
       <path
         d="M11 18l3.5 3.5L21 14"
-        stroke="#C9A961"
+        stroke="var(--secondary)"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
