@@ -1,19 +1,19 @@
 import {
+  Bell,
+  Scale,
+  Heart,
+  Search,
+  Percent,
+  Settings,
   LayoutGrid,
   FolderOpen,
-  Scale,
-  Search,
-  CalendarCheck,
-  Heart,
-  MessageSquare,
-  Bell,
   ShieldAlert,
-  CircleUserRound,
-  Settings,
-  NotepadTextDashed,
   NotebookPen,
+  MessageSquare,
+  CalendarCheck,
+  CircleUserRound,
   CircleDollarSign,
-  Percent,
+  NotepadTextDashed,
 } from "lucide-react";
 import { T } from "@/types/shared";
 import { createElement } from "react";
@@ -31,6 +31,7 @@ type SidebarLink =
     };
 
 // Sidebar links for the client layout
+// This function takes a translation function `t` as an argument and returns an array of sidebar links for the client layout.
 export const clientSidebarLinks = (t: T): SidebarLink[] => [
   {
     href: "/client/dashboard",
@@ -109,6 +110,7 @@ export const clientSidebarLinks = (t: T): SidebarLink[] => [
 ];
 
 // Sidebar links for the lawyer layout
+// This function takes a translation function `t` as an argument and returns an array of sidebar links for the lawyer layout.
 export const lawyerSidebarLinks = (t: T): SidebarLink[] => [
   {
     href: "/lawyer/dashboard",
