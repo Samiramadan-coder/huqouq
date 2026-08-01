@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
 export default async function Hero() {
   const t = await getTranslations("Home.Hero");
@@ -28,28 +29,32 @@ export default async function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
-            <Button
-              size="lg"
-              className="
+            <Link href="/sign-up/client">
+              <Button
+                size="lg"
+                className="
                 h-12 min-w-44 rounded-sm
                 bg-secondary text-primary
                 hover:bg-secondary
               "
-            >
-              {t("Actions.Client")}
-            </Button>
+              >
+                {t("Actions.Client")}
+              </Button>
+            </Link>
 
-            <Button
-              variant="outline"
-              size="lg"
-              className="
-                h-12 min-w-40 rounded-sm
-                border-slate-400 bg-transparent
-                text-white hover:bg-white/10 hover:text-white
-              "
-            >
-              {t("Actions.Lawyer")}
-            </Button>
+            <Link href="/sign-up/lawyer">
+              <Button
+                variant="outline"
+                size="lg"
+                className="
+                  h-12 min-w-40 rounded-sm
+                  border-slate-400 bg-transparent
+                  text-white hover:bg-white/10 hover:text-white
+                "
+              >
+                {t("Actions.Lawyer")}
+              </Button>
+            </Link>
           </div>
 
           <p className="mt-9 text-xs tracking-wide text-white/35">

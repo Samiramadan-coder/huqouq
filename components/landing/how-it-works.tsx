@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ShieldCheck, Scale, BookOpen, Clock3, ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
+import { Link } from "@/i18n/navigation";
 
 export default async function HowItWorks() {
   const t = await getTranslations("Home.HowItWorks");
@@ -180,18 +181,20 @@ function ProcessCard({
           isClient ? "border-primary/10" : "border-secondary/20"
         }`}
       >
-        <Button
-          variant="link"
-          className={`group inline-flex items-center gap-2 text-sm font-medium ${
-            isClient ? "text-secondary" : "text-primary"
-          }`}
-        >
-          {action}
-          <ArrowRight
-            size={14}
-            className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
-          />
-        </Button>
+        <Link href={isClient ? "/sign-up/client" : "/sign-up/lawyer"}>
+          <Button
+            variant="link"
+            className={`group inline-flex items-center gap-2 text-sm font-medium ${
+              isClient ? "text-secondary" : "text-primary"
+            }`}
+          >
+            {action}
+            <ArrowRight
+              size={14}
+              className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+            />
+          </Button>
+        </Link>
       </div>
     </div>
   );

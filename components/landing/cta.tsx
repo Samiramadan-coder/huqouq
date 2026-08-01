@@ -33,7 +33,7 @@ export default async function CTA() {
             size="lg"
             className="h-12 min-w-46 rounded-sm bg-secondary px-8 text-primary hover:bg-secondary/90"
           >
-            <Link href="/cases/create">{t("Actions.Client")}</Link>
+            <Link href="/sign-up/client">{t("Actions.Client")}</Link>
           </Button>
           <Button
             asChild
@@ -41,7 +41,7 @@ export default async function CTA() {
             variant="outline"
             className="h-12 min-w-40 rounded-sm border-primary/20 bg-transparent px-8 text-primary hover:bg-primary hover:text-white"
           >
-            <Link href="/lawyer/register">{t("Actions.Lawyer")}</Link>
+            <Link href="/sign-up/lawyer">{t("Actions.Lawyer")}</Link>
           </Button>
         </div>
 
