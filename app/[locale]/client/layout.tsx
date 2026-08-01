@@ -9,9 +9,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { clientSidebarLinks } from "@/constants/layout";
 import { getLocale, getTranslations } from "next-intl/server";
-import Header from "@/components/client-lawyer/shared/header";
-import SidebarLogo from "@/components/client-lawyer/shared/layout/sidebar-logo";
-import SidebarNavLink from "@/components/client-lawyer/shared/layout/sidebar-nav-link";
+import LayoutHeader from "@/components/client-lawyer/shared/layout-header";
+import LayoutSidebarLogo from "@/components/client-lawyer/shared/layout-sidebar-logo";
+import LayoutSidebarNavLink from "@/components/client-lawyer/shared/layout-sidebar-nav-link";
 
 export default async function ClientLayout({
   children,
@@ -30,7 +30,7 @@ export default async function ClientLayout({
       >
         <SidebarContent className="bg-white">
           <SidebarGroup className="p-0">
-            <SidebarLogo />
+            <LayoutSidebarLogo />
 
             <SidebarMenu className="p-4">
               {clientSidebarLinks(t).map((link, index) => {
@@ -41,7 +41,7 @@ export default async function ClientLayout({
                 }
 
                 return (
-                  <SidebarNavLink
+                  <LayoutSidebarNavLink
                     key={index}
                     href={link.href}
                     label={link.label}
@@ -56,7 +56,7 @@ export default async function ClientLayout({
 
       <SidebarInset>
         <main>
-          <Header />
+          <LayoutHeader />
           <div className="min-h-screen p-4">{children}</div>
         </main>
       </SidebarInset>

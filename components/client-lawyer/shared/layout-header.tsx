@@ -10,7 +10,7 @@ import { getTranslations } from "next-intl/server";
 import { ChevronDown, LogOutIcon, Settings, UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default async function Header() {
+export default async function LayoutHeader() {
   const t = await getTranslations("Client.Sidebar");
 
   return (
