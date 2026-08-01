@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ShieldCheck, Scale, BookOpen, Clock3, ArrowRight } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { Link } from "@/i18n/navigation";
 
 export default async function HowItWorks() {

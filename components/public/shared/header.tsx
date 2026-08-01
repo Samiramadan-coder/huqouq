@@ -1,4 +1,4 @@
-import Logo from "../icons/logo";
+import Logo from "../../icons/logo";
 import { cn } from "@/lib/utils";
 import NavLink from "./header/nav-link";
 import { Link } from "@/i18n/navigation";

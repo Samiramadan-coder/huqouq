@@ -15,10 +15,10 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../../ui/select";
+} from "../../../ui/select";
 
 import { cn } from "@/lib/utils";
-import { Field, FieldContent, FieldError, FieldLabel } from "../../ui/field";
+import { Field, FieldContent, FieldError, FieldLabel } from "../../../ui/field";
 
 type SelectOption = {
   label: string;

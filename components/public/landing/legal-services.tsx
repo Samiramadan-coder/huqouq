@@ -13,7 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { getTranslations } from "next-intl/server";
 
 export default async function LegalServices() {

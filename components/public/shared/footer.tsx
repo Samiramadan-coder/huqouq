@@ -1,8 +1,8 @@
-import Logo from "../icons/logo";
+import Logo from "../../icons/logo";
 import { Link } from "@/i18n/navigation";
-import AppStoreIcon from "../icons/app-store";
+import AppStoreIcon from "../../icons/app-store";
 import FooterLink from "./footer/footer-link";
-import PlayStoreIcon from "../icons/play-store";
+import PlayStoreIcon from "../../icons/play-store";
 import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import FooterColumn, { FooterHeading } from "./footer/footer-column";

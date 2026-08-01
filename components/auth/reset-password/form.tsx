@@ -5,8 +5,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { useForm, SubmitHandler } from "react-hook-form";
-import FormInput from "@/components/shared/form/form-input";
-import SubmitBtn from "@/components/shared/form/submit-btn";
+import FormInput from "@/components/public/shared/form/form-input";
+import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import {
   ResetPasswordFormValues,
   resetPasswordSchema,

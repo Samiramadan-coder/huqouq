@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, MessageCircle, Video } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 export default async function Consultations() {
   const t = await getTranslations("Home.Consultations");

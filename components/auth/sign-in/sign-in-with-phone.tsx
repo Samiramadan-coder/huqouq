@@ -7,8 +7,8 @@ import {
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import FormInput from "@/components/shared/form/form-input";
-import SubmitBtn from "@/components/shared/form/submit-btn";
+import FormInput from "@/components/public/shared/form/form-input";
+import SubmitBtn from "@/components/public/shared/form/submit-btn";
 
 export function SignInWithPhone() {
   const t = useTranslations("SignIn");

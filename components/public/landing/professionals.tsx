@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { getTranslations } from "next-intl/server";
 import { ArrowRight, ShieldCheck, Star } from "lucide-react";
 

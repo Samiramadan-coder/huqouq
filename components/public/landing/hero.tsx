@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
