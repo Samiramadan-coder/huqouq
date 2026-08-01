@@ -24,6 +24,7 @@ type SidebarLink =
       label: string;
       icon: React.ReactNode;
       type: "link";
+      count?: number;
     }
   | {
       type: "divider";
@@ -72,12 +73,14 @@ export const clientSidebarLinks = (t: T): SidebarLink[] => [
     label: t("Messages"),
     icon: createElement(MessageSquare, { className: "size-4" }),
     type: "link",
+    count: 5,
   },
   {
     href: "/client/notifications",
     label: t("Notifications"),
     icon: createElement(Bell, { className: "size-4" }),
     type: "link",
+    count: 3,
   },
   {
     type: "divider",

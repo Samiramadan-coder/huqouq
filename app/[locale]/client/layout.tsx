@@ -46,6 +46,7 @@ export default async function ClientLayout({
                     href={link.href}
                     label={link.label}
                     icon={link.icon}
+                    count={link.count}
                   />
                 );
               })}

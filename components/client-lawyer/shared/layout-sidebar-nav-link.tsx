@@ -7,10 +7,12 @@ export default function SidebarNavLink({
   href,
   label,
   icon,
+  count,
 }: {
   href: string;
   label: string;
   icon: React.ReactNode;
+  count?: number;
 }) {
   const pathname = usePathname();
   const normalizedPathname = pathname.replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
@@ -25,6 +27,11 @@ export default function SidebarNavLink({
       <Link href={href} className="flex items-center gap-2 ">
         {icon}
         <span>{label}</span>
+        {count && (
+          <div className="ml-auto text-xs font-semibold text-white bg-secondary w-5 h-5 rounded-full flex items-center justify-center">
+            {count}
+          </div>
+        )}
       </Link>
     </SidebarMenuButton>
   );
