@@ -359,5 +359,21 @@
         "Secure": "منصة آمنة"
       }
     }
+  },
+  "Client": {
+    "Sidebar": {
+      "Overview": "نظرة عامة",
+      "Cases": "القضايا",
+      "LegalServices": "الخدمات القانونية",
+      "FindLawyer": "ابحث عن محامٍ",
+      "MyConsultations": "استشاراتي",
+      "Favorites": "المفضلة",
+      "Messages": "الرسائل",
+      "Notifications": "الإشعارات",
+      "EmergencyHistory": "السجل الطارئ",
+      "Profile": "الملف الشخصي",
+      "Settings": "الإعدادات",
+      "Logout": "تسجيل الخروج"
+    }
   }
 }
