@@ -1,4 +1,3 @@
-import { T } from "@/types/shared";
 import {
   LayoutGrid,
   FolderOpen,
@@ -12,6 +11,7 @@ import {
   CircleUserRound,
   Settings,
 } from "lucide-react";
+import { T } from "@/types/shared";
 import { createElement } from "react";
 
 type SidebarLink =

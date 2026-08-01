@@ -6,9 +6,9 @@ import {
   SidebarContent,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { getLocale, getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import { clientSidebarLinks } from "@/constants/layout";
+import { getLocale, getTranslations } from "next-intl/server";
 import Header from "@/components/client-lawyer/shared/header";
 import SidebarLogo from "@/components/client-lawyer/shared/layout/sidebar-logo";
 import SidebarNavLink from "@/components/client-lawyer/shared/layout/sidebar-nav-link";
