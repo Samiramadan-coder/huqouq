@@ -375,5 +375,21 @@
       "Settings": "الإعدادات",
       "Logout": "تسجيل الخروج"
     }
+  },
+  "Lawyer": {
+    "Sidebar": {
+      "Overview": "نظرة عامة",
+      "Cases": "قضاياي",
+      "MyOffers": "عروضي",
+      "Consultations": "الاستشارات",
+      "MyEarnings": "أرباحي",
+      "Messages": "الرسائل",
+      "Services": "تصفح الخدمات",
+      "ServiceOffers": "عروضي على الخدمات",
+      "ActiveServices": "خدماتي النشطة",
+      "Profile": "الملف الشخصي",
+      "Settings": "الإعدادات",
+      "EmergencyHistory": "السجل الطارئ"
+    }
   }
 }
