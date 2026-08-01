@@ -6,7 +6,7 @@ import {
   SidebarContent,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import { clientSidebarLinks } from "@/constants/layout";
 import Header from "@/components/client-lawyer/shared/header";
@@ -19,6 +19,7 @@ export default async function ClientLayout({
   children: React.ReactNode;
 }) {
   const locale = await getLocale();
+  const t = await getTranslations("Client.Sidebar");
 
   return (
     <SidebarProvider defaultOpen>
@@ -32,7 +33,7 @@ export default async function ClientLayout({
             <SidebarLogo />
 
             <SidebarMenu className="p-4">
-              {clientSidebarLinks.map((link, index) => {
+              {clientSidebarLinks(t).map((link, index) => {
                 if (link.type === "divider") {
                   return (
                     <Separator key={index} className="bg-secondary/20 my-2" />

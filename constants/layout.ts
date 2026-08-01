@@ -1,3 +1,4 @@
+import { T } from "@/types/shared";
 import {
   LayoutGrid,
   FolderOpen,
@@ -24,52 +25,52 @@ type SidebarLink =
       type: "divider";
     };
 
-export const clientSidebarLinks: SidebarLink[] = [
+export const clientSidebarLinks = (t: T): SidebarLink[] => [
   {
     href: "/client/dashboard",
-    label: "Overview",
+    label: t("Overview"),
     icon: createElement(LayoutGrid, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/cases",
-    label: "Cases",
+    label: t("Cases"),
     icon: createElement(FolderOpen, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/legal-services",
-    label: "Legal Services",
+    label: t("LegalServices"),
     icon: createElement(Scale, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/find-lawyers",
-    label: "Find Lawyers",
+    label: t("FindLawyer"),
     icon: createElement(Search, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/my-consultations",
-    label: "My Consultations",
+    label: t("MyConsultations"),
     icon: createElement(CalendarCheck, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/favorites",
-    label: "Favorites",
+    label: t("Favorites"),
     icon: createElement(Heart, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/messages",
-    label: "Messages",
+    label: t("Messages"),
     icon: createElement(MessageSquare, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/notifications",
-    label: "Notifications",
+    label: t("Notifications"),
     icon: createElement(Bell, { className: "size-4" }),
     type: "link",
   },
@@ -78,7 +79,7 @@ export const clientSidebarLinks: SidebarLink[] = [
   },
   {
     href: "/client/emergency-history",
-    label: "Emergency History",
+    label: t("EmergencyHistory"),
     icon: createElement(ShieldAlert, { className: "size-4" }),
     type: "link",
   },
@@ -87,13 +88,13 @@ export const clientSidebarLinks: SidebarLink[] = [
   },
   {
     href: "/client/profile",
-    label: "Profile",
+    label: t("Profile"),
     icon: createElement(CircleUserRound, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/client/settings",
-    label: "Settings",
+    label: t("Settings"),
     icon: createElement(Settings, { className: "size-4" }),
     type: "link",
   },

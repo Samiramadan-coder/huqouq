@@ -374,5 +374,21 @@
         "Secure": "Secure platform"
       }
     }
+  },
+  "Client": {
+    "Sidebar": {
+      "Overview": "Overview",
+      "Cases": "Cases",
+      "LegalServices": "Legal Services",
+      "FindLawyer": "Find a Lawyer",
+      "MyConsultations": "My Consultations",
+      "Favorites": "Favorites",
+      "Messages": "Messages",
+      "Notifications": "Notifications",
+      "EmergencyHistory": "Emergency History",
+      "Profile": "Profile",
+      "Settings": "Settings",
+      "Logout": "Logout"
+    }
   }
 }
