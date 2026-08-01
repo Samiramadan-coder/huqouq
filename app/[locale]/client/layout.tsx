@@ -7,11 +7,11 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import { getLocale } from "next-intl/server";
+import { Separator } from "@/components/ui/separator";
 import { clientSidebarLinks } from "@/constants/layout";
 import Header from "@/components/client-lawyer/shared/header";
-import SidebarNavLink from "@/components/client-lawyer/shared/layout/sidebar-nav-link";
 import SidebarLogo from "@/components/client-lawyer/shared/layout/sidebar-logo";
-import { Separator } from "@/components/ui/separator";
+import SidebarNavLink from "@/components/client-lawyer/shared/layout/sidebar-nav-link";
 
 export default async function ClientLayout({
   children,
