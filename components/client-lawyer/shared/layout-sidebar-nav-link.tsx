@@ -20,7 +20,7 @@ export default function SidebarNavLink({
     <SidebarMenuButton
       asChild
       isActive={isActive}
-      className="mb-1 h-11! rounded-none hover:bg-secondary/10! text-primary/40 data-[active=true]:border-s-2 data-[active=true]:border-secondary data-[active=true]:bg-secondary/10 data-[active=true]:text-primary data-[active=true]:font-medium"
+      className="mb-1 h-11! rounded-none hover:bg-secondary/10! text-primary/50 data-[active=true]:border-s-2 data-[active=true]:border-secondary data-[active=true]:bg-secondary/10 data-[active=true]:text-primary data-[active=true]:font-semibold"
     >
       <Link href={href} className="flex items-center gap-2 ">
         {icon}

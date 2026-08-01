@@ -390,5 +390,21 @@
       "Settings": "Settings",
       "Logout": "Logout"
     }
+  },
+  "Lawyer": {
+    "Sidebar": {
+      "Overview": "Overview",
+      "Cases": "My Cases",
+      "MyOffers": "My Offers",
+      "Consultations": "Consultations",
+      "MyEarnings": "My Earnings",
+      "Messages": "Messages",
+      "Services": "Browse Services",
+      "ServiceOffers": "My Service Offers",
+      "ActiveServices": "My Active Services",
+      "Profile": "Profile",
+      "Settings": "Settings",
+      "EmergencyHistory": "Emergency History"
+    }
   }
 }
