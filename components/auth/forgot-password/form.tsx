@@ -4,15 +4,14 @@ import {
   ForgotPasswordFormValues,
   forgotPasswordSchema,
 } from "@/types/forgot-password";
-import { useLocale, useTranslations } from "next-intl";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import FormInput from "@/components/public/shared/form/form-input";
-import SubmitBtn from "@/components/public/shared/form/submit-btn";
-import Logo from "@/components/icons/logo";
 import { cn } from "@/lib/utils";
+import Logo from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocale, useTranslations } from "next-intl";
+import { useForm, SubmitHandler } from "react-hook-form";
+import SubmitBtn from "@/components/public/shared/form/submit-btn";
+import FormInput from "@/components/public/shared/form/form-input";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("ForgotPassword");
