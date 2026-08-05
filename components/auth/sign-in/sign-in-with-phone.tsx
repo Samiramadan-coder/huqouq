@@ -19,7 +19,9 @@ export function SignInWithPhone() {
     formState: { errors },
   } = useForm<SignInWithPhoneFormValues>({
     resolver: zodResolver(signInWithPhoneSchema(t)),
-    defaultValues: { phone: "" },
+    defaultValues: {
+      phone: "",
+    },
   });
 
   const onSubmit: SubmitHandler<SignInWithPhoneFormValues> = async (data) => {

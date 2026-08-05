@@ -23,7 +23,10 @@ export function SignInWithEmail() {
     formState: { errors },
   } = useForm<SignInWithEmailFormValues>({
     resolver: zodResolver(signInWithEmailSchema(t)),
-    defaultValues: { email: "", password: "" },
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit: SubmitHandler<SignInWithEmailFormValues> = async (data) => {
