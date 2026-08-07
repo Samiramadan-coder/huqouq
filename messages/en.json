@@ -465,6 +465,17 @@
         }
       },
       "footer": "All seven emirates covered. Expanding region-wide."
+    },
+    "cta": {
+      "title": "Join Us in Building Something Better",
+      "clientButton": "I Need a Lawyer",
+      "lawyerButton": "I'm a Lawyer",
+      "contact": {
+        "title": "GET IN TOUCH",
+        "email": "hello@huqouq.ae",
+        "phone": "+971 (0) 1 234 5678",
+        "inquiry": "General Inquiry"
+      }
     }
   },
   "Client": {

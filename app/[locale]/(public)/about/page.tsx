@@ -1,3 +1,5 @@
+import Coverage from "@/components/public/about/coverage";
+import CTA from "@/components/public/about/cta";
 import Hero from "@/components/public/about/hero";
 import Story from "@/components/public/about/story";
 import Values from "@/components/public/about/values";
@@ -12,6 +14,8 @@ export default function Page() {
       <Why />
       <Values />
       <Verification />
+      <Coverage />
+      <CTA />
     </main>
   );
 }
