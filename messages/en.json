@@ -375,6 +375,45 @@
       }
     }
   },
+  "About": {
+    "hero": {
+      "eyebrow": "OUR MISSION",
+      "title": "Making Legal Help Accessible, Trustworthy, and Human",
+      "description": "Huqouq was built to close the gap between people who need legal help and the qualified professionals ready to provide it — starting in the UAE, with trust at the center of everything we do.",
+      "imageAlt": "Legal consultation"
+    },
+    "story": {
+      "eyebrow": "OUR STORY",
+      "title": "Why We Started Huqouq",
+      "paragraph1": "It started with a simple frustration: too many people we knew — friends, family, people in our own community — struggled to find a lawyer they could trust. Not because good lawyers didn't exist, but because there was no clear, honest way to find them.",
+      "paragraph2": "We saw lawyers doing excellent work with no easy way to reach the clients who needed them. And we saw people facing real legal challenges, unsure where to even begin.",
+      "paragraph3": "So we built Huqouq — not as another directory, but as a platform where trust comes first. Every lawyer reviewed. Every case considered with care. Every connection built to last beyond a single transaction.",
+      "paragraph4": "This is just the beginning. We're proud to start here, in the UAE, and we're building Huqouq to grow with the trust of every person who uses it.",
+      "team": "— The Huqouq Team"
+    },
+    "whyHuqouq": {
+      "title": "Why We Built Huqouq",
+      "paragraph1": "Finding the right lawyer shouldn't be confusing, slow, or opaque. Too often, people facing real legal challenges don't know where to start — and qualified lawyers struggle to reach the clients who need them most.",
+      "paragraph2": "Huqouq was created to solve this directly: a platform where every lawyer is verified before they can practice on it, every case is reviewed before it's published, and every connection is built on transparency — from pricing to communication to resolution.",
+      "paragraph3": "We're proud to launch first in the United Arab Emirates, building a platform rooted in the standards, language, and trust this region deserves.",
+      "imageAlt": "Legal office"
+    },
+    "values": {
+      "title": "What We Stand For",
+      "verified": {
+        "title": "Verified, Always",
+        "description": "Every lawyer on Huqouq is reviewed and approved before they can take on a single case."
+      },
+      "transparent": {
+        "title": "Transparent by Design",
+        "description": "Clear pricing, honest offers, and open communication — no hidden steps, no surprises."
+      },
+      "support": {
+        "title": "Help When It Matters Most",
+        "description": "From scheduled consultations to emergency legal assistance, we're built for real moments, not just convenience."
+      }
+    }
+  },
   "Client": {
     "Sidebar": {
       "Overview": "Overview",

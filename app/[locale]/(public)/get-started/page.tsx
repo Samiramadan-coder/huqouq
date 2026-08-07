@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import ChooseAccountType from "@/components/get-started/choose-account-type";
+import ChooseAccountType from "@/components/public/get-started/choose-account-type";
 
 export default async function GetStartedPage() {
   const t = await getTranslations("GetStarted");

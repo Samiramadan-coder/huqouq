@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Card } from "../ui/card";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+import { Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ArrowRight, BriefcaseBusiness, Scale } from "lucide-react";
 
 type AccountType = "client" | "lawyer";
