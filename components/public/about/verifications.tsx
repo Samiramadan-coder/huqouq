@@ -1,11 +1,10 @@
-import { cn } from "@/lib/utils";
 import {
   BadgeCheck,
   FileText,
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 
 type VerificationStep = {
