@@ -412,6 +412,59 @@
         "title": "Help When It Matters Most",
         "description": "From scheduled consultations to emergency legal assistance, we're built for real moments, not just convenience."
       }
+    },
+    "verification": {
+      "eyebrow": "VERIFICATION PROCESS",
+      "title": "Trust You Can Verify",
+      "description": "Every lawyer on Huqouq goes through a thorough review before they can take on a single case.",
+      "submitted": {
+        "title": "Profile Submitted",
+        "description": "Lawyers provide their bar license, education, and professional experience."
+      },
+      "reviewed": {
+        "title": "Reviewed by Our Team",
+        "description": "Our admin team personally verifies every credential before approval — no automated rubber-stamping."
+      },
+      "verified": {
+        "title": "Verified & Live",
+        "description": "Approved lawyers receive a Verified seal, visible on their profile to every client."
+      },
+      "footer": "Every profile reviewed. No exceptions."
+    },
+    "coverage": {
+      "title": "Proudly Serving the UAE",
+      "description": "Huqouq connects clients and lawyers across all seven emirates — with plans to expand further across the region.",
+      "emirates": {
+        "dubai": {
+          "name": "Dubai",
+          "lawyers": "140+ Lawyers"
+        },
+        "abuDhabi": {
+          "name": "Abu Dhabi",
+          "lawyers": "95+ Lawyers"
+        },
+        "sharjah": {
+          "name": "Sharjah",
+          "lawyers": "60+ Lawyers"
+        },
+        "ajman": {
+          "name": "Ajman",
+          "lawyers": "28+ Lawyers"
+        },
+        "rasAlKhaimah": {
+          "name": "Ras Al Khaimah",
+          "lawyers": "22+ Lawyers"
+        },
+        "fujairah": {
+          "name": "Fujairah",
+          "lawyers": "18+ Lawyers"
+        },
+        "ummAlQuwain": {
+          "name": "Umm Al Quwain",
+          "lawyers": "12+ Lawyers"
+        }
+      },
+      "footer": "All seven emirates covered. Expanding region-wide."
     }
   },
   "Client": {
