@@ -497,6 +497,74 @@
       "specializations": "Legal Specializations",
       "emirates": "Emirates Covered",
       "emergency": "Emergency Access"
+    },
+    "advantages": {
+      "eyebrow": "THE PLATFORM ADVANTAGE",
+      "title": "Why Clients Choose Huqouq",
+      "verified": {
+        "title": "Every Lawyer Verified",
+        "description": "We review every lawyer's credentials before they can take on a single case. Only licensed, qualified professionals join the platform."
+      },
+      "compare": {
+        "title": "Compare Before You Commit",
+        "description": "See real offers, ratings, and experience side by side — no pressure, no obligation. Take the time you need to choose the right fit."
+      },
+      "privacy": {
+        "title": "Your Privacy, Protected",
+        "description": "Your contact details stay private until you choose to hire someone. Lawyers see your case — not your personal information."
+      },
+      "support": {
+        "title": "Help When You Need It Most",
+        "description": "From scheduled consultations to emergency legal assistance, support is always within reach — day or night, across all seven Emirates."
+      }
+    },
+    "options": {
+      "eyebrow": "YOUR OPTIONS",
+      "title": "Three Ways to Get Help",
+      "case": {
+        "title": "Post a Case",
+        "description": "Describe your situation and receive competitive offers from lawyers matching your needs. Best for ongoing matters that need dedicated representation.",
+        "cta": "Post a Case"
+      },
+      "consultation": {
+        "title": "Book a Consultation",
+        "description": "Schedule time with a specific lawyer for advice on a specific question — no commitment beyond the session. Ideal for a second opinion or a quick answer.",
+        "cta": "Browse Lawyers"
+      },
+      "service": {
+        "title": "Request a Legal Service",
+        "description": "Need a contract drafted, a legal notice sent, or a company set up? Pay securely — we hold your payment until the work is approved.",
+        "cta": "Request a Service"
+      },
+      "emergency": {
+        "title": "Need help right now?",
+        "description": "Emergency Legal Assistance connects you with an available verified lawyer within minutes — any time of day, across all seven Emirates.",
+        "cta": "Learn More"
+      }
+    },
+    "expertise": {
+      "eyebrow": "EXPERTISE",
+      "title": "Every Area of Law, Covered",
+      "items": {
+        "criminal": "Criminal Law",
+        "family": "Family Law",
+        "commercial": "Commercial Law",
+        "realEstate": "Real Estate Law",
+        "civil": "Civil Law",
+        "labor": "Labor Law",
+        "constitutional": "Constitutional Law",
+        "financial": "Financial Law",
+        "maritime": "Maritime Law",
+        "privateInternational": "Private International",
+        "public": "Public Law",
+        "administrative": "Administrative Law"
+      }
+    },
+    "cta": {
+      "eyebrow": "GET STARTED TODAY",
+      "title": "Ready to Get the Help You Need?",
+      "description": "Post your case in minutes. No upfront commitment — receive offers from verified lawyers and choose the right one at your own pace.",
+      "button": "Post Your Case"
     }
   },
   "Client": {

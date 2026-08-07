@@ -98,7 +98,7 @@ function AccountTypeCard({
           <span
             className={cn(
               "block text-lg font-semibold text-primary",
-              locale === "en" && "font-serif",
+              locale === "en" && "font-lora",
             )}
           >
             {title}

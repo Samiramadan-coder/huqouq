@@ -71,7 +71,11 @@ export default async function Verification() {
                 <Icon className="size-5 text-[#A9BBC9]" strokeWidth={1.4} />
               </div>
 
-              <h3 className="mt-7 font-serif text-[19px] font-semibold text-primary">
+              <h3
+                className={cn("mt-7 text-[19px] font-semibold text-primary", {
+                  "font-lora": locale === "en",
+                })}
+              >
                 {t(`${key}.title`)}
               </h3>
 
@@ -82,7 +86,11 @@ export default async function Verification() {
           ))}
         </div>
 
-        <p className="mt-14 text-center font-serif text-[15px] italic text-secondary">
+        <p
+          className={cn("mt-14 text-center text-[15px] italic text-secondary", {
+            "font-lora": locale === "en",
+          })}
+        >
           {t("footer")}
         </p>
       </div>

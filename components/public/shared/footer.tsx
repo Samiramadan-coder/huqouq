@@ -12,7 +12,7 @@ export default async function Footer() {
   const t = await getTranslations("Footer");
 
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-[#122840] text-white">
       <div className="container max-w-7xl py-14 lg:py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_0.7fr_0.7fr_0.7fr] lg:gap-20">
           <div>

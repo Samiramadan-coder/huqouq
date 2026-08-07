@@ -19,7 +19,7 @@ export default async function GetStartedPage() {
           <h1
             className={cn(
               "max-w-lg font-semibold leading-tight text-primary",
-              locale === "en" && "font-serif text-2xl sm:text-4xl",
+              locale === "en" && "font-lora text-2xl sm:text-4xl",
               locale === "ar" && "text-2xl sm:text-4xl",
             )}
           >

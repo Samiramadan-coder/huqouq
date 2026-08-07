@@ -77,7 +77,11 @@ export default async function Hero() {
                 {t("privacy.label")}
               </span>
 
-              <span className="block font-serif text-[14px] font-semibold text-primary">
+              <span
+                className={cn("block text-[14px] font-semibold text-primary", {
+                  "font-lora": locale === "en",
+                })}
+              >
                 {t("privacy.value")}
               </span>
             </div>

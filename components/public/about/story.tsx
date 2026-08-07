@@ -38,7 +38,7 @@ export default async function Story() {
         {/* Content */}
         <div
           className={cn(
-            "text-primary/70 font-serif leading-[1.85] text-[1.0625rem] md:text-[1.125rem] space-y-6",
+            "text-primary/70 leading-[1.85] text-[1.0625rem] md:text-[1.125rem] space-y-6",
             { "font-lora": locale === "en" },
           )}
         >
@@ -49,7 +49,11 @@ export default async function Story() {
         </div>
 
         {/* Signature */}
-        <p className="mt-10 font-serif text-[14px] italic text-secondary">
+        <p
+          className={cn("mt-10 text-[14px] italic text-secondary", {
+            "font-lora": locale === "en",
+          })}
+        >
           {t("team")}
         </p>
 

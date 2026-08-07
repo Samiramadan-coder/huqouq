@@ -36,7 +36,12 @@ export default async function Coverage() {
               key={emirate}
               className="min-w-28 rounded-sm border border-secondary/20 bg-background px-5 py-4"
             >
-              <h3 className="font-serif text-[14px] font-semibold whitespace-nowrap text-primary">
+              <h3
+                className={cn(
+                  "text-[14px] font-semibold whitespace-nowrap text-primary",
+                  { "font-lora": locale === "en" },
+                )}
+              >
                 {t(`emirates.${emirate}.name`)}
               </h3>
 
@@ -47,7 +52,11 @@ export default async function Coverage() {
           ))}
         </div>
 
-        <p className="mt-10 font-serif text-[14px] italic text-secondary">
+        <p
+          className={cn("mt-10 text-[14px] italic text-secondary", {
+            "font-lora": locale === "en",
+          })}
+        >
           {t("footer")}
         </p>
       </div>
