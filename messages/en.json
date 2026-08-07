@@ -478,6 +478,27 @@
       }
     }
   },
+  "ForClients": {
+    "hero": {
+      "eyebrow": "FOR CLIENTS",
+      "titleStart": "Find the Right Lawyer,",
+      "titleHighlight": "Without the Guesswork",
+      "description": "Describe your case once, receive offers from verified lawyers, and choose with confidence — all your information stays private until you decide.",
+      "postCase": "Post Your Case",
+      "browseLawyers": "Browse Lawyers",
+      "imageAlt": "Client reviewing legal documents",
+      "privacy": {
+        "label": "PRIVACY",
+        "value": "Details Protected"
+      }
+    },
+    "stats": {
+      "lawyers": "Verified Lawyers",
+      "specializations": "Legal Specializations",
+      "emirates": "Emirates Covered",
+      "emergency": "Emergency Access"
+    }
+  },
   "Client": {
     "Sidebar": {
       "Overview": "Overview",
