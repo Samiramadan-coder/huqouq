@@ -676,6 +676,115 @@
       "button": "Post Your Case"
     }
   },
+  "ForLawyers": {
+    "hero": {
+      "eyebrow": "FOR LEGAL PROFESSIONALS",
+      "titleStart": "Grow Your Practice,",
+      "titleHighlight": "On Your Terms",
+      "description": "Huqouq connects you with verified clients posting real cases. Browse opportunities that match your specialization, submit competitive offers at your own rate, and build a verified reputation that works for you long after the case is closed.",
+      "joinAsLawyer": "Join as a Lawyer",
+      "seeHowItWorks": "See How It Works",
+      "imageAlt": "Lawyer reviewing legal opportunities",
+      "badge": {
+        "label": "PLATFORM",
+        "value": "Verified Badge"
+      }
+    },
+    "stats": {
+      "lawyers": "Verified Lawyers",
+      "specializations": "Specializations Covered",
+      "satisfaction": "Client Satisfaction Rate",
+      "licensed": "Licensed & Regulated"
+    },
+    "advantages": {
+      "eyebrow": "THE PLATFORM ADVANTAGE",
+      "title": "Why Lawyers Choose Huqouq",
+
+      "verifiedCases": {
+        "title": "Verified Clients, Real Cases",
+        "description": "Every case posted on Huqouq is reviewed before going live. You spend your time on legitimate opportunities, not noise."
+      },
+
+      "pricing": {
+        "title": "Set Your Own Pricing",
+        "description": "You write your own offer. No platform-imposed rates — your fee reflects your expertise, experience, and case complexity."
+      },
+
+      "flexibility": {
+        "title": "Flexible, On Your Schedule",
+        "description": "Browse open cases whenever it suits you. There are no minimum commitments — engage as much or as little as your availability allows."
+      },
+
+      "reputation": {
+        "title": "Build Your Reputation with Reviews",
+        "description": "Clients leave verified reviews after each engagement. A strong track record on Huqouq compounds over time, driving more inbound interest."
+      }
+    },
+    "marketDemand": {
+      "eyebrow": "MARKET DEMAND",
+      "title": "Specializations in Demand This Month",
+      "description": "These areas currently have the most active cases posted by clients on the platform.",
+
+      "levels": {
+        "mostActive": "Most Active",
+        "highDemand": "High Demand",
+        "growing": "Growing",
+        "active": "Active"
+      },
+
+      "items": {
+        "family": "Family Law",
+        "commercial": "Commercial Law",
+        "realEstate": "Real Estate Law",
+        "labour": "Labour Law",
+        "criminal": "Criminal Defence",
+        "civil": "Civil Litigation",
+        "corporate": "Corporate Law",
+        "immigration": "Immigration Law",
+        "intellectualProperty": "Intellectual Property",
+        "inheritance": "Inheritance Law",
+        "banking": "Banking & Finance",
+        "arbitration": "Arbitration"
+      },
+
+      "noteTitle": "Most Active this month:",
+      "note": "Family Law, Commercial Law, and Real Estate Law are each receiving 3× the average case volume — lawyers with these specializations are receiving the most offer requests."
+    },
+    "gettingStarted": {
+      "eyebrow": "YOUR PATH TO THE PLATFORM",
+      "title": "From Sign-Up to First Client — 4 Steps",
+
+      "account": {
+        "title": "Create Your Account in Minutes",
+        "description": "Sign up with just your basic details — name, phone, email. No lengthy forms upfront. You're in and exploring the platform right away.",
+        "imageAlt": "Lawyer creating his Huqouq account"
+      },
+
+      "profile": {
+        "title": "Build Your Professional Profile",
+        "description": "Complete your profile at your own pace — specializations, education, experience, and bar certification. Track your progress and submit for review when you're ready.",
+        "imageAlt": "Lawyer building her professional profile"
+      },
+
+      "verified": {
+        "title": "Get Verified",
+        "description": "Our team reviews your credentials. Once approved, you receive a Verified badge — a trusted signal to every client browsing the platform.",
+        "imageAlt": "Verified lawyer showing his badge"
+      },
+
+      "cases": {
+        "title": "Browse Cases & Submit Offers",
+        "description": "Find cases matching your expertise, submit competitive offers, and grow your client base — or receive direct hiring requests from clients who've found your profile.",
+        "imageAlt": "Lawyer browsing available legal cases"
+      }
+    },
+    "cta": {
+      "eyebrow": "JOIN THE PLATFORM",
+      "title": "Ready to Get Started?",
+      "description": "Sign up in minutes. No upfront commitment — explore the platform, complete your profile at your own pace, and start engaging with cases when you're ready.",
+      "button": "Join as a Lawyer"
+    }
+  },
   "Client": {
     "Sidebar": {
       "Overview": "Overview",

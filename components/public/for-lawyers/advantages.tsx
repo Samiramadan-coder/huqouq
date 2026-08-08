@@ -1,40 +1,40 @@
 import {
-  BarChart3,
-  HeartPulse,
-  LockKeyhole,
-  ShieldCheck,
+  BadgeCheck,
+  CalendarClock,
+  DollarSign,
+  Star,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 
 type AdvantageItem = {
-  key: "verified" | "compare" | "privacy" | "support";
+  key: "verifiedCases" | "pricing" | "flexibility" | "reputation";
   icon: LucideIcon;
 };
 
 const advantages: AdvantageItem[] = [
   {
-    key: "verified",
-    icon: ShieldCheck,
+    key: "verifiedCases",
+    icon: BadgeCheck,
   },
   {
-    key: "compare",
-    icon: BarChart3,
+    key: "pricing",
+    icon: DollarSign,
   },
   {
-    key: "privacy",
-    icon: LockKeyhole,
+    key: "flexibility",
+    icon: CalendarClock,
   },
   {
-    key: "support",
-    icon: HeartPulse,
+    key: "reputation",
+    icon: Star,
   },
 ];
 
 export default async function Advantages() {
   const locale = await getLocale();
-  const t = await getTranslations("ForClients.advantages");
+  const t = await getTranslations("ForLawyers.advantages");
 
   return (
     <section className="py-20 lg:py-27.5">
@@ -46,8 +46,10 @@ export default async function Advantages() {
 
           <h2
             className={cn(
-              "text-3xl md:text-4xl font-semibold text-primary leading-tight mb-12 mt-5 text-balance",
-              { "font-lora": locale === "en" },
+              "mt-5 mb-12 text-3xl font-semibold leading-tight text-primary text-balance md:text-4xl",
+              {
+                "font-lora": locale === "en",
+              },
             )}
           >
             {t("title")}
