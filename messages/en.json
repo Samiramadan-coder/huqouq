@@ -597,75 +597,62 @@
       "eyebrow": "THE PLATFORM",
       "title": "How Huqouq Works",
       "description": "A trusted path to legal help — whether you're seeking representation or growing your practice.",
-
       "tabs": {
         "clients": "For Clients",
         "lawyers": "For Lawyers"
       },
-
       "clients": {
         "step1": {
           "title": "Describe Your Case",
           "description": "Share the details of your legal matter — category, description, urgency, and budget if you have one in mind. Our team reviews every case before it goes live, ensuring quality and relevance.",
           "imageAlt": "Client describing a legal case"
         },
-
         "step2": {
           "title": "Receive Offers from Verified Lawyers",
           "description": "Once approved, your case becomes visible to lawyers matching your specialization. Compare their experience, ratings, and proposed pricing — all before committing to anyone.",
           "imageAlt": "Client reviewing offers from lawyers"
         },
-
         "step3": {
           "title": "Choose & Connect Securely",
           "description": "Accept the offer that's right for you. A private chat opens immediately, and your contact details remain protected until you've made your choice.",
           "imageAlt": "Client connecting securely with a lawyer"
         },
-
         "step4": {
           "title": "Resolve with Confidence",
           "description": "When your matter is resolved, both you and your lawyer confirm completion together — and you can leave a review to help future clients.",
           "imageAlt": "Client after completing a legal matter"
         },
-
         "emergency": {
           "description": "Need help immediately? Our Emergency Legal Assistance connects you with an available lawyer in minutes.",
           "cta": "Learn About Emergency Help"
         },
-
         "button": "Post Your Case"
       },
-
       "lawyers": {
         "step1": {
           "title": "Create Your Account in Minutes",
           "description": "Sign up with just your basic details — name, phone, email. No lengthy forms upfront. You're in and exploring the platform right away.",
           "imageAlt": "Lawyer creating an account"
         },
-
         "step2": {
           "title": "Build Your Professional Profile",
           "description": "Complete your profile at your own pace — specializations, education, experience, and bar certification. Track your progress and submit for review when you're ready.",
           "imageAlt": "Lawyer building a professional profile"
         },
-
         "step3": {
           "title": "Get Verified",
           "description": "Our team reviews your credentials. Once approved, you receive a Verified badge — a trusted signal to every client browsing the platform.",
           "imageAlt": "Verified lawyer"
         },
-
         "step4": {
           "title": "Browse Cases & Submit Offers",
           "description": "Find cases matching your expertise, submit competitive offers, and grow your client base — or receive direct hiring requests from clients who've found your profile.",
           "imageAlt": "Lawyer browsing available cases"
         },
-
         "emergency": {
           "description": "Available for urgent cases? Opt into Emergency Legal Assistance and connect with clients who need help right away.",
           "cta": "Learn More"
         },
-
         "button": "Join as a Lawyer"
       }
     },
@@ -699,22 +686,18 @@
     "advantages": {
       "eyebrow": "THE PLATFORM ADVANTAGE",
       "title": "Why Lawyers Choose Huqouq",
-
       "verifiedCases": {
         "title": "Verified Clients, Real Cases",
         "description": "Every case posted on Huqouq is reviewed before going live. You spend your time on legitimate opportunities, not noise."
       },
-
       "pricing": {
         "title": "Set Your Own Pricing",
         "description": "You write your own offer. No platform-imposed rates — your fee reflects your expertise, experience, and case complexity."
       },
-
       "flexibility": {
         "title": "Flexible, On Your Schedule",
         "description": "Browse open cases whenever it suits you. There are no minimum commitments — engage as much or as little as your availability allows."
       },
-
       "reputation": {
         "title": "Build Your Reputation with Reviews",
         "description": "Clients leave verified reviews after each engagement. A strong track record on Huqouq compounds over time, driving more inbound interest."
@@ -724,14 +707,12 @@
       "eyebrow": "MARKET DEMAND",
       "title": "Specializations in Demand This Month",
       "description": "These areas currently have the most active cases posted by clients on the platform.",
-
       "levels": {
         "mostActive": "Most Active",
         "highDemand": "High Demand",
         "growing": "Growing",
         "active": "Active"
       },
-
       "items": {
         "family": "Family Law",
         "commercial": "Commercial Law",
@@ -746,32 +727,27 @@
         "banking": "Banking & Finance",
         "arbitration": "Arbitration"
       },
-
       "noteTitle": "Most Active this month:",
       "note": "Family Law, Commercial Law, and Real Estate Law are each receiving 3× the average case volume — lawyers with these specializations are receiving the most offer requests."
     },
     "gettingStarted": {
       "eyebrow": "YOUR PATH TO THE PLATFORM",
       "title": "From Sign-Up to First Client — 4 Steps",
-
       "account": {
         "title": "Create Your Account in Minutes",
         "description": "Sign up with just your basic details — name, phone, email. No lengthy forms upfront. You're in and exploring the platform right away.",
         "imageAlt": "Lawyer creating his Huqouq account"
       },
-
       "profile": {
         "title": "Build Your Professional Profile",
         "description": "Complete your profile at your own pace — specializations, education, experience, and bar certification. Track your progress and submit for review when you're ready.",
         "imageAlt": "Lawyer building her professional profile"
       },
-
       "verified": {
         "title": "Get Verified",
         "description": "Our team reviews your credentials. Once approved, you receive a Verified badge — a trusted signal to every client browsing the platform.",
         "imageAlt": "Verified lawyer showing his badge"
       },
-
       "cases": {
         "title": "Browse Cases & Submit Offers",
         "description": "Find cases matching your expertise, submit competitive offers, and grow your client base — or receive direct hiring requests from clients who've found your profile.",
@@ -783,6 +759,32 @@
       "title": "Ready to Get Started?",
       "description": "Sign up in minutes. No upfront commitment — explore the platform, complete your profile at your own pace, and start engaging with cases when you're ready.",
       "button": "Join as a Lawyer"
+    }
+  },
+  "HowItWorks": {
+    "faq": {
+      "eyebrow": "SUPPORT",
+      "title": "Common Questions",
+      "verification": {
+        "question": "How are lawyers verified?",
+        "answer": "Every lawyer on HUQOUQ undergoes a manual review of their credentials before receiving a Verified badge. Our team checks bar registration, professional licence, and identification documents. Lawyers only become visible to clients after this process is complete — there are no unverified profiles on the platform."
+      },
+      "privacy": {
+        "question": "Is my information private?",
+        "answer": "Yes. Your personal contact details — phone number, email, and address — are never shared with any lawyer until you explicitly choose to hire them. Before that point, communication happens through our encrypted in-platform messaging system."
+      },
+      "cost": {
+        "question": "What does it cost?",
+        "answer": "Posting a case and browsing lawyer profiles is free for clients. Lawyers set their own pricing per case or consultation. There are no hidden platform fees charged to clients — any service fees are transparently disclosed before you confirm a hire."
+      },
+      "emergency": {
+        "question": "How does the Emergency service work?",
+        "answer": "Our Emergency Legal Assistance feature surfaces lawyers who have opted in to urgent availability. When you submit an emergency case, it is immediately matched to available lawyers — typically resulting in contact within minutes. This service is available around the clock."
+      },
+      "cancel": {
+        "question": "Can I cancel or close a case anytime?",
+        "answer": "Yes. You can withdraw or close your case at any point before confirming a hire. Once a lawyer has been hired and work has commenced, standard terms apply — but our support team is always available to mediate any disputes fairly and promptly."
+      }
     }
   },
   "Client": {
