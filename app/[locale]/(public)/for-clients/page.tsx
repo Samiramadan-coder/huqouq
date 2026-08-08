@@ -4,6 +4,8 @@ import Advantages from "@/components/public/for-clients/advantages";
 import Options from "@/components/public/for-clients/options";
 import Expertise from "@/components/public/for-clients/expertise";
 import CTA from "@/components/public/for-clients/cta";
+import LegalServices from "@/components/public/for-clients/legal-services";
+import HowItWorks from "@/components/public/for-clients/how-it-works";
 
 export default function Page() {
   return (
@@ -13,6 +15,8 @@ export default function Page() {
       <Advantages />
       <Options />
       <Expertise />
+      <LegalServices />
+      <HowItWorks />
       <CTA />
     </main>
   );

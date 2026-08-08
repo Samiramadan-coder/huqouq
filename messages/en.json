@@ -560,6 +560,115 @@
         "administrative": "Administrative Law"
       }
     },
+    "legalServices": {
+      "eyebrow": "LEGAL SERVICES",
+      "title": "Legal Services — How It Works",
+      "description": "From contract drafting to company formation — a simple, secure process designed around your approval.",
+      "choose": {
+        "title": "Choose Your Service",
+        "description": "Select from 8 legal service types — from contract review to company formation. Describe what you need and post your request in minutes."
+      },
+      "offers": {
+        "title": "Receive Offers",
+        "description": "Verified lawyers submit their proposed fees and delivery timelines. Compare and choose the right professional for your needs."
+      },
+      "payment": {
+        "title": "Pay Securely",
+        "description": "Pay the full service fee to Huqouq. We hold it safely until the work is delivered and approved — your money is protected throughout."
+      },
+      "complete": {
+        "title": "Approve & Complete",
+        "description": "Review the delivered work. Approve when satisfied. The lawyer is paid once you confirm — you stay in control until the end."
+      },
+      "availableServices": "AVAILABLE SERVICE TYPES",
+      "services": {
+        "contractReview": "Contract Review",
+        "contractDrafting": "Contract Drafting",
+        "legalNotice": "Legal Notice",
+        "legalMemos": "Legal Memos",
+        "companyFormation": "Company Formation",
+        "companyAmendment": "Company Amendment",
+        "trademarkRegistration": "Trademark Registration",
+        "otherLegalWork": "Other Legal Work"
+      },
+      "button": "Request a Legal Service"
+    },
+    "howItWorks": {
+      "eyebrow": "THE PLATFORM",
+      "title": "How Huqouq Works",
+      "description": "A trusted path to legal help — whether you're seeking representation or growing your practice.",
+
+      "tabs": {
+        "clients": "For Clients",
+        "lawyers": "For Lawyers"
+      },
+
+      "clients": {
+        "step1": {
+          "title": "Describe Your Case",
+          "description": "Share the details of your legal matter — category, description, urgency, and budget if you have one in mind. Our team reviews every case before it goes live, ensuring quality and relevance.",
+          "imageAlt": "Client describing a legal case"
+        },
+
+        "step2": {
+          "title": "Receive Offers from Verified Lawyers",
+          "description": "Once approved, your case becomes visible to lawyers matching your specialization. Compare their experience, ratings, and proposed pricing — all before committing to anyone.",
+          "imageAlt": "Client reviewing offers from lawyers"
+        },
+
+        "step3": {
+          "title": "Choose & Connect Securely",
+          "description": "Accept the offer that's right for you. A private chat opens immediately, and your contact details remain protected until you've made your choice.",
+          "imageAlt": "Client connecting securely with a lawyer"
+        },
+
+        "step4": {
+          "title": "Resolve with Confidence",
+          "description": "When your matter is resolved, both you and your lawyer confirm completion together — and you can leave a review to help future clients.",
+          "imageAlt": "Client after completing a legal matter"
+        },
+
+        "emergency": {
+          "description": "Need help immediately? Our Emergency Legal Assistance connects you with an available lawyer in minutes.",
+          "cta": "Learn About Emergency Help"
+        },
+
+        "button": "Post Your Case"
+      },
+
+      "lawyers": {
+        "step1": {
+          "title": "Create Your Account in Minutes",
+          "description": "Sign up with just your basic details — name, phone, email. No lengthy forms upfront. You're in and exploring the platform right away.",
+          "imageAlt": "Lawyer creating an account"
+        },
+
+        "step2": {
+          "title": "Build Your Professional Profile",
+          "description": "Complete your profile at your own pace — specializations, education, experience, and bar certification. Track your progress and submit for review when you're ready.",
+          "imageAlt": "Lawyer building a professional profile"
+        },
+
+        "step3": {
+          "title": "Get Verified",
+          "description": "Our team reviews your credentials. Once approved, you receive a Verified badge — a trusted signal to every client browsing the platform.",
+          "imageAlt": "Verified lawyer"
+        },
+
+        "step4": {
+          "title": "Browse Cases & Submit Offers",
+          "description": "Find cases matching your expertise, submit competitive offers, and grow your client base — or receive direct hiring requests from clients who've found your profile.",
+          "imageAlt": "Lawyer browsing available cases"
+        },
+
+        "emergency": {
+          "description": "Available for urgent cases? Opt into Emergency Legal Assistance and connect with clients who need help right away.",
+          "cta": "Learn More"
+        },
+
+        "button": "Join as a Lawyer"
+      }
+    },
     "cta": {
       "eyebrow": "GET STARTED TODAY",
       "title": "Ready to Get the Help You Need?",
