@@ -6,6 +6,7 @@ import { FormActionsResponse } from "@/types/shared";
 import { SignInWithEmailFormValues } from "@/types/sign-in";
 import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
+import { OtpFormValues } from "@/types/otp";
 
 // Sign up
 type SignUpWithEmailAndPasswordResponse = FormActionsResponse<SignUpFormValues>;
@@ -123,6 +124,31 @@ export async function signOut(): Promise<SignOutResponse> {
     return { success: true };
   } catch (error) {
     console.error("Error signing out:", error);
+    return { success: false };
+  }
+}
+
+// Verify Otp
+type VerifyOtpResponse = FormActionsResponse<OtpFormValues>;
+
+export async function verifyOtp(
+  data: OtpFormValues & { email?: string; phone?: string },
+): Promise<VerifyOtpResponse> {
+  try {
+    await http.post("/api/v1/auth/verify-otp", data);
+    return { success: true };
+  } catch (error) {
+    console.error("Error verifying OTP:", error);
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof OtpFormValues, string>>;
+
+      return { success: false, errors };
+    }
     return { success: false };
   }
 }

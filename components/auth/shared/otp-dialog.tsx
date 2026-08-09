@@ -12,6 +12,7 @@ import {
   InputOTPSeparator,
 } from "@/components/ui/input-otp";
 
+import { verifyOtp } from "@/lib/auth";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -33,7 +34,14 @@ export default function OtpDialog({ place }: { place: string }) {
   });
 
   const onSubmit: SubmitHandler<OtpFormValues> = async (data) => {
-    console.log(data);
+    const result = await verifyOtp(data);
+
+    if (result.success) {
+      return;
+    }
+
+    if (result.errors) {
+    }
   };
 
   return (
