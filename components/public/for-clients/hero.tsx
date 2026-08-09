@@ -1,4 +1,5 @@
 import Image from "next/image";
+import * as motion from "motion/react-client";
 import { Link } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ArrowRight, LockKeyhole } from "lucide-react";
@@ -12,7 +13,12 @@ export default async function Hero() {
     <section className="py-16 sm:px-10 lg:py-15">
       <div className="container max-w-7xl grid items-center gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
         {/* Content */}
-        <div className="max-w-137.5">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-137.5"
+        >
           <span className="block text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary mb-4">
             {t("eyebrow")}
           </span>
@@ -24,7 +30,7 @@ export default async function Hero() {
             )}
           >
             {t("titleStart")}{" "}
-            <span className="text-[#CDA753]">{t("titleHighlight")}</span>
+            <span className="text-secondary">{t("titleHighlight")}</span>
           </h1>
 
           <p className="mt-7 max-w-130 text-[17px] leading-[1.75] text-primary/60">
@@ -48,10 +54,15 @@ export default async function Hero() {
               {t("browseLawyers")}
             </Link>
           </div>
-        </div>
+        </motion.div>
 
         {/* Image */}
-        <div className="relative mx-auto w-full max-w-143.75">
+        <motion.div
+          initial={{ opacity: 0, x: locale === "ar" ? -32 : 32 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+          className="relative mx-auto w-full max-w-143.75"
+        >
           <div className="rounded-[5px] bg-secondary/10 p-3">
             <div className="relative aspect-4/3 overflow-hidden rounded-[3px]">
               <Image
@@ -66,7 +77,12 @@ export default async function Hero() {
           </div>
 
           {/* Privacy card */}
-          <div className="absolute -bottom-4 -inset-s-1 flex min-w-43.75 items-center gap-3 rounded-[3px] bg-white px-4 py-3 shadow-[0_8px_25px_rgba(0,0,0,0.14)] sm:-inset-s-2.5">
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.45, ease: "easeOut" }}
+            className="absolute -bottom-4 -inset-s-1 flex min-w-43.75 items-center gap-3 rounded-[3px] bg-white px-4 py-3 shadow-[0_8px_25px_rgba(0,0,0,0.14)] sm:-inset-s-2.5"
+          >
             <LockKeyhole
               className="size-4.25 shrink-0 text-secondary"
               strokeWidth={1.4}
@@ -85,8 +101,8 @@ export default async function Hero() {
                 {t("privacy.value")}
               </span>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

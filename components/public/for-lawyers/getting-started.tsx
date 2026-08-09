@@ -1,4 +1,5 @@
 import Image from "next/image";
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -44,7 +45,13 @@ export default async function GettingStarted() {
     <section className="py-20 lg:py-27.5">
       <div className="container max-w-7xl">
         {/* Header */}
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="text-center"
+        >
           <span className="text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
             {t("eyebrow")}
           </span>
@@ -59,17 +66,25 @@ export default async function GettingStarted() {
           >
             {t("title")}
           </h2>
-        </div>
+        </motion.div>
 
         {/* Desktop Timeline */}
-        <div className="relative mx-auto mt-16 hidden max-w-180 md:block">
+        <div className="relative mx-auto mt-16 hidden max-w-200 md:block">
           {/* Line */}
           <div className="absolute inset-y-0 inset-s-1/2 w-px -translate-x-1/2 bg-secondary rtl:translate-x-1/2" />
 
           <div className="space-y-3">
-            {steps.map(({ key, number, image, side }) => (
-              <div
+            {steps.map(({ key, number, image, side }, index) => (
+              <motion.div
                 key={key}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                  ease: "easeOut",
+                }}
                 className="relative grid min-h-70 grid-cols-[1fr_120px_1fr] items-center"
               >
                 {/* Marker */}
@@ -104,7 +119,7 @@ export default async function GettingStarted() {
                     />
                   </>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -113,8 +128,19 @@ export default async function GettingStarted() {
         <div className="relative mt-14 space-y-12 md:hidden">
           <div className="absolute inset-y-0 inset-s-4.75 w-px bg-secondary" />
 
-          {steps.map(({ key, number, image }) => (
-            <div key={key} className="relative flex gap-6">
+          {steps.map(({ key, number, image }, index) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.06,
+                ease: "easeOut",
+              }}
+              className="relative flex gap-6"
+            >
               <div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-secondary bg-background text-sm text-secondary">
                 {number}
               </div>
@@ -137,7 +163,7 @@ export default async function GettingStarted() {
                   {t(`${key}.description`)}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -200,17 +226,14 @@ function StepContent({
       </span>
 
       <h3
-        className={cn(
-          "mt-2 max-w-62.5 text-2xl font-medium leading-snug text-primary",
-          {
-            "font-lora": locale === "en",
-          },
-        )}
+        className={cn("mt-2 text-2xl md:text-3xl leading-snug text-primary", {
+          "font-lora": locale === "en",
+        })}
       >
         {title}
       </h3>
 
-      <p className="mt-3 max-w-62.5 text-sm leading-[1.65] text-primary/55">
+      <p className="mt-3 text-base leading-[1.65] text-primary/55">
         {description}
       </p>
     </div>

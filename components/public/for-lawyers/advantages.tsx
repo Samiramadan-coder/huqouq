@@ -5,6 +5,8 @@ import {
   Star,
   type LucideIcon,
 } from "lucide-react";
+import * as motion from "motion/react-client";
+
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -39,7 +41,13 @@ export default async function Advantages() {
   return (
     <section className="py-20 lg:py-27.5">
       <div className="container max-w-7xl">
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="text-center"
+        >
           <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
             {t("eyebrow")}
           </span>
@@ -54,12 +62,20 @@ export default async function Advantages() {
           >
             {t("title")}
           </h2>
-        </div>
+        </motion.div>
 
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:mt-16 lg:gap-6">
-          {advantages.map(({ key, icon: Icon }) => (
-            <article
+          {advantages.map(({ key, icon: Icon }, index) => (
+            <motion.article
               key={key}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: "easeOut",
+              }}
               className="flex gap-5 rounded-sm border border-secondary/20 bg-white px-8 py-8"
             >
               <div className="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary/20">
@@ -82,7 +98,7 @@ export default async function Advantages() {
                   {t(`${key}.description`)}
                 </p>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>

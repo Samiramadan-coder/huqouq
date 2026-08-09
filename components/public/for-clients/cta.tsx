@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import * as motion from "motion/react-client";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -9,7 +10,13 @@ export default async function CTA() {
 
   return (
     <section className="bg-primary px-6 py-20 sm:px-10 lg:py-27.5">
-      <div className="mx-auto max-w-180 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="mx-auto max-w-180 text-center"
+      >
         <span className="block text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
           {t("eyebrow")}
         </span>
@@ -37,7 +44,7 @@ export default async function CTA() {
             <ArrowRight className="size-4 rtl:rotate-180" strokeWidth={1.7} />
           </Link>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -6,6 +6,7 @@ import {
   type LucideIcon,
   BriefcaseBusiness,
 } from "lucide-react";
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -43,7 +44,13 @@ export default async function Options() {
   return (
     <section className="bg-white py-20 lg:py-27.5">
       <div className="container max-w-7xl">
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="text-center"
+        >
           <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
             {t("eyebrow")}
           </span>
@@ -56,12 +63,20 @@ export default async function Options() {
           >
             {t("title")}
           </h2>
-        </div>
+        </motion.div>
 
         <div className="mt-14 grid gap-5 md:grid-cols-3 lg:mt-16">
-          {options.map(({ key, icon: Icon, href, featured }) => (
-            <article
+          {options.map(({ key, icon: Icon, href, featured }, index) => (
+            <motion.article
               key={key}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: "easeOut",
+              }}
               className={
                 featured
                   ? "flex min-h-75 flex-col rounded-sm bg-primary px-8 py-8 text-white"
@@ -107,11 +122,17 @@ export default async function Options() {
                   strokeWidth={1.5}
                 />
               </Link>
-            </article>
+            </motion.article>
           ))}
         </div>
 
-        <div className="mt-6 flex flex-col gap-6 rounded-sm border border-[#E8CACA] bg-[#FFF9F9] px-7 py-6 md:flex-row md:items-center md:justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.5, delay: 0.12, ease: "easeOut" }}
+          className="mt-6 flex flex-col gap-6 rounded-sm border border-[#E8CACA] bg-[#FFF9F9] px-7 py-6 md:flex-row md:items-center md:justify-between"
+        >
           <div className="flex gap-4">
             <CircleAlert
               className="mt-0.5 size-5 shrink-0 text-red-500"
@@ -137,7 +158,7 @@ export default async function Options() {
 
             <ArrowRight className="size-4 rtl:rotate-180" strokeWidth={1.5} />
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

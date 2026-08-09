@@ -13,6 +13,7 @@ import {
   type LucideIcon,
   BriefcaseBusiness,
 } from "lucide-react";
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -91,7 +92,13 @@ export default async function Expertise() {
   return (
     <section className="bg-white py-20 lg:py-26.25">
       <div className="container max-w-7xl">
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="text-center"
+        >
           <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
             {t("eyebrow")}
           </span>
@@ -104,12 +111,20 @@ export default async function Expertise() {
           >
             {t("title")}
           </h2>
-        </div>
+        </motion.div>
 
         <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-16 lg:grid-cols-4 xl:grid-cols-6">
-          {expertise.map(({ key, icon: Icon }) => (
-            <div
+          {expertise.map(({ key, icon: Icon }, index) => (
+            <motion.div
               key={key}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.04,
+                ease: "easeOut",
+              }}
               className="flex min-h-25 flex-col items-center justify-center rounded-sm border px-4 py-5 text-center border-secondary/20 bg-background"
             >
               <Icon className="size-6 text-primary/65" strokeWidth={1.3} />
@@ -121,7 +136,7 @@ export default async function Expertise() {
               >
                 {t(`items.${key}`)}
               </span>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

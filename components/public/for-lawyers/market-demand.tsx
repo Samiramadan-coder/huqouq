@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
+import * as motion from "motion/react-client";
 
 type DemandLevel = "mostActive" | "highDemand" | "growing" | "active";
 
@@ -87,7 +88,12 @@ export default async function MarketDemand() {
       <div className="container max-w-7xl">
         {/* Header */}
         <div className="grid gap-8 md:grid-cols-2 md:items-end">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+          >
             <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
               {t("eyebrow")}
             </span>
@@ -102,17 +108,34 @@ export default async function MarketDemand() {
             >
               {t("title")}
             </h2>
-          </div>
+          </motion.div>
 
-          <p className="max-w-md text-base leading-relaxed text-primary/55 md:justify-self-end">
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
+            className="max-w-md text-base leading-relaxed text-primary/55 md:justify-self-end"
+          >
             {t("description")}
-          </p>
+          </motion.p>
         </div>
 
         {/* Specializations */}
         <div className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
-          {specializations.map(({ key, level }) => (
-            <div key={key} className="flex min-w-0 items-center gap-3">
+          {specializations.map(({ key, level }, index) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.04,
+                ease: "easeOut",
+              }}
+              className="flex min-w-0 items-center gap-3"
+            >
               <span
                 className={cn(
                   "inline-flex min-h-9 items-center rounded-sm border px-3 text-sm font-medium whitespace-nowrap",
@@ -125,19 +148,25 @@ export default async function MarketDemand() {
               <span className="text-[10px] font-medium uppercase tracking-wide text-primary/30 whitespace-nowrap">
                 {t(`levels.${level}`)}
               </span>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Bottom note */}
-        <div className="mt-12 rounded-sm border border-secondary/25 bg-secondary/4 px-6 py-5">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="mt-12 rounded-sm border border-secondary/25 bg-secondary/4 px-6 py-5"
+        >
           <p className="text-sm leading-relaxed text-primary/65">
             <strong className="font-semibold text-[#9A6812]">
               {t("noteTitle")}
             </strong>{" "}
             {t("note")}
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

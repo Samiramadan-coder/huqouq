@@ -7,6 +7,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import * as motion from "motion/react-client";
 import { getLocale, getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 
@@ -62,7 +63,13 @@ export default async function LegalServices() {
   return (
     <section className="py-20 lg:py-27.5">
       <div className="container max-w-7xl">
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="text-center"
+        >
           <span className="text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
             {t("eyebrow")}
           </span>
@@ -79,16 +86,24 @@ export default async function LegalServices() {
           <p className="text-base text-primary/55 leading-relaxed max-w-xl mx-auto text-pretty">
             {t("description")}
           </p>
-        </div>
+        </motion.div>
 
         {/* Desktop timeline */}
         <div className="relative mx-auto mt-16 hidden max-w-180 md:block">
           <div className="absolute inset-y-0 inset-s-1/2 w-px -translate-x-1/2 bg-secondary rtl:translate-x-1/2" />
 
           <div className="space-y-3">
-            {steps.map(({ key, number, icon: Icon, side }) => (
-              <div
+            {steps.map(({ key, number, icon: Icon, side }, index) => (
+              <motion.div
                 key={key}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                  ease: "easeOut",
+                }}
                 className="relative grid min-h-47.5 grid-cols-[1fr_120px_1fr] items-center"
               >
                 {/* Center marker */}
@@ -121,7 +136,7 @@ export default async function LegalServices() {
                     />
                   </>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -130,8 +145,19 @@ export default async function LegalServices() {
         <div className="relative mt-14 space-y-8 md:hidden">
           <div className="absolute bottom-0 inset-s-4.75 top-0 w-px bg-secondary/20" />
 
-          {steps.map(({ key, number, icon: Icon }) => (
-            <div key={key} className="relative flex gap-6">
+          {steps.map(({ key, number, icon: Icon }, index) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.06,
+                ease: "easeOut",
+              }}
+              className="relative flex gap-6"
+            >
               <div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-secondary/20 bg-[#F7F4EE] font-serif text-[13px] text-secondary">
                 {number}
               </div>
@@ -149,12 +175,18 @@ export default async function LegalServices() {
                   {t(`${key}.description`)}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Services */}
-        <div className="mt-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="mt-16 text-center"
+        >
           <span className="text-xs font-medium uppercase tracking-xs text-primary/35">
             {t("availableServices")}
           </span>
@@ -178,7 +210,7 @@ export default async function LegalServices() {
 
             <ArrowRight className="size-4 rtl:rotate-180" strokeWidth={1.5} />
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -215,11 +247,11 @@ function StepContent({
         {number}
       </span>
 
-      <h3 className="mt-2 font-serif text-2xl font-medium text-primary">
+      <h3 className="mt-2 font-serif text-2xl md:text-3xl font-medium text-primary">
         {title}
       </h3>
 
-      <p className="mt-2 max-w-62.5 text-sm leading-[1.65] text-primary/55">
+      <p className="mt-2 text-base leading-[1.65] text-primary/55">
         {description}
       </p>
     </div>
