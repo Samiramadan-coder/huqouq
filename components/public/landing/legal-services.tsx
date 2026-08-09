@@ -15,6 +15,7 @@ import {
 
 import { Button } from "../../ui/button";
 import { getTranslations } from "next-intl/server";
+import * as motion from "motion/react-client";
 
 export default async function LegalServices() {
   const t = await getTranslations("Home.LegalServices");
@@ -74,49 +75,108 @@ export default async function LegalServices() {
       <div className="container max-w-7xl">
         <div className="grid items-start gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24">
           <div className="max-w-xl">
-            <p className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-secondary">
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{
+                duration: 0.5,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-secondary"
+            >
               {t("Label")}
-            </p>
+            </motion.p>
 
-            <h2 className="font-lora text-4xl font-semibold leading-[1.08] text-primary md:text-5xl">
+            <motion.h2
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{
+                duration: 0.6,
+                delay: 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="font-lora text-4xl font-semibold leading-[1.08] text-primary md:text-5xl"
+            >
               {t("Title.Line1")}
               <br />
               <span className="text-secondary">{t("Title.Highlight")}</span>
-            </h2>
+            </motion.h2>
 
-            <p className="mt-7 max-w-lg text-base leading-6 text-muted-foreground">
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{
+                duration: 0.55,
+                delay: 0.16,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-7 max-w-lg text-base leading-6 text-muted-foreground"
+            >
               {t("Description")}
-            </p>
+            </motion.p>
 
             <div className="mt-10 space-y-5">
-              {benefits.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-3">
+              {benefits.map(({ icon: Icon, text }, index) => (
+                <motion.div
+                  key={text}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{
+                    duration: 0.45,
+                    delay: 0.22 + index * 0.08,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="flex items-center gap-3"
+                >
                   <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-secondary/40 text-secondary">
                     <Icon size={15} strokeWidth={1.5} />
                   </div>
 
                   <p className="text-sm text-foreground/55">{text}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            <Button
-              size="lg"
-              className="mt-10 h-12 rounded-sm bg-secondary px-7 text-primary hover:bg-secondary/90"
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.5,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              {t("Action")}
+              <Button
+                size="lg"
+                className="mt-10 h-12 rounded-sm bg-secondary px-7 text-primary hover:bg-secondary/90"
+              >
+                {t("Action")}
 
-              <ArrowRight
-                size={16}
-                className="ml-2 rtl:ml-0 rtl:mr-2 rtl:rotate-180"
-              />
-            </Button>
+                <ArrowRight
+                  size={16}
+                  className="ml-2 rtl:ml-0 rtl:mr-2 rtl:rotate-180"
+                />
+              </Button>
+            </motion.div>
           </div>
 
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {services.map(({ icon: Icon, label }) => (
-              <div
+            {services.map(({ icon: Icon, label }, index) => (
+              <motion.div
                 key={label}
+                initial={{ opacity: 0, y: 18, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 0.45,
+                  delay: (index % 4) * 0.06,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="
                   flex min-h-28
                   flex-col items-center justify-center
@@ -134,7 +194,7 @@ export default async function LegalServices() {
                 <p className="font-lora text-sm leading-4 text-foreground/55">
                   {label}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

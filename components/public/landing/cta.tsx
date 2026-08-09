@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "../../ui/button";
 import { ShieldCheck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import * as motion from "motion/react-client";
 
 export default async function CTA() {
   const t = await getTranslations("Home.CTA");
@@ -9,25 +10,74 @@ export default async function CTA() {
   return (
     <section className="bg-background py-24 lg:py-32">
       <div className="container max-w-3xl text-center">
-        <div className="mb-7 flex items-center justify-center gap-4">
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.8 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{
+            duration: 0.5,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mb-7 flex items-center justify-center gap-4"
+        >
           <span className="h-px w-16 bg-secondary/40" />
           <ShieldCheck size={20} strokeWidth={1.3} className="text-secondary" />
           <span className="h-px w-16 bg-secondary/40" />
-        </div>
+        </motion.div>
 
-        <p className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-secondary">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{
+            duration: 0.45,
+            delay: 0.05,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-secondary"
+        >
           {t("Label")}
-        </p>
+        </motion.p>
 
-        <h2 className="font-lora text-4xl font-semibold text-primary md:text-5xl">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{
+            duration: 0.6,
+            delay: 0.12,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="font-lora text-4xl font-semibold text-primary md:text-5xl"
+        >
           {t("Title")}
-        </h2>
+        </motion.h2>
 
-        <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-muted-foreground">
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{
+            duration: 0.55,
+            delay: 0.2,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mx-auto mt-6 max-w-xl text-base leading-7 text-muted-foreground"
+        >
           {t("Description")}
-        </p>
+        </motion.p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{
+            duration: 0.55,
+            delay: 0.28,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
           <Button
             asChild
             size="lg"
@@ -35,6 +85,7 @@ export default async function CTA() {
           >
             <Link href="/sign-up/client">{t("Actions.Client")}</Link>
           </Button>
+
           <Button
             asChild
             size="lg"
@@ -43,15 +94,24 @@ export default async function CTA() {
           >
             <Link href="/sign-up/lawyer">{t("Actions.Lawyer")}</Link>
           </Button>
-        </div>
+        </motion.div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center text-xs tracking-wide text-muted-foreground/50">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.38,
+          }}
+          className="mt-8 flex flex-wrap items-center justify-center text-xs tracking-wide text-muted-foreground/50"
+        >
           <span>{t("Footer.Subscription")}</span>
           <span className="mx-2">·</span>
           <span>{t("Footer.Verified")}</span>
           <span className="mx-2">·</span>
           <span>{t("Footer.Secure")}</span>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

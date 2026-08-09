@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { ShieldCheck, Scale, BookOpen, Clock3, ArrowRight } from "lucide-react";
 import { Button } from "../../ui/button";
 import { Link } from "@/i18n/navigation";
+import * as motion from "motion/react-client";
 
 export default async function HowItWorks() {
   const t = await getTranslations("Home.HowItWorks");
@@ -49,10 +50,18 @@ export default async function HowItWorks() {
             const Icon = feature.icon;
 
             return (
-              <div
+              <motion.div
                 key={feature.text}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className={`
-                  flex items-center justify-center gap-3 px-6 py-8
+                  flex items-center justify-center gap-3 px-6 py-8 
                   ${
                     index !== features.length - 1
                       ? "lg:border-r lg:border-border/30"
@@ -72,36 +81,66 @@ export default async function HowItWorks() {
                   </span>{" "}
                   {feature.text}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
       </div>
 
       <div className="container max-w-7xl py-24 lg:py-28">
-        <div className="mb-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{
+            duration: 0.6,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mb-16 text-center"
+        >
           <p className="text-[12px] font-medium uppercase tracking-[0.3em] text-secondary">
             {t("Label")}
           </p>
           <h2 className="mt-4 font-lora text-4xl font-semibold text-primary md:text-[42px]">
             {t("Title")}
           </h2>
-        </div>
+        </motion.div>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <ProcessCard
-            title={t("Clients.Title")}
-            steps={clientSteps}
-            action={t("Clients.Action")}
-            type="client"
-          />
+          <motion.div
+            initial={{ opacity: 0, x: -30, y: 10 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              duration: 0.65,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <ProcessCard
+              title={t("Clients.Title")}
+              steps={clientSteps}
+              action={t("Clients.Action")}
+              type="client"
+            />
+          </motion.div>
 
-          <ProcessCard
-            title={t("Lawyers.Title")}
-            steps={lawyerSteps}
-            action={t("Lawyers.Action")}
-            type="lawyer"
-          />
+          <motion.div
+            initial={{ opacity: 0, x: 30, y: 10 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              duration: 0.65,
+              delay: 0.08,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <ProcessCard
+              title={t("Lawyers.Title")}
+              steps={lawyerSteps}
+              action={t("Lawyers.Action")}
+              type="lawyer"
+            />
+          </motion.div>
         </div>
       </div>
     </section>
@@ -128,7 +167,11 @@ function ProcessCard({
   const isClient = type === "client";
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.4 }}
       className={`flex h-full flex-col rounded-lg border p-10 ${
         isClient
           ? "border-primary/10 bg-primary/5"
@@ -148,9 +191,17 @@ function ProcessCard({
       </div>
 
       <div className="space-y-8">
-        {steps.map((step) => (
-          <div
+        {steps.map((step, index) => (
+          <motion.div
             key={step.number}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{
+              duration: 0.45,
+              delay: index * 0.08,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="grid grid-cols-[36px_1fr] items-start gap-4"
           >
             <div
@@ -172,7 +223,7 @@ function ProcessCard({
                 {step.description}
               </p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -196,6 +247,6 @@ function ProcessCard({
           </Button>
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }
