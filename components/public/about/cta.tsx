@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { CircleHelp, Mail, Phone } from "lucide-react";
@@ -11,7 +12,13 @@ export default async function CTA() {
     <section>
       {/* CTA */}
       <div className="bg-primary px-6 py-20 sm:px-10 lg:py-27.5">
-        <div className="mx-auto max-w-250 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="mx-auto max-w-250 text-center"
+        >
           <h2
             className={cn(
               "text-4xl md:text-5xl font-bold mb-8 leading-tight text-white",
@@ -36,12 +43,18 @@ export default async function CTA() {
               {t("lawyerButton")}
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Contact */}
       <div className="bg-[#F7F4EE] px-6 py-12 sm:px-10 lg:py-12.5">
-        <div className="mx-auto max-w-200">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="mx-auto max-w-200"
+        >
           <p
             className={cn(
               "text-center text-[13px] tracking-[0.12em] text-primary/60 uppercase",
@@ -85,7 +98,7 @@ export default async function CTA() {
               <span>{t("contact.inquiry")}</span>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

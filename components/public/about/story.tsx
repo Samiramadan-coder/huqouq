@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 import { ShieldCheck } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -9,14 +10,24 @@ export default async function Story() {
   return (
     <section className="relative overflow-hidden py-20 sm:py-24 lg:py-25">
       {/* Background watermark */}
-      <div
+      <motion.div
         aria-hidden="true"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
       >
         <ShieldCheck strokeWidth={0.8} className="size-45 text-[#1E405D]/2.5" />
-      </div>
+      </motion.div>
 
-      <div className="relative z-10 mx-auto max-w-170 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 mx-auto max-w-170 text-center"
+      >
         {/* Top line */}
         <div className="mx-auto mb-7 h-px w-9 bg-secondary/60" />
 
@@ -59,7 +70,7 @@ export default async function Story() {
 
         {/* Bottom line */}
         <div className="mx-auto mt-9 h-px w-9 bg-secondary/40" />
-      </div>
+      </motion.div>
     </section>
   );
 }

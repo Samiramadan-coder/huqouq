@@ -4,6 +4,7 @@ import {
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -38,7 +39,13 @@ export default async function Verification() {
   return (
     <section className="py-20 sm:px-10 lg:py-30">
       <div className="container max-w-6xl">
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="text-center"
+        >
           <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
             {t("eyebrow")}
           </span>
@@ -55,12 +62,20 @@ export default async function Verification() {
           <p className="mx-auto mt-5 max-w-132.5 text-base leading-relaxed text-primary/50">
             {t("description")}
           </p>
-        </div>
+        </motion.div>
 
         <div className="mt-16 grid gap-5 md:grid-cols-3 lg:mt-17.5">
-          {steps.map(({ key, number, icon: Icon }) => (
-            <article
+          {steps.map(({ key, number, icon: Icon }, index) => (
+            <motion.article
               key={key}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: "easeOut",
+              }}
               className="min-h-55 rounded-sm border border-secondary/20 bg-white px-8 py-8"
             >
               <div className="flex items-center gap-4">
@@ -82,17 +97,21 @@ export default async function Verification() {
               <p className="mt-3 text-[14px] leading-[1.65] text-primary/50">
                 {t(`${key}.description`)}
               </p>
-            </article>
+            </motion.article>
           ))}
         </div>
 
-        <p
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.45, delay: 0.12, ease: "easeOut" }}
           className={cn("mt-14 text-center text-[15px] italic text-secondary", {
             "font-lora": locale === "en",
           })}
         >
           {t("footer")}
-        </p>
+        </motion.p>
       </div>
     </section>
   );
