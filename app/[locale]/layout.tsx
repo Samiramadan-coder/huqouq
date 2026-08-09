@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Inter, Lora, Cairo } from "next/font/google";
 import { DirectionProvider } from "@/components/ui/direction";
+import { Toaster } from "@/components/ui/sonner";
 
 type Props = {
   children: React.ReactNode;
@@ -56,7 +57,10 @@ export default async function LocaleLayout({ children, params }: Props) {
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
-          <DirectionProvider dir={dir}>{children}</DirectionProvider>
+          <DirectionProvider dir={dir}>
+            {children}
+            <Toaster richColors position="top-right" />
+          </DirectionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

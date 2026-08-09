@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
@@ -8,21 +9,23 @@ import Logo from "@/components/icons/logo";
 import OtpDialog from "../shared/otp-dialog";
 import { Label } from "@/components/ui/label";
 import type { GuestType } from "@/types/shared";
+import { Dialog } from "@/components/ui/dialog";
 import { FieldError } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
+import { signUpWithEmailAndPassword } from "@/lib/auth";
 import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import { Dialog } from "@/components/ui/dialog";
 
 export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const locale = useLocale();
   const t = useTranslations("SignUp");
   const [showPassword, setShowPassword] = useState(false);
+  const [isOtpDialogOpen, setIsOtpDialogOpen] = useState(false);
   const guestLabel =
     guestType === "client" ? t("guestTypes.client") : t("guestTypes.lawyer");
 
@@ -30,7 +33,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema(t)),
     defaultValues: {
@@ -40,13 +44,31 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       email: "",
       password: "",
       password_confirmation: "",
-      emirates_id: "",
-      terms: false,
+      country: "United Arab Emirates",
+      city: "",
+      terms_accepted: false,
     },
   });
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
-    console.log(data);
+    const result = await signUpWithEmailAndPassword(data, guestType);
+
+    if (result.success) {
+      return setIsOtpDialogOpen(true);
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (!message) return;
+        setError(field as keyof SignUpFormValues, {
+          type: "server",
+          message,
+        });
+      });
+      return;
+    }
+
+    toast.error(t("signUpError"));
   };
 
   return (
@@ -179,37 +201,37 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
         />
 
         <FormSelect
-          name="emirates_id"
-          label={t("fields.emirate.label")}
-          placeholder={t("fields.emirate.placeholder")}
+          name="city"
+          label={t("fields.city.label")}
+          placeholder={t("fields.city.placeholder")}
           control={control}
           options={[
             {
-              label: t("emirates.dubai"),
+              label: t("city.dubai"),
               value: "dubai",
             },
             {
-              label: t("emirates.abuDhabi"),
+              label: t("city.abuDhabi"),
               value: "abu-dhabi",
             },
             {
-              label: t("emirates.sharjah"),
+              label: t("city.sharjah"),
               value: "sharjah",
             },
             {
-              label: t("emirates.ajman"),
+              label: t("city.ajman"),
               value: "ajman",
             },
             {
-              label: t("emirates.ummAlQuwain"),
+              label: t("city.ummAlQuwain"),
               value: "umm-al-quwain",
             },
             {
-              label: t("emirates.rasAlKhaimah"),
+              label: t("city.rasAlKhaimah"),
               value: "ras-al-khaimah",
             },
             {
-              label: t("emirates.fujairah"),
+              label: t("city.fujairah"),
               value: "fujairah",
             },
           ]}
@@ -219,7 +241,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
         <div className="sm:col-span-2">
           <Controller
-            name="terms"
+            name="terms_accepted"
             control={control}
             render={({ field }) => (
               <>
@@ -258,14 +280,14 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                   </Label>
                 </div>
 
-                <FieldError errors={[errors.terms]} />
+                <FieldError errors={[errors.terms_accepted]} />
               </>
             )}
           />
         </div>
 
         <div className="sm:col-span-2">
-          <SubmitBtn label={t("createAccount")} loading={false} />
+          <SubmitBtn label={t("createAccount")} loading={isSubmitting} />
         </div>
 
         <div className="relative border-t border-border sm:col-span-2">
@@ -286,7 +308,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
         </p>
       </form>
 
-      <Dialog open={true}>
+      <Dialog open={isOtpDialogOpen} onOpenChange={setIsOtpDialogOpen}>
         <OtpDialog place="email" />
       </Dialog>
     </>

@@ -71,6 +71,7 @@
     "title": "Create Your Account",
     "signingUpAs": "Signing up as a",
     "change": "Change",
+    "signUpError": "An error occurred while creating your account. Please try again.",
     "guestTypes": {
       "client": "Client",
       "lawyer": "Lawyer"
@@ -111,7 +112,12 @@
         "min": "Confirm password must be at least 8 characters",
         "match": "Passwords must match"
       },
-      "emirate": {
+      "country": {
+        "label": "Country",
+        "placeholder": "Select your country",
+        "required": "Please select your country"
+      },
+      "city": {
         "label": "City / Emirate",
         "placeholder": "Select your city or emirate",
         "required": "Please select your city or emirate"
@@ -120,7 +126,7 @@
         "required": "You must agree to the terms and privacy policy"
       }
     },
-    "emirates": {
+    "city": {
       "dubai": "Dubai",
       "abuDhabi": "Abu Dhabi",
       "sharjah": "Sharjah",

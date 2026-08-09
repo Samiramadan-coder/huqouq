@@ -1,8 +1,8 @@
-"use server";
+// "use server";
 
 import { http, ValidationError } from "./http";
 import { SignUpFormValues } from "@/types/sign-up";
-import { FormActionsResponse } from "@/types/shared";
+import { FormActionsResponse, GuestType } from "@/types/shared";
 import { SignInWithEmailFormValues } from "@/types/sign-in";
 import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
@@ -13,9 +13,10 @@ type SignUpWithEmailAndPasswordResponse = FormActionsResponse<SignUpFormValues>;
 
 export async function signUpWithEmailAndPassword(
   data: SignUpFormValues,
+  guestType: GuestType,
 ): Promise<SignUpWithEmailAndPasswordResponse> {
   try {
-    await http.post("/api/v1/auth/register", data);
+    await http.post(`/api/auth/register/${guestType}`, data);
     return { success: true };
   } catch (error) {
     console.error("Error signing up with email and password:", error);

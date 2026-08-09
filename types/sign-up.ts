@@ -25,8 +25,9 @@ export const signUpSchema = (t: T) =>
         .string()
         .min(1, t("fields.confirmPassword.required"))
         .min(8, t("fields.confirmPassword.min")),
-      emirates_id: z.string().min(1, t("fields.emirate.required")),
-      terms: z.boolean().refine((val) => val === true, {
+      country: z.string().min(1, t("fields.country.required")),
+      city: z.string().min(1, t("fields.city.required")),
+      terms_accepted: z.boolean().refine((val) => val === true, {
         message: t("fields.terms.required"),
       }),
     })
