@@ -204,6 +204,13 @@
       }
     }
   },
+  "OTP": {
+    "title": "Enter the OTP",
+    "length": "OTP should be 6 digits",
+    "description": "Please enter the otp sent to your {place}",
+    "send": "Send OTP",
+    "resend": "Resend OTP"
+  },
   "Home": {
     "Hero": {
       "Eyebrow": "Trusted Legal Connections",
