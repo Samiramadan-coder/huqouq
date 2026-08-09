@@ -360,6 +360,25 @@
         "Response": "Most lawyers respond within an hour"
       }
     },
+    "LegalWithYou": {
+      "eyebrow": "Take Huqouq With You",
+      "titleStart": "Legal Help,",
+      "titleHighlight": "In Your Pocket",
+      "description": "Post a case, chat with your lawyer, or request emergency help — wherever you are, whenever you need it.",
+      "available": "Available now for iOS and Android",
+      "client": "Client",
+      "lawyer": "Lawyer",
+      "clientPhoneAlt": "Huqouq client application",
+      "lawyerPhoneAlt": "Huqouq lawyer application",
+      "emergency": {
+        "eyebrow": "Emergency Legal Assistance",
+        "title": "Need Help Right Now?",
+        "description": "Connect with an available lawyer immediately through our Emergency Legal Assistance service. Verified professionals are on standby around the clock for urgent legal matters.",
+        "button": "Learn More",
+        "status": "Lawyers Available Now",
+        "response": "Average response time: 8 min"
+      }
+    },
     "CTA": {
       "Label": "Begin Today",
       "Title": "Ready to Get Started?",
