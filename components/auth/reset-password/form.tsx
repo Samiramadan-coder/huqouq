@@ -13,6 +13,8 @@ import {
 } from "@/types/reset-password";
 import Logo from "@/components/icons/logo";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export default function ResetPasswordForm() {
   const locale = useLocale();
@@ -38,8 +40,9 @@ export default function ResetPasswordForm() {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col items-center gap-2 text-center">
+      <div className="flex flex-col items-center gap-3 text-center">
         <Logo />
+
         <h1
           className={cn(
             "mb-1 text-center text-[1.6rem] font-bold text-primary",
@@ -48,7 +51,10 @@ export default function ResetPasswordForm() {
         >
           {t("title")}
         </h1>
-        <p className="text-sm text-foreground">{t("description")}</p>
+
+        <p className="text-sm text-foreground leading-relaxed">
+          {t("description")}
+        </p>
       </div>
 
       <FormInput
@@ -119,6 +125,14 @@ export default function ResetPasswordForm() {
       />
 
       <SubmitBtn label={t("submit")} loading={false} />
+
+      <Button
+        variant="ghost"
+        type="button"
+        className="w-full hover:bg-transparent text-secondary"
+      >
+        <Link href="/sign-in">{t("backToSignIn")}</Link>
+      </Button>
     </form>
   );
 }

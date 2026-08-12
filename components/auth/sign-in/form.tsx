@@ -16,7 +16,7 @@ export default function SignInForm() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-3">
         <Logo />
         <h1
           className={cn(

@@ -55,8 +55,9 @@ export function ForgotPasswordForm() {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col items-center gap-2 text-center">
+      <div className="flex flex-col items-center gap-3 text-center">
         <Logo />
+
         <h1
           className={cn(
             "mb-1 text-center text-[1.6rem] font-bold text-primary",
@@ -65,7 +66,10 @@ export function ForgotPasswordForm() {
         >
           {t("title")}
         </h1>
-        <p className="text-sm text-foreground">{t("description")}</p>
+
+        <p className="text-sm text-foreground leading-relaxed">
+          {t("description")}
+        </p>
       </div>
 
       <FormInput

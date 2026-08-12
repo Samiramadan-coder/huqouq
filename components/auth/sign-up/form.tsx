@@ -81,7 +81,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
         className="grid grid-cols-1 gap-6 sm:grid-cols-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col items-center gap-2 sm:col-span-2">
+        <div className="flex flex-col items-center gap-3 sm:col-span-2">
           <Logo />
 
           <p className="text-xs text-foreground">

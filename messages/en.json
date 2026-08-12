@@ -193,6 +193,7 @@
     "title": "Reset Your Password",
     "description": "Enter your new password below to reset your account password.",
     "submit": "Reset Password",
+    "backToSignIn": "Back to Sign In",
     "fields": {
       "email": {
         "label": "Email",
