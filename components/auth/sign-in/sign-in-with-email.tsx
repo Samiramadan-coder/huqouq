@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  SignInWithEmailFormValues,
   signInWithEmailSchema,
+  SignInWithEmailFormValues,
 } from "@/types/sign-in";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -28,7 +28,7 @@ export function SignInWithEmail() {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignInWithEmailFormValues>({
     resolver: zodResolver(signInWithEmailSchema(t)),
     defaultValues: {
@@ -119,7 +119,7 @@ export function SignInWithEmail() {
           </div>
         </div>
 
-        <SubmitBtn label={t("signIn")} loading={false} />
+        <SubmitBtn label={t("signIn")} loading={isSubmitting} />
       </form>
 
       <Dialog open={isOtpDialogOpen} onOpenChange={setIsOtpDialogOpen}>
