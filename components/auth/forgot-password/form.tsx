@@ -12,6 +12,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
+import { forgotPassword } from "@/lib/auth";
+import { toast } from "sonner";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("ForgotPassword");
@@ -19,15 +21,35 @@ export function ForgotPasswordForm() {
 
   const {
     register,
+    setError,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema(t)),
     defaultValues: { email: "" },
   });
 
   const onSubmit: SubmitHandler<ForgotPasswordFormValues> = async (data) => {
-    console.log(data);
+    const result = await forgotPassword(data);
+
+    if (result.success) {
+      toast.success(t("successMessage"));
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (!message) return;
+        setError(field as keyof ForgotPasswordFormValues, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
+
+    toast.error(t("errorMessage"));
   };
 
   return (
@@ -56,7 +78,7 @@ export function ForgotPasswordForm() {
       />
 
       <div className="space-y-4">
-        <SubmitBtn label={t("submit")} loading={false} />
+        <SubmitBtn label={t("submit")} loading={isSubmitting} />
 
         <Button
           variant="ghost"

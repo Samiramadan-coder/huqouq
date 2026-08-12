@@ -70,7 +70,7 @@ export async function forgotPassword(
   data: ForgotPasswordFormValues,
 ): Promise<ForgotPasswordResponse> {
   try {
-    await http.post("/api/v1/auth/forgot-password", data);
+    await http.post("/api/auth/forgot-password", data);
     return { success: true };
   } catch (error) {
     console.error("Error sending forgot password request:", error);

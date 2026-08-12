@@ -177,6 +177,8 @@
     "description": "Enter your email address below and we'll send you a link to reset your password.",
     "submit": "Send Reset Link",
     "backToSignIn": "Back to Sign In",
+    "successMessage": "If an account with that email exists, an OTP has been sent to your email.",
+    "errorMessage": "An error occurred while sending the reset OTP. Please try again.",
     "fields": {
       "email": {
         "label": "Email",
