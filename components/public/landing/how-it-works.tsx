@@ -1,8 +1,8 @@
-import { getTranslations } from "next-intl/server";
-import { ShieldCheck, Scale, BookOpen, Clock3, ArrowRight } from "lucide-react";
 import { Button } from "../../ui/button";
 import { Link } from "@/i18n/navigation";
 import * as motion from "motion/react-client";
+import { getTranslations } from "next-intl/server";
+import { ShieldCheck, Scale, BookOpen, Clock3, MoveRight } from "lucide-react";
 
 export default async function HowItWorks() {
   const t = await getTranslations("Home.HowItWorks");
@@ -75,7 +75,7 @@ export default async function HowItWorks() {
                   className="shrink-0 text-secondary"
                 />
 
-                <p className="text-sm text-foreground/55">
+                <p className="text-sm text-primary/60">
                   <span className="font-lora font-semibold text-primary">
                     {feature.title}
                   </span>{" "}
@@ -219,7 +219,7 @@ function ProcessCard({
                 {step.title}
               </h4>
 
-              <p className="mt-1 max-w-115 text-[14px] leading-6 text-foreground/55">
+              <p className="mt-1 max-w-115 text-[14px] leading-6 text-primary/55">
                 {step.description}
               </p>
             </div>
@@ -234,13 +234,13 @@ function ProcessCard({
       >
         <Link href={isClient ? "/sign-up/client" : "/sign-up/lawyer"}>
           <Button
-            variant="link"
-            className={`group inline-flex items-center gap-2 text-sm font-medium ${
+            variant="ghost"
+            className={`hover:bg-transparent hover:text-secondary group inline-flex items-center gap-2 text-sm font-medium ${
               isClient ? "text-secondary" : "text-primary"
             }`}
           >
             {action}
-            <ArrowRight
+            <MoveRight
               size={14}
               className="transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
             />

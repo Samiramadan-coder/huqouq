@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "../../ui/button";
-import { getTranslations } from "next-intl/server";
-import { ArrowRight, ShieldCheck, Star } from "lucide-react";
 import * as motion from "motion/react-client";
+import { getTranslations } from "next-intl/server";
+import { MoveRight, ShieldCheck, Star } from "lucide-react";
 
 const lawyers = [
   {
@@ -78,12 +78,12 @@ export default async function Professionals() {
             <Button
               asChild
               variant="outline"
-              className="h-11 rounded-sm border-primary/20 bg-transparent px-6 text-primary hover:bg-primary hover:text-white"
+              className="h-11 rounded-sm border-primary/20 bg-transparent px-6 text-primary hover:bg-transparent"
             >
               <Link href="/lawyers">
                 {t("BrowseAll")}
 
-                <ArrowRight size={15} className="ms-2 rtl:rotate-180" />
+                <MoveRight size={15} className="ms-2 rtl:rotate-180" />
               </Link>
             </Button>
           </motion.div>

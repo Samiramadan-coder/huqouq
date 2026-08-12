@@ -9,6 +9,29 @@ export default async function Hero() {
 
   return (
     <div className="relative min-h-[calc(100vh-64px)] bg-primary">
+      <div
+        className="absolute right-0 top-1/2 -translate-y-[calc(50%+60px)] w-175 h-175 opacity-[0.04] pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 200 220"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M100 4L8 40v60c0 57 37 108 92 116 55-8 92-59 92-116V40L100 4z"
+            fill="white"
+          ></path>
+          <path
+            d="M65 112l22 22 48-44"
+            stroke="var(--primary)"
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></path>
+        </svg>
+      </div>
+
       <div className="absolute inset-0 opacity-[0.03] bg-[repeating-linear-gradient(0deg,transparent,transparent_40px,white_40px,white_41px)]" />
 
       <div className="container relative grid max-w-7xl items-center gap-16 py-40 lg:grid-cols-[1.2fr_0.8fr]">
@@ -40,7 +63,7 @@ export default async function Hero() {
             <br />
             {t("Title.Line2")}
             <br />
-            <span className="text-[#d5ae58]">{t("Title.Highlight")}</span>
+            <span className="text-secondary">{t("Title.Highlight")}</span>
           </motion.h1>
 
           <motion.p
@@ -85,8 +108,8 @@ export default async function Hero() {
                 size="lg"
                 className="
                   h-12 min-w-40 rounded-sm
-                  border-slate-400 bg-transparent
-                  text-white hover:bg-white/10 hover:text-white
+                  border-white/40 bg-transparent
+                  text-white hover:border-secondary hover:bg-transparent hover:text-secondary
                 "
               >
                 {t("Actions.Lawyer")}

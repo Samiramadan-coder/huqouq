@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   Shield,
   Users,
@@ -12,11 +13,12 @@ import {
   Landmark,
   LifeBuoy,
 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 import * as motion from "motion/react-client";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function Expertise() {
   const t = await getTranslations("Home.Expertise");
+  const locale = await getLocale();
 
   const areas = [
     {
@@ -86,7 +88,12 @@ export default async function Expertise() {
             {t("Label")}
           </p>
 
-          <h2 className="font-lora text-3xl font-semibold text-primary md:text-4xl">
+          <h2
+            className={cn(
+              "font-lora text-3xl font-semibold text-primary md:text-4xl",
+              { "font-lora": locale === "en" },
+            )}
+          >
             {t("Title")}
           </h2>
         </motion.div>
@@ -109,8 +116,10 @@ export default async function Expertise() {
                 rounded-sm border border-border/55
                 bg-background px-4 py-6
                 transition-colors
-                hover:border-secondary/50
-                hover:bg-secondary/5
+                relative
+                hover:border-secondary
+                hover:bg-white
+                hover:bottom-1
               "
             >
               <Icon
@@ -123,7 +132,11 @@ export default async function Expertise() {
                 "
               />
 
-              <p className="text-center font-lora text-sm text-foreground/55">
+              <p
+                className={cn("text-center text-xs text-primary/65", {
+                  "font-lora": locale === "en",
+                })}
+              >
                 {label}
               </p>
             </motion.div>

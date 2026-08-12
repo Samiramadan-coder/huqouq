@@ -178,20 +178,25 @@ export default async function LegalServices() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className="
-                  flex min-h-28
+                  group flex min-h-28
                   flex-col items-center justify-center
                   rounded-sm border border-border/55
                   bg-background
                   px-4 py-5 text-center
+                  relative
+                  transition-colors
+                  hover:border-secondary 
+                  hover:bg-white
+                  hover:bottom-1
                 "
               >
                 <Icon
                   size={24}
                   strokeWidth={1.2}
-                  className="mb-3 text-foreground/55"
+                  className="mb-3 text-foreground/55 group-hover:text-secondary transition-colors"
                 />
 
-                <p className="font-lora text-sm leading-4 text-foreground/55">
+                <p className="font-lora text-xs leading-4 text-primary/65">
                   {label}
                 </p>
               </motion.div>

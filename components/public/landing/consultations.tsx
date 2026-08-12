@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import * as motion from "motion/react-client";
 
 import { Button } from "../../ui/button";
+import { cn } from "@/lib/utils";
 
 export default async function Consultations() {
   const t = await getTranslations("Home.Consultations");
@@ -37,7 +38,7 @@ export default async function Consultations() {
   return (
     <section className="bg-background py-24 lg:py-32">
       <div className="container max-w-7xl">
-        <div className="grid items-center gap-16 lg:grid-cols-[1fr_0.85fr] lg:gap-28">
+        <div className="grid items-center justify-between gap-16 lg:grid-cols-[1fr_0.85fr] lg:gap-28">
           <div className="max-w-xl">
             <motion.p
               initial={{ opacity: 0, y: 14 }}
@@ -128,154 +129,161 @@ export default async function Consultations() {
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 40, scale: 0.97 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{
-              duration: 0.7,
-              delay: 0.12,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="mx-auto w-full max-w-md rounded-xl border border-secondary/30 bg-white p-6"
-          >
+          <div className="flex justify-end">
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
+              initial={{ opacity: 0, x: 40, scale: 0.97 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{
-                duration: 0.45,
-                delay: 0.22,
+                duration: 0.7,
+                delay: 0.12,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="flex items-center gap-4"
+              className="w-full max-w-100 rounded-xl border border-secondary/25 shadow-[0_16px_48px_rgba(27,58,87,0.10)] bg-white p-6"
             >
-              <div className="relative size-14 overflow-hidden rounded-full border border-secondary/30">
-                <Image
-                  src="/get-started-hero.png"
-                  alt={t("Card.LawyerName")}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  duration: 0.45,
+                  delay: 0.22,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="flex items-center gap-4"
+              >
+                <div className="relative size-14 overflow-hidden rounded-full border border-secondary/30">
+                  <Image
+                    src="/get-started-hero.png"
+                    alt={t("Card.LawyerName")}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
 
-              <div className="flex-1">
-                <h3 className="font-lora text-base font-semibold text-primary">
-                  {t("Card.LawyerName")}
-                </h3>
+                <div className="flex-1">
+                  <h3 className="font-lora text-[0.9375rem] font-semibold text-primary">
+                    {t("Card.LawyerName")}
+                  </h3>
 
-                <p className="text-xs text-muted-foreground">
-                  {t("Card.Specialization")}
+                  <p className="text-xs text-primary/50">
+                    {t("Card.Specialization")}
+                  </p>
+
+                  <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
+                    <span className="rounded-full bg-muted px-2 py-1 text-primary">
+                      {t("Card.Verified")}
+                    </span>
+                    <span className="text-secondary">{t("Card.Price")}</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              <div className="my-5 border-t border-border" />
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  duration: 0.45,
+                  delay: 0.3,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-primary/35">
+                  {t("Card.SelectDate")}
                 </p>
 
-                <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
-                  <span className="rounded-full bg-muted px-2 py-1 text-primary">
-                    {t("Card.Verified")}
-                  </span>
-                  <span className="text-secondary">{t("Card.Price")}</span>
+                <div className="grid grid-cols-5 gap-2">
+                  {dates.map((item, index) => (
+                    <motion.button
+                      key={item.date}
+                      initial={{ opacity: 0, y: 8 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{
+                        duration: 0.35,
+                        delay: 0.34 + index * 0.04,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className={`rounded-lg px-2 py-3 text-center ${
+                        item.active
+                          ? "bg-primary text-white"
+                          : "bg-background text-primary"
+                      }`}
+                    >
+                      <span
+                        className={cn("block text-[9px] ", {
+                          "text-primary/35": !item.active,
+                          "text-white/50": item.active,
+                        })}
+                      >
+                        {item.day}
+                      </span>
+
+                      <span className="mt-1 block text-sm font-medium">
+                        {item.date}
+                      </span>
+                    </motion.button>
+                  ))}
                 </div>
-              </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  duration: 0.45,
+                  delay: 0.46,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <p className="mb-3 mt-6 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {t("Card.AvailableTimes")}
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  {times.map((time, index) => (
+                    <motion.button
+                      key={time}
+                      initial={{ opacity: 0, y: 8 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{
+                        duration: 0.35,
+                        delay: 0.5 + index * 0.04,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className={`rounded-full border px-3 py-2 text-xs ${
+                        time === "2:00 PM"
+                          ? "border-secondary bg-secondary text-primary"
+                          : "border-[#EDE9E1] text-primary/55"
+                      }`}
+                    >
+                      {time}
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  duration: 0.45,
+                  delay: 0.62,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <Button className="mt-6 h-11 w-full rounded-md bg-primary text-white hover:bg-primary/90">
+                  {t("Card.Confirm")}
+                </Button>
+              </motion.div>
             </motion.div>
-
-            <div className="my-5 border-t border-border" />
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{
-                duration: 0.45,
-                delay: 0.3,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                {t("Card.SelectDate")}
-              </p>
-
-              <div className="grid grid-cols-5 gap-2">
-                {dates.map((item, index) => (
-                  <motion.button
-                    key={item.date}
-                    initial={{ opacity: 0, y: 8 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: 0.34 + index * 0.04,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className={`rounded-lg px-2 py-3 text-center ${
-                      item.active
-                        ? "bg-primary text-white"
-                        : "bg-background text-primary"
-                    }`}
-                  >
-                    <span className="block text-[9px] opacity-60">
-                      {item.day}
-                    </span>
-
-                    <span className="mt-1 block text-sm font-medium">
-                      {item.date}
-                    </span>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{
-                duration: 0.45,
-                delay: 0.46,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <p className="mb-3 mt-6 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                {t("Card.AvailableTimes")}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {times.map((time, index) => (
-                  <motion.button
-                    key={time}
-                    initial={{ opacity: 0, y: 8 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: 0.5 + index * 0.04,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className={`rounded-full border px-4 py-2 text-xs ${
-                      time === "2:00 PM"
-                        ? "border-secondary bg-secondary text-primary"
-                        : "border-border text-muted-foreground"
-                    }`}
-                  >
-                    {time}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{
-                duration: 0.45,
-                delay: 0.62,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <Button className="mt-6 h-11 w-full rounded-md bg-primary text-white hover:bg-primary/90">
-                {t("Card.Confirm")}
-              </Button>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
 
         <motion.p
