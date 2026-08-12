@@ -15,7 +15,8 @@ export async function LegalWithYou() {
   return (
     <section className="bg-primary text-white">
       {/* LegalWithYou */}
-      <div className="bg-[repeating-linear-gradient(45deg,rgb(201_169_97/0.08)_0px,rgb(201_169_97/0.08)_1px,transparent_1px,transparent_14px)]">
+      <div className="relative">
+        <div className="absolute inset-0 opacity-50 bg-[repeating-linear-gradient(45deg,rgb(201_169_97/0.08)_0px,rgb(201_169_97/0.08)_1px,transparent_1px,transparent_14px)]"></div>
         <div className="container grid min-h-142.5 max-w-7xl grid-cols-1 items-center gap-12 py-24 lg:grid-cols-2">
           {/* Content */}
           <div className="max-w-125">
