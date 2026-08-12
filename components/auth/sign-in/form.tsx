@@ -29,10 +29,10 @@ export default function SignInForm() {
         <p className="text-sm text-foreground">{t("signInToYourAccount")}</p>
       </div>
 
-      <div className="flex p-1 h-12 bg-border/50 rounded-full">
+      <div className="flex p-0.5 h-10 bg-[#ede9e2] rounded-full">
         <Button
-          className={cn("flex-1 h-full rounded-full", {
-            "bg-white": liveRegion === "email",
+          className={cn("flex-1 h-full text-[13px] rounded-full", {
+            "bg-white text-primary": liveRegion === "email",
           })}
           variant="ghost"
           onClick={() => setLiveRegion("email")}
@@ -40,8 +40,8 @@ export default function SignInForm() {
           {t("fields.email.label")}
         </Button>
         <Button
-          className={cn("flex-1 h-full rounded-full", {
-            "bg-white": liveRegion === "phone",
+          className={cn("flex-1 h-full text-[13px] rounded-full", {
+            "bg-white text-primary": liveRegion === "phone",
           })}
           variant="ghost"
           onClick={() => setLiveRegion("phone")}
