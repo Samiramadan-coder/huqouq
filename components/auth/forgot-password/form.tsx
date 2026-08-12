@@ -14,6 +14,7 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
 import { forgotPassword } from "@/lib/auth";
 import { toast } from "sonner";
+import { Link } from "@/i18n/navigation";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("ForgotPassword");
@@ -85,7 +86,7 @@ export function ForgotPasswordForm() {
           type="button"
           className="w-full hover:bg-transparent text-secondary"
         >
-          {t("backToSignIn")}
+          <Link href="/sign-in">{t("backToSignIn")}</Link>
         </Button>
       </div>
     </form>

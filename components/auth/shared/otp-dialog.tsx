@@ -21,7 +21,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { OtpFormValues, otpSchema } from "@/types/otp";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-export default function OtpDialog({ place }: { place: string }) {
+export default function OtpDialog({
+  place,
+  phone,
+  email,
+}: {
+  place: string;
+  phone?: string;
+  email?: string;
+}) {
   const t = useTranslations("OTP");
 
   const {
@@ -34,7 +42,22 @@ export default function OtpDialog({ place }: { place: string }) {
   });
 
   const onSubmit: SubmitHandler<OtpFormValues> = async (data) => {
-    const result = await verifyOtp(data);
+    const finalData: OtpFormValues & {
+      email?: string;
+      phone?: string;
+    } = {
+      ...data,
+    };
+
+    if (phone) {
+      finalData.phone = phone;
+    }
+
+    if (email) {
+      finalData.email = email;
+    }
+
+    const result = await verifyOtp(finalData, "/api/auth/phone/verify");
 
     if (result.success) {
       return;

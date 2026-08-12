@@ -19,7 +19,7 @@ import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormSelect from "@/components/public/shared/form/form-select";
-import { Controller, useForm, SubmitHandler } from "react-hook-form";
+import { Controller, useForm, SubmitHandler, useWatch } from "react-hook-form";
 
 export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const locale = useLocale();
@@ -49,6 +49,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       terms_accepted: false,
     },
   });
+
+  const phone = useWatch({ control, name: "phone" });
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     const result = await signUpWithEmailAndPassword(data, guestType);
@@ -309,7 +311,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       </form>
 
       <Dialog open={isOtpDialogOpen} onOpenChange={setIsOtpDialogOpen}>
-        <OtpDialog place="email" />
+        <OtpDialog place="email" phone={phone} />
       </Dialog>
     </>
   );

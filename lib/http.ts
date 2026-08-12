@@ -159,7 +159,7 @@ function createHttp(baseURL: string) {
 
     if (!response.ok) {
       if (response.status === 401) {
-        await handleUnauthorized();
+        // await handleUnauthorized();
       }
 
       if (response.status === 422) {

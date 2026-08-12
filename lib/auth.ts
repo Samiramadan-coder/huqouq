@@ -134,9 +134,10 @@ type VerifyOtpResponse = FormActionsResponse<OtpFormValues>;
 
 export async function verifyOtp(
   data: OtpFormValues & { email?: string; phone?: string },
+  endpoint: string,
 ): Promise<VerifyOtpResponse> {
   try {
-    await http.post("/api/v1/auth/verify-otp", data);
+    await http.post(endpoint, data);
     return { success: true };
   } catch (error) {
     console.error("Error verifying OTP:", error);
