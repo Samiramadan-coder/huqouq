@@ -11,10 +11,10 @@ import {
   ResetPasswordFormValues,
   resetPasswordSchema,
 } from "@/types/reset-password";
-import Logo from "@/components/icons/logo";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import AuthLogo from "@/components/icons/auth-logo";
 
 export default function ResetPasswordForm() {
   const locale = useLocale();
@@ -41,7 +41,7 @@ export default function ResetPasswordForm() {
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col items-center gap-3 text-center">
-        <Logo />
+        <AuthLogo />
 
         <h1
           className={cn(

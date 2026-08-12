@@ -4,17 +4,17 @@ import {
   ForgotPasswordFormValues,
   forgotPasswordSchema,
 } from "@/types/forgot-password";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import Logo from "@/components/icons/logo";
+import { Link } from "@/i18n/navigation";
+import { forgotPassword } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import AuthLogo from "@/components/icons/auth-logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
-import { forgotPassword } from "@/lib/auth";
-import { toast } from "sonner";
-import { Link } from "@/i18n/navigation";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("ForgotPassword");
@@ -56,7 +56,7 @@ export function ForgotPasswordForm() {
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col items-center gap-3 text-center">
-        <Logo />
+        <AuthLogo />
 
         <h1
           className={cn(

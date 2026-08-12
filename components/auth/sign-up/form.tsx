@@ -5,7 +5,6 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import Logo from "@/components/icons/logo";
 import OtpDialog from "../shared/otp-dialog";
 import { Label } from "@/components/ui/label";
 import type { GuestType } from "@/types/shared";
@@ -21,6 +20,7 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import AuthLogo from "@/components/icons/auth-logo";
 
 export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const locale = useLocale();
@@ -82,7 +82,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col items-center gap-3 sm:col-span-2">
-          <Logo />
+          <AuthLogo />
 
           <p className="text-xs text-foreground">
             {t("signingUpAs")}{" "}

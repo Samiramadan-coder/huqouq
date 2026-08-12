@@ -3,8 +3,8 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
-import Logo from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
+import AuthLogo from "@/components/icons/auth-logo";
 import { useLocale, useTranslations } from "next-intl";
 import { SignInWithEmail } from "./sign-in-with-email";
 import { SignInWithPhone } from "./sign-in-with-phone";
@@ -17,7 +17,7 @@ export default function SignInForm() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col items-center gap-3">
-        <Logo />
+        <AuthLogo />
         <h1
           className={cn(
             "mb-1 text-center text-[1.6rem] font-bold text-primary",
