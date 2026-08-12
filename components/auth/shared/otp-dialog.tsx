@@ -12,17 +12,17 @@ import {
   InputOTPSeparator,
 } from "@/components/ui/input-otp";
 
-import { resendOtp, verifyOtp } from "@/lib/auth";
+import { toast } from "sonner";
 import { saveToken } from "@/lib/cookies";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { resendOtp, verifyOtp } from "@/lib/auth";
 import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OtpFormValues, otpSchema } from "@/types/otp";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { toast } from "sonner";
 
 export default function OtpDialog({ token }: { token: string }) {
   const router = useRouter();
@@ -31,6 +31,7 @@ export default function OtpDialog({ token }: { token: string }) {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<OtpFormValues>({
     defaultValues: { code: "" },
@@ -42,12 +43,23 @@ export default function OtpDialog({ token }: { token: string }) {
 
     if (result.success) {
       await saveToken(token);
+      toast.success(t("LoginSuccess"));
       router.push("/");
       return;
     }
 
     if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (!message) return;
+        setError(field as keyof OtpFormValues, {
+          type: "server",
+          message,
+        });
+      });
+      return;
     }
+
+    toast.error(t("OtpError"));
   };
 
   return (

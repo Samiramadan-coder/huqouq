@@ -219,7 +219,9 @@
     "send": "Send OTP",
     "resend": "Resend OTP",
     "ResendSuccess": "OTP has been resent successfully",
-    "ResendError": "An error occurred while resending the OTP. Please try again."
+    "ResendError": "An error occurred while resending the OTP. Please try again.",
+    "LoginSuccess": "OTP verified successfully. You are now logged in.",
+    "OtpError": "Invalid OTP. Please check and try again."
   },
   "Home": {
     "Hero": {
