@@ -68,8 +68,8 @@
     "imageAlt": "عميل يجتمع مع متخصص قانوني"
   },
   "SignUp": {
-    "title": "إنشاء حسابك",
-    "signingUpAs": "التسجيل بصفة",
+    "title": "مرحبًا بك في حقوق",
+    "signingUpAs": "التسجيل كـ",
     "change": "تغيير",
     "signUpError": "حدث خطأ أثناء إنشاء حسابك. يرجى المحاولة مرة أخرى.",
     "guestTypes": {
@@ -79,36 +79,51 @@
     "fields": {
       "firstName": {
         "label": "الاسم الأول",
-        "placeholder": "سامي"
+        "placeholder": "سامي",
+        "required": "الاسم الأول مطلوب",
+        "min": "يجب أن يكون الاسم الأول مكونًا من حرفين على الأقل"
       },
       "lastName": {
         "label": "اسم العائلة",
-        "placeholder": "رمضان"
+        "placeholder": "رمضان",
+        "required": "اسم العائلة مطلوب",
+        "min": "يجب أن يكون اسم العائلة مكونًا من حرفين على الأقل"
       },
       "phone": {
         "label": "رقم الهاتف",
-        "placeholder": "50 123 4567"
+        "placeholder": "50 123 4567",
+        "invalid": "يرجى إدخال رقم هاتف صالح"
       },
       "email": {
         "label": "البريد الإلكتروني",
-        "placeholder": "your@example.com"
+        "placeholder": "your@example.com",
+        "invalid": "يرجى إدخال بريد إلكتروني صالح"
       },
       "password": {
         "label": "كلمة المرور",
-        "placeholder": "أنشئ كلمة مرور قوية"
+        "placeholder": "أنشئ كلمة مرور قوية",
+        "required": "كلمة المرور مطلوبة",
+        "min": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل"
       },
       "confirmPassword": {
         "label": "تأكيد كلمة المرور",
-        "placeholder": "أعد كتابة كلمة المرور"
+        "placeholder": "أكد كلمة المرور الخاصة بك",
+        "required": "يرجى تأكيد كلمة المرور الخاصة بك",
+        "min": "يجب أن تكون كلمة المرور المؤكدة مكونة من 8 أحرف على الأقل",
+        "match": "يجب أن تتطابق كلمات المرور"
       },
       "country": {
         "label": "الدولة",
-        "placeholder": "اختر الدولة",
-        "required": "يرجى اختيار الدولة"
+        "placeholder": "اختر دولتك",
+        "required": "يرجى اختيار دولتك"
       },
       "city": {
-        "label": "المدينة أو الإمارة",
-        "placeholder": "اختر الإمارة"
+        "label": "المدينة / الإمارة",
+        "placeholder": "اختر مدينتك أو إمارتك",
+        "required": "يرجى اختيار مدينتك أو إمارتك"
+      },
+      "terms": {
+        "required": "يجب أن توافق على الشروط وسياسة الخصوصية"
       }
     },
     "city": {
@@ -120,11 +135,11 @@
       "rasAlKhaimah": "رأس الخيمة",
       "fujairah": "الفجيرة"
     },
-    "termsAgreement": "أوافق على <terms>شروط الاستخدام</terms> و<privacy>سياسة الخصوصية</privacy>",
-    "createAccount": "إنشاء الحساب",
+    "termsAgreement": "أوافق على <terms>شروط الاستخدام</terms> و <privacy>سياسة الخصوصية</privacy>",
+    "createAccount": "إنشاء حساب",
     "continueWith": "أو المتابعة باستخدام",
-    "socialSignUp": "التسجيل باستخدام حساب Google أو Apple",
-    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "socialSignUp": "سجّل الاشتراك باستخدام حسابات وسائل التواصل الاجتماعي مثل Google أو Apple",
+    "alreadyHaveAccount": "هل لديك حساب؟",
     "signIn": "تسجيل الدخول",
     "showPassword": "إظهار كلمة المرور",
     "hidePassword": "إخفاء كلمة المرور"
