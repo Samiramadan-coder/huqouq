@@ -51,6 +51,7 @@ export default function OtpDialog({ token }: { token: string }) {
     if (result.errors) {
       Object.entries(result.errors).forEach(([field, message]) => {
         if (!message) return;
+        toast.error(message);
         setError(field as keyof OtpFormValues, {
           type: "server",
           message,

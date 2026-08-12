@@ -22,8 +22,6 @@ export async function signUpWithEmailAndPassword(
       formData,
     );
 
-    // console.log("Sign up response data:", data.token);
-
     return { success: true, token: data.token };
   } catch (error) {
     console.error("Error signing up with email and password:", error);
@@ -47,11 +45,23 @@ type LoginWithEmailAndPasswordResponse =
   AuthFormActionsResponse<SignInWithEmailFormValues>;
 
 export async function loginWithEmailAndPassword(
-  data: SignInWithEmailFormValues,
+  formData: SignInWithEmailFormValues,
 ): Promise<LoginWithEmailAndPasswordResponse> {
   try {
-    await http.post("/api/v1/auth/login", data);
-    return { success: true };
+    const { data } = await http.post<{
+      token: string;
+      user: {
+        phone_verified: boolean;
+        email_verified: boolean;
+      };
+    }>("/api/auth/login", formData);
+
+    return {
+      success: true,
+      token: data.token,
+      email_verified: data.user.email_verified,
+      phone_verified: data.user.phone_verified,
+    };
   } catch (error) {
     console.error("Error logging in with email and password:", error);
 

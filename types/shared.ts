@@ -6,6 +6,8 @@ export type AuthFormActionsResponse<T> =
   | {
       success: true;
       token?: string;
+      email_verified?: boolean;
+      phone_verified?: boolean;
     }
   | {
       success: false;

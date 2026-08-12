@@ -153,6 +153,8 @@
     "getStarted": "Get started",
     "forgotPassword": "Forgot Password?",
     "signIn": "Sign In",
+    "signInError": "An error occurred while signing in. Please check your credentials and try again.",
+    "LoginSuccess": "Login successful. Redirecting to your dashboard...",
     "fields": {
       "email": {
         "label": "Email",

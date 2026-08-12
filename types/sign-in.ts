@@ -4,7 +4,7 @@ import { T } from "./shared";
 // Sign In With Email Schema
 export const signInWithEmailSchema = (t: T) =>
   z.object({
-    email: z.email(t("fields.email.invalid")),
+    login: z.email(t("fields.email.invalid")),
     password: z
       .string()
       .min(1, t("fields.password.required"))

@@ -62,6 +62,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
     if (result.errors) {
       Object.entries(result.errors).forEach(([field, message]) => {
         if (!message) return;
+        toast.error(message);
         setError(field as keyof SignUpFormValues, {
           type: "server",
           message,
