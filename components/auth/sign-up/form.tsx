@@ -19,11 +19,12 @@ import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormSelect from "@/components/public/shared/form/form-select";
-import { Controller, useForm, SubmitHandler, useWatch } from "react-hook-form";
+import { Controller, useForm, SubmitHandler } from "react-hook-form";
 
 export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const locale = useLocale();
   const t = useTranslations("SignUp");
+  const [token, setToken] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
   const [isOtpDialogOpen, setIsOtpDialogOpen] = useState(false);
   const guestLabel =
@@ -50,12 +51,11 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
     },
   });
 
-  const phone = useWatch({ control, name: "phone" });
-
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     const result = await signUpWithEmailAndPassword(data, guestType);
 
     if (result.success) {
+      setToken(result.token ?? "");
       return setIsOtpDialogOpen(true);
     }
 
@@ -311,7 +311,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       </form>
 
       <Dialog open={isOtpDialogOpen} onOpenChange={setIsOtpDialogOpen}>
-        <OtpDialog place="email" phone={phone} />
+        <OtpDialog token={token} />
       </Dialog>
     </>
   );

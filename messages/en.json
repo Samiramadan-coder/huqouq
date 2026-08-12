@@ -217,7 +217,9 @@
     "length": "OTP should be 6 digits",
     "description": "Please enter the otp sent to your {place}",
     "send": "Send OTP",
-    "resend": "Resend OTP"
+    "resend": "Resend OTP",
+    "ResendSuccess": "OTP has been resent successfully",
+    "ResendError": "An error occurred while resending the OTP. Please try again."
   },
   "Home": {
     "Hero": {

@@ -12,24 +12,20 @@ import {
   InputOTPSeparator,
 } from "@/components/ui/input-otp";
 
-import { verifyOtp } from "@/lib/auth";
+import { resendOtp, verifyOtp } from "@/lib/auth";
+import { saveToken } from "@/lib/cookies";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OtpFormValues, otpSchema } from "@/types/otp";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { toast } from "sonner";
 
-export default function OtpDialog({
-  place,
-  phone,
-  email,
-}: {
-  place: string;
-  phone?: string;
-  email?: string;
-}) {
+export default function OtpDialog({ token }: { token: string }) {
+  const router = useRouter();
   const t = useTranslations("OTP");
 
   const {
@@ -42,24 +38,11 @@ export default function OtpDialog({
   });
 
   const onSubmit: SubmitHandler<OtpFormValues> = async (data) => {
-    const finalData: OtpFormValues & {
-      email?: string;
-      phone?: string;
-    } = {
-      ...data,
-    };
-
-    if (phone) {
-      finalData.phone = phone;
-    }
-
-    if (email) {
-      finalData.email = email;
-    }
-
-    const result = await verifyOtp(finalData, "/api/auth/phone/verify");
+    const result = await verifyOtp(data, token);
 
     if (result.success) {
+      await saveToken(token);
+      router.push("/");
       return;
     }
 
@@ -75,7 +58,9 @@ export default function OtpDialog({
       >
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
-          <DialogDescription>{t("description", { place })}</DialogDescription>
+          <DialogDescription>
+            {t("description", { place: "phone" })}
+          </DialogDescription>
         </DialogHeader>
 
         <Controller
@@ -122,6 +107,16 @@ export default function OtpDialog({
             type="button"
             className="text-sm rounded-sm h-9 min-w-20 bg-transparent text-secondary border-secondary/30"
             variant="outline"
+            onClick={async () => {
+              const result = await resendOtp(token);
+
+              if (result.success) {
+                toast.success(t("ResendSuccess"));
+                return;
+              }
+
+              toast.error(t("ResendError"));
+            }}
           >
             {t("resend")}
           </Button>

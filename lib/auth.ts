@@ -1,23 +1,30 @@
 // "use server";
 
+import { OtpFormValues } from "@/types/otp";
 import { http, ValidationError } from "./http";
 import { SignUpFormValues } from "@/types/sign-up";
-import { FormActionsResponse, GuestType } from "@/types/shared";
+import { AuthFormActionsResponse, GuestType } from "@/types/shared";
 import { SignInWithEmailFormValues } from "@/types/sign-in";
 import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
-import { OtpFormValues } from "@/types/otp";
 
 // Sign up
-type SignUpWithEmailAndPasswordResponse = FormActionsResponse<SignUpFormValues>;
+type SignUpWithEmailAndPasswordResponse =
+  AuthFormActionsResponse<SignUpFormValues>;
 
 export async function signUpWithEmailAndPassword(
-  data: SignUpFormValues,
+  formData: SignUpFormValues,
   guestType: GuestType,
 ): Promise<SignUpWithEmailAndPasswordResponse> {
   try {
-    await http.post(`/api/auth/register/${guestType}`, data);
-    return { success: true };
+    const { data } = await http.post<{ token: string }>(
+      `/api/auth/register/${guestType}`,
+      formData,
+    );
+
+    // console.log("Sign up response data:", data.token);
+
+    return { success: true, token: data.token };
   } catch (error) {
     console.error("Error signing up with email and password:", error);
 
@@ -37,7 +44,7 @@ export async function signUpWithEmailAndPassword(
 
 // Sign in
 type LoginWithEmailAndPasswordResponse =
-  FormActionsResponse<SignInWithEmailFormValues>;
+  AuthFormActionsResponse<SignInWithEmailFormValues>;
 
 export async function loginWithEmailAndPassword(
   data: SignInWithEmailFormValues,
@@ -64,7 +71,7 @@ export async function loginWithEmailAndPassword(
 }
 
 // Forgot password
-type ForgotPasswordResponse = FormActionsResponse<ForgotPasswordFormValues>;
+type ForgotPasswordResponse = AuthFormActionsResponse<ForgotPasswordFormValues>;
 
 export async function forgotPassword(
   data: ForgotPasswordFormValues,
@@ -91,7 +98,7 @@ export async function forgotPassword(
 }
 
 // Reset password
-type ResetPasswordResponse = FormActionsResponse<ResetPasswordFormValues>;
+type ResetPasswordResponse = AuthFormActionsResponse<ResetPasswordFormValues>;
 
 export async function resetPassword(
   data: ResetPasswordFormValues,
@@ -130,14 +137,18 @@ export async function signOut(): Promise<SignOutResponse> {
 }
 
 // Verify Otp
-type VerifyOtpResponse = FormActionsResponse<OtpFormValues>;
+type VerifyOtpResponse = AuthFormActionsResponse<OtpFormValues>;
 
 export async function verifyOtp(
-  data: OtpFormValues & { email?: string; phone?: string },
-  endpoint: string,
+  data: OtpFormValues,
+  token: string,
 ): Promise<VerifyOtpResponse> {
   try {
-    await http.post(endpoint, data);
+    await http.post("/api/auth/phone/verify", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return { success: true };
   } catch (error) {
     console.error("Error verifying OTP:", error);
@@ -151,6 +162,23 @@ export async function verifyOtp(
 
       return { success: false, errors };
     }
+    return { success: false };
+  }
+}
+
+// Resend Otp
+type ResendOtpResponse = { success: boolean };
+
+export async function resendOtp(token: string): Promise<ResendOtpResponse> {
+  try {
+    await http.post("/api/auth/phone/resend", null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error resending OTP:", error);
     return { success: false };
   }
 }
