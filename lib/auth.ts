@@ -136,7 +136,7 @@ type SignOutResponse = { success: boolean };
 
 export async function signOut(): Promise<SignOutResponse> {
   try {
-    await http.post("/api/v1/auth/logout");
+    await http.post("/api/auth/logout");
     return { success: true };
   } catch (error) {
     console.error("Error signing out:", error);

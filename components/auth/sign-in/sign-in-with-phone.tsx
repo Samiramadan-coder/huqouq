@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
+import { saveToken } from "@/lib/cookies";
 
 export function SignInWithPhone() {
   const router = useRouter();
@@ -49,6 +50,7 @@ export function SignInWithPhone() {
         return;
       }
 
+      await saveToken(result.token || "");
       toast.success(t("LoginSuccess"));
       router.push("/");
       return;
