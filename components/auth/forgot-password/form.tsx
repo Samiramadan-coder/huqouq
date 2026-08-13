@@ -6,9 +6,9 @@ import {
 } from "@/types/forgot-password";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { Link } from "@/i18n/navigation";
 import { forgotPassword } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { Link, useRouter } from "@/i18n/navigation";
 import AuthLogo from "@/components/icons/auth-logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
@@ -17,8 +17,9 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
 
 export function ForgotPasswordForm() {
-  const t = useTranslations("ForgotPassword");
+  const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations("ForgotPassword");
 
   const {
     register,
@@ -27,14 +28,17 @@ export function ForgotPasswordForm() {
     formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema(t)),
-    defaultValues: { email: "" },
+    defaultValues: {
+      email: "",
+    },
   });
 
   const onSubmit: SubmitHandler<ForgotPasswordFormValues> = async (data) => {
     const result = await forgotPassword(data);
 
     if (result.success) {
-      toast.success(t("successMessage"));
+      toast.success(result.message);
+      router.push("/reset-password");
       return;
     }
 

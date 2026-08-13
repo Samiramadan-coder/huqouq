@@ -82,11 +82,15 @@ export async function login(
 type ForgotPasswordResponse = AuthFormActionsResponse<ForgotPasswordFormValues>;
 
 export async function forgotPassword(
-  data: ForgotPasswordFormValues,
+  formData: ForgotPasswordFormValues,
 ): Promise<ForgotPasswordResponse> {
   try {
-    await http.post("/api/auth/forgot-password", data);
-    return { success: true };
+    const { data } = await http.post<{ message: string }>(
+      "/api/auth/forgot-password",
+      formData,
+    );
+
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error sending forgot password request:", error);
 
@@ -109,10 +113,12 @@ export async function forgotPassword(
 type ResetPasswordResponse = AuthFormActionsResponse<ResetPasswordFormValues>;
 
 export async function resetPassword(
-  data: ResetPasswordFormValues,
+  formData: ResetPasswordFormValues,
 ): Promise<ResetPasswordResponse> {
   try {
-    await http.post("/api/v1/auth/reset-password", data);
+    const { data } = await http.post("/api/auth/reset-password", formData);
+    console.log("Reset password response data:", data);
+
     return { success: true };
   } catch (error) {
     console.error("Error resetting password:", error);

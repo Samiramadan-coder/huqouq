@@ -212,7 +212,11 @@
         "label": "New Password",
         "placeholder": "Enter your new password",
         "required": "New password is required",
-        "min": "New password must be at least 8 characters"
+        "min": "New password must be at least 8 characters",
+        "lowercase": "Password must contain at least one lowercase letter",
+        "uppercase": "Password must contain at least one uppercase letter",
+        "number": "Password must contain at least one number",
+        "special": "Password must contain at least one special character"
       },
       "confirmNewPassword": {
         "label": "Confirm New Password",
