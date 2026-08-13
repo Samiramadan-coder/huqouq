@@ -69,7 +69,7 @@ function createHttp(baseURL: string) {
   };
 
   async function handleUnauthorized(): Promise<never> {
-    const logoutUrl = "/api/auth/logout?next=/login";
+    const logoutUrl = "/api/auth/logout?next=/sign-in";
 
     if (typeof window === "undefined") {
       redirect(logoutUrl);

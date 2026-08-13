@@ -36,7 +36,7 @@ export default async function Consultations() {
   const times = ["9:00 AM", "11:00 AM", "2:00 PM", "4:30 PM"];
 
   return (
-    <section className="bg-background py-24 lg:py-32">
+    <section className="bg-background py-24 lg:py-32 overflow-hidden">
       <div className="container max-w-7xl">
         <div className="grid items-center justify-between gap-16 lg:grid-cols-[1fr_0.85fr] lg:gap-28">
           <div className="max-w-xl">

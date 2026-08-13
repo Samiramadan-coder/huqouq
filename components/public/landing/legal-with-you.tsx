@@ -13,7 +13,7 @@ export async function LegalWithYou() {
   const tFooter = await getTranslations("Footer");
 
   return (
-    <section className="bg-primary text-white">
+    <section className="bg-primary text-white overflow-hidden">
       {/* LegalWithYou */}
       <div className="relative">
         <div className="absolute inset-0 opacity-50 bg-[repeating-linear-gradient(45deg,rgb(201_169_97/0.08)_0px,rgb(201_169_97/0.08)_1px,transparent_1px,transparent_14px)]"></div>

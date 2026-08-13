@@ -8,7 +8,7 @@ export default async function Hero() {
   const t = await getTranslations("Home.Hero");
 
   return (
-    <div className="relative min-h-[calc(100vh-64px)] bg-primary">
+    <div className="relative min-h-[calc(100vh-64px)] bg-primary overflow-hidden">
       <div
         className="absolute right-0 top-1/2 -translate-y-[calc(50%+60px)] w-175 h-175 opacity-[0.04] pointer-events-none select-none"
         aria-hidden="true"
