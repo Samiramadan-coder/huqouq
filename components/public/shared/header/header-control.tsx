@@ -116,7 +116,7 @@ export default function HeaderControl() {
                   if (result.success) {
                     await deleteToken();
                     setUser(null);
-                    router.push("/sign-in");
+                    router.push("/");
                   }
                 }}
               >
