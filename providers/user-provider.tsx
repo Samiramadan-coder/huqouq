@@ -18,6 +18,12 @@ export function UserProvider({
   children: ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(initialUser);
+  const [prevUser, setPrevUser] = useState<User | null>(initialUser);
+
+  if (initialUser !== prevUser) {
+    setUser(initialUser);
+    setPrevUser(initialUser);
+  }
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

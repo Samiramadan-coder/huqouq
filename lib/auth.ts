@@ -1,12 +1,13 @@
-// "use server";
+"use server";
 
+import { updateTag } from "next/cache";
 import { OtpFormValues } from "@/types/otp";
 import { http, ValidationError } from "./http";
 import { SignUpFormValues } from "@/types/sign-up";
-import { AuthFormActionsResponse, GuestType } from "@/types/shared";
 import { SignInWithEmailFormValues } from "@/types/sign-in";
 import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
+import { AuthFormActionsResponse, GuestType } from "@/types/shared";
 
 // Sign up
 type SignUpResponse = AuthFormActionsResponse<SignUpFormValues>;
@@ -53,6 +54,8 @@ export async function login(
         email_verified: boolean;
       };
     }>("/api/auth/login", formData);
+
+    updateTag("user");
 
     return {
       success: true,
@@ -143,6 +146,7 @@ type SignOutResponse = { success: boolean };
 export async function signOut(): Promise<SignOutResponse> {
   try {
     await http.post("/api/auth/logout");
+    updateTag("user");
     return { success: true };
   } catch (error) {
     console.error("Error signing out:", error);
@@ -163,6 +167,7 @@ export async function verifyOtp(
         Authorization: `Bearer ${token}`,
       },
     });
+    updateTag("user");
     return { success: true };
   } catch (error) {
     console.error("Error verifying OTP:", error);
