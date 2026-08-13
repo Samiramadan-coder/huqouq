@@ -38,7 +38,7 @@ export default async function CTA() {
 
         <div className="mt-10">
           <Link
-            href="/lawyer/register"
+            href="/sign-up/lawyer"
             className="inline-flex h-13 min-w-53.75 items-center justify-center gap-4 rounded-sm bg-secondary px-8 text-[14px] font-semibold text-primary transition-opacity hover:opacity-90"
           >
             {t("button")}

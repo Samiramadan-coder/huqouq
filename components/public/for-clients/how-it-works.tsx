@@ -474,7 +474,7 @@ export default function HowItWorks() {
               className="mt-10 text-center"
             >
               <Link
-                href={isClients ? "/cases/create" : "/lawyer/register"}
+                href={isClients ? "/" : "/sign-up/lawyer"}
                 className="group inline-flex h-12.5 min-w-52 items-center justify-center gap-3 rounded-[3px] bg-secondary px-8 text-sm font-semibold text-primary transition-transform duration-300 hover:-translate-y-1"
               >
                 {t(`${activeTab}.button`)}

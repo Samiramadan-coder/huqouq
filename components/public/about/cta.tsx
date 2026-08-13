@@ -30,14 +30,14 @@ export default async function CTA() {
 
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/lawyers"
+              href="/sign-up/client"
               className="flex h-13.5 min-w-47 items-center justify-center rounded-[6px] bg-secondary px-7 text-[15px] font-semibold text-primary transition-opacity hover:opacity-90"
             >
               {t("clientButton")}
             </Link>
 
             <Link
-              href="/lawyer/register"
+              href="/sign-up/lawyer"
               className="flex h-13.5 min-w-41.5 items-center justify-center rounded-[6px] border-2 border-secondary px-7 text-[15px] font-semibold text-secondary transition-colors hover:bg-secondary hover:text-primary"
             >
               {t("lawyerButton")}

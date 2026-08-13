@@ -8,9 +8,16 @@ import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { getLocale } from "next-intl/server";
 import { Field } from "@/components/ui/field";
+import { Card, CardContent } from "@/components/ui/card";
 
 async function LawyersList() {
-  return <div>Lawyers List</div>;
+  return (
+    <Card>
+      <CardContent className="min-h-100 flex items-center justify-center font-bold text-2xl text-primary/80 underline italic">
+        Still Under Development....
+      </CardContent>
+    </Card>
+  );
 }
 
 export default async function Page() {
@@ -47,8 +54,10 @@ export default async function Page() {
           </Field>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-[0.2fr_0.8fr] gap-8 mt-8">
-          <div>Filters</div>
+        <div className="grid grid-cols-1 md:grid-cols-[0.2fr_0.8fr] gap-6 mt-8">
+          <Card>
+            <CardContent></CardContent>
+          </Card>
 
           <Suspense>
             <LawyersList />

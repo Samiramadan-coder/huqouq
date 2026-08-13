@@ -203,7 +203,7 @@ export default async function LegalServices() {
           </div>
 
           <Link
-            href="/services"
+            href="/"
             className="mt-10 inline-flex h-12.5 items-center justify-center gap-3 rounded-[3px] bg-secondary px-8 text-sm font-semibold text-primary"
           >
             {t("button")}

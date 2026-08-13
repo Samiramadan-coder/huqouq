@@ -108,7 +108,7 @@ export default async function Hero() {
             className="mt-10 flex flex-col gap-3 sm:flex-row"
           >
             <Link
-              href="/lawyer/register"
+              href="/sign-up/lawyer"
               className="group inline-flex h-13.5 items-center justify-center gap-4 rounded-sm bg-secondary px-8 text-[14px] font-semibold text-primary transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90"
             >
               {t("joinAsLawyer")}
@@ -120,7 +120,7 @@ export default async function Hero() {
             </Link>
 
             <Link
-              href="/for-clients#how-it-works"
+              href="/how-it-works"
               className="inline-flex h-13.5 items-center justify-center rounded-sm border border-primary/25 px-8 text-[14px] font-medium text-primary/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary"
             >
               {t("seeHowItWorks")}
