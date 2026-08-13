@@ -1,8 +1,5 @@
 import { cn } from "@/lib/utils";
-import { http } from "@/lib/http";
 import Logo from "../../icons/logo";
-import { User } from "@/types/shared";
-import { cookies } from "next/headers";
 import NavLink from "./header/nav-link";
 import { Link } from "@/i18n/navigation";
 import MobileMenu from "./header/mobile-menu";
@@ -14,19 +11,6 @@ import { getLocale, getTranslations } from "next-intl/server";
 export default async function Header() {
   const locale = await getLocale();
   const t = await getTranslations("Header");
-  const cookiesStore = await cookies();
-  const token = cookiesStore.get("token")?.value;
-  let user: User | null = null;
-
-  if (token) {
-    const { data, ok } = await http.get<{ data: User }>("/api/auth/me");
-
-    if (!ok) {
-      throw new Error("Failed to fetch user data");
-    }
-
-    user = data.data;
-  }
 
   return (
     <HeaderContainer>
@@ -59,7 +43,7 @@ export default async function Header() {
           })}
         </nav>
 
-        <HeaderControl user={user} />
+        <HeaderControl />
 
         <MobileMenu />
       </div>

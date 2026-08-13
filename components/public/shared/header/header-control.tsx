@@ -16,7 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { User } from "@/types/shared";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import LanguageSwitcher from "./language-switcher";
@@ -24,10 +23,12 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut } from "@/lib/auth";
 import { deleteToken } from "@/lib/cookies";
+import { useUser } from "@/providers/user-provider";
 
-export default function HeaderControl({ user }: { user: User | null }) {
+export default function HeaderControl() {
   const router = useRouter();
   const t = useTranslations("Header");
+  const { user } = useUser();
 
   return (
     <>

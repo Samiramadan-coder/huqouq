@@ -1,13 +1,17 @@
 import { Metadata } from "next";
 import "@/assets/css/globals.css";
+import { http } from "@/lib/http";
 import { hasLocale } from "next-intl";
+import { User } from "@/types/shared";
+import { cookies } from "next/headers";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Inter, Lora, Cairo } from "next/font/google";
+import { UserProvider } from "@/providers/user-provider";
 import { DirectionProvider } from "@/components/ui/direction";
-import { Toaster } from "@/components/ui/sonner";
 
 type Props = {
   children: React.ReactNode;
@@ -40,6 +44,9 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
+  let user: User | null = null;
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("token")?.value;
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -49,6 +56,25 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   const dir = locale === "ar" ? "rtl" : "ltr";
 
+  /**
+   * Fetch the authenticated user's data if a token is present
+   */
+  if (token) {
+    const { data, ok } = await http.get<{
+      data: User;
+    }>("/api/auth/me", {
+      next: {
+        tags: ["user"],
+      },
+    });
+
+    if (!ok) {
+      throw new Error("Failed to fetch user data");
+    }
+
+    user = data.data;
+  }
+
   return (
     <html
       lang={locale}
@@ -56,12 +82,14 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={`${inter.variable} ${lora.variable} ${cairo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider>
-          <DirectionProvider dir={dir}>
-            {children}
-            <Toaster richColors position="top-right" />
-          </DirectionProvider>
-        </NextIntlClientProvider>
+        <UserProvider initialUser={user}>
+          <NextIntlClientProvider>
+            <DirectionProvider dir={dir}>
+              {children}
+              <Toaster richColors position="top-right" />
+            </DirectionProvider>
+          </NextIntlClientProvider>
+        </UserProvider>
       </body>
     </html>
   );
