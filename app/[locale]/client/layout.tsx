@@ -12,6 +12,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 import LayoutHeader from "@/components/client-lawyer/shared/layout-header";
 import LayoutSidebarLogo from "@/components/client-lawyer/shared/layout-sidebar-logo";
 import LayoutSidebarNavLink from "@/components/client-lawyer/shared/layout-sidebar-nav-link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function ClientLayout({
   children,
@@ -20,6 +22,12 @@ export default async function ClientLayout({
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.Sidebar");
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("token")?.value;
+
+  if (!token) {
+    return redirect("/sign-in");
+  }
 
   return (
     <SidebarProvider defaultOpen>
