@@ -9,13 +9,12 @@ import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
 
 // Sign up
-type SignUpWithEmailAndPasswordResponse =
-  AuthFormActionsResponse<SignUpFormValues>;
+type SignUpResponse = AuthFormActionsResponse<SignUpFormValues>;
 
-export async function signUpWithEmailAndPassword(
+export async function signUp(
   formData: SignUpFormValues,
   guestType: GuestType,
-): Promise<SignUpWithEmailAndPasswordResponse> {
+): Promise<SignUpResponse> {
   try {
     const { data } = await http.post<{ token: string }>(
       `/api/auth/register/${guestType}`,
@@ -41,12 +40,11 @@ export async function signUpWithEmailAndPassword(
 }
 
 // Sign in
-type LoginWithEmailAndPasswordResponse =
-  AuthFormActionsResponse<SignInWithEmailFormValues>;
+type LoginResponse = AuthFormActionsResponse<SignInWithEmailFormValues>;
 
-export async function loginWithEmailAndPassword(
+export async function login(
   formData: SignInWithEmailFormValues,
-): Promise<LoginWithEmailAndPasswordResponse> {
+): Promise<LoginResponse> {
   try {
     const { data } = await http.post<{
       token: string;

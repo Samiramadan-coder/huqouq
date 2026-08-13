@@ -95,7 +95,7 @@
         "invalid": "Please enter a valid phone number"
       },
       "email": {
-        "label": "Email",
+        "label": "Email Address",
         "placeholder": "your@example.com",
         "invalid": "Please enter a valid email address"
       },
@@ -161,7 +161,7 @@
     "LoginSuccess": "Login successful. Redirecting to your dashboard...",
     "fields": {
       "email": {
-        "label": "Email",
+        "label": "Email Address",
         "placeholder": "your@example.com",
         "invalid": "Please enter a valid email address"
       },
@@ -187,7 +187,7 @@
     "errorMessage": "An error occurred while sending the reset OTP. Please try again.",
     "fields": {
       "email": {
-        "label": "Email",
+        "label": "Email Address",
         "placeholder": "your@example.com",
         "invalid": "Please enter a valid email address"
       }
@@ -200,7 +200,7 @@
     "backToSignIn": "Back to Sign In",
     "fields": {
       "email": {
-        "label": "Email",
+        "label": "Email Address",
         "placeholder": "your@example.com",
         "invalid": "Please enter a valid email address"
       },

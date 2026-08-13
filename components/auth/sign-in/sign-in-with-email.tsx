@@ -13,7 +13,7 @@ import { Dialog } from "@/components/ui/dialog";
 import { Link, useRouter } from "@/i18n/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { loginWithEmailAndPassword, resendOtp } from "@/lib/auth";
+import { login, resendOtp } from "@/lib/auth";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 
@@ -34,11 +34,12 @@ export function SignInWithEmail() {
     defaultValues: {
       login: "",
       password: "",
+      remember: false,
     },
   });
 
   const onSubmit: SubmitHandler<SignInWithEmailFormValues> = async (data) => {
-    const result = await loginWithEmailAndPassword(data);
+    const result = await login(data);
 
     if (result.success) {
       if (result.phone_verified === false) {

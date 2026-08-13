@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 import { useState } from "react";
+import { signUp } from "@/lib/auth";
 import { Link } from "@/i18n/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import OtpDialog from "../shared/otp-dialog";
@@ -14,7 +15,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import AuthLogo from "@/components/icons/auth-logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
-import { signUpWithEmailAndPassword } from "@/lib/auth";
 import { checkPasswordStrength, cn } from "@/lib/utils";
 import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 import FormInput from "@/components/public/shared/form/form-input";
@@ -55,7 +55,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const password = useWatch({ control, name: "password" });
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
-    const result = await signUpWithEmailAndPassword(data, guestType);
+    const result = await signUp(data, guestType);
 
     if (result.success) {
       setToken(result.token ?? "");
