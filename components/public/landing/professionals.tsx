@@ -104,7 +104,7 @@ export default async function Professionals() {
               className="h-full"
             >
               <Link
-                href={`/lawyers/${lawyer.id}`}
+                href={`/lawyers`}
                 className="group block h-full overflow-hidden rounded-sm border border-secondary/30 bg-white transition-colors hover:border-secondary"
               >
                 <div className="relative aspect-[1.27/1] overflow-hidden bg-background">
