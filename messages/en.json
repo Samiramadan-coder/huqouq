@@ -7,6 +7,10 @@
     "MenuDescription": "Website navigation links",
     "SignIn": "Sign In",
     "GetStarted": "Get Started",
+    "Profile": "My Profile",
+    "Settings": "Settings",
+    "Logout": "Logout",
+    "GoToDashboard": "Go to Dashboard",
     "Navigation": {
       "Home": "Home",
       "HowItWorks": "How It Works",
