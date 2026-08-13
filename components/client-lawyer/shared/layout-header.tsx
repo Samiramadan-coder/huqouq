@@ -17,7 +17,7 @@ import { deleteToken } from "@/lib/cookies";
 import { useRouter } from "@/i18n/navigation";
 
 export default function LayoutHeader() {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const router = useRouter();
   const t = useTranslations("Client.Sidebar");
 
@@ -74,6 +74,7 @@ export default function LayoutHeader() {
                 const result = await signOut();
                 if (result.success) {
                   await deleteToken();
+                  setUser(null);
                   router.push("/sign-in");
                 }
               }}

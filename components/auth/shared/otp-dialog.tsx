@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/input-otp";
 
 import { toast } from "sonner";
+import { User } from "@/types/shared";
 import { saveToken } from "@/lib/cookies";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -23,10 +24,18 @@ import { FieldError } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OtpFormValues, otpSchema } from "@/types/otp";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useUser } from "@/providers/user-provider";
 
-export default function OtpDialog({ token }: { token: string }) {
+export default function OtpDialog({
+  token,
+  user,
+}: {
+  token: string;
+  user: User | null;
+}) {
   const router = useRouter();
   const t = useTranslations("OTP");
+  const { setUser } = useUser();
 
   const {
     control,
@@ -42,6 +51,7 @@ export default function OtpDialog({ token }: { token: string }) {
     const result = await verifyOtp(data, token);
 
     if (result.success) {
+      setUser(user);
       await saveToken(token);
       toast.success(t("LoginSuccess"));
       router.push("/");

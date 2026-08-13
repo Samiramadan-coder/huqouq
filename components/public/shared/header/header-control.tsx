@@ -28,7 +28,7 @@ import { useUser } from "@/providers/user-provider";
 export default function HeaderControl() {
   const router = useRouter();
   const t = useTranslations("Header");
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   return (
     <>
@@ -115,6 +115,7 @@ export default function HeaderControl() {
                   const result = await signOut();
                   if (result.success) {
                     await deleteToken();
+                    setUser(null);
                     router.push("/sign-in");
                   }
                 }}

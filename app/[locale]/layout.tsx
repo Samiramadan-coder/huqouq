@@ -60,13 +60,7 @@ export default async function LocaleLayout({ children, params }: Props) {
    * Fetch the authenticated user's data if a token is present
    */
   if (token) {
-    const { data, ok } = await http.get<{
-      data: User;
-    }>("/api/auth/me", {
-      next: {
-        tags: ["user"],
-      },
-    });
+    const { data, ok } = await http.get<{ data: User }>("/api/auth/me");
 
     if (!ok) {
       throw new Error("Failed to fetch user data");

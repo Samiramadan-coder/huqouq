@@ -1,13 +1,12 @@
 "use server";
 
-import { updateTag } from "next/cache";
 import { OtpFormValues } from "@/types/otp";
 import { http, ValidationError } from "./http";
 import { SignUpFormValues } from "@/types/sign-up";
 import { SignInWithEmailFormValues } from "@/types/sign-in";
 import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
-import { AuthFormActionsResponse, GuestType } from "@/types/shared";
+import { AuthFormActionsResponse, GuestType, User } from "@/types/shared";
 
 // Sign up
 type SignUpResponse = AuthFormActionsResponse<SignUpFormValues>;
@@ -17,12 +16,16 @@ export async function signUp(
   guestType: GuestType,
 ): Promise<SignUpResponse> {
   try {
-    const { data } = await http.post<{ token: string }>(
+    const { data } = await http.post<{ token: string; user: User }>(
       `/api/auth/register/${guestType}`,
       formData,
     );
 
-    return { success: true, token: data.token };
+    return {
+      success: true,
+      token: data.token,
+      user: data.user,
+    };
   } catch (error) {
     console.error("Error signing up with email and password:", error);
 
@@ -49,19 +52,13 @@ export async function login(
   try {
     const { data } = await http.post<{
       token: string;
-      user: {
-        phone_verified: boolean;
-        email_verified: boolean;
-      };
+      user: User;
     }>("/api/auth/login", formData);
-
-    updateTag("user");
 
     return {
       success: true,
       token: data.token,
-      email_verified: data.user.email_verified,
-      phone_verified: data.user.phone_verified,
+      user: data.user,
     };
   } catch (error) {
     console.error("Error logging in with email and password:", error);
@@ -146,7 +143,6 @@ type SignOutResponse = { success: boolean };
 export async function signOut(): Promise<SignOutResponse> {
   try {
     await http.post("/api/auth/logout");
-    updateTag("user");
     return { success: true };
   } catch (error) {
     console.error("Error signing out:", error);
@@ -167,7 +163,6 @@ export async function verifyOtp(
         Authorization: `Bearer ${token}`,
       },
     });
-    updateTag("user");
     return { success: true };
   } catch (error) {
     console.error("Error verifying OTP:", error);

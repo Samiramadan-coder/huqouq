@@ -7,13 +7,13 @@ import { Link } from "@/i18n/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import OtpDialog from "../shared/otp-dialog";
 import { Label } from "@/components/ui/label";
-import type { GuestType } from "@/types/shared";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { FieldError } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import AuthLogo from "@/components/icons/auth-logo";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { GuestType, User } from "@/types/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { checkPasswordStrength, cn } from "@/lib/utils";
 import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
@@ -26,6 +26,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const locale = useLocale();
   const t = useTranslations("SignUp");
   const [token, setToken] = useState<string>("");
+  const [user, setUser] = useState<User | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isOtpDialogOpen, setIsOtpDialogOpen] = useState(false);
   const guestLabel =
@@ -59,6 +60,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
     if (result.success) {
       setToken(result.token ?? "");
+      setUser(result.user ?? null);
       return setIsOtpDialogOpen(true);
     }
 
@@ -397,7 +399,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       </form>
 
       <Dialog open={isOtpDialogOpen} onOpenChange={setIsOtpDialogOpen}>
-        <OtpDialog token={token} />
+        <OtpDialog token={token} user={user} />
       </Dialog>
     </>
   );
