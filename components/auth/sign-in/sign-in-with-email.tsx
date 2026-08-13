@@ -16,6 +16,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { login, resendOtp } from "@/lib/auth";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
+import { saveToken } from "@/lib/cookies";
 
 export function SignInWithEmail() {
   const router = useRouter();
@@ -49,6 +50,7 @@ export function SignInWithEmail() {
         return;
       }
 
+      await saveToken(result.token || "");
       toast.success(t("LoginSuccess"));
       router.push("/");
       return;
