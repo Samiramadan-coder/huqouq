@@ -107,12 +107,6 @@ function createHttp(baseURL: string) {
       headers.set(key, value);
     });
 
-    if (extraHeaders) {
-      new Headers(extraHeaders).forEach((value, key) => {
-        headers.set(key, value);
-      });
-    }
-
     const tokenHeaders = await getTokenHeaders();
     const language = await getServerLanguage();
 
@@ -122,6 +116,12 @@ function createHttp(baseURL: string) {
 
     if (language) {
       headers.set("Accept-Language", language);
+    }
+
+    if (extraHeaders) {
+      new Headers(extraHeaders).forEach((value, key) => {
+        headers.set(key, value);
+      });
     }
 
     let requestBody: BodyInit | undefined;
@@ -159,7 +159,7 @@ function createHttp(baseURL: string) {
 
     if (!response.ok) {
       if (response.status === 401) {
-        // await handleUnauthorized();
+        await handleUnauthorized();
       }
 
       if (response.status === 422) {
