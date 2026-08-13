@@ -20,7 +20,11 @@ export const signUpSchema = (t: T) =>
       password: z
         .string()
         .min(1, t("fields.password.required"))
-        .min(8, t("fields.password.min")),
+        .min(8, t("fields.password.min"))
+        .regex(/[a-z]/, t("fields.password.lowercase"))
+        .regex(/[A-Z]/, t("fields.password.uppercase"))
+        .regex(/[0-9]/, t("fields.password.number"))
+        .regex(/[!@#$%^&*(),.?":{}|<>]/, t("fields.password.special")),
       password_confirmation: z
         .string()
         .min(1, t("fields.confirmPassword.required"))

@@ -2,25 +2,25 @@
 
 import { toast } from "sonner";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import OtpDialog from "../shared/otp-dialog";
 import { Label } from "@/components/ui/label";
 import type { GuestType } from "@/types/shared";
+import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { FieldError } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
+import AuthLogo from "@/components/icons/auth-logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { signUpWithEmailAndPassword } from "@/lib/auth";
+import { checkPasswordStrength, cn } from "@/lib/utils";
 import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormSelect from "@/components/public/shared/form/form-select";
-import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import AuthLogo from "@/components/icons/auth-logo";
+import { Controller, useForm, SubmitHandler, useWatch } from "react-hook-form";
 
 export default function SignUpForm({ guestType }: { guestType: GuestType }) {
   const locale = useLocale();
@@ -51,6 +51,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       terms_accepted: false,
     },
   });
+
+  const password = useWatch({ control, name: "password" });
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     const result = await signUpWithEmailAndPassword(data, guestType);
@@ -144,35 +146,79 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
           errors={errors}
         />
 
-        <FormInput
-          name="password"
-          placeholder={t("fields.password.placeholder")}
-          label={t("fields.password.label")}
-          type={showPassword ? "text" : "password"}
-          className="sm:col-span-2"
-          register={register}
-          required
-          errors={errors}
-          suffix={
-            showPassword ? (
-              <Eye
-                role="button"
-                tabIndex={0}
-                aria-label={t("hidePassword")}
-                className="size-5 cursor-pointer"
-                onClick={() => setShowPassword(false)}
-              />
-            ) : (
-              <EyeOff
-                role="button"
-                tabIndex={0}
-                aria-label={t("showPassword")}
-                className="size-5 cursor-pointer"
-                onClick={() => setShowPassword(true)}
-              />
-            )
-          }
-        />
+        <div className="sm:col-span-2">
+          <FormInput
+            name="password"
+            placeholder={t("fields.password.placeholder")}
+            label={t("fields.password.label")}
+            type={showPassword ? "text" : "password"}
+            register={register}
+            required
+            errors={errors}
+            suffix={
+              showPassword ? (
+                <Eye
+                  role="button"
+                  tabIndex={0}
+                  aria-label={t("hidePassword")}
+                  className="size-5 cursor-pointer"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <EyeOff
+                  role="button"
+                  tabIndex={0}
+                  aria-label={t("showPassword")}
+                  className="size-5 cursor-pointer"
+                  onClick={() => setShowPassword(true)}
+                />
+              )
+            }
+          />
+          {password &&
+            (() => {
+              const strength = checkPasswordStrength(password || "");
+
+              return (
+                <div className="relative mt-1 flex items-center gap-4">
+                  <div className="flex w-full gap-1 relative">
+                    {Array.from({ length: 4 }).map((_, index) => {
+                      const segmentFill = Math.min(
+                        Math.max(strength.score - index * 25, 0),
+                        25,
+                      );
+
+                      return (
+                        <div
+                          key={index}
+                          className="h-0.5 flex-1 overflow-hidden rounded-full bg-gray-200"
+                        >
+                          <div
+                            className="h-full transition-all duration-300 ease-out"
+                            style={{
+                              width: `${(segmentFill / 25) * 100}%`,
+                              backgroundColor: strength.color,
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mb-1 flex items-center justify-between">
+                    <div className="flex-1" />
+
+                    <p
+                      className="text-[11px] font-medium"
+                      style={{ color: strength.color }}
+                    >
+                      {strength.label}
+                    </p>
+                  </div>
+                </div>
+              );
+            })()}
+        </div>
 
         <FormInput
           name="password_confirmation"
