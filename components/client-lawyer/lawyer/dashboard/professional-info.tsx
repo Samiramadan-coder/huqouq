@@ -13,18 +13,21 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { useForm, SubmitHandler, useWatch, Controller } from "react-hook-form";
+import { toast } from "sonner";
+import { updateProfessionalInfo } from "@/lib/lawyer/dashboard";
 
 export default function ProfessionalInfo({
   profile,
 }: {
   profile: LawyerProfile["profile"];
 }) {
-  const t = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Dashboard.ProfessionalInfo");
 
   const {
     control,
     register,
     setValue,
+    setError,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ProfessionalInfoFormValues>({
@@ -43,7 +46,27 @@ export default function ProfessionalInfo({
   const accountType = useWatch({ control, name: "account_type" });
 
   const onSubmit: SubmitHandler<ProfessionalInfoFormValues> = async (data) => {
-    console.log(data);
+    const result = await updateProfessionalInfo(data);
+
+    if (result.success) {
+      toast.success(t("Messages.ProfessionalInfoUpdated"));
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (!message) return;
+        toast.error(message);
+        setError(field as keyof ProfessionalInfoFormValues, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
+
+    toast.error(t("Messages.ProfessionalInfoUpdateFailed"));
   };
   return (
     <form
@@ -76,7 +99,7 @@ export default function ProfessionalInfo({
                   )}
                 >
                   {t(
-                    `Fields.ProfessionalInfo.AccountType.Options.${type.charAt(0).toUpperCase() + type.slice(1)}`,
+                    `Fields.AccountType.Options.${type.charAt(0).toUpperCase() + type.slice(1)}`,
                   )}
                 </Button>
               ))}
@@ -91,8 +114,8 @@ export default function ProfessionalInfo({
           errors={errors}
           register={register}
           name="office_name"
-          label={t("Fields.ProfessionalInfo.OfficeName.Label")}
-          placeholder={t("Fields.ProfessionalInfo.OfficeName.Placeholder")}
+          label={t("Fields.OfficeName.Label")}
+          placeholder={t("Fields.OfficeName.Placeholder")}
           className="sm:col-span-2"
           inputClassName="bg-background border border-secondary/20!"
         />
@@ -104,8 +127,8 @@ export default function ProfessionalInfo({
         errors={errors}
         register={register}
         name="years_of_experience"
-        label={t("Fields.ProfessionalInfo.YearsOfExperience.Label")}
-        placeholder={t("Fields.ProfessionalInfo.YearsOfExperience.Placeholder")}
+        label={t("Fields.YearsOfExperience.Label")}
+        placeholder={t("Fields.YearsOfExperience.Placeholder")}
         className="sm:col-span-2"
         inputClassName="bg-background border border-secondary/20!"
       />
@@ -115,8 +138,8 @@ export default function ProfessionalInfo({
         errors={errors}
         register={register}
         name="bar_number"
-        label={t("Fields.ProfessionalInfo.BarNumber.Label")}
-        placeholder={t("Fields.ProfessionalInfo.BarNumber.Placeholder")}
+        label={t("Fields.BarNumber.Label")}
+        placeholder={t("Fields.BarNumber.Placeholder")}
         className="sm:col-span-2"
         inputClassName="bg-background border border-secondary/20!"
       />
@@ -124,15 +147,13 @@ export default function ProfessionalInfo({
       <FormSelect
         control={control}
         name="bar_degree"
-        label={t("Fields.ProfessionalInfo.BarDegree.Label")}
-        placeholder={t("Fields.ProfessionalInfo.BarDegree.Placeholder")}
+        label={t("Fields.BarDegree.Label")}
+        placeholder={t("Fields.BarDegree.Placeholder")}
         triggerClassName="bg-background border border-secondary/20!"
         options={[
           {
             value: "court_of_cassation",
-            label: t(
-              "Fields.ProfessionalInfo.BarDegree.Options.CourtOfCassation",
-            ),
+            label: t("Fields.BarDegree.Options.CourtOfCassation"),
           },
         ]}
       />
@@ -140,19 +161,19 @@ export default function ProfessionalInfo({
       <FormSelect
         control={control}
         name="academic_degree"
-        label={t("Fields.ProfessionalInfo.AcademicDegree.Label")}
-        placeholder={t("Fields.ProfessionalInfo.AcademicDegree.Placeholder")}
+        label={t("Fields.AcademicDegree.Label")}
+        placeholder={t("Fields.AcademicDegree.Placeholder")}
         triggerClassName="bg-background border border-secondary/20!"
         options={[
           {
             value: "masters",
-            label: t("Fields.ProfessionalInfo.AcademicDegree.Options.Masters"),
+            label: t("Fields.AcademicDegree.Options.Masters"),
           },
         ]}
       />
 
       <p className="sm:col-span-2 text-primary/40 text-[11px] bg-background p-2">
-        {t("Fields.ProfessionalInfo.LanguageHint")}
+        {t("LanguageHint")}
       </p>
 
       <div className="sm:col-span-2 flex justify-end">

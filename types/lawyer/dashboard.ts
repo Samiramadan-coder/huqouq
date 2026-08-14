@@ -47,24 +47,21 @@ export const professionalInfoSchema = (t: T) =>
     .object({
       account_type: z.enum(
         ["freelance", "company", "office"],
-        t("Fields.ProfessionalInfo.AccountType.Required"),
+        t("Fields.AccountType.Required"),
       ),
       office_name: z.string(),
       years_of_experience: z
         .number()
-        .min(1, t("Fields.ProfessionalInfo.YearsOfExperience.Required")),
+        .min(1, t("Fields.YearsOfExperience.Required")),
       bar_number: z
         .string()
-        .min(1, t("Fields.ProfessionalInfo.BarNumber.Required"))
-        .min(2, t("Fields.ProfessionalInfo.BarNumber.Min")),
+        .min(1, t("Fields.BarNumber.Required"))
+        .min(2, t("Fields.BarNumber.Min")),
       bar_degree: z.enum(
         ["court_of_cassation"],
-        t("Fields.ProfessionalInfo.BarDegree.Required"),
+        t("Fields.BarDegree.Required"),
       ),
-      academic_degree: z.enum(
-        ["masters"],
-        t("Fields.ProfessionalInfo.AcademicDegree.Required"),
-      ),
+      academic_degree: z.enum(["masters"], t("Fields.AcademicDegree.Required")),
     })
     .superRefine((data, ctx) => {
       if (
@@ -73,7 +70,7 @@ export const professionalInfoSchema = (t: T) =>
       ) {
         ctx.addIssue({
           code: "custom",
-          message: t("Fields.ProfessionalInfo.OfficeName.Required"),
+          message: t("Fields.OfficeName.Required"),
           path: ["office_name"],
         });
       }

@@ -872,9 +872,13 @@
       "EmergencyHistory": "Emergency History"
     },
     "Dashboard": {
-      "Fields": {
-        "ProfessionalInfo": {
-          "LanguageHint": "Enter information in your preferred language. Our platform handles translation automatically where needed.",
+      "ProfessionalInfo": {
+        "LanguageHint": "Enter information in your preferred language. Our platform handles translation automatically where needed.",
+        "Messages": {
+          "ProfessionalInfoUpdated": "Your professional information has been updated successfully.",
+          "ProfessionalInfoUpdateFailed": "An error occurred while updating your professional information. Please try again."
+        },
+        "Fields": {
           "AccountType": {
             "Label": "Account Type",
             "Required": "Account type is required",
