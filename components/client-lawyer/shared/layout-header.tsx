@@ -22,7 +22,7 @@ export default function LayoutHeader() {
   const t = useTranslations("Client.Sidebar");
 
   return (
-    <header className="h-14 flex items-center justify-end sticky top-0 bg-white px-4 border-b border-secondary/20">
+    <header className="h-14 z-20 flex items-center justify-end sticky top-0 bg-white px-4 border-b border-secondary/20">
       <div>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>

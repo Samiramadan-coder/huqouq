@@ -870,6 +870,54 @@
       "Profile": "Profile",
       "Settings": "Settings",
       "EmergencyHistory": "Emergency History"
+    },
+    "Dashboard": {
+      "Fields": {
+        "ProfessionalInfo": {
+          "LanguageHint": "Enter information in your preferred language. Our platform handles translation automatically where needed.",
+          "AccountType": {
+            "Label": "Account Type",
+            "Required": "Account type is required",
+            "Options": {
+              "Freelance": "Freelance",
+              "Office": "Office",
+              "Company": "Company"
+            }
+          },
+          "OfficeName": {
+            "Label": "Office Name",
+            "Placeholder": "Enter your office name",
+            "Required": "Office name is required"
+          },
+          "YearsOfExperience": {
+            "Label": "Years of Experience",
+            "Placeholder": "Enter your years of experience",
+            "Required": "Years of experience is required"
+          },
+          "BarNumber": {
+            "Label": "Bar Number",
+            "Placeholder": "Enter your bar number",
+            "Required": "Bar number is required",
+            "Min": "Bar number must be at least 2 characters"
+          },
+          "BarDegree": {
+            "Label": "Bar Degree",
+            "Placeholder": "Enter your bar degree",
+            "Required": "Bar degree is required",
+            "Options": {
+              "CourtOfCassation": "Court of Cassation"
+            }
+          },
+          "AcademicDegree": {
+            "Label": "Academic Degree",
+            "Placeholder": "Enter your academic degree",
+            "Required": "Academic degree is required",
+            "Options": {
+              "Masters": "Masters"
+            }
+          }
+        }
+      }
     }
   }
 }

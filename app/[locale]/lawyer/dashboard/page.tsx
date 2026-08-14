@@ -75,40 +75,20 @@ export default async function DashboardPage() {
                   >
                     <div className="px-5 pt-5">
                       {section.key === "professional_info" && (
-                        <div>
-                          <ProfessionalInfo />
-                        </div>
+                        <ProfessionalInfo profile={data.profile} />
                       )}
 
                       {section.key === "specializations_services" && (
-                        <div>
-                          <SpecializationServices />
-                        </div>
+                        <SpecializationServices />
                       )}
 
-                      {section.key === "languages_bio" && (
-                        <div>
-                          <LanguagesBio />
-                        </div>
-                      )}
+                      {section.key === "languages_bio" && <LanguagesBio />}
 
-                      {section.key === "education" && (
-                        <div>
-                          <Education />
-                        </div>
-                      )}
+                      {section.key === "education" && <Education />}
 
-                      {section.key === "experience" && (
-                        <div>
-                          <Experience />
-                        </div>
-                      )}
+                      {section.key === "experience" && <Experience />}
 
-                      {section.key === "bar_certificate" && (
-                        <div>
-                          <BarCertificates />
-                        </div>
-                      )}
+                      {section.key === "bar_certificate" && <BarCertificates />}
                     </div>
                   </div>
                 </AccordionContent>
