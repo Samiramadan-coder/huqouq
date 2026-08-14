@@ -25,7 +25,7 @@ export default async function DashboardPage() {
     throw new Error("Failed to fetch lawyer profile");
   }
 
-  // console.log(data);
+  console.log(data);
   return (
     <div className="container max-w-3xl">
       <div className="py-8">
