@@ -1,15 +1,21 @@
-import Info from "@/components/client-lawyer/lawyer/dashboard/info";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { http } from "@/lib/http";
 import { cn } from "@/lib/utils";
+import { http } from "@/lib/http";
+import { getLocale } from "next-intl/server";
 import { LawyerProfile } from "@/types/lawyer/dashboard";
 import { CircleCheck, TriangleAlert } from "lucide-react";
-import { getLocale } from "next-intl/server";
+import Info from "@/components/client-lawyer/lawyer/dashboard/info";
+import Education from "@/components/client-lawyer/lawyer/dashboard/education";
+import Experience from "@/components/client-lawyer/lawyer/dashboard/experience";
+import LanguagesBio from "@/components/client-lawyer/lawyer/dashboard/languages-bio";
+import BarCertificates from "@/components/client-lawyer/lawyer/dashboard/bar-certificates";
+import ProfessionalInfo from "@/components/client-lawyer/lawyer/dashboard/professional-info";
+import SpecializationServices from "@/components/client-lawyer/lawyer/dashboard/specialization-services";
 
 export default async function DashboardPage() {
   const locale = await getLocale();
@@ -67,7 +73,43 @@ export default async function DashboardPage() {
                       "border-amber-300/60": !section.is_complete,
                     })}
                   >
-                    <div className="px-5 pt-5"></div>
+                    <div className="px-5 pt-5">
+                      {section.key === "professional_info" && (
+                        <div>
+                          <ProfessionalInfo />
+                        </div>
+                      )}
+
+                      {section.key === "specializations_services" && (
+                        <div>
+                          <SpecializationServices />
+                        </div>
+                      )}
+
+                      {section.key === "languages_bio" && (
+                        <div>
+                          <LanguagesBio />
+                        </div>
+                      )}
+
+                      {section.key === "education" && (
+                        <div>
+                          <Education />
+                        </div>
+                      )}
+
+                      {section.key === "experience" && (
+                        <div>
+                          <Experience />
+                        </div>
+                      )}
+
+                      {section.key === "bar_certificate" && (
+                        <div>
+                          <BarCertificates />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>
