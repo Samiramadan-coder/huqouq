@@ -87,14 +87,12 @@ export default function ProfessionalInfo({
                   type="button"
                   variant="outline"
                   key={type}
-                  {...field}
-                  value={type}
                   onClick={() => {
                     setValue("office_name", "");
                     field.onChange(type);
                   }}
                   className={cn(
-                    "rounded-xs border-secondary/20 text-xs h-9 px-4 font-normal hover:bg-primary hover:text-primary-foreground",
+                    "rounded-xs border-primary/10 text-xs h-9 px-4 font-normal bg-white text-primary/50 hover:bg-primary hover:text-primary-foreground",
                     value === type && "bg-primary text-primary-foreground",
                   )}
                 >
@@ -146,6 +144,7 @@ export default function ProfessionalInfo({
 
       <FormSelect
         control={control}
+        required
         name="bar_degree"
         label={t("Fields.BarDegree.Label")}
         placeholder={t("Fields.BarDegree.Placeholder")}
@@ -160,6 +159,7 @@ export default function ProfessionalInfo({
 
       <FormSelect
         control={control}
+        required
         name="academic_degree"
         label={t("Fields.AcademicDegree.Label")}
         placeholder={t("Fields.AcademicDegree.Placeholder")}
@@ -181,7 +181,7 @@ export default function ProfessionalInfo({
           label="SaveSection"
           loading={isSubmitting}
           showArrow={false}
-          className="w-auto h-9 px-5"
+          className="min-w-35 w-auto h-9 px-5"
         />
       </div>
     </form>

@@ -20,8 +20,8 @@ export type LawyerProfile = {
     experiences: [];
     languages: [];
     office_name: string | null;
-    service_ids: [];
-    specialization_ids: [];
+    service_ids: number[];
+    specialization_ids: number[];
     website_url: null;
     years_of_experience: null | number;
   };
@@ -78,4 +78,17 @@ export const professionalInfoSchema = (t: T) =>
 
 export type ProfessionalInfoFormValues = z.infer<
   ReturnType<typeof professionalInfoSchema>
+>;
+
+// Specializations & Services Schema
+export const specializationsServicesSchema = (t: T) =>
+  z.object({
+    specialization_ids: z
+      .array(z.number())
+      .min(1, t("Fields.Specializations.Required")),
+    service_ids: z.array(z.number()).min(1, t("Fields.Services.Required")),
+  });
+
+export type SpecializationsServicesFormValues = z.infer<
+  ReturnType<typeof specializationsServicesSchema>
 >;

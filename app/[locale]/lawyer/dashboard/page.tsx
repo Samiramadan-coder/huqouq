@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { http } from "@/lib/http";
 import { getLocale } from "next-intl/server";
 import { LawyerProfile } from "@/types/lawyer/dashboard";
-import { CircleCheck, TriangleAlert } from "lucide-react";
+import { Circle, CircleCheck, TriangleAlert } from "lucide-react";
 import Info from "@/components/client-lawyer/lawyer/dashboard/info";
 import Education from "@/components/client-lawyer/lawyer/dashboard/education";
 import Experience from "@/components/client-lawyer/lawyer/dashboard/experience";
@@ -19,7 +19,9 @@ import SpecializationServices from "@/components/client-lawyer/lawyer/dashboard/
 
 export default async function DashboardPage() {
   const locale = await getLocale();
-  const { data, ok } = await http.get<LawyerProfile>("/api/lawyer/profile");
+  const { data, ok } = await http.get<LawyerProfile>("/api/lawyer/profile", {
+    next: { tags: ["lawyer-profile"] },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch lawyer profile");
@@ -44,8 +46,8 @@ export default async function DashboardPage() {
               key={section.key}
               type="multiple"
               className={cn("bg-white border", {
-                "border-primary/10": section.is_complete,
-                "border-amber-300/60": !section.is_complete,
+                "border-primary/10": !section.reason,
+                "border-amber-300/60": !!section.reason,
               })}
             >
               <AccordionItem value={section.key}>
@@ -54,6 +56,8 @@ export default async function DashboardPage() {
                     <div className="flex items-center gap-4">
                       {section.is_complete ? (
                         <CircleCheck className="size-4 text-emerald-500" />
+                      ) : !section.is_complete ? (
+                        <Circle className="size-4 text-primary/50" />
                       ) : (
                         <TriangleAlert className="size-4 text-amber-500" />
                       )}
@@ -68,8 +72,8 @@ export default async function DashboardPage() {
                 <AccordionContent>
                   <div
                     className={cn("border-t", {
-                      "border-primary/10": section.is_complete,
-                      "border-amber-300/60": !section.is_complete,
+                      "border-primary/10": !section.reason,
+                      "border-amber-300/60": !!section.reason,
                     })}
                   >
                     <div className="px-5 pt-5">
@@ -78,7 +82,7 @@ export default async function DashboardPage() {
                       )}
 
                       {section.key === "specializations_services" && (
-                        <SpecializationServices />
+                        <SpecializationServices profile={data.profile} />
                       )}
 
                       {section.key === "languages_bio" && <LanguagesBio />}

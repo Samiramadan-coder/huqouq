@@ -921,6 +921,22 @@
             }
           }
         }
+      },
+      "SpecializationServices": {
+        "Messages": {
+          "SpecializationServicesUpdated": "Your specialization and services have been updated successfully.",
+          "SpecializationServicesUpdateFailed": "An error occurred while updating your specialization and services. Please try again."
+        },
+        "Fields": {
+          "Specializations": {
+            "Label": "Specializations",
+            "Required": "At least one specialization is required"
+          },
+          "Services": {
+            "Label": "Services",
+            "Required": "At least one service is required"
+          }
+        }
       }
     }
   }
