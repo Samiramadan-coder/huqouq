@@ -31,7 +31,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="container max-w-3xl">
+    <div className="mx-auto max-w-3xl">
       <div className="py-8">
         <h1
           className={cn(
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
               })}
             >
               <AccordionItem value={section.key}>
-                <AccordionTrigger className="gap-20 p-5 hover:no-underline">
+                <AccordionTrigger className="gap-5 sm:gap-20 p-5 hover:no-underline">
                   <div className="cursor-pointer flex flex-1 items-center justify-between gap-10">
                     <div className="flex items-center gap-4">
                       {section.is_complete ? (
