@@ -24,7 +24,10 @@ export default function LayoutHeader() {
 
   return (
     <header className="h-14 z-20 flex items-center justify-between sticky top-0 bg-white px-4 border-b border-secondary/20">
-      <SidebarTrigger className="lg:hidden" />
+      <div>
+        <SidebarTrigger className="lg:hidden" />
+      </div>
+
       <div>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
