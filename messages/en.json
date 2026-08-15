@@ -872,6 +872,7 @@
       "EmergencyHistory": "Emergency History"
     },
     "Dashboard": {
+      "SaveSection": "Save Section",
       "ProfessionalInfo": {
         "LanguageHint": "Enter information in your preferred language. Our platform handles translation automatically where needed.",
         "Messages": {
@@ -999,6 +1000,19 @@
           "CertificateUpload": {
             "Label": "Degree Certificate (Optional)",
             "Required": "Certificate upload is required"
+          }
+        }
+      },
+      "BarCertificate": {
+        "Messages": {
+          "CertificateUpdated": "Your certificate has been updated successfully.",
+          "CertificateUpdateFailed": "An error occurred while updating your certificate. Please try again."
+        },
+        "Fields": {
+          "Certificate": {
+            "Label": "Bar License Certificate",
+            "Required": "Certificate upload is required",
+            "Description": "Your certificate is reviewed by HUQOUQ admin only and is never shared with clients or displayed publicly."
           }
         }
       }

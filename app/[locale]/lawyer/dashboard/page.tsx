@@ -13,7 +13,7 @@ import Info from "@/components/client-lawyer/lawyer/dashboard/info";
 import Education from "@/components/client-lawyer/lawyer/dashboard/education";
 import Experience from "@/components/client-lawyer/lawyer/dashboard/experience";
 import LanguagesBio from "@/components/client-lawyer/lawyer/dashboard/languages-bio";
-import BarCertificates from "@/components/client-lawyer/lawyer/dashboard/bar-certificates";
+import BarCertificate from "@/components/client-lawyer/lawyer/dashboard/bar-certificate";
 import ProfessionalInfo from "@/components/client-lawyer/lawyer/dashboard/professional-info";
 import SpecializationServices from "@/components/client-lawyer/lawyer/dashboard/specialization-services";
 
@@ -95,7 +95,9 @@ export default async function DashboardPage() {
 
                       {section.key === "experience" && <Experience />}
 
-                      {section.key === "bar_certificate" && <BarCertificates />}
+                      {section.key === "bar_certificate" && (
+                        <BarCertificate profile={data.profile} />
+                      )}
                     </div>
                   </div>
                 </AccordionContent>

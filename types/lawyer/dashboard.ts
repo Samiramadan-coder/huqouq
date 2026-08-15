@@ -11,8 +11,8 @@ export type LawyerProfile = {
   profile: {
     academic_degree: null | "masters";
     account_type: "freelance" | "company" | "office";
-    bar_certificate_path: null;
-    bar_certificate_url: null;
+    bar_certificate_path: null | string;
+    bar_certificate_url: null | string;
     bar_degree: null | "court_of_cassation";
     bar_number: null | string;
     bio: null;
@@ -134,3 +134,16 @@ export const educationSchema = (t: T) =>
   });
 
 export type EducationFormValues = z.infer<ReturnType<typeof educationSchema>>;
+
+// Certificate Upload Schema
+export const certificateUploadSchema = (t: T) =>
+  z.object({
+    certificate: z.union(
+      [z.string(), z.instanceof(File)],
+      t("Fields.Certificate.Required"),
+    ),
+  });
+
+export type CertificateUploadFormValues = z.infer<
+  ReturnType<typeof certificateUploadSchema>
+>;

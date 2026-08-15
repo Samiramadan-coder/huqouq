@@ -10,6 +10,7 @@ import {
 import {
   Field,
   FieldContent,
+  FieldDescription,
   FieldError,
   FieldLabel,
 } from "@/components/ui/field";
@@ -28,6 +29,7 @@ type SingleFormFileUploaderProps<T extends FieldValues> = {
   required?: boolean;
   className?: string;
   accept?: string;
+  description?: string;
 };
 
 export default function SingleFormFileUploader<T extends FieldValues>({
@@ -37,6 +39,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
   required,
   className,
   accept = "*/*",
+  description,
 }: SingleFormFileUploaderProps<T>) {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -120,6 +123,12 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                 <FieldError errors={[fieldState.error]} />
               </div>
             </FieldContent>
+
+            {description && (
+              <FieldDescription className="text-[11px] text-primary/50">
+                {description}
+              </FieldDescription>
+            )}
           </Field>
         );
       }}

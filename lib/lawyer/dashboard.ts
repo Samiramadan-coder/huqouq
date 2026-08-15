@@ -2,6 +2,7 @@
 
 import { AuthFormActionsResponse } from "@/types/shared";
 import {
+  CertificateUploadFormValues,
   EducationFormValues,
   LanguagesBioFormValues,
   ProfessionalInfoFormValues,
@@ -143,6 +144,41 @@ export async function updateEducation(
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof EducationFormValues, string>>;
+
+      return { success: false, errors };
+    }
+
+    return { success: false };
+  }
+}
+
+// Certificate Upload
+type CertificateUploadResponse =
+  AuthFormActionsResponse<CertificateUploadFormValues>;
+
+export async function updateCertificate(
+  formData: CertificateUploadFormValues,
+): Promise<CertificateUploadResponse> {
+  const formDataWithFiles = new FormData();
+
+  if (formData.certificate && formData.certificate instanceof File) {
+    formDataWithFiles.append("certificate", formData.certificate);
+  }
+
+  try {
+    await http.post("/api/lawyer/profile/bar-certificate", formDataWithFiles);
+    updateTag("lawyer-profile");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating certificate:", error);
+
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof CertificateUploadFormValues, string>>;
 
       return { success: false, errors };
     }
