@@ -1,4 +1,4 @@
-// "use server";
+"use server";
 
 import { AuthFormActionsResponse } from "@/types/shared";
 import {
@@ -131,7 +131,7 @@ export async function updateEducation(
 
   try {
     await http.post("/api/lawyer/profile/education", formDataWithFiles);
-    // updateTag("lawyer-profile");
+    updateTag("lawyer-profile");
     return { success: true };
   } catch (error) {
     console.error("Error updating education:", error);
