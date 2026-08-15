@@ -7,7 +7,7 @@ import {
   ProfessionalInfoFormValues,
   CertificateUploadFormValues,
   SpecializationsServicesFormValues,
-} from "@/types/lawyer/dashboard";
+} from "@/types/lawyer/profile";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { AuthFormActionsResponse } from "@/types/shared";

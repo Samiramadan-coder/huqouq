@@ -4,7 +4,7 @@ import {
   LawyerProfile,
   educationSchema,
   EducationFormValues,
-} from "@/types/lawyer/dashboard";
+} from "@/types/lawyer/profile";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { Plus, Trash2 } from "lucide-react";

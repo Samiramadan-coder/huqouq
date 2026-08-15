@@ -4,7 +4,7 @@ import {
   LanguagesBioFormValues,
   languagesBioSchema,
   LawyerProfile,
-} from "@/types/lawyer/dashboard";
+} from "@/types/lawyer/profile";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";

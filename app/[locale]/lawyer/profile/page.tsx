@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { http } from "@/lib/http";
-import { LawyerProfile } from "@/types/lawyer/dashboard";
+import { LawyerProfile } from "@/types/lawyer/profile";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Circle, CircleCheck, TriangleAlert } from "lucide-react";
 import Info from "@/components/client-lawyer/lawyer/profile/info";

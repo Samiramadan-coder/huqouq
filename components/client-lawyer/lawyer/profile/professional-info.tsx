@@ -4,7 +4,7 @@ import {
   LawyerProfile,
   professionalInfoSchema,
   ProfessionalInfoFormValues,
-} from "@/types/lawyer/dashboard";
+} from "@/types/lawyer/profile";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

@@ -4,7 +4,7 @@ import {
   LawyerProfile,
   certificateUploadSchema,
   CertificateUploadFormValues,
-} from "@/types/lawyer/dashboard";
+} from "@/types/lawyer/profile";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
