@@ -15,14 +15,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut } from "@/lib/auth";
 import { deleteToken } from "@/lib/cookies";
 import { useRouter } from "@/i18n/navigation";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function LayoutHeader() {
-  const { user, setUser } = useUser();
   const router = useRouter();
+  const { user, setUser } = useUser();
   const t = useTranslations("Client.Sidebar");
 
   return (
-    <header className="h-14 z-20 flex items-center justify-end sticky top-0 bg-white px-4 border-b border-secondary/20">
+    <header className="h-14 z-20 flex items-center justify-between sticky top-0 bg-white px-4 border-b border-secondary/20">
+      <SidebarTrigger className="lg:hidden" />
       <div>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
