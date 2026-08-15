@@ -33,9 +33,9 @@ const initialExperienceEntry: ExperiencesFormValues["entries"][number] = {
 };
 
 export default function Experience({
-  profile,
+  lawyerProfile,
 }: {
-  profile: LawyerProfile["profile"];
+  lawyerProfile: LawyerProfile;
 }) {
   const t = useTranslations("Lawyer.Dashboard.Experience");
   const tDashboard = useTranslations("Lawyer.Dashboard");
@@ -51,7 +51,7 @@ export default function Experience({
   } = useForm<ExperiencesFormValues>({
     resolver: zodResolver(experiencesSchema(t)),
     defaultValues: {
-      entries: profile?.experiences.map((experience) => ({
+      entries: lawyerProfile.profile.experiences.map((experience) => ({
         title: experience.title || "",
         organization: experience.organization || "",
         start_month: experience.start_month || 1,
@@ -222,14 +222,16 @@ export default function Experience({
         </Button>
       </div>
 
-      <div className="flex justify-end">
-        <SubmitBtn
-          label={tDashboard("SaveSection")}
-          loading={isSubmitting}
-          showArrow={false}
-          className="min-w-35 w-auto h-9 px-5"
-        />
-      </div>
+      {lawyerProfile.is_editable && (
+        <div className="flex justify-end">
+          <SubmitBtn
+            label={tDashboard("SaveSection")}
+            loading={isSubmitting}
+            showArrow={false}
+            className="min-w-35 w-auto h-9 px-5"
+          />
+        </div>
+      )}
     </form>
   );
 }

@@ -13,9 +13,9 @@ import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateLanguagesBio } from "@/lib/lawyer/dashboard";
+import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import FormInput from "@/components/public/shared/form/form-input";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 
 const languages = [
@@ -25,9 +25,9 @@ const languages = [
 ];
 
 export default function LanguagesBio({
-  profile,
+  lawyerProfile,
 }: {
-  profile: LawyerProfile["profile"];
+  lawyerProfile: LawyerProfile;
 }) {
   const t = useTranslations("Lawyer.Dashboard.LanguagesBio");
   const tDashboard = useTranslations("Lawyer.Dashboard");
@@ -41,9 +41,9 @@ export default function LanguagesBio({
   } = useForm<LanguagesBioFormValues>({
     resolver: zodResolver(languagesBioSchema(t)),
     defaultValues: {
-      languages: profile.languages || [],
-      bio: profile.bio || "",
-      website_url: profile.website_url || "",
+      languages: lawyerProfile.profile.languages || [],
+      bio: lawyerProfile.profile.bio || "",
+      website_url: lawyerProfile.profile.website_url || "",
     },
   });
 
@@ -137,14 +137,16 @@ export default function LanguagesBio({
         description={t("Fields.WebsiteUrl.Description")}
       />
 
-      <div className="flex justify-end">
-        <SubmitBtn
-          label={tDashboard("SaveSection")}
-          loading={isSubmitting}
-          showArrow={false}
-          className="min-w-35 w-auto h-9 px-5"
-        />
-      </div>
+      {lawyerProfile.is_editable && (
+        <div className="flex justify-end">
+          <SubmitBtn
+            label={tDashboard("SaveSection")}
+            loading={isSubmitting}
+            showArrow={false}
+            className="min-w-35 w-auto h-9 px-5"
+          />
+        </div>
+      )}
     </form>
   );
 }

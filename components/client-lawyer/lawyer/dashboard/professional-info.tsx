@@ -5,21 +5,21 @@ import {
   professionalInfoSchema,
   ProfessionalInfoFormValues,
 } from "@/types/lawyer/dashboard";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { updateProfessionalInfo } from "@/lib/lawyer/dashboard";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { useForm, SubmitHandler, useWatch, Controller } from "react-hook-form";
-import { toast } from "sonner";
-import { updateProfessionalInfo } from "@/lib/lawyer/dashboard";
 
 export default function ProfessionalInfo({
-  profile,
+  lawyerProfile,
 }: {
-  profile: LawyerProfile["profile"];
+  lawyerProfile: LawyerProfile;
 }) {
   const t = useTranslations("Lawyer.Dashboard.ProfessionalInfo");
   const tDashboard = useTranslations("Lawyer.Dashboard");
@@ -34,12 +34,13 @@ export default function ProfessionalInfo({
   } = useForm<ProfessionalInfoFormValues>({
     mode: "onSubmit",
     defaultValues: {
-      account_type: profile.account_type || "freelance",
-      office_name: profile.office_name || "",
-      academic_degree: profile.academic_degree || undefined,
-      years_of_experience: profile.years_of_experience || undefined,
-      bar_number: profile.bar_number || "",
-      bar_degree: profile.bar_degree || undefined,
+      account_type: lawyerProfile.profile.account_type || "freelance",
+      office_name: lawyerProfile.profile.office_name || "",
+      academic_degree: lawyerProfile.profile.academic_degree || undefined,
+      years_of_experience:
+        lawyerProfile.profile.years_of_experience || undefined,
+      bar_number: lawyerProfile.profile.bar_number || "",
+      bar_degree: lawyerProfile.profile.bar_degree || undefined,
     },
     resolver: zodResolver(professionalInfoSchema(t)),
   });
@@ -177,14 +178,16 @@ export default function ProfessionalInfo({
         {t("LanguageHint")}
       </p>
 
-      <div className="sm:col-span-2 flex justify-end">
-        <SubmitBtn
-          label={tDashboard("SaveSection")}
-          loading={isSubmitting}
-          showArrow={false}
-          className="min-w-35 w-auto h-9 px-5"
-        />
-      </div>
+      {lawyerProfile.is_editable && (
+        <div className="sm:col-span-2 flex justify-end">
+          <SubmitBtn
+            label={tDashboard("SaveSection")}
+            loading={isSubmitting}
+            showArrow={false}
+            className="min-w-35 w-auto h-9 px-5"
+          />
+        </div>
+      )}
     </form>
   );
 }

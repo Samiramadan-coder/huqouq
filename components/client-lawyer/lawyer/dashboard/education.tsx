@@ -29,9 +29,9 @@ const initialEducationEntry: EducationFormValues["entries"][number] = {
 };
 
 export default function Education({
-  profile,
+  lawyerProfile,
 }: {
-  profile: LawyerProfile["profile"];
+  lawyerProfile: LawyerProfile;
 }) {
   const t = useTranslations("Lawyer.Dashboard.Education");
   const tDashboard = useTranslations("Lawyer.Dashboard");
@@ -46,7 +46,7 @@ export default function Education({
   } = useForm<EducationFormValues>({
     resolver: zodResolver(educationSchema(t)),
     defaultValues: {
-      entries: profile?.educations.map((education) => ({
+      entries: lawyerProfile.profile.educations.map((education) => ({
         degree: education.degree || "bachelors",
         university: education.university || "",
         graduation_month: education.graduation_month || 1,
@@ -185,14 +185,16 @@ export default function Education({
         </Button>
       </div>
 
-      <div className="flex justify-end">
-        <SubmitBtn
-          label={tDashboard("SaveSection")}
-          loading={isSubmitting}
-          showArrow={false}
-          className="min-w-35 w-auto h-9 px-5"
-        />
-      </div>
+      {lawyerProfile.is_editable && (
+        <div className="flex justify-end">
+          <SubmitBtn
+            label={tDashboard("SaveSection")}
+            loading={isSubmitting}
+            showArrow={false}
+            className="min-w-35 w-auto h-9 px-5"
+          />
+        </div>
+      )}
     </form>
   );
 }

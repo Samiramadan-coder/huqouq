@@ -13,6 +13,7 @@ import Info from "@/components/client-lawyer/lawyer/dashboard/info";
 import Education from "@/components/client-lawyer/lawyer/dashboard/education";
 import Experience from "@/components/client-lawyer/lawyer/dashboard/experience";
 import LanguagesBio from "@/components/client-lawyer/lawyer/dashboard/languages-bio";
+import SendForReview from "@/components/client-lawyer/lawyer/dashboard/send-for-review";
 import BarCertificate from "@/components/client-lawyer/lawyer/dashboard/bar-certificate";
 import ProfessionalInfo from "@/components/client-lawyer/lawyer/dashboard/professional-info";
 import SpecializationServices from "@/components/client-lawyer/lawyer/dashboard/specialization-services";
@@ -28,6 +29,8 @@ export default async function DashboardPage() {
   if (!ok) {
     throw new Error("Failed to fetch lawyer profile");
   }
+
+  console.log("lawyer profile", data);
 
   return (
     <div className="container max-w-3xl">
@@ -81,27 +84,27 @@ export default async function DashboardPage() {
                   >
                     <div className="px-5 pt-5">
                       {section.key === "professional_info" && (
-                        <ProfessionalInfo profile={data.profile} />
+                        <ProfessionalInfo lawyerProfile={data} />
                       )}
 
                       {section.key === "specializations_services" && (
-                        <SpecializationServices profile={data.profile} />
+                        <SpecializationServices lawyerProfile={data} />
                       )}
 
                       {section.key === "languages_bio" && (
-                        <LanguagesBio profile={data.profile} />
+                        <LanguagesBio lawyerProfile={data} />
                       )}
 
                       {section.key === "education" && (
-                        <Education profile={data.profile} />
+                        <Education lawyerProfile={data} />
                       )}
 
                       {section.key === "experience" && (
-                        <Experience profile={data.profile} />
+                        <Experience lawyerProfile={data} />
                       )}
 
                       {section.key === "bar_certificate" && (
-                        <BarCertificate profile={data.profile} />
+                        <BarCertificate lawyerProfile={data} />
                       )}
                     </div>
                   </div>
@@ -109,6 +112,8 @@ export default async function DashboardPage() {
               </AccordionItem>
             </Accordion>
           ))}
+
+          {data.is_ready_to_submit && <SendForReview />}
         </div>
       </div>
     </div>

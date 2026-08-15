@@ -5,16 +5,16 @@ import {
   SpecializationsServicesFormValues,
   LawyerProfile,
 } from "@/types/lawyer/dashboard";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { FieldError } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { FieldError } from "@/components/ui/field";
 import { updateSpecializationsServices } from "@/lib/lawyer/dashboard";
-import { toast } from "sonner";
-import { Check } from "lucide-react";
 
 const specializations = [
   { label: "Specialization1", value: 1 },
@@ -43,9 +43,9 @@ const services = [
 ];
 
 export default function SpecializationServices({
-  profile,
+  lawyerProfile,
 }: {
-  profile: LawyerProfile["profile"];
+  lawyerProfile: LawyerProfile;
 }) {
   const t = useTranslations("Lawyer.Dashboard.SpecializationServices");
   const tDashboard = useTranslations("Lawyer.Dashboard");
@@ -58,8 +58,8 @@ export default function SpecializationServices({
   } = useForm<SpecializationsServicesFormValues>({
     resolver: zodResolver(specializationsServicesSchema(t)),
     defaultValues: {
-      specialization_ids: profile.specialization_ids || [],
-      service_ids: profile.service_ids || [],
+      specialization_ids: lawyerProfile.profile.specialization_ids || [],
+      service_ids: lawyerProfile.profile.service_ids || [],
     },
   });
 
@@ -181,14 +181,16 @@ export default function SpecializationServices({
         }}
       />
 
-      <div className="flex justify-end">
-        <SubmitBtn
-          label={tDashboard("SaveSection")}
-          loading={isSubmitting}
-          showArrow={false}
-          className="min-w-35 w-auto h-9 px-5"
-        />
-      </div>
+      {lawyerProfile.is_editable && (
+        <div className="flex justify-end">
+          <SubmitBtn
+            label={tDashboard("SaveSection")}
+            loading={isSubmitting}
+            showArrow={false}
+            className="min-w-35 w-auto h-9 px-5"
+          />
+        </div>
+      )}
     </form>
   );
 }

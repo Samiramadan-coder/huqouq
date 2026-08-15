@@ -5,18 +5,18 @@ import {
   certificateUploadSchema,
   CertificateUploadFormValues,
 } from "@/types/lawyer/dashboard";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { updateCertificate } from "@/lib/lawyer/dashboard";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
-import { updateCertificate } from "@/lib/lawyer/dashboard";
-import { toast } from "sonner";
 
 export default function BarCertificate({
-  profile,
+  lawyerProfile,
 }: {
-  profile: LawyerProfile["profile"];
+  lawyerProfile: LawyerProfile;
 }) {
   const t = useTranslations("Lawyer.Dashboard.BarCertificate");
   const tDashboard = useTranslations("Lawyer.Dashboard");
@@ -29,7 +29,7 @@ export default function BarCertificate({
   } = useForm<CertificateUploadFormValues>({
     resolver: zodResolver(certificateUploadSchema(t)),
     defaultValues: {
-      certificate: profile.bar_certificate_url || undefined,
+      certificate: lawyerProfile.profile.bar_certificate_url || undefined,
     },
   });
 
@@ -66,14 +66,16 @@ export default function BarCertificate({
         description={t("Fields.Certificate.Description")}
       />
 
-      <div className="flex justify-end">
-        <SubmitBtn
-          label={tDashboard("SaveSection")}
-          loading={isSubmitting}
-          showArrow={false}
-          className="min-w-35 w-auto h-9 px-5"
-        />
-      </div>
+      {lawyerProfile.is_editable && (
+        <div className="sm:col-span-2 flex justify-end">
+          <SubmitBtn
+            label={tDashboard("SaveSection")}
+            loading={isSubmitting}
+            showArrow={false}
+            className="min-w-35 w-auto h-9 px-5"
+          />
+        </div>
+      )}
     </form>
   );
 }
