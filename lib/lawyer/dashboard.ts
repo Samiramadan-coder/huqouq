@@ -1,16 +1,16 @@
 "use server";
 
-import { AuthFormActionsResponse } from "@/types/shared";
 import {
-  CertificateUploadFormValues,
   EducationFormValues,
   ExperiencesFormValues,
   LanguagesBioFormValues,
   ProfessionalInfoFormValues,
+  CertificateUploadFormValues,
   SpecializationsServicesFormValues,
 } from "@/types/lawyer/dashboard";
-import { http, ValidationError } from "../http";
 import { updateTag } from "next/cache";
+import { http, ValidationError } from "../http";
+import { AuthFormActionsResponse } from "@/types/shared";
 
 // Professional Info
 type ProfessionalInfoResponse =
@@ -250,6 +250,20 @@ export async function updateCertificate(
       return { success: false, errors };
     }
 
+    return { success: false };
+  }
+}
+
+// Send For Review
+type SendForReviewResponse = { success: boolean };
+
+export async function sendForReview(): Promise<SendForReviewResponse> {
+  try {
+    await http.post("/api/lawyer/profile/submit", { confirmed: true });
+    updateTag("lawyer-profile");
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending for review:", error);
     return { success: false };
   }
 }
