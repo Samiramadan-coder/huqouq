@@ -13,8 +13,8 @@ export default async function RootLayout({
     return redirect("/");
   }
   return (
-    <main className="min-h-screen grid place-content-center py-5">
-      {children}
+    <main className="min-h-screen py-5 flex items-center justify-center">
+      <div className="container max-w-7xl flex justify-center">{children}</div>
     </main>
   );
 }

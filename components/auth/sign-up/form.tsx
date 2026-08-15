@@ -297,7 +297,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
             control={control}
             render={({ field }) => (
               <>
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-1">
                   <Checkbox
                     id="terms"
                     checked={field.value}
@@ -309,7 +309,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
                   <Label
                     htmlFor="terms"
-                    className="cursor-pointer text-sm font-normal leading-6 text-muted-foreground"
+                    className="cursor-pointer text-[12px] sm:text-sm font-normal leading-6 text-muted-foreground gap-0.5 sm:gap-1"
                   >
                     {t.rich("termsAgreement", {
                       terms: (chunks) => (
