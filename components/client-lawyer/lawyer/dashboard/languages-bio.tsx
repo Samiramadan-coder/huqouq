@@ -30,6 +30,7 @@ export default function LanguagesBio({
   profile: LawyerProfile["profile"];
 }) {
   const t = useTranslations("Lawyer.Dashboard.LanguagesBio");
+  const tDashboard = useTranslations("Lawyer.Dashboard");
 
   const {
     handleSubmit,
@@ -138,7 +139,7 @@ export default function LanguagesBio({
 
       <div className="flex justify-end">
         <SubmitBtn
-          label="SaveSection"
+          label={tDashboard("SaveSection")}
           loading={isSubmitting}
           showArrow={false}
           className="min-w-35 w-auto h-9 px-5"

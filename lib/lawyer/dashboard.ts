@@ -4,6 +4,7 @@ import { AuthFormActionsResponse } from "@/types/shared";
 import {
   CertificateUploadFormValues,
   EducationFormValues,
+  ExperiencesFormValues,
   LanguagesBioFormValues,
   ProfessionalInfoFormValues,
   SpecializationsServicesFormValues,
@@ -112,11 +113,11 @@ export async function updateEducation(
     );
     formDataWithFiles.append(
       `entries[${index}][graduation_month]`,
-      entry.graduation_month.toString() || "0",
+      entry.graduation_month.toString() || "",
     );
     formDataWithFiles.append(
       `entries[${index}][graduation_year]`,
-      entry.graduation_year.toString() || "0",
+      entry.graduation_year.toString() || "",
     );
     formDataWithFiles.append(
       `entries[${index}][description]`,
@@ -144,6 +145,72 @@ export async function updateEducation(
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof EducationFormValues, string>>;
+
+      return { success: false, errors };
+    }
+
+    return { success: false };
+  }
+}
+
+// Experiences
+type ExperiencesResponse = AuthFormActionsResponse<ExperiencesFormValues>;
+
+export async function updateExperiences(
+  formData: ExperiencesFormValues,
+): Promise<ExperiencesResponse> {
+  const formDataWithFiles = new FormData();
+  formData.entries.forEach((entry, index) => {
+    formDataWithFiles.append(`entries[${index}][title]`, entry.title || "");
+    formDataWithFiles.append(
+      `entries[${index}][organization]`,
+      entry.organization || "",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][start_month]`,
+      entry.start_month.toString() || "",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][start_year]`,
+      entry.start_year.toString() || "",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][end_month]`,
+      entry.end_month?.toString() || "",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][end_year]`,
+      entry.end_year?.toString() || "",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][is_current]`,
+      entry.is_current ? "1" : "0",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][description]`,
+      entry.description || "",
+    );
+    if (entry.certificate && entry.certificate instanceof File) {
+      formDataWithFiles.append(
+        `entries[${index}][certificate]`,
+        entry.certificate,
+      );
+    }
+  });
+
+  try {
+    await http.post("/api/lawyer/profile/experience", formDataWithFiles);
+    updateTag("lawyer-profile");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating experiences:", error);
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof ExperiencesFormValues, string>>;
 
       return { success: false, errors };
     }

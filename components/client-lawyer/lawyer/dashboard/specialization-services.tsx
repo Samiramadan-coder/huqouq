@@ -48,6 +48,7 @@ export default function SpecializationServices({
   profile: LawyerProfile["profile"];
 }) {
   const t = useTranslations("Lawyer.Dashboard.SpecializationServices");
+  const tDashboard = useTranslations("Lawyer.Dashboard");
 
   const {
     control,
@@ -182,7 +183,7 @@ export default function SpecializationServices({
 
       <div className="flex justify-end">
         <SubmitBtn
-          label="SaveSection"
+          label={tDashboard("SaveSection")}
           loading={isSubmitting}
           showArrow={false}
           className="min-w-35 w-auto h-9 px-5"

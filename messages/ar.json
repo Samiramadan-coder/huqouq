@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "UploadFile": "رفع ملف"
+  },
   "Header": {
     "Title": "حقوق",
     "LogoLabel": "الرئيسية",
@@ -866,6 +869,203 @@
       "Profile": "الملف الشخصي",
       "Settings": "الإعدادات",
       "EmergencyHistory": "السجل الطارئ"
+    },
+    "Dashboard": {
+      "SaveSection": "حفظ التغييرات",
+      "MyProfile": "ملفي الشخصي",
+      "ChangePhoto": "تغيير الصورة",
+      "ProfessionalInfo": {
+        "LanguageHint": "أدخل المعلومات باللغة التي تفضلها. منصتنا تتولى الترجمة تلقائيًا عند الحاجة.",
+        "Messages": {
+          "ProfessionalInfoUpdated": "تم تحديث معلوماتك المهنية بنجاح.",
+          "ProfessionalInfoUpdateFailed": "حدث خطأ أثناء تحديث معلوماتك المهنية. يرجى المحاولة مرة أخرى."
+        },
+        "Fields": {
+          "AccountType": {
+            "Label": "نوع الحساب",
+            "Required": "نوع الحساب مطلوب",
+            "Options": {
+              "Freelance": "مستقل",
+              "Office": "مكتب",
+              "Company": "شركة"
+            }
+          },
+          "OfficeName": {
+            "Label": "اسم المكتب",
+            "Placeholder": "أدخل اسم مكتبك",
+            "Required": "اسم المكتب مطلوب"
+          },
+          "YearsOfExperience": {
+            "Label": "سنوات الخبرة",
+            "Placeholder": "أدخل سنوات خبرتك",
+            "Required": "سنوات الخبرة مطلوبة"
+          },
+          "BarNumber": {
+            "Label": "رقم النقابة",
+            "Placeholder": "أدخل رقم نقابتك",
+            "Required": "رقم النقابة مطلوب",
+            "Min": "يجب أن يكون رقم النقابة مكونًا من حرفين على الأقل"
+          },
+          "BarDegree": {
+            "Label": "درجة النقابة",
+            "Placeholder": "أدخل درجة النقابة الخاصة بك",
+            "Required": "درجة النقابة مطلوبة",
+            "Options": {
+              "CourtOfCassation": "محكمة النقض"
+            }
+          },
+          "AcademicDegree": {
+            "Label": "الدرجة الأكاديمية",
+            "Placeholder": "أدخل درجتك الأكاديمية",
+            "Required": "الدرجة الأكاديمية مطلوبة",
+            "Options": {
+              "Masters": "ماجستير"
+            }
+          }
+        }
+      },
+      "SpecializationServices": {
+        "Messages": {
+          "SpecializationServicesUpdated": "تم تحديث تخصصك وخدماتك بنجاح.",
+          "SpecializationServicesUpdateFailed": "حدث خطأ أثناء تحديث تخصصك وخدماتك. يرجى المحاولة مرة أخرى."
+        },
+        "Fields": {
+          "Specializations": {
+            "Label": "التخصصات",
+            "Required": "مطلوب تخصص واحد على الأقل"
+          },
+          "Services": {
+            "Label": "الخدمات",
+            "Required": "مطلوب خدمة واحدة على الأقل"
+          }
+        }
+      },
+      "LanguagesBio": {
+        "Messages": {
+          "LanguagesUpdated": "تم تحديث لغاتك بنجاح.",
+          "LanguagesUpdateFailed": "حدث خطأ أثناء تحديث لغاتك. يرجى المحاولة مرة أخرى."
+        },
+        "Fields": {
+          "Languages": {
+            "Label": "اللغات المحكية",
+            "Required": "مطلوب لغة واحدة على الأقل"
+          },
+          "Bio": {
+            "Label": "السيرة الذاتية",
+            "Optional": "اختياري",
+            "Placeholder": "اكتب نبذة قصيرة عن نفسك",
+            "Description": "يتم الترجمة تلقائيًا إلى العربية إذا كتبت بالإنجليزية، والعكس صحيح."
+          },
+          "WebsiteUrl": {
+            "Label": "الموقع الإلكتروني أو لينكدإن",
+            "Placeholder": "أدخل رابط موقعك الإلكتروني",
+            "Description": "اختياري — يظهر في ملفك الشخصي العام."
+          }
+        }
+      },
+      "Education": {
+        "AddEducation": "إضافة تعليم أكثر",
+        "Messages": {
+          "EducationUpdated": "تم تحديث تفاصيل تعليمك بنجاح.",
+          "EducationUpdateFailed": "حدث خطأ أثناء تحديث تفاصيل تعليمك. يرجى المحاولة مرة أخرى."
+        },
+        "Fields": {
+          "Degree": {
+            "Label": "الدرجة الأكاديمية",
+            "Placeholder": "أدخل درجتك الأكاديمية",
+            "Required": "الدرجة الأكاديمية مطلوبة",
+            "Options": {
+              "Bachelors": "بكالوريوس"
+            }
+          },
+          "University": {
+            "Label": "الجامعة / المؤسسة",
+            "Placeholder": "مثال: جامعة الإمارات",
+            "Required": "الجامعة مطلوبة",
+            "Min": "يجب أن يكون اسم الجامعة مكونًا من حرفين على الأقل"
+          },
+          "GraduationMonth": {
+            "Label": "شهر التخرج",
+            "Placeholder": "مثال: 5",
+            "Required": "شهر التخرج مطلوب"
+          },
+          "GraduationYear": {
+            "Label": "سنة التخرج",
+            "Placeholder": "مثال: 2013",
+            "Required": "سنة التخرج مطلوبة"
+          },
+          "Description": {
+            "Label": "الوصف (اختياري)",
+            "Placeholder": "اكتب وصفًا موجزًا لتعليمك"
+          },
+          "CertificateUpload": {
+            "Label": "شهادة الدرجة الأكاديمية (اختياري)",
+            "Required": "تحميل الشهادة مطلوب"
+          }
+        }
+      },
+      "BarCertificate": {
+        "Messages": {
+          "CertificateUpdated": "تم تحديث شهادتك بنجاح.",
+          "CertificateUpdateFailed": "حدث خطأ أثناء تحديث شهادتك. يرجى المحاولة مرة أخرى."
+        },
+        "Fields": {
+          "Certificate": {
+            "Label": "شهادة رخصة المحاماة",
+            "Required": "تحميل الشهادة مطلوب",
+            "Description": "يتم مراجعة شهادتك من قبل مسؤول HUQOUQ فقط ولا يتم مشاركتها مع العملاء أو عرضها علنًا."
+          }
+        }
+      },
+      "Experience": {
+        "AddExperience": "أضف المزيد من الخبرات",
+        "Messages": {
+          "ExperienceUpdated": "تم تحديث تفاصيل خبرتك بنجاح.",
+          "ExperienceUpdateFailed": "حدث خطأ أثناء تحديث تفاصيل خبرتك. يرجى المحاولة مرة أخرى."
+        },
+        "Fields": {
+          "Title": {
+            "Label": "المسمى الوظيفي",
+            "Placeholder": "مثال: كبير المحامين المساعدين",
+            "Required": "المسمى الوظيفي مطلوب",
+            "Min": "يجب أن يكون المسمى الوظيفي مكونًا من حرفين على الأقل"
+          },
+          "Organization": {
+            "Label": "المنظمة",
+            "Placeholder": "مثال: التميمي وشركاه",
+            "Required": "المنظمة مطلوبة",
+            "Min": "يجب أن يكون اسم المنظمة مكونًا من حرفين على الأقل"
+          },
+          "StartMonth": {
+            "Label": "شهر البدء",
+            "Placeholder": "مثال: 5",
+            "Required": "شهر البدء مطلوب"
+          },
+          "StartYear": {
+            "Label": "سنة البدء",
+            "Placeholder": "مثال: 2013",
+            "Required": "سنة البدء مطلوبة"
+          },
+          "EndMonth": {
+            "Label": "شهر الانتهاء (اختياري)",
+            "Placeholder": "مثال: 5"
+          },
+          "EndYear": {
+            "Label": "سنة الانتهاء (اختياري)",
+            "Placeholder": "مثال: 2013"
+          },
+          "IsCurrent": {
+            "Label": "أعمل هنا حاليًا"
+          },
+          "Description": {
+            "Label": "الوصف (اختياري)",
+            "Placeholder": "اكتب وصفًا موجزًا لخبرتك"
+          },
+          "CertificateUpload": {
+            "Label": "الشهادة / خطاب التوصية (اختياري)"
+          }
+        }
+      }
     }
   }
 }

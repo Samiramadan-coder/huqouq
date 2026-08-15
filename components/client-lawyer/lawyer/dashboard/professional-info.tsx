@@ -22,6 +22,7 @@ export default function ProfessionalInfo({
   profile: LawyerProfile["profile"];
 }) {
   const t = useTranslations("Lawyer.Dashboard.ProfessionalInfo");
+  const tDashboard = useTranslations("Lawyer.Dashboard");
 
   const {
     control,
@@ -178,7 +179,7 @@ export default function ProfessionalInfo({
 
       <div className="sm:col-span-2 flex justify-end">
         <SubmitBtn
-          label="SaveSection"
+          label={tDashboard("SaveSection")}
           loading={isSubmitting}
           showArrow={false}
           className="min-w-35 w-auto h-9 px-5"

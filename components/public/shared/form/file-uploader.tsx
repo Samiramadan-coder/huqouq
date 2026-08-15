@@ -19,6 +19,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { FileIcon, Plus, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type FileValue = string | File | null;
 
@@ -41,6 +42,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
   accept = "*/*",
   description,
 }: SingleFormFileUploaderProps<T>) {
+  const t = useTranslations("Common");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   return (
@@ -103,7 +105,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                     className="rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-secondary/30 hover:bg-background px-3 text-sm text-primary/50"
                   >
                     <Plus className="size-4" />
-                    Upload file
+                    {t("UploadFile")}
                   </Button>
                 )}
 

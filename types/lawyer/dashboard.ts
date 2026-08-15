@@ -17,15 +17,26 @@ export type LawyerProfile = {
     bar_number: null | string;
     bio: null;
     educations: {
-      certificate_path: string;
-      certificate_url: string;
+      certificate_path: string | null;
+      certificate_url: string | null;
       degree: "bachelors";
       description: string;
       graduation_month: number;
       graduation_year: number;
       university: string;
     }[];
-    experiences: [];
+    experiences: {
+      certificate_path: null | string;
+      certificate_url: null | string;
+      description: string;
+      end_month: number | null;
+      end_year: number | null;
+      is_current: boolean;
+      organization: string;
+      start_month: number;
+      start_year: number;
+      title: string;
+    }[];
     languages: string[];
     office_name: string | null;
     service_ids: number[];

@@ -6,8 +6,8 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { http } from "@/lib/http";
-import { getLocale } from "next-intl/server";
 import { LawyerProfile } from "@/types/lawyer/dashboard";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Circle, CircleCheck, TriangleAlert } from "lucide-react";
 import Info from "@/components/client-lawyer/lawyer/dashboard/info";
 import Education from "@/components/client-lawyer/lawyer/dashboard/education";
@@ -19,6 +19,8 @@ import SpecializationServices from "@/components/client-lawyer/lawyer/dashboard/
 
 export default async function DashboardPage() {
   const locale = await getLocale();
+  const t = await getTranslations("Lawyer.Dashboard");
+
   const { data, ok } = await http.get<LawyerProfile>("/api/lawyer/profile", {
     next: { tags: ["lawyer-profile"] },
   });
@@ -36,8 +38,9 @@ export default async function DashboardPage() {
             locale === "en" && "font-lora",
           )}
         >
-          My Profile
+          {t("MyProfile")}
         </h1>
+
         <Info />
 
         <div className="mt-8 space-y-4">
@@ -93,7 +96,9 @@ export default async function DashboardPage() {
                         <Education profile={data.profile} />
                       )}
 
-                      {section.key === "experience" && <Experience />}
+                      {section.key === "experience" && (
+                        <Experience profile={data.profile} />
+                      )}
 
                       {section.key === "bar_certificate" && (
                         <BarCertificate profile={data.profile} />

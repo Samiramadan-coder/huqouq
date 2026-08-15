@@ -34,6 +34,7 @@ export default function Education({
   profile: LawyerProfile["profile"];
 }) {
   const t = useTranslations("Lawyer.Dashboard.Education");
+  const tDashboard = useTranslations("Lawyer.Dashboard");
 
   const {
     control,
@@ -46,12 +47,12 @@ export default function Education({
     resolver: zodResolver(educationSchema(t)),
     defaultValues: {
       entries: profile?.educations.map((education) => ({
-        degree: education.degree,
-        university: education.university,
-        graduation_month: education.graduation_month,
-        graduation_year: education.graduation_year,
-        description: education.description,
-        certificate: education.certificate_url,
+        degree: education.degree || "bachelors",
+        university: education.university || "",
+        graduation_month: education.graduation_month || 1,
+        graduation_year: education.graduation_year || new Date().getFullYear(),
+        description: education.description || "",
+        certificate: education.certificate_url || undefined,
       })) || [initialEducationEntry],
     },
   });
@@ -186,7 +187,7 @@ export default function Education({
 
       <div className="flex justify-end">
         <SubmitBtn
-          label="SaveSection"
+          label={tDashboard("SaveSection")}
           loading={isSubmitting}
           showArrow={false}
           className="min-w-35 w-auto h-9 px-5"

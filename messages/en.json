@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "UploadFile": "Upload File"
+  },
   "Header": {
     "Title": "HUQOUQ",
     "LogoLabel": "Huquoq home",
@@ -873,6 +876,8 @@
     },
     "Dashboard": {
       "SaveSection": "Save Section",
+      "MyProfile": "My Profile",
+      "ChangePhoto": "Change Photo",
       "ProfessionalInfo": {
         "LanguageHint": "Enter information in your preferred language. Our platform handles translation automatically where needed.",
         "Messages": {
@@ -1060,8 +1065,8 @@
             "Label": "Description (Optional)",
             "Placeholder": "Write a brief description of your experience"
           },
-          "Certificate": {
-            "Label": "Experience Certificate (Optional)"
+          "CertificateUpload": {
+            "Label": "Certificate / Reference Letter (optional)"
           }
         }
       }

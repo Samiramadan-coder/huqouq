@@ -1,14 +1,15 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLocale, useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
-import { useLocale } from "next-intl";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Info() {
   const locale = useLocale();
   const { user } = useUser();
+  const t = useTranslations("Lawyer.Dashboard");
 
   return (
     <div className="flex items-center gap-4">
@@ -30,7 +31,7 @@ export default function Info() {
         </h3>
         <p className="text-xs text-primary/45 mt-0.5">{user?.email}</p>
         <Button variant="link" className="p-0 text-xs text-secondary">
-          Change Photo
+          {t("ChangePhoto")}
         </Button>
       </div>
     </div>
