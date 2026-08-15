@@ -17,11 +17,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { saveToken } from "@/lib/cookies";
+import { User } from "@/types/shared";
 
 export function SignInWithPhone() {
   const router = useRouter();
   const t = useTranslations("SignIn");
   const [token, setToken] = useState<string>("");
+  const [user, setUser] = useState<User | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isOtpDialogOpen, setIsOtpDialogOpen] = useState(false);
 
@@ -43,9 +45,10 @@ export function SignInWithPhone() {
     const result = await login(data);
 
     if (result.success) {
-      if (result.phone_verified === false) {
+      if (result.user?.phone_verified === false) {
         await resendOtp(result.token || "");
         setToken(result.token || "");
+        setUser(result.user || null);
         setIsOtpDialogOpen(true);
         return;
       }
@@ -127,7 +130,7 @@ export function SignInWithPhone() {
       </form>
 
       <Dialog open={isOtpDialogOpen} onOpenChange={setIsOtpDialogOpen}>
-        <OtpDialog token={token} />
+        <OtpDialog token={token} user={user} />
       </Dialog>
     </>
   );
