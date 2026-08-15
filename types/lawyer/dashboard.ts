@@ -135,6 +135,34 @@ export const educationSchema = (t: T) =>
 
 export type EducationFormValues = z.infer<ReturnType<typeof educationSchema>>;
 
+// Experiences Schema
+export const experiencesSchema = (t: T) =>
+  z.object({
+    entries: z.array(
+      z.object({
+        title: z
+          .string()
+          .min(1, t("Fields.Title.Required"))
+          .min(2, t("Fields.Title.Min")),
+        organization: z
+          .string()
+          .min(1, t("Fields.Organization.Required"))
+          .min(2, t("Fields.Organization.Min")),
+        start_month: z.number().min(1, t("Fields.StartMonth.Required")),
+        start_year: z.number().min(1, t("Fields.StartYear.Required")),
+        end_month: z.number().optional(),
+        end_year: z.number().optional(),
+        is_current: z.boolean().optional(),
+        description: z.string().optional(),
+        certificate: z.union([z.string(), z.instanceof(File)]).optional(),
+      }),
+    ),
+  });
+
+export type ExperiencesFormValues = z.infer<
+  ReturnType<typeof experiencesSchema>
+>;
+
 // Certificate Upload Schema
 export const certificateUploadSchema = (t: T) =>
   z.object({

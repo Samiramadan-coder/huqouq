@@ -1015,6 +1015,55 @@
             "Description": "Your certificate is reviewed by HUQOUQ admin only and is never shared with clients or displayed publicly."
           }
         }
+      },
+      "Experience": {
+        "AddExperience": "Add More Experience",
+        "Messages": {
+          "ExperienceUpdated": "Your experience details have been updated successfully.",
+          "ExperienceUpdateFailed": "An error occurred while updating your experience details. Please try again."
+        },
+        "Fields": {
+          "Title": {
+            "Label": "Job Title",
+            "Placeholder": "e.g Senior Associate",
+            "Required": "Title is required",
+            "Min": "Title must be at least 2 characters"
+          },
+          "Organization": {
+            "Label": "Organization",
+            "Placeholder": "e.g Al Tamimi & Co",
+            "Required": "Organization is required",
+            "Min": "Organization name must be at least 2 characters"
+          },
+          "StartMonth": {
+            "Label": "Start Month",
+            "Placeholder": "e.g 5",
+            "Required": "Start month is required"
+          },
+          "StartYear": {
+            "Label": "Start Year",
+            "Placeholder": "e.g 2013",
+            "Required": "Start year is required"
+          },
+          "EndMonth": {
+            "Label": "End Month (Optional)",
+            "Placeholder": "e.g 5"
+          },
+          "EndYear": {
+            "Label": "End Year (Optional)",
+            "Placeholder": "e.g 2013"
+          },
+          "IsCurrent": {
+            "Label": "I currently work here"
+          },
+          "Description": {
+            "Label": "Description (Optional)",
+            "Placeholder": "Write a brief description of your experience"
+          },
+          "Certificate": {
+            "Label": "Experience Certificate (Optional)"
+          }
+        }
       }
     }
   }
