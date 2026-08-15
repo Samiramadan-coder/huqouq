@@ -15,7 +15,7 @@ export default function Info() {
     <div className="flex items-center gap-4">
       <Avatar className="h-20 w-20">
         <AvatarImage src={user?.photo_url || ""} />
-        <AvatarFallback>
+        <AvatarFallback className="bg-white text-primary">
           {user?.first_name.slice(0, 2).toUpperCase()}
         </AvatarFallback>
       </Avatar>

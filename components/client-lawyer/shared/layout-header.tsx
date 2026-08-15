@@ -30,9 +30,9 @@ export default function LayoutHeader() {
               variant="ghost"
               className="rounded-sm hover:bg-secondary/10 h-10"
             >
-              <Avatar size="sm">
+              <Avatar className="w-8 h-8">
                 <AvatarImage src={user?.photo_url || ""} />
-                <AvatarFallback>
+                <AvatarFallback className="text-xs bg-white text-primary">
                   {user?.first_name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
