@@ -937,6 +937,29 @@
             "Required": "At least one service is required"
           }
         }
+      },
+      "LanguagesBio": {
+        "Messages": {
+          "LanguagesUpdated": "Your languages have been updated successfully.",
+          "LanguagesUpdateFailed": "An error occurred while updating your languages. Please try again."
+        },
+        "Fields": {
+          "Languages": {
+            "Label": "Languages Spoken",
+            "Required": "At least one language is required"
+          },
+          "Bio": {
+            "Label": "Bio",
+            "Optional": "Optional",
+            "Placeholder": "Write a brief bio about yourself",
+            "Description": "Auto-translated to Arabic if written in English, and vice versa."
+          },
+          "WebsiteUrl": {
+            "Label": "Website Or LinkedIn",
+            "Placeholder": "Enter your website URL",
+            "Description": "Optional — shown on your public profile."
+          }
+        }
       }
     }
   }

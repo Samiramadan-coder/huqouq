@@ -146,7 +146,11 @@ export default function FormInput<T extends FieldValues>({
           )}
 
           <FieldError errors={[error]} />
-          {description && <FieldDescription>{description}</FieldDescription>}
+          {description && (
+            <FieldDescription className="text-[11px] text-primary/50">
+              {description}
+            </FieldDescription>
+          )}
         </div>
       </FieldContent>
     </Field>

@@ -18,7 +18,7 @@ export type LawyerProfile = {
     bio: null;
     educations: [];
     experiences: [];
-    languages: [];
+    languages: string[];
     office_name: string | null;
     service_ids: number[];
     specialization_ids: number[];
@@ -91,4 +91,16 @@ export const specializationsServicesSchema = (t: T) =>
 
 export type SpecializationsServicesFormValues = z.infer<
   ReturnType<typeof specializationsServicesSchema>
+>;
+
+// Languages & Bio Schema
+export const languagesBioSchema = (t: T) =>
+  z.object({
+    languages: z.array(z.string()).min(1, t("Fields.Languages.Required")),
+    bio: z.string().optional(),
+    website_url: z.string().optional(),
+  });
+
+export type LanguagesBioFormValues = z.infer<
+  ReturnType<typeof languagesBioSchema>
 >;
