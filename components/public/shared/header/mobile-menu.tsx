@@ -1,6 +1,7 @@
+"use client";
+
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -8,20 +9,32 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import NavLink from "./nav-link";
+import { useLocale } from "next-intl";
+import { useTranslations } from "use-intl";
 import { Button } from "@/components/ui/button";
-import { Menu, ShieldCheck } from "lucide-react";
+import { Menu, MoveRight, ShieldCheck } from "lucide-react";
+import { useUser } from "@/providers/user-provider";
 import { navigationItems } from "@/constants/shared";
-import { getLocale, getTranslations } from "next-intl/server";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { Link, useRouter } from "@/i18n/navigation";
+import { signOut } from "@/lib/auth";
+import { deleteToken } from "@/lib/cookies";
+import LanguageSwitcher from "./language-switcher";
+import { useState } from "react";
 
-export default async function MobileMenu() {
-  const t = await getTranslations("Header");
-  const locale = await getLocale();
+export default function MobileMenu() {
+  const locale = useLocale();
   const isArabic = locale === "ar";
-
+  const t = useTranslations("Header");
   const navItems = navigationItems(t);
+  const { user, setUser } = useUser();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
           type="button"
@@ -36,28 +49,113 @@ export default async function MobileMenu() {
 
       <SheetContent
         side={isArabic ? "left" : "right"}
-        className="border-none bg-[#1e4162] text-white"
+        className="border-none bg-primary text-white"
+        onClick={() => setOpen(false)}
       >
-        <SheetHeader className="text-start">
-          <SheetTitle className="flex items-center gap-3 text-white">
-            <ShieldCheck className="size-7 text-[#d2ad3f]" />
-            <span className="font-serif tracking-[0.15em]">{t("Title")}</span>
-          </SheetTitle>
+        <div onClick={(e) => e.stopPropagation()}>
+          <SheetHeader className="text-start">
+            <SheetTitle className="flex items-center gap-3 text-white">
+              <ShieldCheck className="size-7 text-secondary" />
+              <span className="font-serif tracking-[0.15em]">{t("Title")}</span>
+            </SheetTitle>
 
-          <SheetDescription className="sr-only">
-            {t("MenuDescription")}
-          </SheetDescription>
-        </SheetHeader>
+            <SheetDescription className="sr-only">
+              {t("MenuDescription")}
+            </SheetDescription>
+          </SheetHeader>
+        </div>
 
         <nav className="flex flex-col gap-6 px-4">
           {navItems.map((item) => {
             return (
-              <SheetClose asChild key={item.href}>
-                <NavLink href={item.href} label={item.label} key={item.href} />
-              </SheetClose>
+              <NavLink href={item.href} label={item.label} key={item.href} />
             );
           })}
         </nav>
+
+        <div className="px-4">
+          <LanguageSwitcher />
+        </div>
+
+        <Separator className="bg-secondary/10" />
+
+        <div className="p-4">
+          {user ? (
+            <div className="flex flex-col gap-4">
+              <div
+                className="flex items-center gap-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={user?.photo_url || ""} />
+                  <AvatarFallback className="bg-white text-primary">
+                    {user?.first_name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3
+                    className={cn(
+                      "text-lg font-semibold",
+                      locale === "en" && "font-lora",
+                    )}
+                  >
+                    {user?.first_name} {user?.last_name}
+                  </h3>
+                  <p className="text-xs text-white/45 mt-0.5">{user?.email}</p>
+                </div>
+              </div>
+
+              <Link
+                href={`/${user.role}/dashboard`}
+                className="text-secondary text-sm font-semibold flex items-center gap-2"
+              >
+                {t("GoToDashboard")}
+                <MoveRight className="size-4 rtl:rotate-180" />
+              </Link>
+
+              <Link href="/" className="text-sm font-semibold text-white/65">
+                {t("Profile")}
+              </Link>
+
+              <Link href="/" className="text-sm font-semibold text-white/65">
+                {t("Settings")}
+              </Link>
+
+              <p
+                className="text-[#9b2c2c] font-semibold cursor-pointer"
+                onClick={async () => {
+                  const result = await signOut();
+                  if (result.success) {
+                    await deleteToken();
+                    setUser(null);
+                    router.push("/");
+                  }
+                  setOpen(false);
+                }}
+              >
+                {t("Logout")}
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-6">
+              <Link
+                href="/sign-in"
+                className="text-sm font-semibold text-white/65 transition-colors hover:text-white"
+              >
+                {t("SignIn")}
+              </Link>
+
+              <Link href="/get-started">
+                <Button
+                  variant="outline"
+                  className="bg-transparent rounded-xs h-9.5 w-full border-secondary text-secondary hover:bg-secondary hover:text-primary"
+                >
+                  {t("GetStarted")}
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
       </SheetContent>
     </Sheet>
   );

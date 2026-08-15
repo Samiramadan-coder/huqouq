@@ -83,7 +83,7 @@ export default function HowItWorks() {
   const steps = isClients ? clientSteps : lawyerSteps;
 
   return (
-    <section className="overflow-hidden py-20 md:py-28">
+    <section className="overflow-x-hidden py-20 md:py-28">
       <div className="container">
         {/* Header */}
         <motion.div

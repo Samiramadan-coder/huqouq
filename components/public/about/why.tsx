@@ -8,7 +8,7 @@ export default async function Why() {
   const t = await getTranslations("About.whyHuqouq");
 
   return (
-    <section className="px-6 py-20 lg:py-27.5">
+    <section className="px-6 py-20 lg:py-27.5 overflow-x-hidden">
       <div className="container max-w-7xl grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
         {/* Content */}
         <motion.div

@@ -10,7 +10,7 @@ export default async function Hero() {
   const t = await getTranslations("ForClients.hero");
 
   return (
-    <section className="py-16 sm:px-10 lg:py-15">
+    <section className="py-16 sm:px-10 lg:py-15 overflow-x-hidden">
       <div className="container max-w-7xl grid items-center gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
         {/* Content */}
         <motion.div

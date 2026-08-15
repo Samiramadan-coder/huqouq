@@ -9,7 +9,7 @@ export default async function Hero() {
   const locale = await getLocale();
 
   return (
-    <section className="min-h-160 lg:min-h-162.5">
+    <section className="min-h-160 lg:min-h-162.5 overflow-x-hidden">
       <div className="grid min-h-[inherit] lg:grid-cols-[55%_45%]">
         {/* Content */}
         <div className="bg-background">
