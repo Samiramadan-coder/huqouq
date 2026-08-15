@@ -1,7 +1,8 @@
-"use server";
+// "use server";
 
 import { AuthFormActionsResponse } from "@/types/shared";
 import {
+  EducationFormValues,
   LanguagesBioFormValues,
   ProfessionalInfoFormValues,
   SpecializationsServicesFormValues,
@@ -87,6 +88,61 @@ export async function updateLanguagesBio(
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof LanguagesBioFormValues, string>>;
+
+      return { success: false, errors };
+    }
+
+    return { success: false };
+  }
+}
+
+// Education
+type EducationResponse = AuthFormActionsResponse<EducationFormValues>;
+
+export async function updateEducation(
+  formData: EducationFormValues,
+): Promise<EducationResponse> {
+  const formDataWithFiles = new FormData();
+  formData.entries.forEach((entry, index) => {
+    formDataWithFiles.append(`entries[${index}][degree]`, entry.degree || "");
+    formDataWithFiles.append(
+      `entries[${index}][university]`,
+      entry.university || "",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][graduation_month]`,
+      entry.graduation_month.toString() || "0",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][graduation_year]`,
+      entry.graduation_year.toString() || "0",
+    );
+    formDataWithFiles.append(
+      `entries[${index}][description]`,
+      entry.description || "",
+    );
+    if (entry.certificate && entry.certificate instanceof File) {
+      formDataWithFiles.append(
+        `entries[${index}][certificate]`,
+        entry.certificate,
+      );
+    }
+  });
+
+  try {
+    await http.post("/api/lawyer/profile/education", formDataWithFiles);
+    // updateTag("lawyer-profile");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating education:", error);
+
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof EducationFormValues, string>>;
 
       return { success: false, errors };
     }

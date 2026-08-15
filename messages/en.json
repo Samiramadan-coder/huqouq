@@ -960,6 +960,47 @@
             "Description": "Optional — shown on your public profile."
           }
         }
+      },
+      "Education": {
+        "AddEducation": "Add More Education",
+        "Messages": {
+          "EducationUpdated": "Your education details have been updated successfully.",
+          "EducationUpdateFailed": "An error occurred while updating your education details. Please try again."
+        },
+        "Fields": {
+          "Degree": {
+            "Label": "Degree",
+            "Placeholder": "Enter your degree",
+            "Required": "Degree is required",
+            "Options": {
+              "Bachelors": "Bachelors"
+            }
+          },
+          "University": {
+            "Label": "University / Institution",
+            "Placeholder": "e.g UAE University",
+            "Required": "University is required",
+            "Min": "University name must be at least 2 characters"
+          },
+          "GraduationMonth": {
+            "Label": "Graduation Month",
+            "Placeholder": "e.g 5",
+            "Required": "Graduation month is required"
+          },
+          "GraduationYear": {
+            "Label": "Graduation Year",
+            "Placeholder": "e.g 2013",
+            "Required": "Graduation year is required"
+          },
+          "Description": {
+            "Label": "Description (Optional)",
+            "Placeholder": "Write a brief description of your education"
+          },
+          "CertificateUpload": {
+            "Label": "Degree Certificate (Optional)",
+            "Required": "Certificate upload is required"
+          }
+        }
       }
     }
   }

@@ -22,7 +22,7 @@ import { Field, FieldContent, FieldError, FieldLabel } from "../../../ui/field";
 
 type SelectOption = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 type FormSelectProps<T extends FieldValues> = {
@@ -48,73 +48,95 @@ export default function FormSelect<T extends FieldValues>({
   className,
   triggerClassName,
 }: FormSelectProps<T>) {
+  // Check if options contain numeric values
+  const hasNumericValues = options.some(
+    (option) => typeof option.value === "number",
+  );
+
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState }) => (
-        <Field className={className} data-invalid={fieldState.invalid}>
-          <FieldLabel
-            htmlFor={name}
-            className={cn(
-              "text-xs text-primary/50 uppercase tracking-widest font-semibold",
-              required &&
-                "after:ms-1 after:text-destructive after:content-['*']",
-            )}
-          >
-            {label}
-          </FieldLabel>
+      render={({ field, fieldState }) => {
+        const handleValueChange = (value: string) => {
+          // Convert back to number if the original values were numbers
+          if (hasNumericValues) {
+            const numValue = Number(value);
+            field.onChange(isNaN(numValue) ? value : numValue);
+          } else {
+            field.onChange(value);
+          }
+        };
 
-          <FieldContent>
-            <div className="space-y-1.5">
-              <Select
-                value={
-                  field.value == null || field.value === "" || field.value === 0
-                    ? undefined
-                    : String(field.value)
-                }
-                onValueChange={field.onChange}
-              >
-                <SelectTrigger
-                  id={name}
-                  aria-invalid={fieldState.invalid}
-                  className={cn(
-                    "h-11 min-h-11 w-full rounded-none bg-transparent shadow-none",
-                    "border-0 border-b border-border",
-                    "focus:border-b-ring",
-                    "focus:ring-0 focus:ring-offset-0",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0",
-                    "aria-invalid:border-0",
-                    "aria-invalid:border-b",
-                    "aria-invalid:border-destructive",
-                    "aria-invalid:ring-0",
-                    "aria-invalid:ring-offset-0",
-                    "data-placeholder:text-base",
-                    "data-placeholder:text-border",
-                    triggerClassName,
-                  )}
+        return (
+          <Field className={className} data-invalid={fieldState.invalid}>
+            <FieldLabel
+              htmlFor={name}
+              className={cn(
+                "text-xs text-primary/50 uppercase tracking-widest font-semibold",
+                required &&
+                  "after:ms-1 after:text-destructive after:content-['*']",
+              )}
+            >
+              {label}
+            </FieldLabel>
+
+            <FieldContent>
+              <div className="space-y-1.5">
+                <Select
+                  value={
+                    field.value == null ||
+                    field.value === "" ||
+                    field.value === 0
+                      ? undefined
+                      : String(field.value)
+                  }
+                  onValueChange={handleValueChange}
                 >
-                  <SelectValue placeholder={placeholder} />
-                </SelectTrigger>
+                  <SelectTrigger
+                    id={name}
+                    aria-invalid={fieldState.invalid}
+                    className={cn(
+                      "h-11 min-h-11 w-full rounded-none bg-transparent shadow-none",
+                      "border-0 border-b border-border",
+                      "focus:border-b-ring",
+                      "focus:ring-0 focus:ring-offset-0",
+                      "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      "aria-invalid:border-0",
+                      "aria-invalid:border-b",
+                      "aria-invalid:border-destructive",
+                      "aria-invalid:ring-0",
+                      "aria-invalid:ring-offset-0",
+                      "data-placeholder:text-base",
+                      "data-placeholder:text-border",
+                      triggerClassName,
+                    )}
+                  >
+                    <SelectValue placeholder={placeholder} />
+                  </SelectTrigger>
 
-                <SelectContent>
-                  <SelectGroup>
-                    {groupLabel && <SelectLabel>{groupLabel}</SelectLabel>}
+                  <SelectContent>
+                    <SelectGroup>
+                      {groupLabel && <SelectLabel>{groupLabel}</SelectLabel>}
 
-                    {options.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+                      {options.map((option) => (
+                        <SelectItem
+                          key={option.value}
+                          value={String(option.value)}
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
 
-              <FieldError errors={[fieldState.error]} />
-            </div>
-          </FieldContent>
-        </Field>
-      )}
+                <FieldError errors={[fieldState.error]} />
+              </div>
+            </FieldContent>
+          </Field>
+        );
+      }}
     />
   );
 }

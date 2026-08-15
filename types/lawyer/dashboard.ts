@@ -16,7 +16,15 @@ export type LawyerProfile = {
     bar_degree: null | "court_of_cassation";
     bar_number: null | string;
     bio: null;
-    educations: [];
+    educations: {
+      certificate_path: string;
+      certificate_url: string;
+      degree: "bachelors";
+      description: string;
+      graduation_month: number;
+      graduation_year: number;
+      university: string;
+    }[];
     experiences: [];
     languages: string[];
     office_name: string | null;
@@ -104,3 +112,25 @@ export const languagesBioSchema = (t: T) =>
 export type LanguagesBioFormValues = z.infer<
   ReturnType<typeof languagesBioSchema>
 >;
+
+// Education Schema
+export const educationSchema = (t: T) =>
+  z.object({
+    entries: z.array(
+      z.object({
+        degree: z.string().min(1, t("Fields.Degree.Required")),
+        university: z
+          .string()
+          .min(1, t("Fields.University.Required"))
+          .min(2, t("Fields.University.Min")),
+        graduation_month: z
+          .number()
+          .min(1, t("Fields.GraduationMonth.Required")),
+        graduation_year: z.number().min(1, t("Fields.GraduationYear.Required")),
+        description: z.string().optional(),
+        certificate: z.union([z.string(), z.instanceof(File)]).optional(),
+      }),
+    ),
+  });
+
+export type EducationFormValues = z.infer<ReturnType<typeof educationSchema>>;

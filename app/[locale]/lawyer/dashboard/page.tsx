@@ -89,7 +89,9 @@ export default async function DashboardPage() {
                         <LanguagesBio profile={data.profile} />
                       )}
 
-                      {section.key === "education" && <Education />}
+                      {section.key === "education" && (
+                        <Education profile={data.profile} />
+                      )}
 
                       {section.key === "experience" && <Experience />}
 
