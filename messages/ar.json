@@ -884,12 +884,7 @@
         "Fields": {
           "AccountType": {
             "Label": "نوع الحساب",
-            "Required": "نوع الحساب مطلوب",
-            "Options": {
-              "Freelance": "مستقل",
-              "Office": "مكتب",
-              "Company": "شركة"
-            }
+            "Required": "نوع الحساب مطلوب"
           },
           "OfficeName": {
             "Label": "اسم المكتب",

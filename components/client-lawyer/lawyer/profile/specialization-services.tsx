@@ -15,40 +15,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { updateSpecializationsServices } from "@/lib/lawyer/dashboard";
-
-const specializations = [
-  { label: "Specialization1", value: 1 },
-  { label: "Specialization2", value: 2 },
-  { label: "Specialization3", value: 3 },
-  { label: "Specialization4", value: 4 },
-  { label: "Specialization5", value: 5 },
-  { label: "Specialization6", value: 6 },
-  { label: "Specialization7", value: 7 },
-  { label: "Specialization8", value: 8 },
-  { label: "Specialization9", value: 9 },
-  { label: "Specialization10", value: 10 },
-];
-
-const services = [
-  { label: "Service1", value: 1 },
-  { label: "Service2", value: 2 },
-  { label: "Service3", value: 3 },
-  { label: "Service4", value: 4 },
-  { label: "Service5", value: 5 },
-  { label: "Service6", value: 6 },
-  { label: "Service7", value: 7 },
-  { label: "Service8", value: 8 },
-  { label: "Service9", value: 9 },
-  { label: "Service10", value: 10 },
-];
+import { useReferenceData } from "@/providers/reference-data.provider";
 
 export default function SpecializationServices({
   lawyerProfile,
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Profile.SpecializationServices");
+  const { referenceData } = useReferenceData();
   const tDashboard = useTranslations("Lawyer.Profile");
+  const t = useTranslations("Lawyer.Profile.SpecializationServices");
 
   const {
     control,
@@ -104,28 +80,28 @@ export default function SpecializationServices({
               </p>
 
               <div className="flex flex-wrap gap-2">
-                {specializations.map((specialization) => (
+                {referenceData?.specializations.map((specialization) => (
                   <Button
                     type="button"
                     variant="outline"
-                    key={specialization.value}
+                    key={specialization.id}
                     onClick={() => {
-                      if (value.includes(specialization.value)) {
+                      if (value.includes(specialization.id)) {
                         field.onChange(
-                          value.filter((id) => id !== specialization.value),
+                          value.filter((id) => id !== specialization.id),
                         );
                         return;
                       }
-                      field.onChange([...value, specialization.value]);
+                      field.onChange([...value, specialization.id]);
                     }}
                     className={cn(
                       "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-secondary/20 hover:text-secondary",
-                      value.includes(specialization.value) &&
+                      value.includes(specialization.id) &&
                         "bg-secondary/20 text-secondary",
                     )}
                   >
-                    {value.includes(specialization.value) && <Check />}
-                    {specialization.label}
+                    {value.includes(specialization.id) && <Check />}
+                    {specialization.name}
                   </Button>
                 ))}
               </div>
@@ -149,28 +125,26 @@ export default function SpecializationServices({
               </p>
 
               <div className="flex flex-wrap gap-2">
-                {services.map((service) => (
+                {referenceData?.services.map((service) => (
                   <Button
                     type="button"
                     variant="outline"
-                    key={service.value}
+                    key={service.id}
                     onClick={() => {
-                      if (value.includes(service.value)) {
-                        field.onChange(
-                          value.filter((id) => id !== service.value),
-                        );
+                      if (value.includes(service.id)) {
+                        field.onChange(value.filter((id) => id !== service.id));
                         return;
                       }
-                      field.onChange([...value, service.value]);
+                      field.onChange([...value, service.id]);
                     }}
                     className={cn(
                       "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-secondary/20 hover:text-secondary",
-                      value.includes(service.value) &&
+                      value.includes(service.id) &&
                         "bg-secondary/20 text-secondary",
                     )}
                   >
-                    {value.includes(service.value) && <Check />}
-                    {service.label}
+                    {value.includes(service.id) && <Check />}
+                    {service.name}
                   </Button>
                 ))}
               </div>

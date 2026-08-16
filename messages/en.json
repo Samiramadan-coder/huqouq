@@ -888,12 +888,7 @@
         "Fields": {
           "AccountType": {
             "Label": "Account Type",
-            "Required": "Account type is required",
-            "Options": {
-              "Freelance": "Freelance",
-              "Office": "Office",
-              "Company": "Company"
-            }
+            "Required": "Account type is required"
           },
           "OfficeName": {
             "Label": "Office Name",

@@ -1,5 +1,6 @@
 import z from "zod";
 import { T } from "../shared";
+import { AcademicDegree, AccountType, BarDegree } from "../reference-data";
 
 export type Education = {
   certificate_path: string | null;
@@ -53,11 +54,11 @@ export type LawyerProfile = {
   rejection_reason: null | string;
   submitted_at: null | string;
   profile: {
-    academic_degree: null | "masters";
-    account_type: "freelance" | "company" | "office";
+    academic_degree: null | AcademicDegree["label"];
+    account_type: AccountType["label"];
     bar_certificate_path: null | string;
     bar_certificate_url: null | string;
-    bar_degree: null | "court_of_cassation";
+    bar_degree: null | BarDegree["label"];
     bar_number: null | string;
     bio: null | string;
     educations: Education[];
@@ -76,10 +77,7 @@ export type LawyerProfile = {
 export const professionalInfoSchema = (t: T) =>
   z
     .object({
-      account_type: z.enum(
-        ["freelance", "company", "office"],
-        t("Fields.AccountType.Required"),
-      ),
+      account_type: z.string().min(1, t("Fields.AccountType.Required")),
       office_name: z.string(),
       years_of_experience: z
         .number()
@@ -88,11 +86,8 @@ export const professionalInfoSchema = (t: T) =>
         .string()
         .min(1, t("Fields.BarNumber.Required"))
         .min(2, t("Fields.BarNumber.Min")),
-      bar_degree: z.enum(
-        ["court_of_cassation"],
-        t("Fields.BarDegree.Required"),
-      ),
-      academic_degree: z.enum(["masters"], t("Fields.AcademicDegree.Required")),
+      bar_degree: z.string().min(1, t("Fields.BarDegree.Required")),
+      academic_degree: z.string().min(1, t("Fields.AcademicDegree.Required")),
     })
     .superRefine((data, ctx) => {
       if (

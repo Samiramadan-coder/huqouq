@@ -12,6 +12,8 @@ import { setRequestLocale } from "next-intl/server";
 import { Inter, Lora, Cairo } from "next/font/google";
 import { UserProvider } from "@/providers/user-provider";
 import { DirectionProvider } from "@/components/ui/direction";
+import { ReferenceDataProvider } from "@/providers/reference-data.provider";
+import { ReferenceData } from "@/types/reference-data";
 
 type Props = {
   children: React.ReactNode;
@@ -53,20 +55,27 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale);
-
   const dir = locale === "ar" ? "rtl" : "ltr";
 
-  /**
-   * Fetch the authenticated user's data if a token is present
-   */
+  // Fetch the reference data from the API
+  const { data: referenceData, ok: referenceDataOk } =
+    await http.get<ReferenceData>("/api/reference-data");
+
+  if (!referenceDataOk) {
+    throw new Error("Failed to fetch reference data");
+  }
+
+  // Fetch the authenticated user's data if a token is present
   if (token) {
-    const { data, ok } = await http.get<{ data: User }>("/api/auth/me");
+    const { data: userData, ok } = await http.get<{ data: User }>(
+      "/api/auth/me",
+    );
 
     if (!ok) {
       throw new Error("Failed to fetch user data");
     }
 
-    user = data.data;
+    user = userData.data;
   }
 
   return (
@@ -76,14 +85,16 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={`${inter.variable} ${lora.variable} ${cairo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <UserProvider initialUser={user}>
-          <NextIntlClientProvider>
-            <DirectionProvider dir={dir}>
-              {children}
-              <Toaster richColors position="top-right" />
-            </DirectionProvider>
-          </NextIntlClientProvider>
-        </UserProvider>
+        <ReferenceDataProvider initialReferenceData={referenceData}>
+          <UserProvider initialUser={user}>
+            <NextIntlClientProvider>
+              <DirectionProvider dir={dir}>
+                {children}
+                <Toaster richColors position="top-right" />
+              </DirectionProvider>
+            </NextIntlClientProvider>
+          </UserProvider>
+        </ReferenceDataProvider>
       </body>
     </html>
   );

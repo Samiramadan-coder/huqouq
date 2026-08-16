@@ -1,10 +1,10 @@
 "use client";
 
-import { User } from "@/types/shared";
+import { ReferenceData } from "@/types/reference-data";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 type ReferenceDataContext = {
-  referenceData: User | null;
+  referenceData: ReferenceData | null;
 };
 
 const ReferenceDataContext = createContext<ReferenceDataContext | null>(null);
@@ -13,10 +13,10 @@ export function ReferenceDataProvider({
   initialReferenceData,
   children,
 }: {
-  initialReferenceData: User | null;
+  initialReferenceData: ReferenceData | null;
   children: ReactNode;
 }) {
-  const [referenceData] = useState<User | null>(initialReferenceData);
+  const [referenceData] = useState<ReferenceData | null>(initialReferenceData);
 
   return (
     <ReferenceDataContext.Provider value={{ referenceData }}>

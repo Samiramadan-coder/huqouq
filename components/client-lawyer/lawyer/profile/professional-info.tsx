@@ -15,14 +15,16 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { useForm, SubmitHandler, useWatch, Controller } from "react-hook-form";
+import { useReferenceData } from "@/providers/reference-data.provider";
 
 export default function ProfessionalInfo({
   lawyerProfile,
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Profile.ProfessionalInfo");
+  const { referenceData } = useReferenceData();
   const tDashboard = useTranslations("Lawyer.Profile");
+  const t = useTranslations("Lawyer.Profile.ProfessionalInfo");
 
   const {
     control,
@@ -79,28 +81,26 @@ export default function ProfessionalInfo({
         control={control}
         name="account_type"
         render={({ field }) => {
-          const accountTypeOptions = ["freelance", "company", "office"];
           const value = field.value || "freelance";
 
           return (
             <div className="space-x-2">
-              {accountTypeOptions.map((type) => (
+              {referenceData?.account_types.map((type) => (
                 <Button
                   type="button"
                   variant="outline"
-                  key={type}
+                  key={type.value}
                   onClick={() => {
                     setValue("office_name", "");
-                    field.onChange(type);
+                    field.onChange(type.value);
                   }}
                   className={cn(
                     "rounded-xs border-primary/10 text-xs h-9 px-4 font-normal bg-white text-primary/50 hover:bg-primary hover:text-primary-foreground",
-                    value === type && "bg-primary text-primary-foreground",
+                    value === type.value &&
+                      "bg-primary text-primary-foreground",
                   )}
                 >
-                  {t(
-                    `Fields.AccountType.Options.${type.charAt(0).toUpperCase() + type.slice(1)}`,
-                  )}
+                  {type.label}
                 </Button>
               ))}
             </div>
@@ -151,12 +151,7 @@ export default function ProfessionalInfo({
         label={t("Fields.BarDegree.Label")}
         placeholder={t("Fields.BarDegree.Placeholder")}
         triggerClassName="bg-background border border-secondary/20!"
-        options={[
-          {
-            value: "court_of_cassation",
-            label: t("Fields.BarDegree.Options.CourtOfCassation"),
-          },
-        ]}
+        options={referenceData?.bar_degrees || []}
       />
 
       <FormSelect
@@ -166,12 +161,7 @@ export default function ProfessionalInfo({
         label={t("Fields.AcademicDegree.Label")}
         placeholder={t("Fields.AcademicDegree.Placeholder")}
         triggerClassName="bg-background border border-secondary/20!"
-        options={[
-          {
-            value: "masters",
-            label: t("Fields.AcademicDegree.Options.Masters"),
-          },
-        ]}
+        options={referenceData?.academic_degrees || []}
       />
 
       <p className="sm:col-span-2 text-primary/40 text-[11px] bg-background p-2">
