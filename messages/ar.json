@@ -1067,6 +1067,19 @@
           }
         }
       }
+    },
+    "Dashboard": {
+      "GoodEvening": "مساء الخير",
+      "GoodMorning": "صباح الخير",
+      "GoodAfternoon": "مساء الخير",
+      "Verified": "مفعل",
+      "Unverified": "غير مفعل",
+      "Reviews": "التقييمات",
+      "CasesHandled": "القضايا المعالجة",
+      "RespondsWithinAnHour": "يرد خلال ساعة",
+      "MemberSince": "عضو منذ",
+      "Complete": "مكتمل",
+      "CompleteProfile": "اكمل الملف الشخصي"
     }
   }
 }

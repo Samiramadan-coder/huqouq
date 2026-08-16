@@ -1073,9 +1073,9 @@
       }
     },
     "Dashboard": {
-      "GoodEvening": "Good Evening,",
-      "GoodMorning": "Good Morning,",
-      "GoodAfternoon": "Good Afternoon,",
+      "GoodEvening": "Good Evening",
+      "GoodMorning": "Good Morning",
+      "GoodAfternoon": "Good Afternoon",
       "Verified": "Verified",
       "Unverified": "Unverified",
       "Reviews": "Reviews",

@@ -190,7 +190,7 @@ export default function Info() {
               className="h-10 shrink-0 rounded-sm border border-secondary/30 px-4 font-normal text-primary bg-transparent hover:bg-[#fffaf0]"
             >
               {t("CompleteProfile")}
-              <ChevronRight className="ml-2 size-4" />
+              <ChevronRight className="ml-2 size-4 rtl:rotate-180" />
             </Button>
           </Link>
         </div>
