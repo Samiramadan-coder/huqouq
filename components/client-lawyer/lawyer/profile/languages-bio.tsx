@@ -16,19 +16,15 @@ import { updateLanguagesBio } from "@/lib/lawyer/dashboard";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
-
-const languages = [
-  { label: "English", value: "English" },
-  { label: "Arabic", value: "Arabic" },
-  { label: "French", value: "French" },
-];
 
 export default function LanguagesBio({
   lawyerProfile,
 }: {
   lawyerProfile: LawyerProfile;
 }) {
+  const { referenceData } = useReferenceData();
   const t = useTranslations("Lawyer.Profile.LanguagesBio");
   const tDashboard = useTranslations("Lawyer.Profile");
 
@@ -86,28 +82,26 @@ export default function LanguagesBio({
               </p>
 
               <div className="flex flex-wrap gap-2">
-                {languages.map((language) => (
+                {referenceData?.languages.map((language) => (
                   <Button
                     type="button"
                     variant="outline"
-                    key={language.value}
+                    key={language}
                     onClick={() => {
-                      if (value.includes(language.value)) {
-                        field.onChange(
-                          value.filter((id) => id !== language.value),
-                        );
+                      if (value.includes(language)) {
+                        field.onChange(value.filter((id) => id !== language));
                         return;
                       }
-                      field.onChange([...value, language.value]);
+                      field.onChange([...value, language]);
                     }}
                     className={cn(
                       "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-secondary/20 hover:text-secondary",
-                      value.includes(language.value) &&
+                      value.includes(language) &&
                         "bg-secondary/20 text-secondary",
                     )}
                   >
-                    {value.includes(language.value) && <Check />}
-                    {language.label}
+                    {value.includes(language) && <Check />}
+                    {language}
                   </Button>
                 ))}
               </div>

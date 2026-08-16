@@ -1,11 +1,16 @@
 import z from "zod";
 import { T } from "../shared";
-import { AcademicDegree, AccountType, BarDegree } from "../reference-data";
+import {
+  AcademicDegree,
+  AccountType,
+  BarDegree,
+  EducationDegree,
+} from "../reference-data";
 
 export type Education = {
   certificate_path: string | null;
   certificate_url: string | null;
-  degree: "bachelors";
+  degree: EducationDegree["label"];
   description: string;
   graduation_month: number;
   graduation_year: number;

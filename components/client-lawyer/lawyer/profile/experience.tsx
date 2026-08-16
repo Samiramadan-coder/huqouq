@@ -51,17 +51,19 @@ export default function Experience({
   } = useForm<ExperiencesFormValues>({
     resolver: zodResolver(experiencesSchema(t)),
     defaultValues: {
-      entries: lawyerProfile.profile.experiences.map((experience) => ({
-        title: experience.title || "",
-        organization: experience.organization || "",
-        start_month: experience.start_month || 1,
-        start_year: experience.start_year || new Date().getFullYear(),
-        end_month: experience.end_month || undefined,
-        end_year: experience.end_year || undefined,
-        is_current: experience.is_current || false,
-        description: experience.description || "",
-        certificate: experience.certificate_url || undefined,
-      })) || [initialExperienceEntry],
+      entries: lawyerProfile.profile.experiences.length
+        ? lawyerProfile.profile.experiences.map((experience) => ({
+            title: experience.title || "",
+            organization: experience.organization || "",
+            start_month: experience.start_month || 1,
+            start_year: experience.start_year || new Date().getFullYear(),
+            end_month: experience.end_month || undefined,
+            end_year: experience.end_year || undefined,
+            is_current: experience.is_current || false,
+            description: experience.description || "",
+            certificate: experience.certificate_url || undefined,
+          }))
+        : [initialExperienceEntry],
     },
   });
 

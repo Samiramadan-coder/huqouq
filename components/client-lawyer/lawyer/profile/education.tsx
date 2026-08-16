@@ -18,6 +18,7 @@ import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
+import { useReferenceData } from "@/providers/reference-data.provider";
 
 const initialEducationEntry: EducationFormValues["entries"][number] = {
   degree: "bachelors",
@@ -33,8 +34,9 @@ export default function Education({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Profile.Education");
+  const { referenceData } = useReferenceData();
   const tDashboard = useTranslations("Lawyer.Profile");
+  const t = useTranslations("Lawyer.Profile.Education");
 
   const {
     control,
@@ -46,14 +48,17 @@ export default function Education({
   } = useForm<EducationFormValues>({
     resolver: zodResolver(educationSchema(t)),
     defaultValues: {
-      entries: lawyerProfile.profile.educations.map((education) => ({
-        degree: education.degree || "bachelors",
-        university: education.university || "",
-        graduation_month: education.graduation_month || 1,
-        graduation_year: education.graduation_year || new Date().getFullYear(),
-        description: education.description || "",
-        certificate: education.certificate_url || undefined,
-      })) || [initialEducationEntry],
+      entries: lawyerProfile.profile.educations.length
+        ? lawyerProfile.profile.educations.map((education) => ({
+            degree: education.degree || "bachelors",
+            university: education.university || "",
+            graduation_month: education.graduation_month || 1,
+            graduation_year:
+              education.graduation_year || new Date().getFullYear(),
+            description: education.description || "",
+            certificate: education.certificate_url || undefined,
+          }))
+        : [initialEducationEntry],
     },
   });
 
@@ -115,12 +120,7 @@ export default function Education({
             placeholder={t("Fields.Degree.Placeholder")}
             className="sm:col-span-2"
             triggerClassName="bg-background border border-secondary/20!"
-            options={[
-              {
-                value: "bachelors",
-                label: t("Fields.Degree.Options.Bachelors"),
-              },
-            ]}
+            options={referenceData?.education_degrees || []}
           />
 
           <FormSelect
