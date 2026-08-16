@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function Info() {
   const locale = useLocale();
   const { user } = useUser();
-  const t = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile");
 
   return (
     <div className="flex items-center gap-4">

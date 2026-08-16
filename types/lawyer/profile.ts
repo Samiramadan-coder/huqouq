@@ -24,6 +24,21 @@ export type Experience = {
   title: string;
 };
 
+export type Section = {
+  is_complete: boolean;
+  key:
+    | "professional_info"
+    | "specializations_services"
+    | "languages_bio"
+    | "education"
+    | "experience"
+    | "bar_certificate";
+  label: string;
+  reason: null | string;
+  status: "pending" | "approved" | "rejected";
+  weight: number;
+};
+
 export type ProfileStatus =
   | "incomplete"
   | "in_review"
@@ -54,20 +69,7 @@ export type LawyerProfile = {
     website_url: null;
     years_of_experience: null | number;
   };
-  sections: {
-    is_complete: boolean;
-    key:
-      | "professional_info"
-      | "specializations_services"
-      | "languages_bio"
-      | "education"
-      | "experience"
-      | "bar_certificate";
-    label: string;
-    reason: null | string;
-    status: "pending" | "approved" | "rejected";
-    weight: number;
-  }[];
+  sections: Section[];
 };
 
 // Professional Info Schema

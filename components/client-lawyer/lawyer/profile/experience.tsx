@@ -37,8 +37,8 @@ export default function Experience({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Dashboard.Experience");
-  const tDashboard = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile.Experience");
+  const tDashboard = useTranslations("Lawyer.Profile");
 
   // Initialize the form with react-hook-form
   const {

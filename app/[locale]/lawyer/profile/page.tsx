@@ -20,7 +20,7 @@ import SpecializationServices from "@/components/client-lawyer/lawyer/profile/sp
 
 export default async function DashboardPage() {
   const locale = await getLocale();
-  const t = await getTranslations("Lawyer.Dashboard");
+  const t = await getTranslations("Lawyer.Profile");
 
   const { data, ok } = await http.get<LawyerProfile>("/api/lawyer/profile", {
     next: { tags: ["lawyer-profile"] },

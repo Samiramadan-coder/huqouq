@@ -874,7 +874,7 @@
       "Settings": "Settings",
       "EmergencyHistory": "Emergency History"
     },
-    "Dashboard": {
+    "Profile": {
       "SaveSection": "Save Section",
       "MyProfile": "My Profile",
       "ChangePhoto": "Change Photo",
@@ -1071,6 +1071,19 @@
           }
         }
       }
+    },
+    "Dashboard": {
+      "GoodEvening": "Good Evening,",
+      "GoodMorning": "Good Morning,",
+      "GoodAfternoon": "Good Afternoon,",
+      "Verified": "Verified",
+      "Unverified": "Unverified",
+      "Reviews": "Reviews",
+      "CasesHandled": "Cases Handled",
+      "RespondsWithinAnHour": "Responds Within an Hour",
+      "MemberSince": "Member Since",
+      "Complete": "Complete",
+      "CompleteProfile": "Complete Profile"
     }
   }
 }

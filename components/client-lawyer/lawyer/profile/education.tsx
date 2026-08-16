@@ -33,8 +33,8 @@ export default function Education({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Dashboard.Education");
-  const tDashboard = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile.Education");
+  const tDashboard = useTranslations("Lawyer.Profile");
 
   const {
     control,

@@ -47,8 +47,8 @@ export default function SpecializationServices({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Dashboard.SpecializationServices");
-  const tDashboard = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile.SpecializationServices");
+  const tDashboard = useTranslations("Lawyer.Profile");
 
   const {
     control,

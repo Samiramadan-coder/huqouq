@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
 export default function SendForReview() {
-  const t = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile");
   const [loading, setLoading] = useState(false);
 
   async function handleSendForReview() {

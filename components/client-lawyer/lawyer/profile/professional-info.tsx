@@ -21,8 +21,8 @@ export default function ProfessionalInfo({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Dashboard.ProfessionalInfo");
-  const tDashboard = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile.ProfessionalInfo");
+  const tDashboard = useTranslations("Lawyer.Profile");
 
   const {
     control,

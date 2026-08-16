@@ -29,8 +29,8 @@ export default function LanguagesBio({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Dashboard.LanguagesBio");
-  const tDashboard = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile.LanguagesBio");
+  const tDashboard = useTranslations("Lawyer.Profile");
 
   const {
     handleSubmit,

@@ -53,6 +53,20 @@ export type User = {
     languages: string[];
     education: Education[];
     experience: Experience[];
+    review_items: {
+      item:
+        | "professional_info"
+        | "specializations_services"
+        | "languages_bio"
+        | "education"
+        | "experience"
+        | "bar_certificate";
+      item_label: string;
+      reason: null | string;
+      reviewed_at: null | string;
+      reviewed_by: null | string;
+      status: "pending" | "approved" | "rejected";
+    }[];
   };
   name: string;
   phone: string;

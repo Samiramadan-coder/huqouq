@@ -18,8 +18,8 @@ export default function BarCertificate({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("Lawyer.Dashboard.BarCertificate");
-  const tDashboard = useTranslations("Lawyer.Dashboard");
+  const t = useTranslations("Lawyer.Profile.BarCertificate");
+  const tDashboard = useTranslations("Lawyer.Profile");
 
   const {
     control,
