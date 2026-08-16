@@ -34,7 +34,7 @@ export default async function Hero() {
 
       <div className="absolute inset-0 opacity-[0.03] bg-[repeating-linear-gradient(0deg,transparent,transparent_40px,white_40px,white_41px)]" />
 
-      <div className="container relative grid max-w-7xl items-center gap-16 py-5 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="container relative grid max-w-7xl items-center gap-16 py-5 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="max-w-2xl">
           <motion.p
             initial={{ opacity: 0, y: 14 }}
