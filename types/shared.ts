@@ -1,4 +1,5 @@
 import { Education, Experience, ProfileStatus } from "./lawyer/profile";
+import { Service, Specialization } from "./reference-data";
 
 export type T = (key: string) => string;
 
@@ -36,14 +37,8 @@ export type User = {
     bar_number: string | null;
     bio: string | null;
     completion_percentage: number;
-    specializations: {
-      id: number;
-      name: string;
-    }[];
-    services: {
-      id: number;
-      name: string;
-    }[];
+    specializations: Specialization[];
+    services: Service[];
     office_name: string | null;
     profile_status: ProfileStatus;
     rejection_reason: string | null;
