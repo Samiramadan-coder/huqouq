@@ -1,11 +1,40 @@
 import z from "zod";
 import { T } from "../shared";
 
+export type Education = {
+  certificate_path: string | null;
+  certificate_url: string | null;
+  degree: "bachelors";
+  description: string;
+  graduation_month: number;
+  graduation_year: number;
+  university: string;
+};
+
+export type Experience = {
+  certificate_path: null | string;
+  certificate_url: null | string;
+  description: string;
+  end_month: number | null;
+  end_year: number | null;
+  is_current: boolean;
+  organization: string;
+  start_month: number;
+  start_year: number;
+  title: string;
+};
+
+export type ProfileStatus =
+  | "incomplete"
+  | "in_review"
+  | "complete"
+  | "needs_fix";
+
 export type LawyerProfile = {
   completion_percentage: number;
   is_editable: boolean;
   is_ready_to_submit: boolean;
-  profile_status: "incomplete" | "complete" | "in_review" | "needs_fix";
+  profile_status: ProfileStatus;
   rejection_reason: null | string;
   submitted_at: null | string;
   profile: {
@@ -15,28 +44,9 @@ export type LawyerProfile = {
     bar_certificate_url: null | string;
     bar_degree: null | "court_of_cassation";
     bar_number: null | string;
-    bio: null;
-    educations: {
-      certificate_path: string | null;
-      certificate_url: string | null;
-      degree: "bachelors";
-      description: string;
-      graduation_month: number;
-      graduation_year: number;
-      university: string;
-    }[];
-    experiences: {
-      certificate_path: null | string;
-      certificate_url: null | string;
-      description: string;
-      end_month: number | null;
-      end_year: number | null;
-      is_current: boolean;
-      organization: string;
-      start_month: number;
-      start_year: number;
-      title: string;
-    }[];
+    bio: null | string;
+    educations: Education[];
+    experiences: Experience[];
     languages: string[];
     office_name: string | null;
     service_ids: number[];

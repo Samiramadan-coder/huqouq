@@ -1,3 +1,5 @@
+import { Education, Experience, ProfileStatus } from "./lawyer/profile";
+
 export type T = (key: string) => string;
 
 export type GuestType = "client" | "lawyer";
@@ -25,50 +27,37 @@ export type User = {
   id: number;
   last_name: string;
   lawyer_profile: null | {
-    academic_degree: string;
-    academic_degree_label: string;
-    account_type: string;
-    bar_certificate_url: string;
-    bar_degree: string;
-    bar_degree_label: string;
-    bar_number: string;
-    bio: string;
+    academic_degree: string | null;
+    academic_degree_label: string | null;
+    account_type: string | null;
+    bar_certificate_url: string | null;
+    bar_degree: string | null;
+    bar_degree_label: string | null;
+    bar_number: string | null;
+    bio: string | null;
     completion_percentage: number;
-    specializations: { id: number; name: string }[];
-    services: { id: number; name: string }[];
-    office_name: string;
-    profile_status: "in_review";
+    specializations: {
+      id: number;
+      name: string;
+    }[];
+    services: {
+      id: number;
+      name: string;
+    }[];
+    office_name: string | null;
+    profile_status: ProfileStatus;
     rejection_reason: string | null;
-    submitted_at: string;
-    website_url: string;
-    years_of_experience: number;
+    submitted_at: string | null;
+    website_url: string | null;
+    years_of_experience: number | null;
     languages: string[];
-    education: {
-      certificate_path: string | null;
-      certificate_url: string | null;
-      degree: "bachelors";
-      description: string;
-      graduation_month: number;
-      graduation_year: number;
-      university: string;
-    }[];
-    experience: {
-      certificate_path: null | string;
-      certificate_url: null | string;
-      description: string;
-      end_month: number | null;
-      end_year: number | null;
-      is_current: boolean;
-      organization: string;
-      start_month: number;
-      start_year: number;
-      title: string;
-    }[];
+    education: Education[];
+    experience: Experience[];
   };
   name: string;
   phone: string;
   phone_verified: boolean;
   photo_url: string | null;
   role: GuestType;
-  status: "active" | "inactive";
+  status: "unverified" | "pending_approval" | "active";
 };
