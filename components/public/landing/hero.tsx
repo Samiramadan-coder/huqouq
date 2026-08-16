@@ -8,7 +8,7 @@ export default async function Hero() {
   const t = await getTranslations("Home.Hero");
 
   return (
-    <div className="relative min-h-[calc(100vh-64px)] bg-primary overflow-hidden">
+    <div className="relative min-h-[calc(100vh-64px)] bg-primary overflow-hidden flex items-center">
       <div
         className="absolute right-0 top-1/2 -translate-y-[calc(50%+60px)] w-175 h-175 opacity-[0.04] pointer-events-none select-none"
         aria-hidden="true"
@@ -34,7 +34,7 @@ export default async function Hero() {
 
       <div className="absolute inset-0 opacity-[0.03] bg-[repeating-linear-gradient(0deg,transparent,transparent_40px,white_40px,white_41px)]" />
 
-      <div className="container relative grid max-w-7xl items-center gap-16 py-20 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="container relative grid max-w-7xl items-center gap-16 py-10 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="max-w-2xl">
           <motion.p
             initial={{ opacity: 0, y: 14 }}
