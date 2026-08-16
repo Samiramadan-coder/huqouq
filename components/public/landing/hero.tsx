@@ -36,7 +36,6 @@ export default async function Hero() {
 
       <div className="container relative grid max-w-7xl items-center gap-16 py-20 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="max-w-2xl">
-          test
           <motion.p
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -49,6 +48,7 @@ export default async function Hero() {
           >
             {t("Eyebrow")}
           </motion.p>
+
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,6 +65,7 @@ export default async function Hero() {
             <br />
             <span className="text-secondary">{t("Title.Highlight")}</span>
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -77,6 +78,7 @@ export default async function Hero() {
           >
             {t("Description")}
           </motion.p>
+
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -114,6 +116,7 @@ export default async function Hero() {
               </Button>
             </Link>
           </motion.div>
+
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -131,6 +134,7 @@ export default async function Hero() {
             {t("Stats.Location")}
           </motion.p>
         </div>
+
         <motion.div
           initial={{ opacity: 0, x: 45, scale: 0.97 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
