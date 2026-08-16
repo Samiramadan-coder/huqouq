@@ -43,7 +43,7 @@ export default async function HowItWorks() {
   }));
 
   return (
-    <section className="text-primary">
+    <section className="text-primary overflow-x-hidden">
       <div className="border-b border-border/30">
         <div className="container max-w-7xl grid grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => {
