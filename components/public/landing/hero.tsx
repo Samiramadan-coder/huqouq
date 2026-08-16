@@ -34,7 +34,7 @@ export default async function Hero() {
 
       <div className="absolute inset-0 opacity-[0.03] bg-[repeating-linear-gradient(0deg,transparent,transparent_40px,white_40px,white_41px)]" />
 
-      <div className="container relative grid max-w-7xl items-center gap-16 py-40 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="container relative grid max-w-7xl items-center gap-16 py-20 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="max-w-2xl">
           <motion.p
             initial={{ opacity: 0, y: 14 }}
@@ -74,7 +74,7 @@ export default async function Hero() {
               delay: 0.2,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mb-10 max-w-lg font-sans text-base leading-relaxed text-white/60"
+            className="mb-7 max-w-lg font-sans text-base leading-relaxed text-white/60"
           >
             {t("Description")}
           </motion.p>
@@ -125,7 +125,7 @@ export default async function Hero() {
               delay: 0.38,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mt-9 text-xs tracking-wide text-white/35"
+            className="mt-6 text-xs tracking-wide text-white/35"
           >
             {t("Stats.Lawyers")}
             <span className="mx-2">·</span>
