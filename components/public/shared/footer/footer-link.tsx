@@ -10,7 +10,7 @@ export default function FooterLink({
   return (
     <Link
       href={href}
-      className="text-sm text-white/60 transition-colors hover:text-secondary"
+      className="text-sm text-white/60 transition-colors hover:text-accent"
     >
       {children}
     </Link>

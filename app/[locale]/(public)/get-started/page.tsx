@@ -12,7 +12,7 @@ export default async function GetStartedPage() {
     <main className="grid min-h-[calc(100vh-6rem)] lg:grid-cols-2">
       <section className="bg-[#f8f6f2] px-5 py-12 sm:px-10 lg:px-16 xl:px-20">
         <div className="mx-auto flex h-full max-w-xl flex-col justify-center">
-          <p className="mb-7 text-sm font-semibold uppercase tracking-[0.3em] text-secondary">
+          <p className="mb-7 text-sm font-semibold uppercase tracking-[0.3em] text-accent">
             {t("eyebrow")}
           </p>
 
@@ -36,7 +36,7 @@ export default async function GetStartedPage() {
             {t("alreadyHaveAccount")}{" "}
             <Link
               href="/sign-in"
-              className="font-medium text-secondary hover:underline"
+              className="font-medium text-accent hover:underline"
             >
               {t("signIn")}
             </Link>
@@ -45,7 +45,7 @@ export default async function GetStartedPage() {
       </section>
 
       <section className="hidden items-center justify-center bg-primary p-10 lg:flex xl:p-16">
-        <div className="w-full max-w-md rounded-xl border border-secondary p-3">
+        <div className="w-full max-w-md rounded-xl border border-accent p-3">
           <div className="relative aspect-4/5 overflow-hidden rounded-lg">
             <Image
               src="/get-started-hero.png"

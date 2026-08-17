@@ -48,7 +48,7 @@ export default async function Consultations() {
                 duration: 0.5,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-secondary"
+              className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-accent"
             >
               {t("Label")}
             </motion.p>
@@ -66,7 +66,7 @@ export default async function Consultations() {
             >
               {t("Title.Line1")}
               <br />
-              <span className="text-secondary">{t("Title.Highlight")}</span>
+              <span className="text-accent">{t("Title.Highlight")}</span>
             </motion.h2>
 
             <motion.p
@@ -97,7 +97,7 @@ export default async function Consultations() {
                   }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-secondary/40 text-secondary">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-accent/40 text-accent">
                     <Icon size={15} strokeWidth={1.5} />
                   </div>
 
@@ -119,7 +119,7 @@ export default async function Consultations() {
               <Button
                 asChild
                 size="lg"
-                className="mt-10 h-12 rounded-sm bg-secondary px-7 text-primary hover:bg-secondary/90"
+                className="mt-10 h-12 rounded-sm bg-accent px-7 text-primary hover:bg-accent/90"
               >
                 <Link href="/lawyers">
                   {t("Action")}
@@ -139,7 +139,7 @@ export default async function Consultations() {
                 delay: 0.12,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="w-full max-w-100 rounded-xl border border-secondary/25 shadow-[0_16px_48px_rgba(27,58,87,0.10)] bg-white p-6"
+              className="w-full max-w-100 rounded-xl border border-accent/25 shadow-[0_16px_48px_rgba(27,58,87,0.10)] bg-white p-6"
             >
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
@@ -152,7 +152,7 @@ export default async function Consultations() {
                 }}
                 className="flex items-center gap-4"
               >
-                <div className="relative size-14 overflow-hidden rounded-full border border-secondary/30">
+                <div className="relative size-14 overflow-hidden rounded-full border border-accent/30">
                   <Image
                     src="/get-started-hero.png"
                     alt={t("Card.LawyerName")}
@@ -174,7 +174,7 @@ export default async function Consultations() {
                     <span className="rounded-full bg-muted px-2 py-1 text-primary">
                       {t("Card.Verified")}
                     </span>
-                    <span className="text-secondary">{t("Card.Price")}</span>
+                    <span className="text-accent">{t("Card.Price")}</span>
                   </div>
                 </div>
               </motion.div>
@@ -258,7 +258,7 @@ export default async function Consultations() {
                       }}
                       className={`rounded-full border px-3 py-2 text-xs ${
                         time === "2:00 PM"
-                          ? "border-secondary bg-secondary text-primary"
+                          ? "border-accent bg-accent text-primary"
                           : "border-[#EDE9E1] text-primary/55"
                       }`}
                     >

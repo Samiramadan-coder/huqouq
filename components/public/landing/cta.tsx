@@ -20,9 +20,9 @@ export default async function CTA() {
           }}
           className="mb-7 flex items-center justify-center gap-4"
         >
-          <span className="h-px w-16 bg-secondary/40" />
-          <ShieldCheck size={20} strokeWidth={1.3} className="text-secondary" />
-          <span className="h-px w-16 bg-secondary/40" />
+          <span className="h-px w-16 bg-accent/40" />
+          <ShieldCheck size={20} strokeWidth={1.3} className="text-accent" />
+          <span className="h-px w-16 bg-accent/40" />
         </motion.div>
 
         <motion.p
@@ -34,7 +34,7 @@ export default async function CTA() {
             delay: 0.05,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-secondary"
+          className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-accent"
         >
           {t("Label")}
         </motion.p>
@@ -81,7 +81,7 @@ export default async function CTA() {
           <Button
             asChild
             size="lg"
-            className="h-12 min-w-46 rounded-sm bg-secondary px-8 text-primary hover:bg-secondary/90"
+            className="h-12 min-w-46 rounded-sm bg-accent px-8 text-primary hover:bg-accent/90"
           >
             <Link href="/sign-up/client">{t("Actions.Client")}</Link>
           </Button>

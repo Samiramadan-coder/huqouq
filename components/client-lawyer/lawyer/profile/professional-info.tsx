@@ -117,7 +117,7 @@ export default function ProfessionalInfo({
           label={t("Fields.OfficeName.Label")}
           placeholder={t("Fields.OfficeName.Placeholder")}
           className="sm:col-span-2"
-          inputClassName="bg-background border border-secondary/20!"
+          inputClassName="bg-background border border-accent/20!"
         />
       )}
 
@@ -130,7 +130,7 @@ export default function ProfessionalInfo({
         label={t("Fields.YearsOfExperience.Label")}
         placeholder={t("Fields.YearsOfExperience.Placeholder")}
         className="sm:col-span-2"
-        inputClassName="bg-background border border-secondary/20!"
+        inputClassName="bg-background border border-accent/20!"
       />
 
       <FormInput
@@ -141,7 +141,7 @@ export default function ProfessionalInfo({
         label={t("Fields.BarNumber.Label")}
         placeholder={t("Fields.BarNumber.Placeholder")}
         className="sm:col-span-2"
-        inputClassName="bg-background border border-secondary/20!"
+        inputClassName="bg-background border border-accent/20!"
       />
 
       <FormSelect
@@ -150,7 +150,7 @@ export default function ProfessionalInfo({
         name="bar_degree"
         label={t("Fields.BarDegree.Label")}
         placeholder={t("Fields.BarDegree.Placeholder")}
-        triggerClassName="bg-background border border-secondary/20!"
+        triggerClassName="bg-background border border-accent/20!"
         options={referenceData?.bar_degrees || []}
       />
 
@@ -160,7 +160,7 @@ export default function ProfessionalInfo({
         name="academic_degree"
         label={t("Fields.AcademicDegree.Label")}
         placeholder={t("Fields.AcademicDegree.Placeholder")}
-        triggerClassName="bg-background border border-secondary/20!"
+        triggerClassName="bg-background border border-accent/20!"
         options={referenceData?.academic_degrees || []}
       />
 

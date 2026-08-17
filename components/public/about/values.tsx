@@ -55,9 +55,9 @@ export default async function Values() {
                 delay: index * 0.08,
                 ease: "easeOut",
               }}
-              className="rounded-[8px] border border-secondary/20 bg-white px-8 py-9"
+              className="rounded-[8px] border border-accent/20 bg-white px-8 py-9"
             >
-              <Icon className="size-7 text-secondary" strokeWidth={1.6} />
+              <Icon className="size-7 text-accent" strokeWidth={1.6} />
               <h3
                 className={cn("mt-5 text-xl font-bold mb-3 text-primary", {
                   "font-lora": locale === "en",

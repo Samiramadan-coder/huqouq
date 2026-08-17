@@ -182,7 +182,7 @@ export default function ResetPasswordForm() {
       <Button
         variant="ghost"
         type="button"
-        className="w-full hover:bg-transparent text-secondary"
+        className="w-full hover:bg-transparent text-accent"
       >
         <Link href="/sign-in">{t("backToSignIn")}</Link>
       </Button>

@@ -17,7 +17,7 @@ export default async function CTA() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="mx-auto max-w-180 text-center"
       >
-        <span className="block text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
+        <span className="block text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">
           {t("eyebrow")}
         </span>
 
@@ -37,7 +37,7 @@ export default async function CTA() {
         <div className="mt-10">
           <Link
             href="/"
-            className="inline-flex h-13 min-w-53.75 items-center justify-center gap-4 rounded-sm bg-secondary px-8 text-[14px] font-semibold text-primary transition-opacity hover:opacity-90"
+            className="inline-flex h-13 min-w-53.75 items-center justify-center gap-4 rounded-sm bg-accent px-8 text-[14px] font-semibold text-primary transition-opacity hover:opacity-90"
           >
             {t("button")}
 

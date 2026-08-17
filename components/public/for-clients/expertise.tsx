@@ -99,7 +99,7 @@ export default async function Expertise() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="text-center"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">
             {t("eyebrow")}
           </span>
 
@@ -125,7 +125,7 @@ export default async function Expertise() {
                 delay: index * 0.04,
                 ease: "easeOut",
               }}
-              className="flex min-h-25 flex-col items-center justify-center rounded-sm border px-4 py-5 text-center border-secondary/20 bg-background"
+              className="flex min-h-25 flex-col items-center justify-center rounded-sm border px-4 py-5 text-center border-accent/20 bg-background"
             >
               <Icon className="size-6 text-primary/65" strokeWidth={1.3} />
               <span

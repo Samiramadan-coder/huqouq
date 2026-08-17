@@ -66,7 +66,7 @@ export default function Info() {
             </Avatar>
 
             {lawyer?.profile_status === "approved" && (
-              <div className="absolute -bottom-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-secondary ring-2 ring-primary/90">
+              <div className="absolute -bottom-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-accent ring-2 ring-primary/90">
                 <BadgeCheck className="size-3 text-white" />
               </div>
             )}
@@ -86,7 +86,7 @@ export default function Info() {
               {lawyer?.profile_status === "approved" && (
                 <Badge
                   variant="outline"
-                  className="h-5 rounded-xs border-secondary/70 px-2 text-[10px] font-normal text-secondary"
+                  className="h-5 rounded-xs border-accent/70 px-2 text-[10px] font-normal text-accent"
                 >
                   {t("Verified")}
                 </Badge>
@@ -98,7 +98,7 @@ export default function Info() {
                 <Badge
                   key={item.id}
                   variant="outline"
-                  className="h-5 rounded-xs border-secondary/70 px-2 text-[10px] font-normal text-secondary"
+                  className="h-5 rounded-xs border-accent/70 px-2 text-[10px] font-normal text-accent"
                 >
                   {item.name}
                 </Badge>
@@ -107,7 +107,7 @@ export default function Info() {
 
             <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-white/65">
               <div className="flex items-center gap-1.5">
-                <Star className="size-3.5 fill-secondary text-secondary" />
+                <Star className="size-3.5 fill-accent text-accent" />
                 <span>
                   <span className="font-medium text-white/65">4.8</span> (32{" "}
                   {t("Reviews")})
@@ -183,7 +183,7 @@ export default function Info() {
                     className={cn(
                       "h-5.5 rounded-xs  px-2 text-[10px] font-normal",
                       {
-                        "text-secondary border-secondary/30 bg-secondary/10":
+                        "text-accent border-accent/30 bg-accent/10":
                           item.is_complete,
                         "text-gray-400 border-gray-200 bg-gray-50":
                           !item.is_complete,
@@ -205,7 +205,7 @@ export default function Info() {
               <Link href="/lawyer/profile" className="shrink-0">
                 <Button
                   variant="outline"
-                  className="h-10 shrink-0 rounded-sm border border-secondary/30 px-4 font-normal text-primary bg-transparent hover:bg-[#fffaf0]"
+                  className="h-10 shrink-0 rounded-sm border border-accent/30 px-4 font-normal text-primary bg-transparent hover:bg-[#fffaf0]"
                 >
                   {t("CompleteProfile")}
                   <ChevronRight className="ml-2 size-4 rtl:rotate-180" />

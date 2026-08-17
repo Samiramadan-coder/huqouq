@@ -9,7 +9,7 @@ export default async function SidebarLogo() {
 
   return (
     <Link href="/" className="w-full">
-      <div className="px-4 h-14 border-b border-secondary/20 flex items-center">
+      <div className="px-4 h-14 border-b border-accent/20 flex items-center">
         <PrimaryLogo />
         <span
           className={cn("uppercase font-semibold ms-1", {

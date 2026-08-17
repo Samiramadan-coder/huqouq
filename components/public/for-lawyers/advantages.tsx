@@ -48,7 +48,7 @@ export default async function Advantages() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="text-center"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">
             {t("eyebrow")}
           </span>
 
@@ -76,10 +76,10 @@ export default async function Advantages() {
                 delay: index * 0.08,
                 ease: "easeOut",
               }}
-              className="flex gap-5 rounded-sm border border-secondary/20 bg-white px-8 py-8"
+              className="flex gap-5 rounded-sm border border-accent/20 bg-white px-8 py-8"
             >
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary/20">
-                <Icon className="size-5 text-secondary" strokeWidth={1.5} />
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-sm bg-accent/20">
+                <Icon className="size-5 text-accent" strokeWidth={1.5} />
               </div>
 
               <div>

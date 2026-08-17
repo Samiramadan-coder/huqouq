@@ -51,7 +51,7 @@ export default async function Options() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="text-center"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">
             {t("eyebrow")}
           </span>
 
@@ -80,7 +80,7 @@ export default async function Options() {
               className={
                 featured
                   ? "flex min-h-75 flex-col rounded-sm bg-primary px-8 py-8 text-white"
-                  : "flex min-h-75 flex-col rounded-sm border border-secondary/20 bg-background px-8 py-8"
+                  : "flex min-h-75 flex-col rounded-sm border border-accent/20 bg-background px-8 py-8"
               }
             >
               <div
@@ -113,7 +113,7 @@ export default async function Options() {
 
               <Link
                 href={href}
-                className="mt-auto inline-flex items-center gap-2 pt-6 text-[14px] font-semibold text-secondary"
+                className="mt-auto inline-flex items-center gap-2 pt-6 text-[14px] font-semibold text-accent"
               >
                 {t(`${key}.cta`)}
 

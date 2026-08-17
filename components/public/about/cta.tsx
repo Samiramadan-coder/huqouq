@@ -31,14 +31,14 @@ export default async function CTA() {
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/sign-up/client"
-              className="flex h-13.5 min-w-47 items-center justify-center rounded-[6px] bg-secondary px-7 text-[15px] font-semibold text-primary transition-opacity hover:opacity-90"
+              className="flex h-13.5 min-w-47 items-center justify-center rounded-[6px] bg-accent px-7 text-[15px] font-semibold text-primary transition-opacity hover:opacity-90"
             >
               {t("clientButton")}
             </Link>
 
             <Link
               href="/sign-up/lawyer"
-              className="flex h-13.5 min-w-41.5 items-center justify-center rounded-[6px] border-2 border-secondary px-7 text-[15px] font-semibold text-secondary transition-colors hover:bg-secondary hover:text-primary"
+              className="flex h-13.5 min-w-41.5 items-center justify-center rounded-[6px] border-2 border-accent px-7 text-[15px] font-semibold text-accent transition-colors hover:bg-accent hover:text-primary"
             >
               {t("lawyerButton")}
             </Link>
@@ -70,7 +70,7 @@ export default async function CTA() {
               className="flex items-center gap-3 transition-colors hover:text-primary"
             >
               <Mail
-                className="size-4.5 shrink-0 text-secondary"
+                className="size-4.5 shrink-0 text-accent"
                 strokeWidth={1.5}
               />
               <span dir="ltr">{t("contact.email")}</span>
@@ -81,7 +81,7 @@ export default async function CTA() {
               className="flex items-center gap-3 transition-colors hover:text-primary"
             >
               <Phone
-                className="size-4.5 shrink-0 text-secondary"
+                className="size-4.5 shrink-0 text-accent"
                 strokeWidth={1.5}
               />
               <span dir="ltr">{t("contact.phone")}</span>
@@ -92,7 +92,7 @@ export default async function CTA() {
               className="flex items-center gap-3 transition-colors hover:text-primary"
             >
               <CircleHelp
-                className="size-4.5 shrink-0 text-secondary"
+                className="size-4.5 shrink-0 text-accent"
                 strokeWidth={1.5}
               />
               <span>{t("contact.inquiry")}</span>

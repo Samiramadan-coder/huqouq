@@ -875,6 +875,9 @@
       "MyProfile": "ملفي الشخصي",
       "ChangePhoto": "تغيير الصورة",
       "SubmitForReview": "إرسال للمراجعة",
+      "changeRequestAlert": "القسم يحتاج إلى انتباهك. الأقسام المميزة موسعة أدناه.",
+      "changesRequest": "تم طلب تغييرات",
+      "viewFeedback": "عرض الملاحظات",
       "ProfessionalInfo": {
         "LanguageHint": "أدخل المعلومات باللغة التي تفضلها. منصتنا تتولى الترجمة تلقائيًا عند الحاجة.",
         "Messages": {

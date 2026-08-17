@@ -72,7 +72,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
             <FieldContent>
               <div className="space-y-2">
                 {displayValue ? (
-                  <div className="flex bg-background min-h-11 items-center gap-3 border border-dashed border-secondary/30 px-3">
+                  <div className="flex bg-background min-h-11 items-center gap-3 border border-dashed border-accent/30 px-3">
                     <FileIcon className="size-4 shrink-0 text-muted-foreground" />
                     <span
                       className="min-w-0 flex-1 truncate text-sm"
@@ -102,7 +102,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                     type="button"
                     variant="outline"
                     onClick={() => fileInputRef.current?.click()}
-                    className="rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-secondary/30 hover:bg-background px-3 text-sm text-primary/50"
+                    className="rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-accent/30 hover:bg-background px-3 text-sm text-primary/50"
                   >
                     <Plus className="size-4" />
                     {t("UploadFile")}

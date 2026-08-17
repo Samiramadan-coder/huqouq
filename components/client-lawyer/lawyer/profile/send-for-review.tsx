@@ -31,7 +31,7 @@ export default function SendForReview() {
       }}
     >
       <SubmitBtn
-        className="min-w-40 w-auto h-11 bg-secondary hover:bg-secondary"
+        className="min-w-40 w-auto h-11 bg-accent hover:bg-accent"
         label={t("SubmitForReview")}
         loading={loading}
       />

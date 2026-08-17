@@ -70,7 +70,7 @@ export default async function LegalServices() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="text-center"
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
+          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">
             {t("eyebrow")}
           </span>
 
@@ -90,7 +90,7 @@ export default async function LegalServices() {
 
         {/* Desktop timeline */}
         <div className="relative mx-auto mt-16 hidden max-w-180 md:block">
-          <div className="absolute inset-y-0 inset-s-1/2 w-px -translate-x-1/2 bg-secondary rtl:translate-x-1/2" />
+          <div className="absolute inset-y-0 inset-s-1/2 w-px -translate-x-1/2 bg-accent rtl:translate-x-1/2" />
 
           <div className="space-y-3">
             {steps.map(({ key, number, icon: Icon, side }, index) => (
@@ -107,7 +107,7 @@ export default async function LegalServices() {
                 className="relative grid min-h-47.5 grid-cols-[1fr_120px_1fr] items-center"
               >
                 {/* Center marker */}
-                <div className="absolute inset-s-1/2 top-1/2 z-10 size-1.75 -translate-x-1/2 -translate-y-1/2 rounded-full border border-secondary bg-[#F7F4EE] rtl:translate-x-1/2" />
+                <div className="absolute inset-s-1/2 top-1/2 z-10 size-1.75 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent bg-[#F7F4EE] rtl:translate-x-1/2" />
 
                 {side === "start" ? (
                   <>
@@ -143,7 +143,7 @@ export default async function LegalServices() {
 
         {/* Mobile */}
         <div className="relative mt-14 space-y-8 md:hidden">
-          <div className="absolute bottom-0 inset-s-4.75 top-0 w-px bg-secondary/20" />
+          <div className="absolute bottom-0 inset-s-4.75 top-0 w-px bg-accent/20" />
 
           {steps.map(({ key, number, icon: Icon }, index) => (
             <motion.div
@@ -158,12 +158,12 @@ export default async function LegalServices() {
               }}
               className="relative flex gap-6"
             >
-              <div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-secondary/20 bg-[#F7F4EE] font-serif text-[13px] text-secondary">
+              <div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-[#F7F4EE] font-serif text-[13px] text-accent">
                 {number}
               </div>
 
               <div className="pb-5">
-                <div className="flex size-11 items-center justify-center border border-secondary/20 bg-white">
+                <div className="flex size-11 items-center justify-center border border-accent/20 bg-white">
                   <Icon className="size-5 text-[#C99B3F]" strokeWidth={1.4} />
                 </div>
 
@@ -195,7 +195,7 @@ export default async function LegalServices() {
             {serviceTypes.map((service) => (
               <span
                 key={service}
-                className="border border-secondary/20 bg-white px-4 py-2 text-sm text-primary/65"
+                className="border border-accent/20 bg-white px-4 py-2 text-sm text-primary/65"
               >
                 {t(`services.${service}`)}
               </span>
@@ -204,7 +204,7 @@ export default async function LegalServices() {
 
           <Link
             href="/"
-            className="mt-10 inline-flex h-12.5 items-center justify-center gap-3 rounded-[3px] bg-secondary px-8 text-sm font-semibold text-primary"
+            className="mt-10 inline-flex h-12.5 items-center justify-center gap-3 rounded-[3px] bg-accent px-8 text-sm font-semibold text-primary"
           >
             {t("button")}
 
@@ -218,8 +218,8 @@ export default async function LegalServices() {
 
 function StepIcon({ Icon }: { Icon: LucideIcon }) {
   return (
-    <div className="mx-auto flex size-24 items-center justify-center border border-secondary/20 bg-white">
-      <Icon className="size-7 text-secondary" strokeWidth={1.35} />
+    <div className="mx-auto flex size-24 items-center justify-center border border-accent/20 bg-white">
+      <Icon className="size-7 text-accent" strokeWidth={1.35} />
     </div>
   );
 }
@@ -243,7 +243,7 @@ function StepContent({
           : "justify-self-start text-start"
       }
     >
-      <span className="font-serif text-6xl font-semibold leading-none text-secondary/20">
+      <span className="font-serif text-6xl font-semibold leading-none text-accent/20">
         {number}
       </span>
 

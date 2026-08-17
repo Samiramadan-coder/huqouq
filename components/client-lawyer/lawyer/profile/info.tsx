@@ -30,7 +30,7 @@ export default function Info() {
           {user?.first_name} {user?.last_name}
         </h3>
         <p className="text-xs text-primary/45 mt-0.5">{user?.email}</p>
-        <Button variant="link" className="p-0 text-xs text-secondary">
+        <Button variant="link" className="p-0 text-xs text-accent">
           {t("ChangePhoto")}
         </Button>
       </div>

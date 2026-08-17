@@ -21,7 +21,7 @@ export default function LanguageSwitcher() {
       type="button"
       variant="ghost"
       onClick={changeLocale}
-      className="h-auto p-0 text-sm font-medium text-secondary hover:bg-transparent hover:text-secondary/80"
+      className="h-auto p-0 text-sm font-medium text-accent hover:bg-transparent hover:text-accent/80"
     >
       {isArabic ? "EN" : "AR"}
     </Button>

@@ -105,7 +105,7 @@ export default function HowItWorks() {
           }}
           className="text-center"
         >
-          <span className="text-sm font-medium text-secondary">
+          <span className="text-sm font-medium text-accent">
             {t("eyebrow")}
           </span>
 
@@ -230,7 +230,7 @@ export default function HowItWorks() {
                   duration: 1.5,
                   ease: "easeOut",
                 }}
-                className="absolute inset-y-0 inset-s-1/2 w-px origin-top -translate-x-1/2 bg-secondary rtl:translate-x-1/2"
+                className="absolute inset-y-0 inset-s-1/2 w-px origin-top -translate-x-1/2 bg-accent rtl:translate-x-1/2"
               />
 
               <div>
@@ -275,7 +275,7 @@ export default function HowItWorks() {
                         damping: 20,
                         delay: 0.1,
                       }}
-                      className="absolute inset-s-1/2 top-0 z-10 size-2 -translate-x-1/2 rounded-full border border-secondary bg-background rtl:translate-x-1/2"
+                      className="absolute inset-s-1/2 top-0 z-10 size-2 -translate-x-1/2 rounded-full border border-accent bg-background rtl:translate-x-1/2"
                     />
 
                     {side === "start" ? (
@@ -337,7 +337,7 @@ export default function HowItWorks() {
                   duration: 1.4,
                   ease: "easeOut",
                 }}
-                className="absolute inset-y-0 inset-s-4.75 w-px origin-top bg-secondary"
+                className="absolute inset-y-0 inset-s-4.75 w-px origin-top bg-accent"
               />
 
               {steps.map(({ key, number, image }, index) => (
@@ -379,7 +379,7 @@ export default function HowItWorks() {
                       stiffness: 300,
                       damping: 20,
                     }}
-                    className="absolute inset-s-0 top-0 z-10 flex size-10 items-center justify-center rounded-full border border-secondary bg-background font-serif text-sm text-secondary"
+                    className="absolute inset-s-0 top-0 z-10 flex size-10 items-center justify-center rounded-full border border-accent bg-background font-serif text-sm text-accent"
                   >
                     {number}
                   </motion.div>
@@ -430,7 +430,7 @@ export default function HowItWorks() {
             >
               <div className="flex items-start gap-4">
                 <CircleAlert
-                  className="mt-0.5 size-4 shrink-0 text-secondary"
+                  className="mt-0.5 size-4 shrink-0 text-accent"
                   strokeWidth={1.5}
                 />
 
@@ -441,7 +441,7 @@ export default function HowItWorks() {
 
               <Link
                 href="/emergency"
-                className="group inline-flex shrink-0 items-center gap-2 text-sm font-medium text-secondary"
+                className="group inline-flex shrink-0 items-center gap-2 text-sm font-medium text-accent"
               >
                 {t(`${activeTab}.emergency.cta`)}
 
@@ -475,7 +475,7 @@ export default function HowItWorks() {
             >
               <Link
                 href={isClients ? "/" : "/sign-up/lawyer"}
-                className="group inline-flex h-12.5 min-w-52 items-center justify-center gap-3 rounded-[3px] bg-secondary px-8 text-sm font-semibold text-primary transition-transform duration-300 hover:-translate-y-1"
+                className="group inline-flex h-12.5 min-w-52 items-center justify-center gap-3 rounded-[3px] bg-accent px-8 text-sm font-semibold text-primary transition-transform duration-300 hover:-translate-y-1"
               >
                 {t(`${activeTab}.button`)}
 
@@ -526,7 +526,7 @@ function StepImage({
         ease: "easeOut",
       }}
       className={cn(
-        "group relative overflow-hidden border border-secondary/20 bg-white shadow-sm",
+        "group relative overflow-hidden border border-accent/20 bg-white shadow-sm",
         mobile ? "aspect-square w-full max-w-60" : "mx-auto size-60",
       )}
     >
@@ -596,7 +596,7 @@ function StepContent({
           ease: "easeOut",
         }}
         className={cn(
-          "block text-6xl font-semibold leading-none text-secondary/20",
+          "block text-6xl font-semibold leading-none text-accent/20",
           {
             "font-lora": locale === "en",
           },

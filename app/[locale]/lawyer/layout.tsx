@@ -34,7 +34,7 @@ export default async function LawyerLayout({
       <Sidebar
         side={locale === "ar" ? "right" : "left"}
         collapsible="icon"
-        className="border-e border-secondary/30"
+        className="border-e border-accent/30"
       >
         <SidebarContent className="bg-white">
           <SidebarGroup className="p-0">
@@ -44,7 +44,7 @@ export default async function LawyerLayout({
               {lawyerSidebarLinks(t).map((link, index) => {
                 if (link.type === "divider") {
                   return (
-                    <Separator key={index} className="bg-secondary/20 my-2" />
+                    <Separator key={index} className="bg-accent/20 my-2" />
                   );
                 }
 

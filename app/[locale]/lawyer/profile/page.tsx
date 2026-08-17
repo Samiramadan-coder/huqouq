@@ -17,6 +17,7 @@ import SendForReview from "@/components/client-lawyer/lawyer/profile/send-for-re
 import BarCertificate from "@/components/client-lawyer/lawyer/profile/bar-certificate";
 import ProfessionalInfo from "@/components/client-lawyer/lawyer/profile/professional-info";
 import SpecializationServices from "@/components/client-lawyer/lawyer/profile/specialization-services";
+import { ChangesRequestedAlert } from "@/components/client-lawyer/lawyer/profile/change-requested-alert";
 
 export default async function DashboardPage() {
   const locale = await getLocale();
@@ -30,6 +31,10 @@ export default async function DashboardPage() {
     throw new Error("Failed to fetch lawyer profile");
   }
 
+  const countSectionsNeedAttention = data.sections.filter(
+    (section) => section.status === "flagged",
+  ).length;
+
   return (
     <div className="mx-auto max-w-3xl">
       <div className="py-8">
@@ -41,6 +46,10 @@ export default async function DashboardPage() {
         >
           {t("MyProfile")}
         </h1>
+
+        {countSectionsNeedAttention > 0 && (
+          <ChangesRequestedAlert count={countSectionsNeedAttention} />
+        )}
 
         <Info />
 

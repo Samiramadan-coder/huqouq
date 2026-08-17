@@ -28,7 +28,7 @@ export async function LegalWithYou() {
                 duration: 0.5,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-secondary"
+              className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-accent"
             >
               {t("eyebrow")}
             </motion.p>
@@ -45,7 +45,7 @@ export async function LegalWithYou() {
               className="max-w-117.5 font-serif text-4xl font-bold leading-[1.12] md:text-5xl"
             >
               {t("titleStart")}{" "}
-              <span className="text-secondary">{t("titleHighlight")}</span>
+              <span className="text-accent">{t("titleHighlight")}</span>
             </motion.h2>
 
             <motion.p
@@ -110,7 +110,7 @@ export async function LegalWithYou() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.5, delay: 0.34 }}
-              className="mt-4 text-[11px] text-secondary/60"
+              className="mt-4 text-[11px] text-accent/60"
             >
               {t("available")}
             </motion.p>
@@ -166,7 +166,7 @@ export async function LegalWithYou() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.4, delay: 0.55 }}
-                className="absolute right-[32%] top-[10%] rotate-[8deg] text-[9px] uppercase tracking-[0.18em] text-secondary/70"
+                className="absolute right-[32%] top-[10%] rotate-[8deg] text-[9px] uppercase tracking-[0.18em] text-accent/70"
               >
                 {t("lawyer")}
               </motion.span>
@@ -176,7 +176,7 @@ export async function LegalWithYou() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.4, delay: 0.6 }}
-                className="absolute left-[13%] top-[28%] rotate-[-7deg] text-[9px] uppercase tracking-[0.18em] text-secondary/70"
+                className="absolute left-[13%] top-[28%] rotate-[-7deg] text-[9px] uppercase tracking-[0.18em] text-accent/70"
               >
                 {t("client")}
               </motion.span>

@@ -44,7 +44,7 @@ export default async function Hero() {
               delay: 0.05,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mb-6 text-xs font-medium uppercase tracking-[0.25em] text-secondary"
+            className="mb-6 text-xs font-medium uppercase tracking-[0.25em] text-accent"
           >
             {t("Eyebrow")}
           </motion.p>
@@ -63,7 +63,7 @@ export default async function Hero() {
             <br />
             {t("Title.Line2")}
             <br />
-            <span className="text-secondary">{t("Title.Highlight")}</span>
+            <span className="text-accent">{t("Title.Highlight")}</span>
           </motion.h1>
 
           <motion.p
@@ -94,8 +94,8 @@ export default async function Hero() {
                 size="lg"
                 className="
                   h-12 min-w-44 rounded-sm
-                  bg-secondary text-primary
-                  hover:bg-secondary
+                  bg-accent text-primary
+                  hover:bg-accent
                 "
               >
                 {t("Actions.Client")}
@@ -109,7 +109,7 @@ export default async function Hero() {
                 className="
                   h-12 min-w-40 rounded-sm
                   border-white/40 bg-transparent
-                  text-white hover:border-secondary hover:bg-transparent hover:text-secondary
+                  text-white hover:border-accent hover:bg-transparent hover:text-accent
                 "
               >
                 {t("Actions.Lawyer")}
@@ -145,8 +145,8 @@ export default async function Hero() {
           }}
           className="relative mx-auto w-full"
         >
-          <div className="rounded-xl border border-secondary/40 p-2">
-            <div className="relative aspect-4/5 overflow-hidden rounded-lg border border-secondary/20">
+          <div className="rounded-xl border border-accent/40 p-2">
+            <div className="relative aspect-4/5 overflow-hidden rounded-lg border border-accent/20">
               <Image
                 src="/landing-hero.png"
                 alt={t("ImageAlt")}

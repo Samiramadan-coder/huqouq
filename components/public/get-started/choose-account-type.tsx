@@ -82,13 +82,13 @@ function AccountTypeCard({
           "flex min-h-28 flex-row items-start gap-4 rounded-lg border bg-white px-6 py-5 shadow-none transition-colors",
           selected
             ? "border-primary bg-primary/3"
-            : "border-secondary hover:border-secondary",
+            : "border-accent hover:border-accent",
         )}
       >
         <span
           className={cn(
             "mt-0.5 shrink-0",
-            selected ? "text-primary" : "text-secondary",
+            selected ? "text-primary" : "text-accent",
           )}
         >
           {icon}
@@ -112,7 +112,7 @@ function AccountTypeCard({
         <RadioGroupItem
           id={value}
           value={value}
-          className="mt-0.5 border-secondary text-primary"
+          className="mt-0.5 border-accent text-primary"
         />
       </Card>
     </Label>

@@ -23,7 +23,7 @@ export default function LayoutHeader() {
   const t = useTranslations("Client.Sidebar");
 
   return (
-    <header className="h-14 z-20 flex items-center justify-between sticky top-0 bg-white px-4 border-b border-secondary/20">
+    <header className="h-14 z-20 flex items-center justify-between sticky top-0 bg-white px-4 border-b border-accent/20">
       <div>
         <SidebarTrigger className="lg:hidden" />
       </div>
@@ -33,7 +33,7 @@ export default function LayoutHeader() {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="rounded-sm hover:bg-secondary/10 h-10"
+              className="rounded-sm hover:bg-accent/10 h-10"
             >
               <Avatar className="w-8 h-8">
                 <AvatarImage src={user?.photo_url || ""} />
@@ -58,11 +58,11 @@ export default function LayoutHeader() {
               <span className="text-primary/40 text-xs">{user?.email}</span>
             </div>
 
-            <DropdownMenuSeparator className="bg-secondary/20" />
+            <DropdownMenuSeparator className="bg-accent/20" />
 
             <DropdownMenuItem
               onClick={() => router.push(`/${user?.role}/profile`)}
-              className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!"
+              className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-accent/10!"
             >
               <UserIcon className="size-4 text-primary/40" />
               {t("Profile")}
@@ -70,13 +70,13 @@ export default function LayoutHeader() {
 
             <DropdownMenuItem
               onClick={() => router.push(`/${user?.role}/settings`)}
-              className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!"
+              className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-accent/10!"
             >
               <Settings className="size-4 text-primary/40" />
               {t("Settings")}
             </DropdownMenuItem>
 
-            <DropdownMenuSeparator className="bg-secondary/20" />
+            <DropdownMenuSeparator className="bg-accent/20" />
 
             <DropdownMenuItem
               variant="destructive"

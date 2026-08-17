@@ -879,6 +879,9 @@
       "MyProfile": "My Profile",
       "ChangePhoto": "Change Photo",
       "SubmitForReview": "Submit for Review",
+      "changeRequestAlert": "section need your attention. Flagged sections are expanded below.",
+      "changesRequest": "Changes Requested",
+      "viewFeedback": "View Feedback",
       "ProfessionalInfo": {
         "LanguageHint": "Enter information in your preferred language. Our platform handles translation automatically where needed.",
         "Messages": {

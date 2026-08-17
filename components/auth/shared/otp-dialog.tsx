@@ -128,7 +128,7 @@ export default function OtpDialog({
 
           <Button
             type="button"
-            className="text-sm rounded-sm h-9 min-w-20 bg-transparent text-secondary border-secondary/30"
+            className="text-sm rounded-sm h-9 min-w-20 bg-transparent text-accent border-accent/30"
             variant="outline"
             onClick={async () => {
               const result = await resendOtp(token);

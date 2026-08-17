@@ -84,7 +84,7 @@ export default async function Expertise() {
           }}
           className="mb-14 text-center"
         >
-          <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-secondary">
+          <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-accent">
             {t("Label")}
           </p>
 
@@ -117,7 +117,7 @@ export default async function Expertise() {
                 bg-background px-4 py-6
                 transition-colors
                 relative
-                hover:border-secondary
+                hover:border-accent
                 hover:bg-white
                 hover:bottom-1
               "
@@ -128,7 +128,7 @@ export default async function Expertise() {
                 className="
                   text-foreground/55
                   transition-colors
-                  group-hover:text-secondary
+                  group-hover:text-accent
                 "
               />
 

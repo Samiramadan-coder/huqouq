@@ -18,14 +18,14 @@ export default function NavLink({
     <Link
       href={href}
       className={cn(
-        "relative text-sm tracking-wide transition-colors duration-300 font-semibold pb-px text-white/70 hover:text-secondary",
-        isActive && "text-secondary",
+        "relative text-sm tracking-wide transition-colors duration-300 font-semibold pb-px text-white/70 hover:text-accent",
+        isActive && "text-accent",
       )}
     >
       {label}
 
       {isActive && (
-        <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-secondary" />
+        <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-accent" />
       )}
     </Link>
   );

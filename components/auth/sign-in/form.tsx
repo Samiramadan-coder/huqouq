@@ -104,7 +104,7 @@ export default function SignInForm() {
 
       <p className="text-center text-xs text-primary/80 sm:col-span-2">
         {t("dontHaveAccount")}{" "}
-        <Link href="/get-started" className="text-secondary hover:underline">
+        <Link href="/get-started" className="text-accent hover:underline">
           {t("getStarted")}
         </Link>
       </p>

@@ -9,7 +9,7 @@ export default function PrimaryLogo() {
       ></path>
       <path
         d="M9.5 16.5l2.8 2.8 6-6"
-        stroke="var(--secondary)"
+        stroke="var(--accent)"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"

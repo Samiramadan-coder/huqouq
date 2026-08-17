@@ -46,7 +46,7 @@ export default function HeaderControl() {
           <Link href="/get-started">
             <Button
               variant="outline"
-              className="bg-transparent rounded-xs h-9.5 w-30.25 border-secondary text-secondary hover:bg-secondary hover:text-primary"
+              className="bg-transparent rounded-xs h-9.5 w-30.25 border-accent text-accent hover:bg-accent hover:text-primary"
             >
               {t("GetStarted")}
             </Button>
@@ -87,19 +87,19 @@ export default function HeaderControl() {
                 <span className="text-primary/40 text-xs">{user.email}</span>
               </div>
 
-              <DropdownMenuSeparator className="bg-secondary/20" />
+              <DropdownMenuSeparator className="bg-accent/20" />
 
               <DropdownMenuItem
                 onClick={() => router.push(`/${user.role}/dashboard`)}
-                className="h-10 rounded-none cursor-pointer px-4 text-secondary hover:bg-secondary/10!"
+                className="h-10 rounded-none cursor-pointer px-4 text-accent hover:bg-accent/10!"
               >
-                <LayoutDashboardIcon className="size-4 text-secondary" />
+                <LayoutDashboardIcon className="size-4 text-accent" />
                 {t("GoToDashboard")}
               </DropdownMenuItem>
 
               <DropdownMenuItem
                 onClick={() => router.push(`/${user.role}/profile`)}
-                className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!"
+                className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-accent/10!"
               >
                 <UserIcon className="size-4 text-primary/40" />
                 {t("Profile")}
@@ -107,13 +107,13 @@ export default function HeaderControl() {
 
               <DropdownMenuItem
                 onClick={() => router.push(`/${user?.role}/settings`)}
-                className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!"
+                className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-accent/10!"
               >
                 <Settings className="size-4 text-primary/40" />
                 {t("Settings")}
               </DropdownMenuItem>
 
-              <DropdownMenuSeparator className="bg-secondary/20" />
+              <DropdownMenuSeparator className="bg-accent/20" />
 
               <DropdownMenuItem
                 className="h-10 rounded-none cursor-pointer px-4 text-[#9b2c2c]"

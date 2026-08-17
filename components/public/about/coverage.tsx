@@ -53,7 +53,7 @@ export default async function Coverage() {
                 delay: index * 0.05,
                 ease: "easeOut",
               }}
-              className="min-w-28 rounded-sm border border-secondary/20 bg-background px-5 py-4"
+              className="min-w-28 rounded-sm border border-accent/20 bg-background px-5 py-4"
             >
               <h3
                 className={cn(
@@ -64,7 +64,7 @@ export default async function Coverage() {
                 {t(`emirates.${emirate}.name`)}
               </h3>
 
-              <p className="mt-1 text-[11px] whitespace-nowrap text-secondary">
+              <p className="mt-1 text-[11px] whitespace-nowrap text-accent">
                 {t(`emirates.${emirate}.lawyers`)}
               </p>
             </motion.div>
@@ -76,7 +76,7 @@ export default async function Coverage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.45, delay: 0.1, ease: "easeOut" }}
-          className={cn("mt-10 text-[14px] italic text-secondary", {
+          className={cn("mt-10 text-[14px] italic text-accent", {
             "font-lora": locale === "en",
           })}
         >

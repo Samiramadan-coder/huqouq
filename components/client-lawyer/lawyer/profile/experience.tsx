@@ -99,7 +99,7 @@ export default function Experience({
       {entries.map((_, idx) => (
         <div
           key={idx}
-          className="bg-[#FAFAF8] p-4 rounded-sm border border-secondary/20 grid grid-cols-1 sm:grid-cols-2 gap-4"
+          className="bg-[#FAFAF8] p-4 rounded-sm border border-accent/20 grid grid-cols-1 sm:grid-cols-2 gap-4"
         >
           {idx > 0 && (
             <div className="sm:col-span-2 flex justify-end">
@@ -124,7 +124,7 @@ export default function Experience({
             name={`entries.${idx}.title`}
             label={t("Fields.Title.Label")}
             placeholder={t("Fields.Title.Placeholder")}
-            inputClassName="bg-background border border-secondary/20!"
+            inputClassName="bg-background border border-accent/20!"
           />
 
           <FormInput
@@ -133,7 +133,7 @@ export default function Experience({
             name={`entries.${idx}.organization`}
             label={t("Fields.Organization.Label")}
             placeholder={t("Fields.Organization.Placeholder")}
-            inputClassName="bg-background border border-secondary/20!"
+            inputClassName="bg-background border border-accent/20!"
           />
 
           <FormSelect
@@ -142,7 +142,7 @@ export default function Experience({
             name={`entries.${idx}.start_month`}
             label={t("Fields.StartMonth.Label")}
             placeholder={t("Fields.StartMonth.Placeholder")}
-            triggerClassName="bg-background border border-secondary/20!"
+            triggerClassName="bg-background border border-accent/20!"
             options={listOfMonths}
           />
 
@@ -152,7 +152,7 @@ export default function Experience({
             name={`entries.${idx}.start_year`}
             label={t("Fields.StartYear.Label")}
             placeholder={t("Fields.StartYear.Placeholder")}
-            triggerClassName="bg-background border border-secondary/20!"
+            triggerClassName="bg-background border border-accent/20!"
             options={listOfYears}
           />
 
@@ -176,7 +176,7 @@ export default function Experience({
                 name={`entries.${idx}.end_month`}
                 label={t("Fields.EndMonth.Label")}
                 placeholder={t("Fields.EndMonth.Placeholder")}
-                triggerClassName="bg-background border border-secondary/20!"
+                triggerClassName="bg-background border border-accent/20!"
                 options={listOfMonths}
               />
 
@@ -186,7 +186,7 @@ export default function Experience({
                 name={`entries.${idx}.end_year`}
                 label={t("Fields.EndYear.Label")}
                 placeholder={t("Fields.EndYear.Placeholder")}
-                triggerClassName="bg-background border border-secondary/20!"
+                triggerClassName="bg-background border border-accent/20!"
                 options={listOfYears}
               />
             </>
@@ -198,7 +198,7 @@ export default function Experience({
             label={t("Fields.Description.Label")}
             placeholder={t("Fields.Description.Placeholder")}
             className="sm:col-span-2"
-            textareaClassName="bg-background border border-secondary/20!"
+            textareaClassName="bg-background border border-accent/20!"
           />
 
           <SingleFormFileUploader
@@ -214,7 +214,7 @@ export default function Experience({
         <Button
           type="button"
           variant="ghost"
-          className="w-auto text-secondary hover:bg-transparent"
+          className="w-auto text-accent hover:bg-transparent"
           onClick={() => {
             setValue("entries", [...entries, initialExperienceEntry]);
           }}

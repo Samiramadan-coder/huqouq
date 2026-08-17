@@ -52,7 +52,7 @@ export default async function GettingStarted() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="text-center"
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-secondary">
+          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">
             {t("eyebrow")}
           </span>
 
@@ -71,7 +71,7 @@ export default async function GettingStarted() {
         {/* Desktop Timeline */}
         <div className="relative mx-auto mt-16 hidden max-w-200 md:block">
           {/* Line */}
-          <div className="absolute inset-y-0 inset-s-1/2 w-px -translate-x-1/2 bg-secondary rtl:translate-x-1/2" />
+          <div className="absolute inset-y-0 inset-s-1/2 w-px -translate-x-1/2 bg-accent rtl:translate-x-1/2" />
 
           <div className="space-y-3">
             {steps.map(({ key, number, image, side }, index) => (
@@ -88,7 +88,7 @@ export default async function GettingStarted() {
                 className="relative grid min-h-70 grid-cols-[1fr_120px_1fr] items-center"
               >
                 {/* Marker */}
-                <div className="absolute inset-s-1/2 top-1/2 z-10 size-1.75 -translate-x-1/2 -translate-y-1/2 rounded-full border border-secondary bg-background rtl:translate-x-1/2" />
+                <div className="absolute inset-s-1/2 top-1/2 z-10 size-1.75 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent bg-background rtl:translate-x-1/2" />
 
                 {side === "start" ? (
                   <>
@@ -126,7 +126,7 @@ export default async function GettingStarted() {
 
         {/* Mobile Timeline */}
         <div className="relative mt-14 space-y-12 md:hidden">
-          <div className="absolute inset-y-0 inset-s-4.75 w-px bg-secondary" />
+          <div className="absolute inset-y-0 inset-s-4.75 w-px bg-accent" />
 
           {steps.map(({ key, number, image }, index) => (
             <motion.div
@@ -141,7 +141,7 @@ export default async function GettingStarted() {
               }}
               className="relative flex gap-6"
             >
-              <div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-secondary bg-background text-sm text-secondary">
+              <div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-accent bg-background text-sm text-accent">
                 {number}
               </div>
 
@@ -183,7 +183,7 @@ function StepImage({
   return (
     <div
       className={cn(
-        "relative overflow-hidden border border-secondary/20 bg-white shadow-sm",
+        "relative overflow-hidden border border-accent/20 bg-white shadow-sm",
         mobile ? "aspect-4/3 w-full max-w-60" : "mx-auto aspect-4/3 w-60",
       )}
     >
@@ -216,7 +216,7 @@ function StepContent({
       <span
         dir="ltr"
         className={cn(
-          "block text-6xl font-semibold leading-none text-secondary/20",
+          "block text-6xl font-semibold leading-none text-accent/20",
           {
             "font-lora": locale === "en",
           },

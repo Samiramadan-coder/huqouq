@@ -95,9 +95,9 @@ export default function SpecializationServices({
                       field.onChange([...value, specialization.id]);
                     }}
                     className={cn(
-                      "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-secondary/20 hover:text-secondary",
+                      "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-accent/20 hover:text-accent",
                       value.includes(specialization.id) &&
-                        "bg-secondary/20 text-secondary",
+                        "bg-accent/20 text-accent",
                     )}
                   >
                     {value.includes(specialization.id) && <Check />}
@@ -138,9 +138,8 @@ export default function SpecializationServices({
                       field.onChange([...value, service.id]);
                     }}
                     className={cn(
-                      "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-secondary/20 hover:text-secondary",
-                      value.includes(service.id) &&
-                        "bg-secondary/20 text-secondary",
+                      "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-accent/20 hover:text-accent",
+                      value.includes(service.id) && "bg-accent/20 text-accent",
                     )}
                   >
                     {value.includes(service.id) && <Check />}

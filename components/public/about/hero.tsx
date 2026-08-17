@@ -21,7 +21,7 @@ export default async function Hero() {
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className="max-w-145"
               >
-                <span className="mb-8 block text-xs font-semibold uppercase tracking-[0.3em] text-secondary">
+                <span className="mb-8 block text-xs font-semibold uppercase tracking-[0.3em] text-accent">
                   {t("eyebrow")}
                 </span>
 
@@ -40,9 +40,9 @@ export default async function Hero() {
 
                 {/* Divider */}
                 <div className="mt-10 flex max-w-143.75 items-center gap-4">
-                  <span className="h-px flex-1 bg-secondary/60" />
+                  <span className="h-px flex-1 bg-accent/60" />
                   <Logo />
-                  <span className="h-px flex-1 bg-secondary/60" />
+                  <span className="h-px flex-1 bg-accent/60" />
                 </div>
               </motion.div>
             </div>
@@ -57,7 +57,7 @@ export default async function Hero() {
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
             className="relative w-full max-w-112.5"
           >
-            <div className="rounded-[11px] border border-secondary p-2.25">
+            <div className="rounded-[11px] border border-accent p-2.25">
               <div className="relative aspect-4/5 overflow-hidden rounded-[6px]">
                 <Image
                   src="/about-hero.png"

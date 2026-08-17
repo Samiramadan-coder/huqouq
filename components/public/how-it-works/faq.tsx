@@ -59,7 +59,7 @@ export default async function FAQ() {
             transition={{
               duration: 0.5,
             }}
-            className="text-sm font-medium text-secondary"
+            className="text-sm font-medium text-accent"
           >
             {t("eyebrow")}
           </motion.span>
@@ -145,7 +145,7 @@ export default async function FAQ() {
                 >
                   <AccordionTrigger
                     className={cn(
-                      "cursor-pointer py-6 text-start text-lg font-medium text-primary hover:no-underline [&>svg]:text-secondary",
+                      "cursor-pointer py-6 text-start text-lg font-medium text-primary hover:no-underline [&>svg]:text-accent",
                       {
                         "font-lora": locale === "en",
                       },

@@ -93,7 +93,7 @@ export default function Education({
       {entries.map((_, idx) => (
         <div
           key={idx}
-          className="bg-[#FAFAF8] p-4 rounded-sm border border-secondary/20 grid grid-cols-1 sm:grid-cols-2 gap-4"
+          className="bg-[#FAFAF8] p-4 rounded-sm border border-accent/20 grid grid-cols-1 sm:grid-cols-2 gap-4"
         >
           {idx > 0 && (
             <div className="sm:col-span-2 flex justify-end">
@@ -119,7 +119,7 @@ export default function Education({
             label={t("Fields.Degree.Label")}
             placeholder={t("Fields.Degree.Placeholder")}
             className="sm:col-span-2"
-            triggerClassName="bg-background border border-secondary/20!"
+            triggerClassName="bg-background border border-accent/20!"
             options={referenceData?.education_degrees || []}
           />
 
@@ -129,7 +129,7 @@ export default function Education({
             name={`entries.${idx}.graduation_month`}
             label={t("Fields.GraduationMonth.Label")}
             placeholder={t("Fields.GraduationMonth.Placeholder")}
-            triggerClassName="bg-background border border-secondary/20!"
+            triggerClassName="bg-background border border-accent/20!"
             options={listOfMonths}
           />
 
@@ -139,7 +139,7 @@ export default function Education({
             name={`entries.${idx}.graduation_year`}
             label={t("Fields.GraduationYear.Label")}
             placeholder={t("Fields.GraduationYear.Placeholder")}
-            triggerClassName="bg-background border border-secondary/20!"
+            triggerClassName="bg-background border border-accent/20!"
             options={listOfYears}
           />
 
@@ -149,7 +149,7 @@ export default function Education({
             name={`entries.${idx}.university`}
             label={t("Fields.University.Label")}
             placeholder={t("Fields.University.Placeholder")}
-            inputClassName="bg-background border border-secondary/20!"
+            inputClassName="bg-background border border-accent/20!"
             className="sm:col-span-2"
           />
 
@@ -159,7 +159,7 @@ export default function Education({
             label={t("Fields.Description.Label")}
             placeholder={t("Fields.Description.Placeholder")}
             className="sm:col-span-2"
-            textareaClassName="bg-background border border-secondary/20!"
+            textareaClassName="bg-background border border-accent/20!"
           />
 
           <SingleFormFileUploader
@@ -175,7 +175,7 @@ export default function Education({
         <Button
           type="button"
           variant="ghost"
-          className="w-auto text-secondary hover:bg-transparent"
+          className="w-auto text-accent hover:bg-transparent"
           onClick={() => {
             setValue("entries", [...entries, initialEducationEntry]);
           }}

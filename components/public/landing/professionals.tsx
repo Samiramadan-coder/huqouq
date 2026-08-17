@@ -56,7 +56,7 @@ export default async function Professionals() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.28em] text-secondary">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.28em] text-accent">
               {t("Label")}
             </p>
 
@@ -105,7 +105,7 @@ export default async function Professionals() {
             >
               <Link
                 href={`/lawyers`}
-                className="group block h-full overflow-hidden rounded-sm border border-secondary/30 bg-white transition-colors hover:border-secondary"
+                className="group block h-full overflow-hidden rounded-sm border border-accent/30 bg-white transition-colors hover:border-accent"
               >
                 <div className="relative aspect-[1.27/1] overflow-hidden bg-background">
                   <Image
@@ -115,7 +115,7 @@ export default async function Professionals() {
                     className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                   />
 
-                  <div className="absolute inset-e-3 top-3 flex items-center gap-1 rounded-sm bg-white/95 px-2 py-1 text-[10px] font-medium text-secondary">
+                  <div className="absolute inset-e-3 top-3 flex items-center gap-1 rounded-sm bg-white/95 px-2 py-1 text-[10px] font-medium text-accent">
                     <ShieldCheck size={11} />
                     {t("Verified")}
                   </div>
@@ -132,7 +132,7 @@ export default async function Professionals() {
                     {lawyer.name}
                   </h3>
 
-                  <p className="mt-1 text-xs uppercase tracking-[0.12em] text-secondary">
+                  <p className="mt-1 text-xs uppercase tracking-[0.12em] text-accent">
                     {lawyer.specialization}
                   </p>
 
@@ -142,7 +142,7 @@ export default async function Professionals() {
                         <Star
                           key={index}
                           size={13}
-                          className="fill-secondary text-secondary"
+                          className="fill-accent text-accent"
                         />
                       ))}
 

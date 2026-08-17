@@ -120,7 +120,7 @@ export function SignInWithEmail() {
             }
           />
           <div className="flex justify-end">
-            <Link href="/forgot-password" className="text-secondary text-xs">
+            <Link href="/forgot-password" className="text-accent text-xs">
               {t("forgotPassword")}
             </Link>
           </div>

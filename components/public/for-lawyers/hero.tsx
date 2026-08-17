@@ -42,7 +42,7 @@ export default async function Hero() {
               delay: 0.05,
               ease: "easeOut",
             }}
-            className="inline-block text-sm font-medium text-secondary"
+            className="inline-block text-sm font-medium text-accent"
           >
             {t("eyebrow")}
           </motion.span>
@@ -109,7 +109,7 @@ export default async function Hero() {
           >
             <Link
               href="/sign-up/lawyer"
-              className="group inline-flex h-13.5 items-center justify-center gap-4 rounded-sm bg-secondary px-8 text-[14px] font-semibold text-primary transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90"
+              className="group inline-flex h-13.5 items-center justify-center gap-4 rounded-sm bg-accent px-8 text-[14px] font-semibold text-primary transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90"
             >
               {t("joinAsLawyer")}
 
@@ -147,7 +147,7 @@ export default async function Hero() {
           }}
           className="relative mx-auto w-full max-w-143.75"
         >
-          <div className="rounded-[5px] bg-secondary/10 p-3">
+          <div className="rounded-[5px] bg-accent/10 p-3">
             <div className="group relative aspect-4/3 overflow-hidden rounded-[3px]">
               <Image
                 src="/get-started-hero.png"

@@ -41,14 +41,14 @@ export default async function Page() {
           </p>
 
           <Field className="mt-8">
-            <InputGroup className="h-13 border-secondary bg-white">
+            <InputGroup className="h-13 border-accent bg-white">
               <InputGroupInput
                 className="placeholder:text-primary/50 placeholder:text-base"
                 placeholder="Search By name or Specialization...."
               />
               <InputGroupAddon></InputGroupAddon>
               <InputGroupAddon align="inline-start">
-                <Search className="size-5 text-secondary" />
+                <Search className="size-5 text-accent" />
               </InputGroupAddon>
             </InputGroup>
           </Field>

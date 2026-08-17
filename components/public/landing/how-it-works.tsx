@@ -72,7 +72,7 @@ export default async function HowItWorks() {
                 <Icon
                   size={17}
                   strokeWidth={1.5}
-                  className="shrink-0 text-secondary"
+                  className="shrink-0 text-accent"
                 />
 
                 <p className="text-sm text-primary/60">
@@ -98,7 +98,7 @@ export default async function HowItWorks() {
           }}
           className="mb-16 text-center"
         >
-          <p className="text-[12px] font-medium uppercase tracking-[0.3em] text-secondary">
+          <p className="text-[12px] font-medium uppercase tracking-[0.3em] text-accent">
             {t("Label")}
           </p>
           <h2 className="mt-4 font-lora text-4xl font-semibold text-primary md:text-[42px]">
@@ -175,13 +175,13 @@ function ProcessCard({
       className={`flex h-full flex-col rounded-lg border p-10 ${
         isClient
           ? "border-primary/10 bg-primary/5"
-          : "border-secondary/20 bg-secondary/5"
+          : "border-accent/20 bg-accent/5"
       }`}
     >
       <div className="mb-8 flex items-center gap-3">
         <span
           className={`h-6 w-0.75 rounded-full ${
-            isClient ? "bg-secondary" : "bg-primary"
+            isClient ? "bg-accent" : "bg-primary"
           }`}
         />
 
@@ -207,7 +207,7 @@ function ProcessCard({
             <div
               className={`flex size-8 items-center justify-center rounded-full border text-xs ${
                 isClient
-                  ? "border-secondary text-secondary bg-secondary/10"
+                  ? "border-accent text-accent bg-accent/10"
                   : "border-border text-primary bg-primary/10"
               }`}
             >
@@ -229,14 +229,14 @@ function ProcessCard({
 
       <div
         className={`mt-8 border-t pt-8 ${
-          isClient ? "border-primary/10" : "border-secondary/20"
+          isClient ? "border-primary/10" : "border-accent/20"
         }`}
       >
         <Link href={isClient ? "/sign-up/client" : "/sign-up/lawyer"}>
           <Button
             variant="ghost"
-            className={`hover:bg-transparent hover:text-secondary group inline-flex items-center gap-2 text-sm font-medium ${
-              isClient ? "text-secondary" : "text-primary"
+            className={`hover:bg-transparent hover:text-accent group inline-flex items-center gap-2 text-sm font-medium ${
+              isClient ? "text-accent" : "text-primary"
             }`}
           >
             {action}

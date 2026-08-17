@@ -55,7 +55,7 @@ export default function MobileMenu() {
         <div onClick={(e) => e.stopPropagation()}>
           <SheetHeader className="text-start">
             <SheetTitle className="flex items-center gap-3 text-white">
-              <ShieldCheck className="size-7 text-secondary" />
+              <ShieldCheck className="size-7 text-accent" />
               <span className="font-serif tracking-[0.15em]">{t("Title")}</span>
             </SheetTitle>
 
@@ -77,7 +77,7 @@ export default function MobileMenu() {
           <LanguageSwitcher />
         </div>
 
-        <Separator className="bg-secondary/10" />
+        <Separator className="bg-accent/10" />
 
         <div className="p-4">
           {user ? (
@@ -107,7 +107,7 @@ export default function MobileMenu() {
 
               <Link
                 href={`/${user.role}/dashboard`}
-                className="text-secondary text-sm font-semibold flex items-center gap-2"
+                className="text-accent text-sm font-semibold flex items-center gap-2"
               >
                 {t("GoToDashboard")}
                 <MoveRight className="size-4 rtl:rotate-180" />
@@ -148,7 +148,7 @@ export default function MobileMenu() {
               <Link href="/get-started">
                 <Button
                   variant="outline"
-                  className="bg-transparent rounded-xs h-9.5 w-full border-secondary text-secondary hover:bg-secondary hover:text-primary"
+                  className="bg-transparent rounded-xs h-9.5 w-full border-accent text-accent hover:bg-accent hover:text-primary"
                 >
                   {t("GetStarted")}
                 </Button>

@@ -48,7 +48,7 @@ export default async function Stats() {
         {stats.map(({ key, value, icon: Icon }) => (
           <div key={key} className="text-center">
             <Icon
-              className="mx-auto mb-4 size-4.5 text-secondary"
+              className="mx-auto mb-4 size-4.5 text-accent"
               strokeWidth={1.6}
             />
 

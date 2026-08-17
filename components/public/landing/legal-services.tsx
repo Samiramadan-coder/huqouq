@@ -83,7 +83,7 @@ export default async function LegalServices() {
                 duration: 0.5,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-secondary"
+              className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-accent"
             >
               {t("Label")}
             </motion.p>
@@ -101,7 +101,7 @@ export default async function LegalServices() {
             >
               {t("Title.Line1")}
               <br />
-              <span className="text-secondary">{t("Title.Highlight")}</span>
+              <span className="text-accent">{t("Title.Highlight")}</span>
             </motion.h2>
 
             <motion.p
@@ -132,7 +132,7 @@ export default async function LegalServices() {
                   }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-secondary/40 text-secondary">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-accent/40 text-accent">
                     <Icon size={15} strokeWidth={1.5} />
                   </div>
 
@@ -153,7 +153,7 @@ export default async function LegalServices() {
             >
               <Button
                 size="lg"
-                className="mt-10 h-12 rounded-sm bg-secondary px-7 text-primary hover:bg-secondary/90"
+                className="mt-10 h-12 rounded-sm bg-accent px-7 text-primary hover:bg-accent/90"
               >
                 {t("Action")}
 
@@ -185,7 +185,7 @@ export default async function LegalServices() {
                   px-4 py-5 text-center
                   relative
                   transition-colors
-                  hover:border-secondary 
+                  hover:border-accent 
                   hover:bg-white
                   hover:bottom-1
                 "
@@ -193,7 +193,7 @@ export default async function LegalServices() {
                 <Icon
                   size={24}
                   strokeWidth={1.2}
-                  className="mb-3 text-foreground/55 group-hover:text-secondary transition-colors"
+                  className="mb-3 text-foreground/55 group-hover:text-accent transition-colors"
                 />
 
                 <p className="font-lora text-xs leading-4 text-primary/65">

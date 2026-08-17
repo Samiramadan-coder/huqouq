@@ -95,9 +95,8 @@ export default function LanguagesBio({
                       field.onChange([...value, language]);
                     }}
                     className={cn(
-                      "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-secondary/20 hover:text-secondary",
-                      value.includes(language) &&
-                        "bg-secondary/20 text-secondary",
+                      "rounded-xs border-primary/10 text-primary/35 text-xs h-9 px-4 font-normal hover:bg-accent/20 hover:text-accent",
+                      value.includes(language) && "bg-accent/20 text-accent",
                     )}
                   >
                     {value.includes(language) && <Check />}
@@ -117,7 +116,7 @@ export default function LanguagesBio({
         name="bio"
         label={t("Fields.Bio.Label")}
         placeholder={t("Fields.Bio.Placeholder")}
-        textareaClassName="bg-background border border-secondary/20!"
+        textareaClassName="bg-background border border-accent/20!"
         description={t("Fields.Bio.Description")}
       />
 
@@ -127,7 +126,7 @@ export default function LanguagesBio({
         name="website_url"
         label={t("Fields.WebsiteUrl.Label")}
         placeholder={t("Fields.WebsiteUrl.Placeholder")}
-        inputClassName="bg-background border border-secondary/20!"
+        inputClassName="bg-background border border-accent/20!"
         description={t("Fields.WebsiteUrl.Description")}
       />
 

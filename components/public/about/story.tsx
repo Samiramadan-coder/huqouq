@@ -29,10 +29,10 @@ export default async function Story() {
         className="relative z-10 mx-auto max-w-170 text-center"
       >
         {/* Top line */}
-        <div className="mx-auto mb-7 h-px w-9 bg-secondary/60" />
+        <div className="mx-auto mb-7 h-px w-9 bg-accent/60" />
 
         {/* Eyebrow */}
-        <span className="block text-[10px] font-semibold uppercase tracking-[0.3em] text-secondary">
+        <span className="block text-[10px] font-semibold uppercase tracking-[0.3em] text-accent">
           {t("eyebrow")}
         </span>
 
@@ -61,7 +61,7 @@ export default async function Story() {
 
         {/* Signature */}
         <p
-          className={cn("mt-10 text-[14px] italic text-secondary", {
+          className={cn("mt-10 text-[14px] italic text-accent", {
             "font-lora": locale === "en",
           })}
         >
@@ -69,7 +69,7 @@ export default async function Story() {
         </p>
 
         {/* Bottom line */}
-        <div className="mx-auto mt-9 h-px w-9 bg-secondary/40" />
+        <div className="mx-auto mt-9 h-px w-9 bg-accent/40" />
       </motion.div>
     </section>
   );

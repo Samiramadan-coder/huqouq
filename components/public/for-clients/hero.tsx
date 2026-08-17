@@ -19,7 +19,7 @@ export default async function Hero() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="max-w-137.5"
         >
-          <span className="block text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary mb-4">
+          <span className="block text-[11px] font-semibold uppercase tracking-[0.28em] text-accent mb-4">
             {t("eyebrow")}
           </span>
 
@@ -30,7 +30,7 @@ export default async function Hero() {
             )}
           >
             {t("titleStart")}{" "}
-            <span className="text-secondary">{t("titleHighlight")}</span>
+            <span className="text-accent">{t("titleHighlight")}</span>
           </h1>
 
           <p className="mt-7 max-w-130 text-[17px] leading-[1.75] text-primary/60">
@@ -40,7 +40,7 @@ export default async function Hero() {
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/"
-              className="inline-flex h-13.5 items-center justify-center gap-4 rounded-sm bg-secondary px-8 text-[14px] font-semibold text-primary transition-opacity hover:opacity-90"
+              className="inline-flex h-13.5 items-center justify-center gap-4 rounded-sm bg-accent px-8 text-[14px] font-semibold text-primary transition-opacity hover:opacity-90"
             >
               {t("postCase")}
 
@@ -63,7 +63,7 @@ export default async function Hero() {
           transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           className="relative mx-auto w-full max-w-143.75"
         >
-          <div className="rounded-[5px] bg-secondary/10 p-3">
+          <div className="rounded-[5px] bg-accent/10 p-3">
             <div className="relative aspect-4/3 overflow-hidden rounded-[3px]">
               <Image
                 src="/for-clients-hero.png"
@@ -84,7 +84,7 @@ export default async function Hero() {
             className="absolute -bottom-4 -inset-s-1 flex min-w-43.75 items-center gap-3 rounded-[3px] bg-white px-4 py-3 shadow-[0_8px_25px_rgba(0,0,0,0.14)] sm:-inset-s-2.5"
           >
             <LockKeyhole
-              className="size-4.25 shrink-0 text-secondary"
+              className="size-4.25 shrink-0 text-accent"
               strokeWidth={1.4}
             />
 

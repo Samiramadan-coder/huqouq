@@ -89,12 +89,9 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
           <AuthLogo />
 
           <p className="text-xs text-foreground">
-            {t("signingUpAs")}{" "}
-            <span className="text-secondary">{guestLabel}</span> <span>·</span>{" "}
-            <Link
-              href="/get-started"
-              className="text-secondary hover:underline"
-            >
+            {t("signingUpAs")} <span className="text-accent">{guestLabel}</span>{" "}
+            <span>·</span>{" "}
+            <Link href="/get-started" className="text-accent hover:underline">
               {t("change")}
             </Link>
           </p>
@@ -304,7 +301,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                     onCheckedChange={(checked) => {
                       field.onChange(checked === true);
                     }}
-                    className="mt-0.5 size-4 rounded-[3px] border-border data-[state=checked]:border-secondary data-[state=checked]:bg-secondary"
+                    className="mt-0.5 size-4 rounded-[3px] border-border data-[state=checked]:border-accent data-[state=checked]:bg-accent"
                   />
 
                   <Label
@@ -315,7 +312,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                       terms: (chunks) => (
                         <Link
                           href="/terms-of-use"
-                          className="text-secondary hover:underline"
+                          className="text-accent hover:underline"
                         >
                           {chunks}
                         </Link>
@@ -323,7 +320,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                       privacy: (chunks) => (
                         <Link
                           href="/privacy-policy"
-                          className="text-secondary hover:underline"
+                          className="text-accent hover:underline"
                         >
                           {chunks}
                         </Link>
@@ -392,7 +389,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
         <p className="text-center text-xs text-primary/80 sm:col-span-2">
           {t("alreadyHaveAccount")}{" "}
-          <Link href="/sign-in" className="text-secondary hover:underline">
+          <Link href="/sign-in" className="text-accent hover:underline">
             {t("signIn")}
           </Link>
         </p>

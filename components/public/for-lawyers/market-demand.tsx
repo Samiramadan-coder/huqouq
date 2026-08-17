@@ -73,7 +73,7 @@ const specializations: Specialization[] = [
 ];
 
 const levelStyles: Record<DemandLevel, string> = {
-  mostActive: "border-secondary/35 bg-secondary/10 text-[#A26B08]",
+  mostActive: "border-accent/35 bg-accent/10 text-[#A26B08]",
   highDemand: "border-primary/20 bg-primary/5 text-primary",
   growing: "border-emerald-700/20 bg-emerald-700/5 text-emerald-800",
   active: "border-primary/10 bg-primary/[0.025] text-primary/60",
@@ -94,7 +94,7 @@ export default async function MarketDemand() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">
               {t("eyebrow")}
             </span>
 
@@ -158,7 +158,7 @@ export default async function MarketDemand() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mt-12 rounded-sm border border-secondary/25 bg-secondary/4 px-6 py-5"
+          className="mt-12 rounded-sm border border-accent/25 bg-accent/4 px-6 py-5"
         >
           <p className="text-sm leading-relaxed text-primary/65">
             <strong className="font-semibold text-[#9A6812]">

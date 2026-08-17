@@ -46,7 +46,7 @@ export default async function Verification() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="text-center"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">
             {t("eyebrow")}
           </span>
 
@@ -76,10 +76,10 @@ export default async function Verification() {
                 delay: index * 0.08,
                 ease: "easeOut",
               }}
-              className="min-h-55 rounded-sm border border-secondary/20 bg-white px-8 py-8"
+              className="min-h-55 rounded-sm border border-accent/20 bg-white px-8 py-8"
             >
               <div className="flex items-center gap-4">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-secondary text-[11px] font-medium text-secondary">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-accent text-[11px] font-medium text-accent">
                   {number}
                 </span>
 
@@ -106,7 +106,7 @@ export default async function Verification() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.45, delay: 0.12, ease: "easeOut" }}
-          className={cn("mt-14 text-center text-[15px] italic text-secondary", {
+          className={cn("mt-14 text-center text-[15px] italic text-accent", {
             "font-lora": locale === "en",
           })}
         >
