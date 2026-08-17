@@ -49,6 +49,7 @@ export default async function DashboardPage() {
             <Accordion
               key={section.key}
               type="multiple"
+              defaultValue={section.status === "flagged" ? [section.key] : []}
               className={cn("bg-white border", {
                 "border-primary/10": section.status === "pending",
                 "border-green-300/60": section.status === "approved",

@@ -48,7 +48,7 @@ export type Section = {
 export type ProfileStatus =
   | "incomplete"
   | "in_review"
-  | "complete"
+  | "approved"
   | "needs_fix";
 
 export type LawyerProfile = {

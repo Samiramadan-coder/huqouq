@@ -60,7 +60,7 @@ export default function Info() {
               </AvatarFallback>
             </Avatar>
 
-            {user?.lawyer_profile?.profile_status === "complete" && (
+            {user?.lawyer_profile?.profile_status === "approved" && (
               <div className="absolute -bottom-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-secondary ring-2 ring-primary/90">
                 <BadgeCheck className="size-3 text-white" />
               </div>
@@ -78,7 +78,7 @@ export default function Info() {
                 {user?.first_name} {user?.last_name}
               </h2>
 
-              {user?.lawyer_profile?.profile_status === "complete" && (
+              {user?.lawyer_profile?.profile_status === "approved" && (
                 <Badge
                   variant="outline"
                   className="h-5 rounded-xs border-secondary/70 px-2 text-[10px] font-normal text-secondary"
@@ -183,17 +183,19 @@ export default function Info() {
         </div>
 
         {/* Action */}
-        <div className="shrink-0 ms-auto">
-          <Link href="/lawyer/profile" className="shrink-0">
-            <Button
-              variant="outline"
-              className="h-10 shrink-0 rounded-sm border border-secondary/30 px-4 font-normal text-primary bg-transparent hover:bg-[#fffaf0]"
-            >
-              {t("CompleteProfile")}
-              <ChevronRight className="ml-2 size-4 rtl:rotate-180" />
-            </Button>
-          </Link>
-        </div>
+        {user?.lawyer_profile?.profile_status !== "approved" && (
+          <div className="shrink-0 ms-auto">
+            <Link href="/lawyer/profile" className="shrink-0">
+              <Button
+                variant="outline"
+                className="h-10 shrink-0 rounded-sm border border-secondary/30 px-4 font-normal text-primary bg-transparent hover:bg-[#fffaf0]"
+              >
+                {t("CompleteProfile")}
+                <ChevronRight className="ml-2 size-4 rtl:rotate-180" />
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
