@@ -50,17 +50,18 @@ export default async function DashboardPage() {
               key={section.key}
               type="multiple"
               className={cn("bg-white border", {
-                "border-primary/10": !section.reason,
-                "border-amber-300/60": !!section.reason,
+                "border-primary/10": section.status === "pending",
+                "border-green-300/60": section.status === "approved",
+                "border-amber-300/60": section.status === "flagged",
               })}
             >
               <AccordionItem value={section.key}>
                 <AccordionTrigger className="gap-5 sm:gap-20 p-5 hover:no-underline">
                   <div className="cursor-pointer flex flex-1 items-center justify-between gap-10">
                     <div className="flex items-center gap-4">
-                      {section.is_complete ? (
+                      {section.status === "approved" ? (
                         <CircleCheck className="size-4 text-emerald-500" />
-                      ) : !section.is_complete ? (
+                      ) : section.status === "pending" ? (
                         <Circle className="size-4 text-primary/50" />
                       ) : (
                         <TriangleAlert className="size-4 text-amber-500" />
@@ -76,11 +77,21 @@ export default async function DashboardPage() {
                 <AccordionContent>
                   <div
                     className={cn("border-t", {
-                      "border-primary/10": !section.reason,
-                      "border-amber-300/60": !!section.reason,
+                      "border-primary/10": section.status === "pending",
+                      "border-green-300/60": section.status === "approved",
+                      "border-amber-300/60": section.status === "flagged",
                     })}
                   >
                     <div className="px-5 pt-5">
+                      {section.reason && (
+                        <div className="mb-4 p-4 bg-amber-50 flex items-start gap-2 border rounded-md border-amber-200">
+                          <TriangleAlert className="size-4 text-amber-500" />
+                          <p className="text-amber-700 text-xs">
+                            {section.reason}
+                          </p>
+                        </div>
+                      )}
+
                       {section.key === "professional_info" && (
                         <ProfessionalInfo lawyerProfile={data} />
                       )}

@@ -41,7 +41,7 @@ export type Section = {
     | "bar_certificate";
   label: string;
   reason: null | string;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "approved" | "flagged";
   weight: number;
 };
 
