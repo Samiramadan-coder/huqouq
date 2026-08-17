@@ -13,26 +13,19 @@ import {
 } from "@/components/ui/input-otp";
 
 import { toast } from "sonner";
-import { User } from "@/types/shared";
 import { saveToken } from "@/lib/cookies";
 import { useTranslations } from "next-intl";
+import { verifyPhoneOtp } from "@/lib/auth";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { resendOtp, verifyOtp } from "@/lib/auth";
 import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
+import { useUser } from "@/providers/user-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OtpFormValues, otpSchema } from "@/types/otp";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useUser } from "@/providers/user-provider";
 
-export default function OtpDialog({
-  token,
-  user,
-}: {
-  token: string;
-  user: User | null;
-}) {
+export default function OtpPhoneDialog({ phone }: { phone: string }) {
   const router = useRouter();
   const { setUser } = useUser();
   const t = useTranslations("OTP");
@@ -48,17 +41,21 @@ export default function OtpDialog({
   });
 
   const onSubmit: SubmitHandler<OtpFormValues> = async (data) => {
-    const result = await verifyOtp(data, token);
+    const result = await verifyPhoneOtp(data, phone);
 
-    if (result.success) {
-      setUser(user);
-      await saveToken(token);
+    if (result.success && result.user && result.token) {
+      setUser(result.user);
+      await saveToken(result.token);
       toast.success(t("LoginSuccess"));
       router.push("/");
       return;
     }
 
-    if (result.errors) {
+    if (result.success === false && result.message) {
+      toast.error(result.message);
+    }
+
+    if (result.success === false && result.errors) {
       Object.entries(result.errors).forEach(([field, message]) => {
         if (!message) return;
         toast.error(message);
@@ -124,24 +121,6 @@ export default function OtpDialog({
             variant="default"
           >
             {isSubmitting ? <Spinner /> : t("send")}
-          </Button>
-
-          <Button
-            type="button"
-            className="text-sm rounded-sm h-9 min-w-20 bg-transparent text-secondary border-secondary/30"
-            variant="outline"
-            onClick={async () => {
-              const result = await resendOtp(token);
-
-              if (result.success) {
-                toast.success(t("ResendSuccess"));
-                return;
-              }
-
-              toast.error(t("ResendError"));
-            }}
-          >
-            {t("resend")}
           </Button>
         </div>
       </form>

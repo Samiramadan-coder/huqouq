@@ -15,6 +15,7 @@ export type AuthFormActionsResponse<T> =
   | {
       success: false;
       errors?: Partial<Record<keyof T, string>>;
+      message?: string;
     };
 
 // Shared types between client and server

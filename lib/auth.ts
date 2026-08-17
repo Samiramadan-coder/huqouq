@@ -1,9 +1,12 @@
-"use server";
+// "use server";
 
 import { OtpFormValues } from "@/types/otp";
 import { http, ValidationError } from "./http";
 import { SignUpFormValues } from "@/types/sign-up";
-import { SignInWithEmailFormValues } from "@/types/sign-in";
+import {
+  SignInWithEmailFormValues,
+  SignInWithPhoneFormValues,
+} from "@/types/sign-in";
 import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
 import { AuthFormActionsResponse, GuestType, User } from "@/types/shared";
@@ -74,6 +77,72 @@ export async function login(
       return { success: false, errors };
     }
 
+    return { success: false };
+  }
+}
+
+// Get Otp Code By Phone
+type LoginWithPhoneResponse =
+  AuthFormActionsResponse<SignInWithPhoneFormValues>;
+
+export async function loginWithPhone(
+  formData: SignInWithPhoneFormValues,
+): Promise<LoginWithPhoneResponse> {
+  try {
+    const { data } = await http.post<{
+      message: string;
+    }>("/api/auth/login/phone/request", formData);
+
+    return {
+      success: true,
+      message: data.message,
+    };
+  } catch (error) {
+    console.error("Error logging in with email and password:", error);
+
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof SignInWithPhoneFormValues, string>>;
+
+      return { success: false, errors };
+    }
+
+    return { success: false };
+  }
+}
+
+// Verify Phone Otp
+type VerifyOtpPhoneResponse = AuthFormActionsResponse<OtpFormValues>;
+
+export async function verifyPhoneOtp(
+  formData: OtpFormValues,
+  phone: string,
+): Promise<VerifyOtpPhoneResponse> {
+  try {
+    const { data } = await http.post<{
+      token: string;
+      user: User;
+    }>("/api/auth/login/phone/verify", {
+      ...formData,
+      phone,
+      remember: true,
+    });
+    return { success: true, token: data.token, user: data.user };
+  } catch (error) {
+    console.error("Error verifying OTP:", error);
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof OtpFormValues, string>>;
+      return { success: false, errors, message: error.message };
+    }
     return { success: false };
   }
 }

@@ -28,12 +28,27 @@ class HttpError extends Error {
 class ValidationError extends Error {
   status: 422;
   errors: Record<string, string[]>;
+  responseMessage?: string;
 
   constructor(data: unknown) {
-    super("Validation failed");
+    const message = ValidationError.parseMessage(data);
+    super(message || "Validation failed");
     this.name = "ValidationError";
     this.status = 422;
     this.errors = ValidationError.parseErrors(data);
+    this.responseMessage = message;
+  }
+
+  private static parseMessage(data: unknown): string | undefined {
+    if (
+      data !== null &&
+      typeof data === "object" &&
+      "message" in data &&
+      typeof (data as Record<string, unknown>).message === "string"
+    ) {
+      return (data as { message: string }).message;
+    }
+    return undefined;
   }
 
   private static parseErrors(data: unknown): Record<string, string[]> {
