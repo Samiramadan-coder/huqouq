@@ -23,8 +23,8 @@ import SingleFormFileUploader from "@/components/public/shared/form/file-uploade
 const initialExperienceEntry: ExperiencesFormValues["entries"][number] = {
   title: "",
   organization: "",
-  start_month: 1,
-  start_year: new Date().getFullYear(),
+  start_month: 0,
+  start_year: 0,
   end_month: undefined,
   end_year: undefined,
   is_current: true,

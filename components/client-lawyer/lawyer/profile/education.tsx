@@ -21,10 +21,10 @@ import SingleFormFileUploader from "@/components/public/shared/form/file-uploade
 import { useReferenceData } from "@/providers/reference-data.provider";
 
 const initialEducationEntry: EducationFormValues["entries"][number] = {
-  degree: "bachelors",
+  degree: "",
   university: "",
-  graduation_month: 1,
-  graduation_year: new Date().getFullYear(),
+  graduation_month: 0,
+  graduation_year: 0,
   description: "",
   certificate: undefined,
 };

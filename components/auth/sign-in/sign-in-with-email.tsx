@@ -54,8 +54,9 @@ export function SignInWithEmail() {
       }
 
       await saveToken(result.token || "");
+      if (result.user) setUser(result.user);
       toast.success(t("LoginSuccess"));
-      router.push("/");
+      router.push(`/${result?.user?.role}/dashboard`);
       return;
     }
 

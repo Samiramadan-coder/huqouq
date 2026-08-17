@@ -47,7 +47,7 @@ export default function OtpPhoneDialog({ phone }: { phone: string }) {
       setUser(result.user);
       await saveToken(result.token);
       toast.success(t("LoginSuccess"));
-      router.push("/");
+      router.push(`/${result.user?.role}/dashboard`);
       return;
     }
 

@@ -1,4 +1,10 @@
-import { Education, Experience, ProfileStatus } from "./lawyer/profile";
+import {
+  Education,
+  Experience,
+  ItemKey,
+  ItemStatus,
+  ProfileStatus,
+} from "./lawyer/profile";
 import { Service, Specialization } from "./reference-data";
 
 export type T = (key: string) => string;
@@ -50,18 +56,13 @@ export type User = {
     education: Education[];
     experience: Experience[];
     review_items: {
-      item:
-        | "professional_info"
-        | "specializations_services"
-        | "languages_bio"
-        | "education"
-        | "experience"
-        | "bar_certificate";
+      item: ItemKey;
+      is_complete: boolean;
       item_label: string;
       reason: null | string;
       reviewed_at: null | string;
       reviewed_by: null | string;
-      status: "pending" | "approved" | "rejected";
+      status: ItemStatus;
     }[];
   };
   name: string;

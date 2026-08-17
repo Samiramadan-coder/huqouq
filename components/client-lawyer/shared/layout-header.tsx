@@ -60,12 +60,18 @@ export default function LayoutHeader() {
 
             <DropdownMenuSeparator className="bg-secondary/20" />
 
-            <DropdownMenuItem className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!">
+            <DropdownMenuItem
+              onClick={() => router.push(`/${user?.role}/profile`)}
+              className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!"
+            >
               <UserIcon className="size-4 text-primary/40" />
               {t("Profile")}
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!">
+            <DropdownMenuItem
+              onClick={() => router.push(`/${user?.role}/settings`)}
+              className="h-10 rounded-none cursor-pointer px-4 text-primary hover:bg-secondary/10!"
+            >
               <Settings className="size-4 text-primary/40" />
               {t("Settings")}
             </DropdownMenuItem>

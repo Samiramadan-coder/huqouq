@@ -30,18 +30,22 @@ export type Experience = {
   title: string;
 };
 
+export type ItemKey =
+  | "professional_info"
+  | "specializations_services"
+  | "languages_bio"
+  | "education"
+  | "experience"
+  | "bar_certificate";
+
+export type ItemStatus = "pending" | "approved" | "flagged";
+
 export type Section = {
   is_complete: boolean;
-  key:
-    | "professional_info"
-    | "specializations_services"
-    | "languages_bio"
-    | "education"
-    | "experience"
-    | "bar_certificate";
+  key: ItemKey;
   label: string;
   reason: null | string;
-  status: "pending" | "approved" | "flagged";
+  status: ItemStatus;
   weight: number;
 };
 

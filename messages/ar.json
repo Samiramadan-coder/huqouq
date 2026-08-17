@@ -1043,11 +1043,11 @@
             "Required": "سنة البدء مطلوبة"
           },
           "EndMonth": {
-            "Label": "شهر الانتهاء (اختياري)",
+            "Label": "شهر الانتهاء",
             "Placeholder": "مثال: 5"
           },
           "EndYear": {
-            "Label": "سنة الانتهاء (اختياري)",
+            "Label": "سنة الانتهاء",
             "Placeholder": "مثال: 2013"
           },
           "IsCurrent": {
@@ -1074,7 +1074,9 @@
       "RespondsWithinAnHour": "يرد خلال ساعة",
       "MemberSince": "عضو منذ",
       "Complete": "مكتمل",
-      "CompleteProfile": "اكمل الملف الشخصي"
+      "CompleteProfile": "اكمل الملف الشخصي",
+      "Next": "التالي",
+      "InReview": "ملفك قيد المراجعة"
     }
   }
 }

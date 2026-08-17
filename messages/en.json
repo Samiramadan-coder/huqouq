@@ -1047,11 +1047,11 @@
             "Required": "Start year is required"
           },
           "EndMonth": {
-            "Label": "End Month (Optional)",
+            "Label": "End Month",
             "Placeholder": "e.g 5"
           },
           "EndYear": {
-            "Label": "End Year (Optional)",
+            "Label": "End Year",
             "Placeholder": "e.g 2013"
           },
           "IsCurrent": {
@@ -1078,7 +1078,9 @@
       "RespondsWithinAnHour": "Responds Within an Hour",
       "MemberSince": "Member Since",
       "Complete": "Complete",
-      "CompleteProfile": "Complete Profile"
+      "CompleteProfile": "Complete Profile",
+      "Next": "Next",
+      "InReview": "Your Profile Is In Review"
     }
   }
 }

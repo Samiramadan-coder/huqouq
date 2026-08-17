@@ -1,9 +1,5 @@
 "use client";
 
-import { cn, formatDate } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useUser } from "@/providers/user-provider";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   BadgeCheck,
   BriefcaseBusiness,
@@ -11,10 +7,14 @@ import {
   Clock3,
   Star,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { Link } from "@/i18n/navigation";
+import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
+import { useUser } from "@/providers/user-provider";
+import { Separator } from "@/components/ui/separator";
+import { useLocale, useTranslations } from "next-intl";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const formattedDate = new Intl.DateTimeFormat("en-GB", {
   weekday: "long",
@@ -26,9 +26,14 @@ const formattedDate = new Intl.DateTimeFormat("en-GB", {
 export default function Info() {
   const { user } = useUser();
   const locale = useLocale();
+  const lawyer = user?.lawyer_profile;
   const t = useTranslations("Lawyer.Dashboard");
 
-  console.log("user", user);
+  console.log(user);
+
+  const nextSectionToFill = lawyer?.review_items.find(
+    (item) => !item.is_complete,
+  );
 
   return (
     <div className="space-y-6">
@@ -60,7 +65,7 @@ export default function Info() {
               </AvatarFallback>
             </Avatar>
 
-            {user?.lawyer_profile?.profile_status === "approved" && (
+            {lawyer?.profile_status === "approved" && (
               <div className="absolute -bottom-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-secondary ring-2 ring-primary/90">
                 <BadgeCheck className="size-3 text-white" />
               </div>
@@ -78,7 +83,7 @@ export default function Info() {
                 {user?.first_name} {user?.last_name}
               </h2>
 
-              {user?.lawyer_profile?.profile_status === "approved" && (
+              {lawyer?.profile_status === "approved" && (
                 <Badge
                   variant="outline"
                   className="h-5 rounded-xs border-secondary/70 px-2 text-[10px] font-normal text-secondary"
@@ -89,7 +94,7 @@ export default function Info() {
             </div>
 
             <div className="mt-2 flex flex-wrap gap-2">
-              {user?.lawyer_profile?.specializations?.map((item) => (
+              {lawyer?.specializations?.map((item) => (
                 <Badge
                   key={item.id}
                   variant="outline"
@@ -141,14 +146,14 @@ export default function Info() {
             className="shrink-0 flex size-13.5 items-center justify-center rounded-full"
             style={{
               background: `conic-gradient(
-                #c9a448 ${(user?.lawyer_profile?.completion_percentage || 0) * 3.6}deg,
-                #e7e5df ${(user?.lawyer_profile?.completion_percentage || 0) * 3.6}deg
+                #c9a448 ${(lawyer?.completion_percentage || 0) * 3.6}deg,
+                #e7e5df ${(lawyer?.completion_percentage || 0) * 3.6}deg
               )`,
             }}
           >
             <div className="flex size-11 items-center justify-center rounded-full bg-white">
               <span className="text-xs font-semibold text-primary">
-                {user?.lawyer_profile?.completion_percentage}%
+                {lawyer?.completion_percentage}%
               </span>
             </div>
           </div>
@@ -161,40 +166,58 @@ export default function Info() {
                 locale === "en" && "font-lora",
               )}
             >
-              {user?.lawyer_profile?.completion_percentage}% {t("Complete")}
+              {lawyer?.completion_percentage}% {t("Complete")}
             </h3>
 
-            {/* <p className="mt-0.5 text-sm text-primary/50 leading-relaxed">
-              Next: Bar License
-            </p> */}
+            {nextSectionToFill && (
+              <p className="mt-0.5 text-sm text-primary/50 leading-relaxed">
+                {t("Next")}: {nextSectionToFill.item_label}
+              </p>
+            )}
 
-            <div className="mt-3 flex flex-wrap items-center gap-1">
-              {user?.lawyer_profile?.review_items.map((item) => (
-                <Badge
-                  key={item.item}
-                  variant="outline"
-                  className="h-5.5 rounded-xs border-secondary/30 bg-secondary/10 px-2 text-[10px] font-normal text-secondary"
-                >
-                  {item.item_label}
-                </Badge>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {lawyer?.review_items.map((item) => (
+                <Link key={item.item} href="/lawyer/profile">
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      "h-5.5 rounded-xs  px-2 text-[10px] font-normal",
+                      {
+                        "text-secondary border-secondary/30 bg-secondary/10":
+                          item.is_complete,
+                        "text-gray-400 border-gray-200 bg-gray-50":
+                          !item.is_complete,
+                      },
+                    )}
+                  >
+                    {item.item_label}
+                  </Badge>
+                </Link>
               ))}
             </div>
           </div>
         </div>
 
         {/* Action */}
-        {user?.lawyer_profile?.profile_status !== "approved" && (
-          <div className="shrink-0 ms-auto">
-            <Link href="/lawyer/profile" className="shrink-0">
-              <Button
-                variant="outline"
-                className="h-10 shrink-0 rounded-sm border border-secondary/30 px-4 font-normal text-primary bg-transparent hover:bg-[#fffaf0]"
-              >
-                {t("CompleteProfile")}
-                <ChevronRight className="ml-2 size-4 rtl:rotate-180" />
-              </Button>
-            </Link>
-          </div>
+        {lawyer?.profile_status !== "approved" &&
+          lawyer?.profile_status !== "in_review" && (
+            <div className="shrink-0 ms-auto">
+              <Link href="/lawyer/profile" className="shrink-0">
+                <Button
+                  variant="outline"
+                  className="h-10 shrink-0 rounded-sm border border-secondary/30 px-4 font-normal text-primary bg-transparent hover:bg-[#fffaf0]"
+                >
+                  {t("CompleteProfile")}
+                  <ChevronRight className="ml-2 size-4 rtl:rotate-180" />
+                </Button>
+              </Link>
+            </div>
+          )}
+
+        {lawyer?.profile_status === "in_review" && (
+          <Badge className="bg-primary/5 border border-primary/20 text-primary h-8 px-3">
+            {t("InReview")}
+          </Badge>
         )}
       </div>
     </div>

@@ -54,7 +54,7 @@ export default function OtpDialog({
       setUser(user);
       await saveToken(token);
       toast.success(t("LoginSuccess"));
-      router.push("/");
+      router.push(`/${user?.role}/dashboard`);
       return;
     }
 
