@@ -857,6 +857,15 @@
       "Profile": "Profile",
       "Settings": "Settings",
       "Logout": "Logout"
+    },
+    "Profile": {
+      "MyProfile": "My Profile",
+      "infoHint": "Your personal information and account overview.",
+      "CasesPosted": "Cases Posted",
+      "ConsultationBooked": "Consultations Booked",
+      "FavoriteSaved": "Favorites Saved",
+      "MemberSince": "Member Since",
+      "ChangePhoto": "Change Photo"
     }
   },
   "Lawyer": {

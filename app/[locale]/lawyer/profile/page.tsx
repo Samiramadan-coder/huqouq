@@ -22,6 +22,7 @@ import { ChangesRequestedAlert } from "@/components/client-lawyer/lawyer/profile
 export default async function DashboardPage() {
   const locale = await getLocale();
   const t = await getTranslations("Lawyer.Profile");
+  const fontClass = locale === "en" ? "font-lora" : "";
 
   const { data, ok } = await http.get<LawyerProfile>("/api/lawyer/profile", {
     next: { tags: ["lawyer-profile"] },
@@ -38,12 +39,7 @@ export default async function DashboardPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <div className="py-8">
-        <h1
-          className={cn(
-            "text-2xl font-semibold mb-7",
-            locale === "en" && "font-lora",
-          )}
-        >
+        <h1 className={cn("text-2xl font-semibold mb-7", fontClass)}>
           {t("MyProfile")}
         </h1>
 
