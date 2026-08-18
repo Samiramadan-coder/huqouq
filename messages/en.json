@@ -846,7 +846,7 @@
   "Client": {
     "Sidebar": {
       "Overview": "Overview",
-      "Cases": "Cases",
+      "Cases": "My Cases",
       "LegalServices": "Legal Services",
       "FindLawyer": "Find a Lawyer",
       "MyConsultations": "My Consultations",
@@ -870,6 +870,7 @@
       "PhoneChangesWarning": "Changing your phone number will require OTP re-verification before it takes effect.",
       "DefaultCityHint": "(pre-fills case posting & lawyer search)",
       "SaveChanges": "Save Changes",
+      "QuickLinks": "Quick Links",
       "Fields": {
         "FirstName": {
           "Label": "First Name",
