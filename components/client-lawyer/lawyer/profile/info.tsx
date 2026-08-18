@@ -5,20 +5,53 @@ import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Camera } from "lucide-react";
+import { useRef, useState } from "react";
 
 export default function Info() {
   const locale = useLocale();
   const { user } = useUser();
   const t = useTranslations("Lawyer.Profile");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setPreviewImage(url);
+  }
 
   return (
     <div className="flex items-center gap-4">
-      <Avatar className="h-20 w-20">
-        <AvatarImage src={user?.photo_url || ""} />
-        <AvatarFallback className="bg-white text-primary">
-          {user?.first_name.slice(0, 2).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        className="group relative rounded-full"
+      >
+        <Avatar className="size-23">
+          <AvatarImage
+            src={previewImage || user?.photo_url || ""}
+            alt={user?.name || "User Avatar"}
+          />
+          <AvatarFallback>
+            <span>{user?.name.slice(0, 2)}</span>
+          </AvatarFallback>
+        </Avatar>
+
+        <div className="cursor-pointer absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
+          <Camera className="size-6 text-white" />
+        </div>
+
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleChange}
+          className="hidden"
+        />
+      </button>
 
       <div>
         <h3
@@ -30,7 +63,11 @@ export default function Info() {
           {user?.first_name} {user?.last_name}
         </h3>
         <p className="text-xs text-primary/45 mt-0.5">{user?.email}</p>
-        <Button variant="link" className="p-0 text-xs text-accent">
+        <Button
+          onClick={() => inputRef.current?.click()}
+          variant="link"
+          className="p-0 text-xs text-accent"
+        >
           {t("ChangePhoto")}
         </Button>
       </div>

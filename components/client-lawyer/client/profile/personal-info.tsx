@@ -6,6 +6,7 @@ import { useUser } from "@/providers/user-provider";
 import { ChangeEvent, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 export default function PersonalInfo() {
   const { user } = useUser();
@@ -54,12 +55,20 @@ export default function PersonalInfo() {
               </div>
             </button>
 
-            <button
+            <Button
+              onClick={() => inputRef.current?.click()}
+              variant="link"
+              className="p-0 text-xs text-accent"
+            >
+              {t("ChangePhoto")}
+            </Button>
+
+            {/* <button
               onClick={() => inputRef.current?.click()}
               className="cursor-pointer text-accent text-xs"
             >
               {t("ChangePhoto")}
-            </button>
+            </button> */}
 
             <input
               ref={inputRef}
