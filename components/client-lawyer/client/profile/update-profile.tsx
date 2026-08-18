@@ -4,7 +4,7 @@ import {
   UpdateProfileFormData,
   updateProfileSchema,
 } from "@/lib/client/profile";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useUser } from "@/providers/user-provider";
@@ -12,16 +12,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
+import { cn } from "@/lib/utils";
 
 export default function UpdateProfile() {
   const { user } = useUser();
+  const locale = useLocale();
   const t = useTranslations("Client.Profile");
 
   const {
     control,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<UpdateProfileFormData>({
     resolver: zodResolver(updateProfileSchema(t)),
     defaultValues: {
@@ -42,6 +44,10 @@ export default function UpdateProfile() {
       className="bg-white border border-secondary rounded-sm p-6 mb-6 space-y-6"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <p className={cn("font-semibold", locale === "en" ? "font-lora" : "")}>
+        {t("PersonalInfo")}
+      </p>
+
       <FormInput
         required
         errors={errors}
@@ -122,15 +128,17 @@ export default function UpdateProfile() {
         ]}
       />
 
-      <div className="flex justify-end">
-        <Button
-          type="submit"
-          className="bg-accent rounded-sm font-normal h-11 px-4"
-        >
-          {isSubmitting && <Spinner className="size-3" />}
-          {t("SaveChanges")}
-        </Button>
-      </div>
+      {isDirty && (
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="bg-accent rounded-sm font-normal h-11 px-4"
+          >
+            {isSubmitting && <Spinner className="size-3" />}
+            {t("SaveChanges")}
+          </Button>
+        </div>
+      )}
     </form>
   );
 }
