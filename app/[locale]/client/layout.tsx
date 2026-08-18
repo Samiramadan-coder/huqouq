@@ -66,7 +66,7 @@ export default async function ClientLayout({
       <SidebarInset>
         <main>
           <LayoutHeader />
-          <div className="min-h-screen p-4">{children}</div>
+          <div className="min-h-screen p-4 sm:p-6">{children}</div>
         </main>
       </SidebarInset>
     </SidebarProvider>

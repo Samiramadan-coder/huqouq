@@ -1,7 +1,9 @@
+import WelcomeText from "@/components/client-lawyer/reusable/welcome-text";
+
 export default function DashboardPage() {
   return (
-    <h1 className="text-3xl italic uppercase underline text-primary/70">
-      Client Dashboard
-    </h1>
+    <div>
+      <WelcomeText />
+    </div>
   );
 }

@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  BadgeCheck,
-  BriefcaseBusiness,
-  ChevronRight,
-  Clock3,
   Star,
+  Clock3,
+  BadgeCheck,
+  ChevronRight,
+  BriefcaseBusiness,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn, formatDate } from "@/lib/utils";
@@ -13,15 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
 import { Separator } from "@/components/ui/separator";
+import WelcomeText from "../../reusable/welcome-text";
 import { useLocale, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-const formattedDate = new Intl.DateTimeFormat("en-GB", {
-  weekday: "long",
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-}).format(new Date());
 
 export default function Info() {
   const { user } = useUser();
@@ -29,26 +23,13 @@ export default function Info() {
   const lawyer = user?.lawyer_profile;
   const t = useTranslations("Lawyer.Dashboard");
 
-  console.log(user);
-
   const nextSectionToFill = lawyer?.review_items.find(
     (item) => !item.is_complete,
   );
 
   return (
     <div className="space-y-6">
-      {/* Welcome Section */}
-      <div>
-        <h1
-          className={cn(
-            "text-2xl font-semibold",
-            locale === "en" && "font-lora",
-          )}
-        >
-          {t("GoodEvening")}, {user?.name}
-        </h1>
-        <p className="mt-1 text-sm text-primary/40">{formattedDate}</p>
-      </div>
+      <WelcomeText />
 
       {/* Profile Section */}
       <div className="flex w-full items-center justify-between flex-wrap gap-6 rounded-xs bg-primary px-6 py-5 text-white">
