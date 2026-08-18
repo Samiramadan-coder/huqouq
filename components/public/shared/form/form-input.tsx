@@ -87,6 +87,7 @@ export default function FormInput<T extends FieldValues>({
                 "focus-within:border-b-ring",
                 error && "border-b-destructive",
                 disabled && "cursor-not-allowed opacity-50",
+                inputClassName,
               )}
             >
               {prefix && (

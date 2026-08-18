@@ -1,11 +1,11 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Camera, User } from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import { useUser } from "@/providers/user-provider";
-import { Camera, User } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
 import { ChangeEvent, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function PersonalInfo() {
   const { user } = useUser();

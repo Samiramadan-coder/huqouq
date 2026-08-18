@@ -865,7 +865,49 @@
       "ConsultationBooked": "Consultations Booked",
       "FavoriteSaved": "Favorites Saved",
       "MemberSince": "Member Since",
-      "ChangePhoto": "Change Photo"
+      "ChangePhoto": "Change Photo",
+      "PersonalInfo": "Personal Information",
+      "PhoneChangesWarning": "Changing your phone number will require OTP re-verification before it takes effect.",
+      "DefaultCityHint": "(pre-fills case posting & lawyer search)",
+      "SaveChanges": "Save Changes",
+      "Fields": {
+        "FirstName": {
+          "Label": "First Name",
+          "Placeholder": "Enter your first name",
+          "Required": "First name is required",
+          "Min": "First name must be at least 2 characters"
+        },
+        "LastName": {
+          "Label": "Last Name",
+          "Placeholder": "Enter your last name",
+          "Required": "Last name is required",
+          "Min": "Last name must be at least 2 characters"
+        },
+        "Email": {
+          "Label": "Email Address",
+          "Placeholder": "Enter your email address",
+          "Required": "Email is required"
+        },
+        "Phone": {
+          "Label": "Phone Number",
+          "Placeholder": "Enter your phone number",
+          "Invalid": "Please enter a valid phone number"
+        },
+        "City": {
+          "Label": "Default City",
+          "Placeholder": "Select your default city",
+          "Required": "Default city is required",
+          "Options": {
+            "AbuDhabi": "Abu Dhabi",
+            "Dubai": "Dubai",
+            "Sharjah": "Sharjah",
+            "Ajman": "Ajman",
+            "RasAlKhaimah": "Ras Al Khaimah",
+            "Fujairah": "Fujairah",
+            "UmmAlQuwain": "Umm Al Quwain"
+          }
+        }
+      }
     }
   },
   "Lawyer": {
