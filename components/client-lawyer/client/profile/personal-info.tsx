@@ -45,7 +45,7 @@ export default function PersonalInfo() {
                   src={previewImage || user?.photo_url || ""}
                   alt={user?.name || "User Avatar"}
                 />
-                <AvatarFallback>
+                <AvatarFallback className="bg-white uppercase">
                   <span>{user?.name.slice(0, 2)}</span>
                 </AvatarFallback>
               </Avatar>
@@ -62,13 +62,6 @@ export default function PersonalInfo() {
             >
               {t("ChangePhoto")}
             </Button>
-
-            {/* <button
-              onClick={() => inputRef.current?.click()}
-              className="cursor-pointer text-accent text-xs"
-            >
-              {t("ChangePhoto")}
-            </button> */}
 
             <input
               ref={inputRef}

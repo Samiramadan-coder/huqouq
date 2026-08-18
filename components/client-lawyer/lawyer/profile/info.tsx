@@ -35,7 +35,7 @@ export default function Info() {
             src={previewImage || user?.photo_url || ""}
             alt={user?.name || "User Avatar"}
           />
-          <AvatarFallback>
+          <AvatarFallback className="bg-white uppercase">
             <span>{user?.name.slice(0, 2)}</span>
           </AvatarFallback>
         </Avatar>
