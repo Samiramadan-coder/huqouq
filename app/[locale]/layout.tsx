@@ -10,10 +10,11 @@ import { Toaster } from "@/components/ui/sonner";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Inter, Lora, Cairo } from "next/font/google";
+import { ReferenceData } from "@/types/reference-data";
 import { UserProvider } from "@/providers/user-provider";
 import { DirectionProvider } from "@/components/ui/direction";
 import { ReferenceDataProvider } from "@/providers/reference-data.provider";
-import { ReferenceData } from "@/types/reference-data";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 type Props = {
   children: React.ReactNode;
@@ -85,16 +86,18 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={`${inter.variable} ${lora.variable} ${cairo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ReferenceDataProvider initialReferenceData={referenceData}>
-          <UserProvider initialUser={user}>
-            <NextIntlClientProvider>
-              <DirectionProvider dir={dir}>
-                {children}
-                <Toaster richColors position="top-right" />
-              </DirectionProvider>
-            </NextIntlClientProvider>
-          </UserProvider>
-        </ReferenceDataProvider>
+        <NuqsAdapter>
+          <ReferenceDataProvider initialReferenceData={referenceData}>
+            <UserProvider initialUser={user}>
+              <NextIntlClientProvider>
+                <DirectionProvider dir={dir}>
+                  {children}
+                  <Toaster richColors position="top-right" />
+                </DirectionProvider>
+              </NextIntlClientProvider>
+            </UserProvider>
+          </ReferenceDataProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

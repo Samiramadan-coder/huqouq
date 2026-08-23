@@ -1,3 +1,3 @@
 export default function page() {
-  return <div>Create Case</div>;
+  return <div className="container max-w-3xl">Create Case</div>;
 }

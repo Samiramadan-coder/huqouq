@@ -911,14 +911,23 @@
       }
     },
     "Cases": {
-      "MyCases": "My Cases",
+      "myCases": "My Cases",
+      "addNew": "Post a New Case",
       "Filters": {
-        "All": "All",
-        "PendingReview": "Pending Review",
-        "Published": "Published",
-        "HasOffers": "Has Offers",
-        "Hired": "Hired",
-        "Closed": "Closed"
+        "all": "All",
+        "pending": "Pending Review",
+        "published": "Published",
+        "hasOffers": "Has Offers",
+        "hired": "Hired",
+        "closed": "Closed"
+      },
+      "Table": {
+        "title": "Case Title",
+        "category": "Category",
+        "status": "Status",
+        "offers": "Offers",
+        "posted": "Posted",
+        "actions": "Actions"
       }
     }
   },
