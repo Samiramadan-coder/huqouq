@@ -909,6 +909,17 @@
           }
         }
       }
+    },
+    "Cases": {
+      "MyCases": "My Cases",
+      "Filters": {
+        "All": "All",
+        "PendingReview": "Pending Review",
+        "Published": "Published",
+        "HasOffers": "Has Offers",
+        "Hired": "Hired",
+        "Closed": "Closed"
+      }
     }
   },
   "Lawyer": {
