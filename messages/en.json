@@ -913,6 +913,9 @@
     "Cases": {
       "myCases": "My Cases",
       "addNew": "Post a New Case",
+      "view": "View",
+      "createNew": "Post a New Case",
+      "createNewHint": "Describe your legal matter and receive offers from qualified lawyers.",
       "Filters": {
         "all": "All",
         "pending": "Pending Review",

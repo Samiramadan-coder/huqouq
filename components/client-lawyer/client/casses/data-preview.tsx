@@ -6,17 +6,17 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 
 export default async function DataPreview() {
-  const t = await getTranslations("Client.Cases.Table");
+  const t = await getTranslations("Client.Cases");
 
   return (
     <DataTable
       columns={[
-        t("title"),
-        t("category"),
-        t("status"),
-        t("offers"),
-        t("posted"),
-        t("actions"),
+        t("Table.title"),
+        t("Table.category"),
+        t("Table.status"),
+        t("Table.offers"),
+        t("Table.posted"),
+        t("Table.actions"),
       ]}
     >
       {Array.from({ length: 10 }).map((_, index) => (
@@ -43,7 +43,7 @@ export default async function DataPreview() {
               variant="ghost"
               className="text-accent text-xs hover:bg-transparent hover:text-accent"
             >
-              <span>View</span>
+              <span>{t("view")}</span>
               <ArrowRight className="size-3" />
             </Button>
           </TableCell>

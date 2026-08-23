@@ -1,12 +1,13 @@
 "use client";
 
+import Title from "../../reusable/title";
 import { Camera, User } from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
 import { ChangeEvent, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 
 export default function PersonalInfo() {
   const { user } = useUser();
@@ -26,9 +27,7 @@ export default function PersonalInfo() {
   return (
     <>
       <div>
-        <h1 className={cn("text-2xl font-semibold", fontClass)}>
-          {t("MyProfile")}
-        </h1>
+        <Title>{t("MyProfile")}</Title>
         <p className="text-sm text-primary/40 mt-1">{t("infoHint")}</p>
       </div>
 
