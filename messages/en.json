@@ -922,6 +922,12 @@
       "closeCase": "Close Case",
       "urgent": "Urgent",
       "posted": "Posted",
+      "offers": "Offers",
+      "lawyersOffers": "Lawyers' Offers",
+      "readMore": "Read More",
+      "acceptOffer": "Accept This Offer",
+      "message": "Message",
+      "viewProfile": "View Profile",
       "Filters": {
         "all": "All",
         "pending": "Pending Review",
