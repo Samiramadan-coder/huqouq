@@ -31,7 +31,7 @@ export default function PersonalInfo() {
         <p className="text-sm text-primary/40 mt-1">{t("infoHint")}</p>
       </div>
 
-      <div className="bg-[#FAF8F4] border border-[#E8E2D6] rounded-sm p-6">
+      <div className="bg-[#FAF8F4] border border-secondary rounded-sm p-6">
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-center gap-2">
             <button
@@ -92,8 +92,8 @@ export default function PersonalInfo() {
         </div>
 
         {/* Statistics */}
-        <div className="mt-4 pt-4 border-t border-[#E8E2D6] flex items-center">
-          <div className="flex-1 text-center border-e border-[#E8E2D6]">
+        <div className="mt-4 pt-4 border-t border-secondary flex items-center">
+          <div className="flex-1 text-center border-e border-secondary">
             <p
               className={cn(
                 "text-xl font-semibold text-primary leading-none",
@@ -106,7 +106,7 @@ export default function PersonalInfo() {
               {t("CasesPosted")}
             </p>
           </div>
-          <div className="flex-1 text-center border-e border-[#E8E2D6]">
+          <div className="flex-1 text-center border-e border-secondary">
             <p
               className={cn(
                 "text-xl font-semibold text-primary leading-none",
