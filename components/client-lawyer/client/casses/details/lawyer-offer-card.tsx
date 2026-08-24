@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default async function LawyerOfferCard() {
   const locale = await getLocale();
   const t = await getTranslations("Client.Cases");
+  const tCommon = await getTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
@@ -28,20 +29,18 @@ export default async function LawyerOfferCard() {
             <div className="flex items-start justify-between gap-6">
               <div>
                 <h3 className={cn("text-sm font-semibold", fontClass)}>
-                  Ahmad Al Rashidi
+                  Lawyer name goes here
                 </h3>
                 <p className="mt-1 text-[11px] text-accent">
-                  Criminal Law, Labor Law
+                  specialization goes here
                 </p>
               </div>
 
               <div className="shrink-0 text-right">
                 <p className={cn("text-lg font-semibold", fontClass)}>
-                  AED 1,200
+                  {tCommon("AED")} 1,200
                 </p>
-                <p className="text-[11px] text-primary/40">
-                  Fixed fee for full representation
-                </p>
+                <p className="text-[11px] text-primary/40">{t("fixedFee")}</p>
               </div>
             </div>
 
@@ -61,9 +60,7 @@ export default async function LawyerOfferCard() {
             </div>
 
             <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-primary/65">
-              I have handled over 80 employment dispute cases in UAE courts with
-              a 91% win rate. I can review your contract and provide legal
-              advice.
+              Offer description goes here
             </p>
 
             <button
