@@ -4,6 +4,7 @@ import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "@/i18n/navigation";
 
 export default async function DataPreview() {
   const t = await getTranslations("Client.Cases");
@@ -39,13 +40,15 @@ export default async function DataPreview() {
             <span className="text-primary/55">18 Jun 2025</span>
           </TableCell>
           <TableCell className="px-5 py-3">
-            <Button
-              variant="ghost"
-              className="text-accent text-xs hover:bg-transparent hover:text-accent"
-            >
-              <span>{t("view")}</span>
-              <ArrowRight className="size-3" />
-            </Button>
+            <Link href="/client/cases/1">
+              <Button
+                variant="ghost"
+                className="text-accent text-xs hover:bg-transparent hover:text-accent"
+              >
+                <span>{t("view")}</span>
+                <ArrowRight className="size-3" />
+              </Button>
+            </Link>
           </TableCell>
         </TableRow>
       ))}

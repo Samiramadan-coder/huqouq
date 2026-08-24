@@ -917,6 +917,11 @@
       "view": "View",
       "createNew": "Post a New Case",
       "createNewHint": "Describe your legal matter and receive offers from qualified lawyers.",
+      "backToCases": "Back to My Cases",
+      "editCase": "Edit Case",
+      "closeCase": "Close Case",
+      "urgent": "Urgent",
+      "posted": "Posted",
       "Filters": {
         "all": "All",
         "pending": "Pending Review",
@@ -942,6 +947,7 @@
         },
         "category": {
           "label": "Category / Specialization",
+          "descLabel": "Category",
           "placeholder": "Select a category",
           "required": "Category is required"
         },
