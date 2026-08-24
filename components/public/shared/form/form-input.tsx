@@ -56,7 +56,10 @@ export default function FormInput<T extends FieldValues>({
   const inputRegister =
     type === "number"
       ? register(name, {
-          valueAsNumber: true,
+          setValueAs: (value) =>
+            value === "" || value === null || value === undefined
+              ? undefined
+              : Number(value),
         })
       : register(name);
 

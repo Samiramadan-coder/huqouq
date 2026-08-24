@@ -1,3 +1,4 @@
+import Form from "@/components/client-lawyer/client/casses/form";
 import Hint from "@/components/client-lawyer/reusable/hint";
 import Title from "@/components/client-lawyer/reusable/title";
 import { getTranslations } from "next-intl/server";
@@ -11,6 +12,8 @@ export default async function page() {
         <Title>{t("createNew")}</Title>
         <Hint>{t("createNewHint")}</Hint>
       </div>
+
+      <Form />
     </div>
   );
 }

@@ -31,6 +31,8 @@ type SingleFormFileUploaderProps<T extends FieldValues> = {
   className?: string;
   accept?: string;
   description?: string;
+  uploadButtonClassName?: string;
+  previewBlockClassName?: string;
 };
 
 export default function SingleFormFileUploader<T extends FieldValues>({
@@ -41,6 +43,8 @@ export default function SingleFormFileUploader<T extends FieldValues>({
   className,
   accept = "*/*",
   description,
+  uploadButtonClassName,
+  previewBlockClassName,
 }: SingleFormFileUploaderProps<T>) {
   const t = useTranslations("Common");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -72,7 +76,12 @@ export default function SingleFormFileUploader<T extends FieldValues>({
             <FieldContent>
               <div className="space-y-2">
                 {displayValue ? (
-                  <div className="flex bg-background min-h-11 items-center gap-3 border border-dashed border-accent/30 px-3">
+                  <div
+                    className={cn(
+                      "flex bg-background min-h-11 items-center gap-3 border border-dashed border-accent/30 px-3",
+                      previewBlockClassName,
+                    )}
+                  >
                     <FileIcon className="size-4 shrink-0 text-muted-foreground" />
                     <span
                       className="min-w-0 flex-1 truncate text-sm"
@@ -102,7 +111,10 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                     type="button"
                     variant="outline"
                     onClick={() => fileInputRef.current?.click()}
-                    className="rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-accent/30 hover:bg-background px-3 text-sm text-primary/50"
+                    className={cn(
+                      "rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-accent/30 hover:bg-background px-3 text-sm text-primary/50",
+                      uploadButtonClassName,
+                    )}
                   >
                     <Plus className="size-4" />
                     {t("UploadFile")}

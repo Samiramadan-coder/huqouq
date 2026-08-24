@@ -32,6 +32,7 @@ type FormTextareaProps<T extends FieldValues> = {
   disabled?: boolean;
   description?: ReactNode;
   rows?: number;
+  labelDescription?: ReactNode;
 };
 
 export default function FormTextarea<T extends FieldValues>({
@@ -46,6 +47,7 @@ export default function FormTextarea<T extends FieldValues>({
   disabled = false,
   description,
   rows = 4,
+  labelDescription,
 }: FormTextareaProps<T>) {
   const error = get(errors, name);
 
@@ -63,6 +65,8 @@ export default function FormTextarea<T extends FieldValues>({
         </FieldLabel>
       )}
 
+      {labelDescription && labelDescription}
+
       <FieldContent>
         <div className="space-y-1.5">
           <Textarea
@@ -74,17 +78,14 @@ export default function FormTextarea<T extends FieldValues>({
             disabled={disabled}
             className={cn(
               "min-h-28 resize-y rounded-none border-0 border-b border-border bg-transparent shadow-none",
-
               "focus-visible:border-b-ring",
               "focus-visible:ring-0",
               "focus-visible:ring-offset-0",
-
               "aria-invalid:border-0",
               "aria-invalid:border-b",
               "aria-invalid:border-destructive",
               "aria-invalid:ring-0",
               "aria-invalid:ring-offset-0",
-
               "placeholder:text-base placeholder:text-border",
               textareaClassName,
             )}

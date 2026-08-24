@@ -1,6 +1,7 @@
 {
   "Common": {
-    "UploadFile": "Upload File"
+    "UploadFile": "Upload File",
+    "AED": "AED"
   },
   "Header": {
     "Title": "HUQOUQ",
@@ -931,6 +932,68 @@
         "offers": "Offers",
         "posted": "Posted",
         "actions": "Actions"
+      },
+      "Fields": {
+        "caseTitle": {
+          "label": "Case Title",
+          "placeholder": "e.g. Employment Contract Dispute",
+          "required": "Case title is required",
+          "minLength": "Case title must be more than 2 characters"
+        },
+        "category": {
+          "label": "Category / Specialization",
+          "placeholder": "Select a category",
+          "required": "Category is required"
+        },
+        "description": {
+          "label": "Case Description",
+          "placeholder": "Describe your situation in detail — what happened, when it occurred, any relevant background, and what outcome you are looking for. The more detail you provide, the more accurate the offers you receive will be.",
+          "notice": "Your case will be reviewed before lawyers can see it — usually within 24 hours.",
+          "required": "Case description is required",
+          "minLength": "Case description must be more than 2 characters",
+          "maxLength": "Case description must be less than 2000 characters"
+        },
+        "urgency": {
+          "label": "Urgency Level",
+          "options": {
+            "standard": {
+              "label": "Standard",
+              "description": "No rush — within 2–5 days"
+            },
+            "urgent": {
+              "label": "Urgent",
+              "description": "Need help within 24–48 hrs"
+            },
+            "veryUrgent": {
+              "label": "Very Urgent",
+              "description": "Need immediate assistance"
+            }
+          }
+        },
+        "budget": {
+          "label": "Budget Range",
+          "optional": "optional",
+          "to": "To",
+          "budgetMinMax": "BudgetMin must be less than BudgetMax",
+          "Min": "Min",
+          "Max": "Max"
+        },
+        "location": {
+          "label": "Location / Emirate",
+          "placeholder": "Select an emirate",
+          "required": "Location is required"
+        },
+        "documents": {
+          "label": "Attach Documents",
+          "optional": "optional",
+          "dropText": "Drag files here or",
+          "browse": "browse",
+          "formats": "PDF, DOCX, JPG, PNG — up to 10 MB each"
+        },
+        "submit": {
+          "button": "Submit Case",
+          "disabledMessage": "Fill in the required fields to submit."
+        }
       }
     }
   },
