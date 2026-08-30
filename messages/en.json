@@ -873,6 +873,7 @@
       "SaveChanges": "Save Changes",
       "QuickLinks": "Quick Links",
       "FailedToUpdateProfilePhoto": "Failed to update profile photo.",
+      "UpdateFailed": "Failed to update profile.",
       "Fields": {
         "FirstName": {
           "Label": "First Name",

@@ -868,6 +868,7 @@
       "SaveChanges": "حفظ التغييرات",
       "QuickLinks": "روابط سريعة",
       "FailedToUpdateProfilePhoto": "فشل تحديث صورة الملف الشخصي.",
+      "UpdateFailed": "فشل تحديث الملف الشخصي.",
       "Fields": {
         "FirstName": {
           "Label": "الاسم الأول",

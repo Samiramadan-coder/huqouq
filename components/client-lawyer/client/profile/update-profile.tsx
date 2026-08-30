@@ -13,9 +13,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { cn } from "@/lib/utils";
+import { updateProfile } from "@/lib/client/profile";
+import { toast } from "sonner";
 
 export default function UpdateProfile() {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const locale = useLocale();
   const t = useTranslations("Client.Profile");
 
@@ -36,7 +38,16 @@ export default function UpdateProfile() {
   });
 
   const onSubmit: SubmitHandler<UpdateProfileFormData> = async (data) => {
-    console.log("Form submitted with data:", data);
+    // console.log("Form submitted with data:", data);
+    const result = await updateProfile(data);
+
+    if (result.success) {
+      toast.success(result.message);
+      setUser(result.user);
+      return;
+    }
+
+    toast.error(t("UpdateFailed"));
   };
 
   return (
