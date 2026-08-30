@@ -1,24 +1,27 @@
-import { T } from "@/types/shared";
-import z from "zod";
+import { User } from "@/types/shared";
+import { http } from "../http";
 
-export const updateProfileSchema = (t: T) =>
-  z.object({
-    first_name: z
-      .string()
-      .min(1, t("Fields.FirstName.Required"))
-      .min(2, t("Fields.FirstName.Min")),
-    last_name: z
-      .string()
-      .min(1, t("Fields.LastName.Required"))
-      .min(2, t("Fields.LastName.Min")),
-    email: z.email().min(1, t("Fields.Email.Required")),
-    phone: z
-      .string()
-      .trim()
-      .regex(/^5[024568]\d{7}$/, t("Fields.Phone.Invalid")),
-    city: z.string().min(1, t("Fields.City.Required")),
-  });
+// Update profile photo
+type UpdateProfilePhotoResponse =
+  | { result: false }
+  | { result: true; message: string; user: User };
 
-export type UpdateProfileFormData = z.infer<
-  ReturnType<typeof updateProfileSchema>
->;
+export async function updateProfilePhoto(
+  file: File,
+): Promise<UpdateProfilePhotoResponse> {
+  const formData = new FormData();
+  formData.append("photo", file);
+
+  try {
+    const { data } = await http.post<{ message: string; user: User }>(
+      "/api/auth/profile-photo",
+      formData,
+    );
+    // console.log(data);
+
+    return { result: true, message: data.message, user: data.user };
+  } catch (error) {
+    console.error("Failed to update profile photo:", error);
+    return { result: false };
+  }
+}

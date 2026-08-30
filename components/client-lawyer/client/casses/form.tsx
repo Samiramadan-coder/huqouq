@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
-import { PostCaseFormData, postCaseShema } from "@/lib/client/cases";
+import { PostCaseFormData, postCaseShema } from "@/types/client/cases";
 import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";

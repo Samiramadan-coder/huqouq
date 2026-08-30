@@ -3,7 +3,7 @@
 import {
   UpdateProfileFormData,
   updateProfileSchema,
-} from "@/lib/client/profile";
+} from "@/types/client/profile";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";

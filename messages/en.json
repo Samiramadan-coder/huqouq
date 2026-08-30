@@ -872,6 +872,7 @@
       "DefaultCityHint": "(pre-fills case posting & lawyer search)",
       "SaveChanges": "Save Changes",
       "QuickLinks": "Quick Links",
+      "FailedToUpdateProfilePhoto": "Failed to update profile photo.",
       "Fields": {
         "FirstName": {
           "Label": "First Name",
