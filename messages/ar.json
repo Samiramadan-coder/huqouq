@@ -1038,6 +1038,7 @@
       "changeRequestAlert": "القسم يحتاج إلى انتباهك. الأقسام المميزة موسعة أدناه.",
       "changesRequest": "تم طلب تغييرات",
       "viewFeedback": "عرض الملاحظات",
+      "FailedToUpdateProfilePhoto": "فشل تحديث صورة الملف الشخصي.",
       "ProfessionalInfo": {
         "LanguageHint": "أدخل المعلومات باللغة التي تفضلها. منصتنا تتولى الترجمة تلقائيًا عند الحاجة.",
         "Messages": {

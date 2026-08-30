@@ -1043,6 +1043,7 @@
       "changeRequestAlert": "section need your attention. Flagged sections are expanded below.",
       "changesRequest": "Changes Requested",
       "viewFeedback": "View Feedback",
+      "FailedToUpdateProfilePhoto": "Failed to update profile photo.",
       "ProfessionalInfo": {
         "LanguageHint": "Enter information in your preferred language. Our platform handles translation automatically where needed.",
         "Messages": {

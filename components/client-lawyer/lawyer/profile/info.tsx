@@ -1,26 +1,35 @@
 "use client";
 
+import { useRef } from "react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
+import { Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
+import { useLocale, useTranslations } from "next-intl";
+import { updateProfilePhoto } from "@/lib/lawyer/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera } from "lucide-react";
-import { useRef, useState } from "react";
 
 export default function Info() {
   const locale = useLocale();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const t = useTranslations("Lawyer.Profile");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPreviewImage(url);
+
+    const result = await updateProfilePhoto(file);
+
+    if (result.result) {
+      toast.success(result.message);
+      setUser(result.user);
+      return;
+    }
+
+    toast.error(t("FailedToUpdateProfilePhoto"));
   }
 
   return (
@@ -32,7 +41,7 @@ export default function Info() {
       >
         <Avatar className="size-23">
           <AvatarImage
-            src={previewImage || user?.photo_url || ""}
+            src={user?.photo_url || ""}
             alt={user?.name || "User Avatar"}
           />
           <AvatarFallback className="bg-white uppercase">
