@@ -55,7 +55,9 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
             <TableCell className="px-5 py-3 space-x-2">
               {caseItem.status === "pending_review" && (
                 <Button variant="ghost" size="icon" className="px-0 py-0">
-                  <Pen className="text-accent" />
+                  <Link href={`/client/cases/edit/${caseItem.id}`}>
+                    <Pen className="text-accent" />
+                  </Link>
                 </Button>
               )}
 
