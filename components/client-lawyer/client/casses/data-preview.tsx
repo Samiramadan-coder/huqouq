@@ -1,12 +1,12 @@
 import { Link } from "@/i18n/navigation";
-import { ArrowRight } from "lucide-react";
+import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Pen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/client/cases";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { formatDate } from "@/lib/utils";
 
 export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
   const t = await getTranslations("Client.Cases");
@@ -52,16 +52,23 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
                 {formatDate(caseItem.created_at)}
               </span>
             </TableCell>
-            <TableCell className="px-5 py-3">
-              <Link href={`/client/cases/${caseItem.id}`}>
-                <Button
-                  variant="ghost"
-                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
-                >
+            <TableCell className="px-5 py-3 space-x-2">
+              {caseItem.status === "pending_review" && (
+                <Button variant="ghost" size="icon" className="px-0 py-0">
+                  <Pen className="text-accent" />
+                </Button>
+              )}
+
+              <Button
+                variant="ghost"
+                className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                asChild
+              >
+                <Link href={`/client/cases/${caseItem.id}`}>
                   <span>{t("view")}</span>
                   <ArrowRight className="size-3" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </TableCell>
           </TableRow>
         ))

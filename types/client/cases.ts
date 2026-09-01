@@ -55,8 +55,11 @@ export type CaseDetails = {
   id: number;
   rejection_reason: string | null;
   reviewed_at: string | null;
-  specialization: { id: number; name: string };
-  status: string;
+  specialization: {
+    id: number;
+    name: string;
+  };
+  status: "pending_review";
   status_label: string;
   title: string;
   urgency: string;
