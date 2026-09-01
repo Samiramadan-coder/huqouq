@@ -1,16 +1,18 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { parseAsString, useQueryState } from "nuqs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Counts } from "@/types/client/cases";
 
-export default function Filters() {
+export default function Filters({ counts }: { counts: Counts }) {
   const t = useTranslations("Client.Cases.Filters");
 
   const statusKeys = [
     "all",
-    "pending",
-    "published",
+    "pending_review",
+    "approved",
+    "rejected",
     "hasOffers",
     "hired",
     "closed",
@@ -23,6 +25,22 @@ export default function Filters() {
       .withOptions({ history: "push", shallow: false }),
   );
 
+  function getCount(key: string) {
+    if (key === "all") {
+      return counts.approved + counts.rejected + counts.pending_review;
+    }
+
+    if (key === "pending_review") {
+      return counts.pending_review;
+    }
+
+    if (key === "approved") {
+      return counts.approved;
+    }
+
+    return 0;
+  }
+
   return (
     <Tabs value={status} onValueChange={setStatus} className="w-full">
       <TabsList className="p-0! bg-transparent gap-2">
@@ -34,7 +52,7 @@ export default function Filters() {
               bg-white 
               px-3.5 
               font-normal 
-              text-primary/55 
+              text-primary/55
               text-xs 
               rounded-sm 
               border 
@@ -44,7 +62,7 @@ export default function Filters() {
               data-[state=active]:border-primary
             "
           >
-            {t(key)}
+            {t(key)} ({getCount(key)})
           </TabsTrigger>
         ))}
       </TabsList>

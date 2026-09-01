@@ -7,14 +7,27 @@ import DataPreview from "@/components/client-lawyer/client/casses/data-preview";
 import { CaseDetails, Counts } from "@/types/client/cases";
 import { Meta } from "@/types/shared";
 
-export default async function Page() {
+type SearchParams = {
+  status?: string;
+};
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { status } = await searchParams;
   const t = await getTranslations("Client.Cases");
 
   const { data, ok } = await http.get<{
     data: CaseDetails[];
     counts: Counts;
     meta: Meta;
-  }>("/api/cases");
+  }>("/api/cases", {
+    params: {
+      status: status || "",
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch cases");
@@ -27,7 +40,7 @@ export default async function Page() {
       <Title>{t("myCases")}</Title>
 
       <div className="flex items-center justify-between">
-        <Filters />
+        <Filters counts={data.counts} />
         <AddNew href="/client/cases/create">{t("addNew")}</AddNew>
       </div>
 

@@ -22,42 +22,50 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
         t("Table.actions"),
       ]}
     >
-      {cases.map((caseItem, index) => (
-        <TableRow key={index} className="border-secondary">
-          <TableCell className="px-5 py-3">
-            <span className="font-medium">{caseItem.title}</span>
-          </TableCell>
-          <TableCell className="px-5 py-3">
-            <span className="text-primary/55">
-              {caseItem.specialization.name}
-            </span>
-          </TableCell>
-          <TableCell className="px-5 py-3">
-            <Badge className="rounded-sm text-[11px] bg-accent/10 border border-accent/40 text-accent font-normal">
-              {caseItem.status_label}
-            </Badge>
-          </TableCell>
-          <TableCell className="px-5 py-3">
-            <span className="font-medium">-</span>
-          </TableCell>
-          <TableCell className="px-5 py-3">
-            <span className="text-primary/55">
-              {formatDate(caseItem.created_at)}
-            </span>
-          </TableCell>
-          <TableCell className="px-5 py-3">
-            <Link href={`/client/cases/${caseItem.id}`}>
-              <Button
-                variant="ghost"
-                className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
-              >
-                <span>{t("view")}</span>
-                <ArrowRight className="size-3" />
-              </Button>
-            </Link>
+      {cases.length === 0 ? (
+        <TableRow>
+          <TableCell className="px-5 py-3" colSpan={6}>
+            <span className="text-primary/55">{t("noCases")}</span>
           </TableCell>
         </TableRow>
-      ))}
+      ) : (
+        cases.map((caseItem, index) => (
+          <TableRow key={index} className="border-secondary">
+            <TableCell className="px-5 py-3">
+              <span className="font-medium">{caseItem.title}</span>
+            </TableCell>
+            <TableCell className="px-5 py-3">
+              <span className="text-primary/55">
+                {caseItem.specialization.name}
+              </span>
+            </TableCell>
+            <TableCell className="px-5 py-3">
+              <Badge className="rounded-sm text-[11px] bg-accent/10 border border-accent/40 text-accent font-normal">
+                {caseItem.status_label}
+              </Badge>
+            </TableCell>
+            <TableCell className="px-5 py-3">
+              <span className="font-medium">-</span>
+            </TableCell>
+            <TableCell className="px-5 py-3">
+              <span className="text-primary/55">
+                {formatDate(caseItem.created_at)}
+              </span>
+            </TableCell>
+            <TableCell className="px-5 py-3">
+              <Link href={`/client/cases/${caseItem.id}`}>
+                <Button
+                  variant="ghost"
+                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                >
+                  <span>{t("view")}</span>
+                  <ArrowRight className="size-3" />
+                </Button>
+              </Link>
+            </TableCell>
+          </TableRow>
+        ))
+      )}
     </DataTable>
   );
 }

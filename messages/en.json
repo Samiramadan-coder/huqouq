@@ -941,10 +941,12 @@
       "pendingClosure": "Pending Closure",
       "closed": "Closed",
       "reviewed": "Reviewed",
+      "noCases": "No cases found",
       "Filters": {
         "all": "All",
-        "pending": "Pending Review",
-        "published": "Published",
+        "pending_review": "Pending Review",
+        "approved": "Published",
+        "rejected": "Rejected",
         "hasOffers": "Has Offers",
         "hired": "Hired",
         "closed": "Closed"

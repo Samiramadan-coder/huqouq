@@ -937,10 +937,12 @@
       "pendingClosure": "في انتظار الإغلاق",
       "closed": "مغلق",
       "reviewed": "تمت المراجعة",
+      "noCases": "لم يتم العثور على أي قضايا",
       "Filters": {
         "all": "الكل",
-        "pending": "في انتظار المراجعة",
-        "published": "منشور",
+        "pending_review": "في انتظار المراجعة",
+        "approved": "منشور",
+        "rejected": "مرفوض",
         "hasOffers": "لديه عروض",
         "hired": "تم التوظيف",
         "closed": "مغلق"
