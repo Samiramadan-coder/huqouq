@@ -1011,7 +1011,8 @@
           "optional": "optional",
           "dropText": "Drag files here or",
           "browse": "browse",
-          "formats": "PDF, DOCX, JPG, PNG — up to 10 MB each"
+          "formats": "PDF, DOCX, JPG, PNG — up to 10 MB each",
+          "required": "At least one document is required"
         },
         "submit": {
           "button": "Submit Case",

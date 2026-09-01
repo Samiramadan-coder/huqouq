@@ -31,12 +31,13 @@ export default function Form() {
     resolver: zodResolver(postCaseShema(t)),
     defaultValues: {
       title: "",
-      category: "",
+      specialization_id: "",
       description: "",
       urgency: "standard",
-      budgetMin: undefined,
-      budgetMax: undefined,
-      location: "",
+      budget_min: undefined,
+      budget_max: undefined,
+      city: "",
+      documents: [],
     },
   });
 
@@ -61,7 +62,7 @@ export default function Form() {
       <FormSelect
         control={control}
         required
-        name="category"
+        name="specialization_id"
         label={t("category.label")}
         placeholder={t("category.placeholder")}
         triggerClassName="bg-white border border-accent/20!"
@@ -143,7 +144,7 @@ export default function Form() {
           <FormInput
             register={register}
             errors={errors}
-            name="budgetMin"
+            name="budget_min"
             type="number"
             inputClassName="bg-white border border-accent/20!"
             prefix={tCommon("AED")}
@@ -153,7 +154,7 @@ export default function Form() {
           <FormInput
             register={register}
             errors={errors}
-            name="budgetMax"
+            name="budget_max"
             type="number"
             inputClassName="bg-white border border-accent/20!"
             prefix={tCommon("AED")}
@@ -165,7 +166,7 @@ export default function Form() {
       <FormSelect
         control={control}
         required
-        name="location"
+        name="city"
         label={t("location.label")}
         placeholder={t("location.placeholder")}
         triggerClassName="bg-white border border-accent/20!"
@@ -203,7 +204,7 @@ export default function Form() {
 
       <SingleFormFileUploader
         control={control}
-        name="document"
+        name="documents"
         label={t("documents.label")}
         uploadButtonClassName="bg-white"
         previewBlockClassName="bg-white"
