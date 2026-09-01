@@ -72,3 +72,12 @@ export type User = {
   role: GuestType;
   status: "unverified" | "pending_approval" | "active";
 };
+
+export type Meta = {
+  current_page: number;
+  from: number;
+  last_page: number;
+  per_page: number;
+  to: number;
+  total: number;
+};

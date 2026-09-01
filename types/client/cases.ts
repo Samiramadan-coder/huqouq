@@ -37,3 +37,28 @@ export const postCaseShema = (t: T) =>
     });
 
 export type PostCaseFormData = z.infer<ReturnType<typeof postCaseShema>>;
+
+export type Counts = {
+  approved: number;
+  pending_review: number;
+  rejected: number;
+};
+
+export type CaseDetails = {
+  budget_disclosed: boolean;
+  budget_max: number;
+  budget_min: number;
+  city: string;
+  created_at: string;
+  description: string;
+  documents_count: number;
+  id: number;
+  rejection_reason: string | null;
+  reviewed_at: string | null;
+  specialization: { id: number; name: string };
+  status: string;
+  status_label: string;
+  title: string;
+  urgency: string;
+  urgency_label: string;
+};
