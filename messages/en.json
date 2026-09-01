@@ -3,7 +3,9 @@
     "UploadFile": "Upload File",
     "AED": "AED",
     "CreatedSuccessfully": "Created successfully",
-    "CreationFailed": "Creation failed"
+    "CreationFailed": "Creation failed",
+    "EditSuccessfully": "Edited successfully",
+    "EditFailed": "Editing failed"
   },
   "Header": {
     "Title": "HUQOUQ",
@@ -923,6 +925,7 @@
       "createNewHint": "Describe your legal matter and receive offers from qualified lawyers.",
       "backToCases": "Back to My Cases",
       "editCase": "Edit Case",
+      "editCaseHint": "Edit the details of your case",
       "closeCase": "Close Case",
       "urgent": "Urgent",
       "offers": "Offers",
@@ -991,7 +994,7 @@
               "label": "Urgent",
               "description": "Need help within 24–48 hrs"
             },
-            "veryUrgent": {
+            "very_urgent": {
               "label": "Very Urgent",
               "description": "Need immediate assistance"
             }

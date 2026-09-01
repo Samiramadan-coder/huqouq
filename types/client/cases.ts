@@ -64,4 +64,10 @@ export type CaseDetails = {
   title: string;
   urgency: string;
   urgency_label: string;
+  documents: {
+    id: number;
+    name: string;
+    url: string;
+    size_bytes: number;
+  }[];
 };

@@ -1,7 +1,14 @@
 "use client";
 
+import {
+  CaseDetails,
+  PostCaseFormData,
+  postCaseShema,
+} from "@/types/client/cases";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import Hint from "../../reusable/hint";
+import Title from "../../reusable/title";
 import { CircleCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { postCase } from "@/lib/client/cases";
@@ -10,21 +17,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormInput from "@/components/public/shared/form/form-input";
 import FormSelect from "@/components/public/shared/form/form-select";
-import { PostCaseFormData, postCaseShema } from "@/types/client/cases";
 import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
-import Title from "../../reusable/title";
-import Hint from "../../reusable/hint";
 
-const urgencyKeys = ["standard", "urgent", "veryUrgent"] as const;
+const urgencyKeys = ["standard", "urgent", "very_urgent"] as const;
 
-export default function Form() {
+export default function Form({ caseItem }: { caseItem?: CaseDetails }) {
   const { referenceData } = useReferenceData();
-  const tFields = useTranslations("Client.Cases.Fields");
   const t = useTranslations("Client.Cases");
   const tCommon = useTranslations("Common");
+  const tFields = useTranslations("Client.Cases.Fields");
   const tProfile = useTranslations("Client.Profile.Fields.City.Options");
 
   const {
@@ -37,24 +41,28 @@ export default function Form() {
   } = useForm<PostCaseFormData>({
     resolver: zodResolver(postCaseShema(tFields)),
     defaultValues: {
-      title: "",
-      specialization_id: undefined,
-      description: "",
-      urgency: "standard",
-      budget_min: undefined,
-      budget_max: undefined,
-      city: "",
-      documents: [],
+      title: caseItem?.title ?? "",
+      specialization_id: caseItem?.specialization.id ?? undefined,
+      description: caseItem?.description ?? "",
+      urgency: caseItem?.urgency ?? "standard",
+      budget_min: caseItem?.budget_min ?? undefined,
+      budget_max: caseItem?.budget_max ?? undefined,
+      city: caseItem?.city ?? "",
+      documents: caseItem?.documents.map((doc) => doc.url) ?? [],
     },
   });
 
+  // Watch the description field to dynamically respond to its changes if needed
   const description = useWatch({ control, name: "description" });
 
+  // Handle form submission
   const onSubmit: SubmitHandler<PostCaseFormData> = async (data) => {
-    const result = await postCase(data);
+    const result = await postCase(data, caseItem?.id);
 
     if (result.success) {
-      toast.success(tCommon("CreatedSuccessfully"));
+      toast.success(
+        caseItem ? tCommon("EditSuccessfully") : tCommon("CreatedSuccessfully"),
+      );
       reset();
       return;
     }
@@ -70,14 +78,14 @@ export default function Form() {
       return;
     }
 
-    toast.error(tCommon("CreationFailed"));
+    toast.error(caseItem ? tCommon("EditFailed") : tCommon("CreationFailed"));
   };
 
   return (
     <div className="container max-w-3xl space-y-6">
       <div>
-        <Title>{t("createNew")}</Title>
-        <Hint>{t("createNewHint")}</Hint>
+        <Title>{caseItem ? t("editCase") : t("createNew")}</Title>
+        <Hint>{caseItem ? t("editCaseHint") : t("createNewHint")}</Hint>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

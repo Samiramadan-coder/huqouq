@@ -3,7 +3,9 @@
     "UploadFile": "رفع ملف",
     "AED": "درهم",
     "CreatedSuccessfully": "تم الإنشاء بنجاح",
-    "CreationFailed": "فشل الإنشاء"
+    "CreationFailed": "فشل الإنشاء",
+    "EditSuccessfully": "تم التعديل بنجاح",
+    "EditFailed": "فشل التعديل"
   },
   "Header": {
     "Title": "حقوق",
@@ -919,6 +921,7 @@
       "createNewHint": "صف مسألتك القانونية وتلقى عروضًا من محامين مؤهلين.",
       "backToCases": "العودة إلى قضاياي",
       "editCase": "تعديل القضية",
+      "editCaseHint": "قم بتحرير تفاصيل قضيتك",
       "closeCase": "إغلاق القضية",
       "urgent": "عاجل",
       "offers": "العروض",
@@ -987,7 +990,7 @@
               "label": "عاجل",
               "description": "تحتاج إلى المساعدة خلال 24–48 ساعة"
             },
-            "veryUrgent": {
+            "very_urgent": {
               "label": "عاجل جدًا",
               "description": "تحتاج إلى مساعدة فورية"
             }
@@ -1011,7 +1014,8 @@
           "optional": "اختياري",
           "dropText": "اسحب الملفات هنا أو",
           "browse": "تصفح",
-          "formats": "PDF، DOCX، JPG، PNG — حتى 10 ميغابايت لكل ملف"
+          "formats": "PDF، DOCX، JPG، PNG — حتى 10 ميغابايت لكل ملف",
+          "required": "يجب إرفاق مستند واحد على الأقل"
         },
         "submit": {
           "button": "إرسال القضية",
