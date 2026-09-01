@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Pen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
@@ -52,15 +52,7 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
                 {formatDate(caseItem.created_at)}
               </span>
             </TableCell>
-            <TableCell className="px-5 py-3 space-x-2">
-              {caseItem.status === "pending_review" && (
-                <Button variant="ghost" size="icon" className="px-0 py-0">
-                  <Link href={`/client/cases/edit/${caseItem.id}`}>
-                    <Pen className="text-accent" />
-                  </Link>
-                </Button>
-              )}
-
+            <TableCell className="px-5 py-3 space-x-4">
               <Button
                 variant="ghost"
                 className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
@@ -71,6 +63,19 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
                   <ArrowRight className="size-3" />
                 </Link>
               </Button>
+
+              {caseItem.status === "pending_review" && (
+                <Button
+                  variant="ghost"
+                  className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
+                  asChild
+                >
+                  <Link href={`/client/cases/edit/${caseItem.id}`}>
+                    <span>{t("editCase")}</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
+                </Button>
+              )}
             </TableCell>
           </TableRow>
         ))
