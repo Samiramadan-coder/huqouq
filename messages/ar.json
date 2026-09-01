@@ -941,6 +941,7 @@
       "closed": "مغلق",
       "reviewed": "تمت المراجعة",
       "noCases": "لم يتم العثور على أي قضايا",
+      "PostedOn": "تم النشر في {date}",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",
@@ -1021,6 +1022,16 @@
           "button": "إرسال القضية",
           "disabledMessage": "املأ الحقول المطلوبة للإرسال."
         }
+      },
+      "Timeline": {
+        "Posted": "تم النشر",
+        "Approved": "تمت الموافقة",
+        "OffersReceived": "تم استلام العروض",
+        "Hired": "تم التوظيف",
+        "InProgress": "قيد التنفيذ",
+        "PendingClosure": "في انتظار الإغلاق",
+        "Closed": "مغلق",
+        "Reviewed": "تمت المراجعة"
       }
     }
   },

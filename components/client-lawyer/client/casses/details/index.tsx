@@ -1,9 +1,9 @@
 import {
-  CalendarDays,
-  Eye,
-  FileText,
-  MapPin,
+  // Eye,
   Tag,
+  MapPin,
+  FileText,
+  CalendarDays,
   TriangleAlert,
 } from "lucide-react";
 
@@ -14,67 +14,75 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import { cn } from "@/lib/utils";
 import InfoRow from "./info-row";
+import { Link } from "@/i18n/navigation";
+import { cn, formatDate } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import LawyerOfferCard from "./lawyer-offer-card";
+import { CaseDetails } from "@/types/client/cases";
+// import LawyerOfferCard from "./lawyer-offer-card";
 import { Separator } from "@/components/ui/separator";
 import { getLocale, getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const timeline = [
-  {
-    id: "posted",
-    title: "Posted",
-    description: "Posted on 18 Jun 2025 · 47 views so far.",
-  },
-  {
-    id: "approved",
-    title: "Approved",
-    description: "Your case was reviewed and approved.",
-  },
-  {
-    id: "offers",
-    title: "Offers Received",
-    description:
-      "3 offers received. Review and compare them to find the right lawyer.",
-  },
-  {
-    id: "hired",
-    title: "Hired",
-    description: "You have hired a lawyer for this case.",
-  },
-  {
-    id: "progress",
-    title: "In Progress",
-    description: "Your lawyer is currently working on the case.",
-  },
-  {
-    id: "closure",
-    title: "Pending Closure",
-    description: "The case is waiting for final closure.",
-  },
-  {
-    id: "closed",
-    title: "Closed",
-    description: "The case has been closed.",
-  },
-  {
-    id: "reviewed",
-    title: "Reviewed",
-    description: "Your review for this case has been submitted.",
-  },
-];
-
-export default async function Index() {
+export default async function Index({
+  caseDetails,
+}: {
+  caseDetails: CaseDetails;
+}) {
   const locale = await getLocale();
   const t = await getTranslations("Client.Cases");
+  const tCommon = await getTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
-  const currentStep = 4;
+  const currentStep = caseDetails.status === "pending_review" ? 0 : 1;
+
+  const timeline = [
+    {
+      id: "posted",
+      title: t("Timeline.Posted"),
+      description: t("PostedOn", {
+        date: formatDate(caseDetails.created_at),
+      }),
+    },
+    {
+      id: "approved",
+      title: t("Timeline.Approved"),
+      description: "",
+    },
+    {
+      id: "offers",
+      title: t("Timeline.OffersReceived"),
+      description: "",
+    },
+    {
+      id: "hired",
+      title: t("Timeline.Hired"),
+      description: "",
+    },
+    {
+      id: "progress",
+      title: t("Timeline.InProgress"),
+      description: "",
+    },
+    {
+      id: "closure",
+      title: t("Timeline.PendingClosure"),
+      description: "",
+    },
+    {
+      id: "closed",
+      title: t("Timeline.Closed"),
+      description: "",
+    },
+    {
+      id: "reviewed",
+      title: t("Timeline.Reviewed"),
+      description: "",
+    },
+  ];
 
   return (
     <>
@@ -84,34 +92,41 @@ export default async function Index() {
 
       <div>
         <div className="flex items-center justify-between gap-4">
-          <Title>Case name goes here.</Title>
+          <Title>{caseDetails.title}</Title>
+
           <div className="space-x-2">
-            <Button
-              variant="outline"
-              className="rounded-sm border-secondary font-normal text-xs text-primary/55"
-            >
-              {t("editCase")}
-            </Button>
-            <Button
+            {caseDetails.status === "pending_review" && (
+              <Button
+                variant="outline"
+                className="rounded-sm border-secondary font-normal text-xs text-primary/55"
+                asChild
+              >
+                <Link href={`/client/cases/edit/${caseDetails.id}`}>
+                  {t("editCase")}
+                </Link>
+              </Button>
+            )}
+
+            {/* <Button
               variant="outline"
               className="rounded-sm border-secondary font-normal text-xs text-destructive"
             >
               {t("closeCase")}
-            </Button>
+            </Button> */}
           </div>
         </div>
 
         <div className="mt-2 flex items-center gap-2">
           <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
-            {t("Filters.hasOffers")}
+            {caseDetails.status_label}
           </Badge>
           <Badge className="text-accent bg-accent/10 border border-accent/30 px-2.5 py-2 h-6 rounded-sm">
-            {t("urgent")}
+            {t(caseDetails.urgency)}
           </Badge>
-          <div className="flex items-center gap-1">
+          {/* <div className="flex items-center gap-1">
             <Eye className="text-primary/35 size-3.5" />
             <span className="text-primary/35 text-xs">47 Views</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -208,7 +223,7 @@ export default async function Index() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-primary/65 leading-relaxed whitespace-pre-line">
-              Case description goes here.
+              {caseDetails.description}
             </p>
           </CardContent>
         </Card>
@@ -218,22 +233,22 @@ export default async function Index() {
             <InfoRow
               icon={Tag}
               label={t("Fields.category.descLabel")}
-              value="category name goes here"
+              value={caseDetails.specialization.name}
             />
             <InfoRow
               icon={MapPin}
               label={t("Fields.location.label")}
-              value="location name goes here"
+              value={caseDetails.city}
             />
             <InfoRow
               icon={CalendarDays}
               label={t("posted")}
-              value="posted date goes here"
+              value={formatDate(caseDetails.created_at)}
             />
             <InfoRow
               icon={TriangleAlert}
               label={t("Fields.budget.label")}
-              value="budget goes here"
+              value={`${caseDetails.budget_min} - ${caseDetails.budget_max} ${tCommon("AED")}`}
             />
             <Separator className="bg-secondary" />
             <BackBtn>
@@ -242,7 +257,7 @@ export default async function Index() {
           </CardContent>
         </Card>
 
-        <div className="md:col-span-3">
+        {/* <div className="md:col-span-3">
           <div className="flex items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-2">
               <p className={cn("font-semibold", fontClass)}>
@@ -258,7 +273,7 @@ export default async function Index() {
             <LawyerOfferCard />
             <LawyerOfferCard />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

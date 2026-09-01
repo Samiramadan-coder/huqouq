@@ -945,6 +945,7 @@
       "closed": "Closed",
       "reviewed": "Reviewed",
       "noCases": "No cases found",
+      "PostedOn": "Posted on {date}",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",
@@ -1025,6 +1026,16 @@
           "button": "Submit Case",
           "disabledMessage": "Fill in the required fields to submit."
         }
+      },
+      "Timeline": {
+        "Posted": "Posted",
+        "Approved": "Approved",
+        "OffersReceived": "Offers Received",
+        "Hired": "Hired",
+        "InProgress": "In Progress",
+        "PendingClosure": "Pending Closure",
+        "Closed": "Closed",
+        "Reviewed": "Reviewed"
       }
     }
   },
