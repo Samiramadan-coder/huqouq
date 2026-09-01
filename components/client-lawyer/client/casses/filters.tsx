@@ -13,9 +13,9 @@ export default function Filters({ counts }: { counts: Counts }) {
     "pending_review",
     "approved",
     "rejected",
-    "hasOffers",
-    "hired",
-    "closed",
+    // "hasOffers",
+    // "hired",
+    // "closed",
   ];
 
   const [status, setStatus] = useQueryState(
