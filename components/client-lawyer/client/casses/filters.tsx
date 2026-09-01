@@ -38,6 +38,10 @@ export default function Filters({ counts }: { counts: Counts }) {
       return counts.approved;
     }
 
+    if (key === "rejected") {
+      return counts.rejected;
+    }
+
     return 0;
   }
 

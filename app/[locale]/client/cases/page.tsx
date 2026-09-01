@@ -33,6 +33,8 @@ export default async function Page({
     throw new Error("Failed to fetch cases");
   }
 
+  console.log(data);
+
   return (
     <div className="space-y-6 container max-w-7xl">
       <Title>{t("myCases")}</Title>

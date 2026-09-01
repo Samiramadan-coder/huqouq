@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,17 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
               </span>
             </TableCell>
             <TableCell className="px-5 py-3">
-              <Badge className="rounded-sm text-[11px] bg-accent/10 border border-accent/40 text-accent font-normal">
+              <Badge
+                className={cn(
+                  "rounded-sm text-[11px] font-normal",
+                  caseItem.status === "approved" &&
+                    "bg-green-100 border-green-400 text-green-800",
+                  caseItem.status === "rejected" &&
+                    "bg-red-100 border-red-400 text-red-800",
+                  caseItem.status === "pending_review" &&
+                    "bg-yellow-100 border-yellow-400 text-yellow-800",
+                )}
+              >
                 {caseItem.status_label}
               </Badge>
             </TableCell>

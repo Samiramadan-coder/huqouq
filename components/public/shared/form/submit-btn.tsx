@@ -15,7 +15,11 @@ export default function SubmitBtn({
   showArrow?: boolean;
 }) {
   return (
-    <Button type="submit" className={cn("h-13 w-full rounded-sm", className)}>
+    <Button
+      disabled={loading}
+      type="submit"
+      className={cn("h-13 w-full rounded-sm", className)}
+    >
       {loading ? <Spinner /> : label}
       {showArrow && <ArrowRight className="rtl:rotate-180" />}
     </Button>

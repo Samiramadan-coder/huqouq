@@ -33,6 +33,11 @@ export type Specialization = {
   id: number;
 };
 
+export type City = {
+  emirate: string;
+  cities: string[];
+};
+
 export type ReferenceData = {
   academic_degrees: AcademicDegree[];
   account_types: AccountType[];
@@ -42,4 +47,5 @@ export type ReferenceData = {
   languages: string[];
   services: Service[];
   specializations: Specialization[];
+  cities: City[];
 };

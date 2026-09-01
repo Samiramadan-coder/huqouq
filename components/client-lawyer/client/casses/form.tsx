@@ -215,36 +215,14 @@ export default function Form({ caseItem }: { caseItem?: CaseDetails }) {
           label={tFields("location.label")}
           placeholder={tFields("location.placeholder")}
           triggerClassName="bg-white border border-accent/20!"
-          options={[
-            {
-              label: tProfile("Dubai"),
-              value: "Dubai Marina",
-            },
-            {
-              label: tProfile("AbuDhabi"),
-              value: "abu-dhabi",
-            },
-            {
-              label: tProfile("Sharjah"),
-              value: "sharjah",
-            },
-            {
-              label: tProfile("Ajman"),
-              value: "ajman",
-            },
-            {
-              label: tProfile("UmmAlQuwain"),
-              value: "umm-al-quwain",
-            },
-            {
-              label: tProfile("RasAlKhaimah"),
-              value: "ras-al-khaimah",
-            },
-            {
-              label: tProfile("Fujairah"),
-              value: "fujairah",
-            },
-          ]}
+          options={
+            referenceData?.cities.flatMap((item) =>
+              item.cities.map((city) => ({
+                label: city,
+                value: city,
+              })),
+            ) || []
+          }
         />
 
         <SingleFormFileUploader

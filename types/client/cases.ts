@@ -59,10 +59,10 @@ export type CaseDetails = {
     id: number;
     name: string;
   };
-  status: "pending_review";
+  status: "pending_review" | "approved" | "rejected";
   status_label: string;
   title: string;
-  urgency: string;
+  urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
   documents: {
     id: number;
