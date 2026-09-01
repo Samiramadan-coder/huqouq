@@ -205,6 +205,7 @@ export default function Form() {
       <SingleFormFileUploader
         control={control}
         name="documents"
+        multiple
         label={t("documents.label")}
         uploadButtonClassName="bg-white"
         previewBlockClassName="bg-white"

@@ -17,9 +17,9 @@ import {
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FileIcon, Plus, X } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 type FileValue = string | File | null;
 
@@ -33,6 +33,7 @@ type SingleFormFileUploaderProps<T extends FieldValues> = {
   description?: string;
   uploadButtonClassName?: string;
   previewBlockClassName?: string;
+  multiple?: boolean;
 };
 
 export default function SingleFormFileUploader<T extends FieldValues>({
@@ -45,6 +46,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
   description,
   uploadButtonClassName,
   previewBlockClassName,
+  multiple,
 }: SingleFormFileUploaderProps<T>) {
   const t = useTranslations("Common");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -56,8 +58,15 @@ export default function SingleFormFileUploader<T extends FieldValues>({
       render={({ field, fieldState }) => {
         const value = (field.value ?? null) as FileValue;
 
-        const displayValue =
-          typeof value === "string" ? value : isFile(value) ? value.name : null;
+        const displayValues: (string | File)[] = [];
+
+        if (Array.isArray(value)) {
+          displayValues.push(...value);
+        }
+
+        if (!Array.isArray(value) && value !== null) {
+          displayValues.push(value);
+        }
 
         return (
           <Field className={className} data-invalid={fieldState.invalid}>
@@ -75,37 +84,56 @@ export default function SingleFormFileUploader<T extends FieldValues>({
 
             <FieldContent>
               <div className="space-y-2">
-                {displayValue ? (
-                  <div
-                    className={cn(
-                      "flex bg-background min-h-11 items-center gap-3 border border-dashed border-accent/30 px-3",
-                      previewBlockClassName,
-                    )}
-                  >
-                    <FileIcon className="size-4 shrink-0 text-muted-foreground" />
-                    <span
-                      className="min-w-0 flex-1 truncate text-sm"
-                      title={displayValue}
-                    >
-                      {displayValue}
-                    </span>
+                {displayValues.length > 0 ? (
+                  <>
+                    {displayValues.map((displayValue, index) => (
+                      <div
+                        key={index}
+                        className={cn(
+                          "flex bg-background min-h-11 items-center gap-3 border border-dashed border-accent/30 px-3",
+                          previewBlockClassName,
+                        )}
+                      >
+                        <FileIcon className="size-4 shrink-0 text-muted-foreground" />
+                        <span
+                          className="min-w-0 flex-1 truncate text-sm"
+                          title={
+                            displayValue instanceof File
+                              ? displayValue.name
+                              : displayValue
+                          }
+                        >
+                          {displayValue instanceof File
+                            ? displayValue.name
+                            : displayValue}
+                        </span>
 
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="size-8 shrink-0"
-                      onClick={() => {
-                        field.onChange(null);
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="size-8 shrink-0"
+                          onClick={() => {
+                            if (Array.isArray(displayValues)) {
+                              const newValue = displayValues.filter(
+                                (_, i) => i !== index,
+                              );
 
-                        if (fileInputRef.current) {
-                          fileInputRef.current.value = "";
-                        }
-                      }}
-                    >
-                      <X className="size-4" />
-                    </Button>
-                  </div>
+                              field.onChange(newValue);
+                            } else {
+                              field.onChange(null);
+                            }
+
+                            if (fileInputRef.current) {
+                              fileInputRef.current.value = "";
+                            }
+                          }}
+                        >
+                          <X className="size-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </>
                 ) : (
                   <Button
                     type="button"
@@ -126,11 +154,16 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                   type="file"
                   accept={accept}
                   className="hidden"
+                  multiple={multiple}
                   onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (!file) return;
-                    field.onChange(file);
-                    event.target.value = "";
+                    const files = event.target.files
+                      ? Array.from(event.target.files)
+                      : [];
+                    if (multiple) {
+                      field.onChange(files);
+                    } else {
+                      field.onChange(files[0] || null);
+                    }
                   }}
                 />
 
@@ -150,12 +183,12 @@ export default function SingleFormFileUploader<T extends FieldValues>({
   );
 }
 
-function isFile(value: FileValue): value is File {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "name" in value &&
-    "size" in value &&
-    "type" in value
-  );
-}
+// function isFile(value: FileValue): value is File {
+//   return (
+//     typeof value === "object" &&
+//     value !== null &&
+//     "name" in value &&
+//     "size" in value &&
+//     "type" in value
+//   );
+// }
