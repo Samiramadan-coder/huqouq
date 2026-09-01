@@ -928,6 +928,8 @@
       "editCaseHint": "Edit the details of your case",
       "closeCase": "Close Case",
       "urgent": "Urgent",
+      "standard": "Standard",
+      "very_urgent": "Very Urgent",
       "offers": "Offers",
       "lawyersOffers": "Lawyers' Offers",
       "readMore": "Read More",
@@ -946,6 +948,7 @@
       "reviewed": "Reviewed",
       "noCases": "No cases found",
       "PostedOn": "Posted on {date}",
+      "ReviewedOn": "Reviewed on {date}",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",

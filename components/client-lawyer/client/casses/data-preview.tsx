@@ -63,29 +63,32 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
               </span>
             </TableCell>
             <TableCell className="px-5 py-3 space-x-4">
-              <Button
-                variant="ghost"
-                className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
-                asChild
-              >
-                <Link href={`/client/cases/${caseItem.id}`}>
-                  <span>{t("view")}</span>
-                  <ArrowRight className="size-3" />
-                </Link>
-              </Button>
-
-              {caseItem.status === "pending_review" && (
+              {caseItem.status !== "rejected" && (
                 <Button
                   variant="ghost"
-                  className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
+                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
                   asChild
                 >
-                  <Link href={`/client/cases/edit/${caseItem.id}`}>
-                    <span>{t("editCase")}</span>
+                  <Link href={`/client/cases/${caseItem.id}`}>
+                    <span>{t("view")}</span>
                     <ArrowRight className="size-3" />
                   </Link>
                 </Button>
               )}
+
+              {caseItem.status === "pending_review" ||
+                (caseItem.status === "rejected" && (
+                  <Button
+                    variant="ghost"
+                    className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
+                    asChild
+                  >
+                    <Link href={`/client/cases/edit/${caseItem.id}`}>
+                      <span>{t("editCase")}</span>
+                      <ArrowRight className="size-3" />
+                    </Link>
+                  </Button>
+                ))}
             </TableCell>
           </TableRow>
         ))

@@ -924,6 +924,8 @@
       "editCaseHint": "قم بتحرير تفاصيل قضيتك",
       "closeCase": "إغلاق القضية",
       "urgent": "عاجل",
+      "standard": "عادي",
+      "very_urgent": "عاجل جدًا",
       "offers": "العروض",
       "lawyersOffers": "عروض المحامين",
       "readMore": "اقرأ المزيد",
@@ -942,6 +944,7 @@
       "reviewed": "تمت المراجعة",
       "noCases": "لم يتم العثور على أي قضايا",
       "PostedOn": "تم النشر في {date}",
+      "ReviewedOn": "تمت المراجعة في {date}",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",

@@ -9,8 +9,6 @@ type Params = {
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { id } = await params;
 
-  console.log(id);
-
   const { data, ok } = await http.get<{ data: CaseDetails }>(
     `/api/cases/${id}`,
   );
@@ -18,6 +16,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   if (!ok) {
     throw new Error("Failed to fetch case details");
   }
+
+  console.log(data.data);
 
   return (
     <div className="container max-w-3xl space-y-6">

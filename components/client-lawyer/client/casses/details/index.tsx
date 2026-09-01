@@ -1,5 +1,4 @@
 import {
-  // Eye,
   Tag,
   MapPin,
   FileText,
@@ -21,7 +20,6 @@ import TimelineRail from "./timeline-radial";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CaseDetails } from "@/types/client/cases";
-// import LawyerOfferCard from "./lawyer-offer-card";
 import { Separator } from "@/components/ui/separator";
 import { getLocale, getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
@@ -37,7 +35,18 @@ export default async function Index({
   const t = await getTranslations("Client.Cases");
   const tCommon = await getTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
-  const currentStep = caseDetails.status === "pending_review" ? 0 : 1;
+  const currentStep = getCurrentStep();
+
+  function getCurrentStep() {
+    switch (caseDetails.status) {
+      case "pending_review":
+        return 0;
+      case "approved":
+        return 1;
+      default:
+        return 2;
+    }
+  }
 
   const timeline = [
     {
@@ -50,7 +59,9 @@ export default async function Index({
     {
       id: "approved",
       title: t("Timeline.Approved"),
-      description: "",
+      description: t("ReviewedOn", {
+        date: formatDate(caseDetails.reviewed_at || ""),
+      }),
     },
     {
       id: "offers",
@@ -95,17 +106,18 @@ export default async function Index({
           <Title>{caseDetails.title}</Title>
 
           <div className="space-x-2">
-            {caseDetails.status === "pending_review" && (
-              <Button
-                variant="outline"
-                className="rounded-sm border-secondary font-normal text-xs text-primary/55"
-                asChild
-              >
-                <Link href={`/client/cases/edit/${caseDetails.id}`}>
-                  {t("editCase")}
-                </Link>
-              </Button>
-            )}
+            {caseDetails.status === "pending_review" ||
+              (caseDetails.status === "rejected" && (
+                <Button
+                  variant="outline"
+                  className="rounded-sm border-secondary font-normal text-xs text-primary/55"
+                  asChild
+                >
+                  <Link href={`/client/cases/edit/${caseDetails.id}`}>
+                    {t("editCase")}
+                  </Link>
+                </Button>
+              ))}
 
             {/* <Button
               variant="outline"

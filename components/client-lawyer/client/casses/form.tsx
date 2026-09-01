@@ -29,7 +29,6 @@ export default function Form({ caseItem }: { caseItem?: CaseDetails }) {
   const t = useTranslations("Client.Cases");
   const tCommon = useTranslations("Common");
   const tFields = useTranslations("Client.Cases.Fields");
-  const tProfile = useTranslations("Client.Profile.Fields.City.Options");
 
   const {
     control,
