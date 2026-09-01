@@ -8,7 +8,7 @@ export const postCaseShema = (t: T) =>
         .string()
         .min(1, t("caseTitle.required"))
         .min(2, t("caseTitle.minLength")),
-      specialization_id: z.string().min(1, t("category.required")),
+      specialization_id: z.number().min(1, t("category.required")),
       description: z
         .string()
         .min(1, t("description.required"))

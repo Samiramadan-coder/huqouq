@@ -1,8 +1,10 @@
 "use client";
 
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { CircleCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { postCase } from "@/lib/client/cases";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
@@ -26,12 +28,14 @@ export default function Form() {
     control,
     register,
     handleSubmit,
+    setError,
+    reset,
     formState: { isSubmitting, errors },
   } = useForm<PostCaseFormData>({
     resolver: zodResolver(postCaseShema(t)),
     defaultValues: {
       title: "",
-      specialization_id: "",
+      specialization_id: undefined,
       description: "",
       urgency: "standard",
       budget_min: undefined,
@@ -43,8 +47,27 @@ export default function Form() {
 
   const description = useWatch({ control, name: "description" });
 
-  const onSubmit: SubmitHandler<PostCaseFormData> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<PostCaseFormData> = async (data) => {
+    const result = await postCase(data);
+
+    if (result.success) {
+      toast.success(tCommon("CreatedSuccessfully"));
+      reset();
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        setError(field as keyof PostCaseFormData, {
+          type: "manual",
+          message: message as string,
+        });
+      });
+
+      return;
+    }
+
+    toast.error(tCommon("CreationFailed"));
   };
 
   return (
@@ -111,6 +134,7 @@ export default function Form() {
                   <Button
                     key={key}
                     variant="outline"
+                    type="button"
                     className={cn(
                       "group py-4 px-2 border-secondary rounded-sm flex flex-col min-h-14.5 hover:bg-primary hover:text-white",
                       value === key && "bg-primary text-white",
@@ -173,7 +197,7 @@ export default function Form() {
         options={[
           {
             label: tProfile("Dubai"),
-            value: "dubai",
+            value: "Dubai Marina",
           },
           {
             label: tProfile("AbuDhabi"),

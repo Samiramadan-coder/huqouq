@@ -1,7 +1,9 @@
 {
   "Common": {
     "UploadFile": "Upload File",
-    "AED": "AED"
+    "AED": "AED",
+    "CreatedSuccessfully": "Created successfully",
+    "CreationFailed": "Creation failed"
   },
   "Header": {
     "Title": "HUQOUQ",

@@ -159,6 +159,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                     const files = event.target.files
                       ? Array.from(event.target.files)
                       : [];
+
                     if (multiple) {
                       field.onChange(files);
                     } else {
@@ -182,13 +183,3 @@ export default function SingleFormFileUploader<T extends FieldValues>({
     />
   );
 }
-
-// function isFile(value: FileValue): value is File {
-//   return (
-//     typeof value === "object" &&
-//     value !== null &&
-//     "name" in value &&
-//     "size" in value &&
-//     "type" in value
-//   );
-// }

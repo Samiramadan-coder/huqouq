@@ -1,6 +1,9 @@
 {
   "Common": {
-    "UploadFile": "رفع ملف"
+    "UploadFile": "رفع ملف",
+    "AED": "درهم",
+    "CreatedSuccessfully": "تم الإنشاء بنجاح",
+    "CreationFailed": "فشل الإنشاء"
   },
   "Header": {
     "Title": "حقوق",
