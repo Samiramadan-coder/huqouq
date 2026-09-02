@@ -25,10 +25,10 @@ export default function ListOfCasesHeader({ total }: { total: number }) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="most_recent">Most Recent</SelectItem>
-            <SelectItem value="highest_budget">Highest Budget</SelectItem>
-            <SelectItem value="most_urgent">Most Urgent</SelectItem>
-            <SelectItem value="fewest_offers">Fewest offers so far</SelectItem>
+            <SelectItem value="most_recent">{t("MostRecent")}</SelectItem>
+            <SelectItem value="highest_budget">{t("HighestBudget")}</SelectItem>
+            <SelectItem value="most_urgent">{t("MostUrgent")}</SelectItem>
+            <SelectItem value="fewest_offers">{t("FewestOffers")}</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

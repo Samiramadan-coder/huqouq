@@ -49,10 +49,12 @@ export type CaseDetails = {
   budget_max: number;
   budget_min: number;
   city: string;
+  created_at: string;
   description: string;
   documents_count: number;
   id: number;
-  posted_at: string;
+  rejection_reason: string | null;
+  reviewed_at: string | null;
   specialization: { id: number; name: string };
   status: "pending_review" | "approved" | "rejected";
   status_label: string;

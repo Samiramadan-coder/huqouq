@@ -17,8 +17,6 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     throw new Error("Failed to fetch case details");
   }
 
-  console.log(data.data);
-
   return (
     <div className="container max-w-3xl space-y-6">
       <Index caseDetails={data.data} />

@@ -1279,7 +1279,19 @@
       "Specialization": "Specialization",
       "lawyersHaveOffers": "lawyers have already submitted offers",
       "ViewDetails": "View Details",
-      "MatchYourFilters": "cases match your filters"
+      "MatchYourFilters": "cases match your filters",
+      "MostRecent": "Most Recent",
+      "HighestBudget": "Highest Budget",
+      "MostUrgent": "Most Urgent",
+      "FewestOffers": "Fewest offers so far",
+      "BackToCases": "Back to Cases",
+      "CaseSummary": "Case Summary",
+      "Category": "Category",
+      "Location": "Location",
+      "Posted": "Posted",
+      "Budget": "Budget",
+      "Urgency": "Urgency",
+      "Competition": "Competition"
     }
   }
 }

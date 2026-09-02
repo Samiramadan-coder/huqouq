@@ -1,12 +1,14 @@
-import { cn, formatDate } from "@/lib/utils";
+import { Meta } from "@/types/shared";
+import { formatDate } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
+import ListOfCasesHeader from "./list-of-cases-header";
+import UrgencyBadge from "../../reusable/urgency-label";
 import { Card, CardContent } from "@/components/ui/card";
 import { CaseDetails } from "@/types/lawyer/browse-cases";
-import { ChevronRight, Clock, MapPin, TriangleAlert, Zap } from "lucide-react";
-import ListOfCasesHeader from "./list-of-cases-header";
-import { Meta } from "@/types/shared";
+import { ChevronRight, Clock, MapPin } from "lucide-react";
 
 export default async function ListOfCases({
   cases,
@@ -32,22 +34,10 @@ export default async function ListOfCases({
               <Badge className="h-6 bg-background text-[11px] text-primary/60 border border-secondary rounded-xs">
                 {caseItem.specialization.name}
               </Badge>
-
-              <Badge
-                className={cn(
-                  "h-6 text-[11px] border rounded-xs",
-                  caseItem.urgency === "urgent" &&
-                    "bg-amber-50 text-amber-700 border-amber-200",
-                  caseItem.urgency === "very_urgent" &&
-                    "bg-destructive/10 text-destructive border-destructive/60",
-                  caseItem.urgency === "standard" &&
-                    "bg-background text-primary/60 border-secondary",
-                )}
-              >
-                {caseItem.urgency === "urgent" && <TriangleAlert />}
-                {caseItem.urgency === "very_urgent" && <Zap />}
-                {caseItem.urgency_label}
-              </Badge>
+              <UrgencyBadge
+                urgency={caseItem.urgency}
+                urgency_label={caseItem.urgency_label}
+              />
             </div>
 
             <h3 className="font-semibold text-[15px] text-primary mb-2">
@@ -80,11 +70,14 @@ export default async function ListOfCases({
               </p>
 
               <Button
+                asChild
                 variant="outline"
                 className="h-10 border border-secondary text-xs rounded-xs bg-white text-primary hover:text-primary hover:bg-transparent"
               >
-                {t("ViewDetails")}
-                <ChevronRight />
+                <Link href={`/lawyer/browse-cases/${caseItem.id}`}>
+                  {t("ViewDetails")}
+                  <ChevronRight />
+                </Link>
               </Button>
             </div>
           </CardContent>

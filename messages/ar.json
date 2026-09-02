@@ -1275,7 +1275,19 @@
       "Specialization": "التخصص",
       "lawyersHaveOffers": "لقد قدم المحامون بالفعل عروضًا",
       "ViewDetails": "عرض التفاصيل",
-      "MatchYourFilters": "القضايا التي تطابق فلاترك"
+      "MatchYourFilters": "القضايا التي تطابق فلاترك",
+      "MostRecent": "الأحدث",
+      "HighestBudget": "أعلى ميزانية",
+      "MostUrgent": "الأكثر إلحاحًا",
+      "FewestOffers": "أقل العروض",
+      "BackToCases": "العودة إلى القضايا",
+      "CaseSummary": "ملخص القضية",
+      "Category": "الفئة",
+      "Location": "الموقع",
+      "Posted": "تاريخ النشر",
+      "Budget": "الميزانية",
+      "Urgency": "الإلحاح",
+      "Competition": "المنافسة"
     }
   }
 }
