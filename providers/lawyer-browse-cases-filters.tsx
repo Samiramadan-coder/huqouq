@@ -8,18 +8,22 @@ import {
 } from "nuqs";
 import { createContext, useContext } from "react";
 
-const filtersParsers = {
+const filtersParsers = (initialSpecializations: number[] = []) => ({
   specializations: parseAsArrayOf(parseAsInteger)
-    .withDefault([])
+    .withDefault(initialSpecializations)
     .withOptions({ history: "push", shallow: false }),
   q: parseAsString
     .withDefault("")
     .withOptions({ history: "push", shallow: false }),
-};
+});
 
 type LawyerBrowseCasesFiltersContextType = {
-  filters: ReturnType<typeof useQueryStates<typeof filtersParsers>>[0];
-  setFilters: ReturnType<typeof useQueryStates<typeof filtersParsers>>[1];
+  lawyerFilters: ReturnType<
+    typeof useQueryStates<ReturnType<typeof filtersParsers>>
+  >[0];
+  setLawyerFilters: ReturnType<
+    typeof useQueryStates<ReturnType<typeof filtersParsers>>
+  >[1];
 };
 
 const BrowseFiltersContext =
@@ -27,13 +31,17 @@ const BrowseFiltersContext =
 
 export function LawyerBrowseCasesFiltersProvider({
   children,
+  initialSpecializations,
 }: {
   children: React.ReactNode;
+  initialSpecializations: number[];
 }) {
-  const [filters, setFilters] = useQueryStates(filtersParsers);
+  const [lawyerFilters, setLawyerFilters] = useQueryStates(
+    filtersParsers(initialSpecializations),
+  );
 
   return (
-    <BrowseFiltersContext.Provider value={{ filters, setFilters }}>
+    <BrowseFiltersContext.Provider value={{ lawyerFilters, setLawyerFilters }}>
       {children}
     </BrowseFiltersContext.Provider>
   );

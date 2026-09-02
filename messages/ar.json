@@ -1272,7 +1272,10 @@
       "Filters": "الفلاتر",
       "ClearAll": "مسح الكل",
       "YourSpecialization": "تخصصك",
-      "Specialization": "التخصص"
+      "Specialization": "التخصص",
+      "lawyersHaveOffers": "لقد قدم المحامون بالفعل عروضًا",
+      "ViewDetails": "عرض التفاصيل",
+      "MatchYourFilters": "القضايا التي تطابق فلاترك"
     }
   }
 }

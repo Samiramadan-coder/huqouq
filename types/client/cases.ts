@@ -49,25 +49,15 @@ export type CaseDetails = {
   budget_max: number;
   budget_min: number;
   city: string;
-  created_at: string;
   description: string;
   documents_count: number;
   id: number;
-  rejection_reason: string | null;
-  reviewed_at: string | null;
-  specialization: {
-    id: number;
-    name: string;
-  };
+  posted_at: string;
+  specialization: { id: number; name: string };
   status: "pending_review" | "approved" | "rejected";
   status_label: string;
   title: string;
   urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
-  documents: {
-    id: number;
-    name: string;
-    url: string;
-    size_bytes: number;
-  }[];
+  documents: { id: number; name: string; url: string; size_bytes: number }[];
 };

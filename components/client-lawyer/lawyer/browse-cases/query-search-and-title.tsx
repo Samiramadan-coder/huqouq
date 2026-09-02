@@ -12,10 +12,7 @@ import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-fil
 
 export default function QuerySearchAndTitle() {
   const t = useTranslations("Lawyer.BrowseCases");
-  const {
-    filters: { q },
-    setFilters,
-  } = useLawyerBrowseCasesFilters();
+  const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -25,8 +22,8 @@ export default function QuerySearchAndTitle() {
         <InputGroupInput
           placeholder={t("SearchPlaceholder")}
           className="placeholder:text-primary/35"
-          value={q}
-          onChange={(e) => setFilters({ q: e.target.value })}
+          value={lawyerFilters.q}
+          onChange={(e) => setLawyerFilters({ q: e.target.value })}
         />
         <InputGroupAddon>
           <Search className="text-primary/35" />

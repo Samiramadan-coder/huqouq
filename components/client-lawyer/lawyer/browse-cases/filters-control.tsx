@@ -12,10 +12,7 @@ import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-fil
 
 export default function FiltersControl({ filters }: { filters: Filters }) {
   const t = useTranslations("Lawyer.BrowseCases");
-  const {
-    filters: { specializations },
-    setFilters,
-  } = useLawyerBrowseCasesFilters();
+  const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
 
   return (
     <Card className="rounded-sm ring-0! border border-secondary p-0 gap-0">
@@ -48,16 +45,19 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 className="rounded-xs"
                 id={`specialization-${spec.id}`}
                 name={`specialization-${spec.id}`}
-                checked={specializations.includes(spec.id)}
+                checked={lawyerFilters.specializations.includes(spec.id)}
                 onCheckedChange={(e) => {
                   const value = spec.id;
                   if (e) {
-                    setFilters({
-                      specializations: [...specializations, value],
+                    setLawyerFilters({
+                      specializations: [
+                        ...lawyerFilters.specializations,
+                        value,
+                      ],
                     });
                   } else {
-                    setFilters({
-                      specializations: specializations.filter(
+                    setLawyerFilters({
+                      specializations: lawyerFilters.specializations.filter(
                         (id) => id !== value,
                       ),
                     });

@@ -1276,7 +1276,10 @@
       "Filters": "Filters",
       "ClearAll": "Clear All",
       "YourSpecialization": "your spec",
-      "Specialization": "Specialization"
+      "Specialization": "Specialization",
+      "lawyersHaveOffers": "lawyers have already submitted offers",
+      "ViewDetails": "View Details",
+      "MatchYourFilters": "cases match your filters"
     }
   }
 }
