@@ -38,7 +38,6 @@ export default function UpdateProfile() {
   });
 
   const onSubmit: SubmitHandler<UpdateProfileFormData> = async (data) => {
-    // console.log("Form submitted with data:", data);
     const result = await updateProfile(data);
 
     if (result.success) {

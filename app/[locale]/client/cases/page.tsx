@@ -8,7 +8,7 @@ import { CaseDetails, Counts } from "@/types/client/cases";
 import { Meta } from "@/types/shared";
 
 type SearchParams = {
-  status?: string;
+  tab?: string;
 };
 
 export default async function Page({
@@ -16,7 +16,7 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { status } = await searchParams;
+  const { tab } = await searchParams;
   const t = await getTranslations("Client.Cases");
 
   const { data, ok } = await http.get<{
@@ -25,15 +25,13 @@ export default async function Page({
     meta: Meta;
   }>("/api/cases", {
     params: {
-      status: status || "",
+      tab: tab || "",
     },
   });
 
   if (!ok) {
     throw new Error("Failed to fetch cases");
   }
-
-  console.log(data);
 
   return (
     <div className="space-y-6 container max-w-7xl">

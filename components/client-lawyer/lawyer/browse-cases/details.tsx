@@ -16,7 +16,6 @@ export default async function Details({
 }: {
   caseDetails: CaseDetails;
 }) {
-  console.log(caseDetails);
   const locale = await getLocale();
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");

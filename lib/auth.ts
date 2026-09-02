@@ -185,8 +185,7 @@ export async function resetPassword(
   formData: ResetPasswordFormValues,
 ): Promise<ResetPasswordResponse> {
   try {
-    const { data } = await http.post("/api/auth/reset-password", formData);
-    console.log("Reset password response data:", data);
+    await http.post("/api/auth/reset-password", formData);
 
     return { success: true };
   } catch (error) {

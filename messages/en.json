@@ -952,9 +952,9 @@
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",
-        "approved": "Published",
+        "approved": "Approved",
         "rejected": "Rejected",
-        "hasOffers": "Has Offers",
+        "has_offers": "Has Offers",
         "hired": "Hired",
         "closed": "Closed"
       },

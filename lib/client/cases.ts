@@ -14,9 +14,7 @@ export async function postCase(
   caseId?: number,
 ): Promise<CaseResponse> {
   try {
-    const method = caseId ? "put" : "post";
     const url = caseId ? `/api/cases/${caseId}` : "/api/cases";
-
     const formData = new FormData();
 
     Object.entries(caseData).forEach(([key, value]) => {
@@ -29,7 +27,7 @@ export async function postCase(
       }
     });
 
-    await http[method](url, formData);
+    await http.post(url, formData);
     return { success: true };
   } catch (error) {
     console.error("Error posting case:", error);

@@ -42,6 +42,9 @@ export type Counts = {
   approved: number;
   pending_review: number;
   rejected: number;
+  has_offers: number;
+  hired: number;
+  closed: number;
 };
 
 export type CaseDetails = {
@@ -52,6 +55,7 @@ export type CaseDetails = {
   created_at: string;
   description: string;
   documents_count: number;
+  offers_count: number;
   id: number;
   rejection_reason: string | null;
   reviewed_at: string | null;

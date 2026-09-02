@@ -13,13 +13,13 @@ export default function Filters({ counts }: { counts: Counts }) {
     "pending_review",
     "approved",
     "rejected",
-    // "hasOffers",
-    // "hired",
+    "has_offers",
+    "hired",
     // "closed",
   ];
 
   const [status, setStatus] = useQueryState(
-    "status",
+    "tab",
     parseAsString
       .withDefault("all")
       .withOptions({ history: "push", shallow: false }),
@@ -40,6 +40,18 @@ export default function Filters({ counts }: { counts: Counts }) {
 
     if (key === "rejected") {
       return counts.rejected;
+    }
+
+    if (key === "has_offers") {
+      return counts.has_offers;
+    }
+
+    if (key === "hired") {
+      return counts.hired;
+    }
+
+    if (key === "closed") {
+      return counts.closed;
     }
 
     return 0;

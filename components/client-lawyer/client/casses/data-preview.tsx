@@ -55,7 +55,7 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
               </Badge>
             </TableCell>
             <TableCell className="px-5 py-3">
-              <span className="font-medium">-</span>
+              <span className="font-medium">{caseItem.offers_count}</span>
             </TableCell>
             <TableCell className="px-5 py-3">
               <span className="text-primary/55">
