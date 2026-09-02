@@ -1299,7 +1299,8 @@
       "CaseDetails": "Case Details",
       "AttachedDocuments": "Attached Documents",
       "ViewDocument": "View Document",
-      "OffersSubmitted2": "Lawyers have already submitted offers on this case."
+      "OffersSubmitted2": "Lawyers have already submitted offers on this case.",
+      "CompleteProfile": "Complete Profile"
     }
   }
 }

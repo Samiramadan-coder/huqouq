@@ -1295,7 +1295,8 @@
       "CaseDetails": "تفاصيل القضية",
       "AttachedDocuments": "المستندات المرفقة",
       "ViewDocument": "عرض المستند",
-      "OffersSubmitted2": "لقد قدم المحامون بالفعل عروضًا على هذه القضية."
+      "OffersSubmitted2": "لقد قدم المحامون بالفعل عروضًا على هذه القضية.",
+      "CompleteProfile": "اكمل الملف الشخصي"
     }
   }
 }
