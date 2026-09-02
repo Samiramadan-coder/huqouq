@@ -20,8 +20,6 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     throw new Error("Failed to fetch case details");
   }
 
-  // console.log(data);
-
   return (
     <div className="container max-w-5xl">
       <Details caseDetails={data.data} />

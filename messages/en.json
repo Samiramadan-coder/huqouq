@@ -1291,7 +1291,15 @@
       "Posted": "Posted",
       "Budget": "Budget",
       "Urgency": "Urgency",
-      "Competition": "Competition"
+      "Competition": "Competition",
+      "OffersSubmitted": "Offers Submitted",
+      "Prop1": "Personalised proposals that reference the client's specific situation convert",
+      "Prop2": "3× more often",
+      "Prop3": "than generic price quotes.",
+      "CaseDetails": "Case Details",
+      "AttachedDocuments": "Attached Documents",
+      "ViewDocument": "View Document",
+      "OffersSubmitted2": "Lawyers have already submitted offers on this case."
     }
   }
 }
