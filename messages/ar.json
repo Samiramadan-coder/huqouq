@@ -1041,6 +1041,7 @@
   "Lawyer": {
     "Sidebar": {
       "Overview": "نظرة عامة",
+      "BrowseCases": "تصفح القضايا",
       "Cases": "قضاياي",
       "MyOffers": "عروضي",
       "Consultations": "الاستشارات",
@@ -1264,6 +1265,10 @@
       "CompleteProfile": "اكمل الملف الشخصي",
       "Next": "التالي",
       "InReview": "ملفك قيد المراجعة"
+    },
+    "BrowseCases": {
+      "Title": "تصفح القضايا",
+      "SearchPlaceholder": "ابحث بالعنوان أو الفئة أو الكلمة الرئيسية..."
     }
   }
 }

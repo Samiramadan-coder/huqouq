@@ -1045,6 +1045,7 @@
   "Lawyer": {
     "Sidebar": {
       "Overview": "Overview",
+      "BrowseCases": "Browse Cases",
       "Cases": "My Cases",
       "MyOffers": "My Offers",
       "Consultations": "Consultations",
@@ -1268,6 +1269,10 @@
       "CompleteProfile": "Complete Profile",
       "Next": "Next",
       "InReview": "Your Profile Is In Review"
+    },
+    "BrowseCases": {
+      "Title": "Browse Cases",
+      "SearchPlaceholder": "Search by title, category, keyword..."
     }
   }
 }
