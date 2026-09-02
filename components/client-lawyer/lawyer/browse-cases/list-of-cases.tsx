@@ -13,9 +13,11 @@ import { ChevronRight, Clock, MapPin } from "lucide-react";
 export default async function ListOfCases({
   cases,
   pagination,
+  can_submit_offer,
 }: {
   cases: CaseDetails[];
   pagination: Meta;
+  can_submit_offer: boolean;
 }) {
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");
@@ -69,16 +71,18 @@ export default async function ListOfCases({
                 {t("lawyersHaveOffers")}
               </p>
 
-              <Button
-                asChild
-                variant="outline"
-                className="h-10 border border-secondary text-xs rounded-xs bg-white text-primary hover:text-primary hover:bg-transparent"
-              >
-                <Link href={`/lawyer/browse-cases/${caseItem.id}`}>
-                  {t("ViewDetails")}
-                  <ChevronRight />
-                </Link>
-              </Button>
+              {can_submit_offer && (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-10 border border-secondary text-xs rounded-xs bg-white text-primary hover:text-primary hover:bg-transparent"
+                >
+                  <Link href={`/lawyer/browse-cases/${caseItem.id}`}>
+                    {t("ViewDetails")}
+                    <ChevronRight />
+                  </Link>
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -1,14 +1,14 @@
 import { http } from "@/lib/http";
-import QuerySearchAndTitle from "@/components/client-lawyer/lawyer/browse-cases/query-search-and-title";
-import FiltersControl from "@/components/client-lawyer/lawyer/browse-cases/filters-control";
-import { CaseDetails, Filters } from "@/types/lawyer/browse-cases";
-import { LawyerBrowseCasesFiltersProvider } from "@/providers/lawyer-browse-cases-filters";
-import ListOfCases from "@/components/client-lawyer/lawyer/browse-cases/list-of-cases";
 import { Meta } from "@/types/shared";
-import { MoveRight, TriangleAlert } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { MoveRight, TriangleAlert } from "lucide-react";
+import { CaseDetails, Filters } from "@/types/lawyer/browse-cases";
+import ListOfCases from "@/components/client-lawyer/lawyer/browse-cases/list-of-cases";
+import { LawyerBrowseCasesFiltersProvider } from "@/providers/lawyer-browse-cases-filters";
+import FiltersControl from "@/components/client-lawyer/lawyer/browse-cases/filters-control";
+import QuerySearchAndTitle from "@/components/client-lawyer/lawyer/browse-cases/query-search-and-title";
 
 export default async function Page() {
   const t = await getTranslations("Lawyer.BrowseCases");
@@ -59,7 +59,11 @@ export default async function Page() {
           </div>
 
           <div className="flex-1">
-            <ListOfCases cases={data.data} pagination={data.meta} />
+            <ListOfCases
+              cases={data.data}
+              pagination={data.meta}
+              can_submit_offer={data.can_submit_offer}
+            />
           </div>
         </div>
       </div>
