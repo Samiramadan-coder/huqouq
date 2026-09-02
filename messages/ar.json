@@ -1268,7 +1268,11 @@
     },
     "BrowseCases": {
       "Title": "تصفح القضايا",
-      "SearchPlaceholder": "ابحث بالعنوان أو الفئة أو الكلمة الرئيسية..."
+      "SearchPlaceholder": "ابحث بالعنوان أو الفئة أو الكلمة الرئيسية...",
+      "Filters": "الفلاتر",
+      "ClearAll": "مسح الكل",
+      "YourSpecialization": "تخصصك",
+      "Specialization": "التخصص"
     }
   }
 }

@@ -1272,7 +1272,11 @@
     },
     "BrowseCases": {
       "Title": "Browse Cases",
-      "SearchPlaceholder": "Search by title, category, keyword..."
+      "SearchPlaceholder": "Search by title, category, keyword...",
+      "Filters": "Filters",
+      "ClearAll": "Clear All",
+      "YourSpecialization": "your spec",
+      "Specialization": "Specialization"
     }
   }
 }
