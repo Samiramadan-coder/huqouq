@@ -1300,7 +1300,9 @@
       "AttachedDocuments": "Attached Documents",
       "ViewDocument": "View Document",
       "OffersSubmitted2": "Lawyers have already submitted offers on this case.",
-      "CompleteProfile": "Complete Profile"
+      "CompleteProfile": "Complete Profile",
+      "SubmitOffer": "Submit Your Offer",
+      "SubmitOfferDescription": "Present your proposed price, estimated timeline, and a personalised message for the client."
     }
   }
 }

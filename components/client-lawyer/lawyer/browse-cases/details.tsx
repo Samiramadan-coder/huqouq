@@ -4,11 +4,12 @@ import { Card } from "@/components/ui/card";
 import BackBtn from "../../reusable/back-btn";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, CircleAlert, MapPin, Users } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { CaseDetails } from "@/types/lawyer/browse-cases";
 import React from "react";
+import OfferForm from "./offer-form";
 
 export default async function Details({
   caseDetails,
@@ -16,8 +17,10 @@ export default async function Details({
   caseDetails: CaseDetails;
 }) {
   console.log(caseDetails);
+  const locale = await getLocale();
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");
+  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div className="space-y-6">
@@ -103,9 +106,16 @@ export default async function Details({
 
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
             <div className="p-5">
-              <p className="text-[10px] text-primary/35 uppercase tracking-widest">
-                {t("AttachedDocuments")}
-              </p>
+              <div>
+                <p className={`text-base text-primary font-bold ${fontClass}`}>
+                  {t("SubmitOffer")}
+                </p>
+                <p className="text-xs text-primary/45 mb-5 leading-relaxed">
+                  {t("SubmitOfferDescription")}
+                </p>
+              </div>
+
+              <OfferForm />
             </div>
           </Card>
         </div>
