@@ -15,10 +15,10 @@ export default function QuerySearchAndTitle() {
   const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
 
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex items-center justify-between flex-wrap gap-4">
       <Title>{t("Title")}</Title>
 
-      <InputGroup className="max-w-xs h-11 bg-white border border-secondary rounded-sm">
+      <InputGroup className="ms-auto max-w-xs h-11 bg-white border border-secondary rounded-sm">
         <InputGroupInput
           placeholder={t("SearchPlaceholder")}
           className="placeholder:text-primary/35"

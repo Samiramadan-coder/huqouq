@@ -41,8 +41,8 @@ export default async function Details({
         </div>
       </div>
 
-      <div className="flex gap-5">
-        <div className="flex-1 space-y-3">
+      <div className="flex flex-col lg:flex-row gap-5">
+        <div className="flex-1 space-y-3 order-2 lg:order-1">
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
             <div className="p-5">
               <p className="text-[10px] text-primary/35 uppercase tracking-widest">
@@ -119,7 +119,7 @@ export default async function Details({
           </Card>
         </div>
 
-        <div className="w-75 space-y-4">
+        <div className="lg:w-75 space-y-4 order-1 lg:order-2">
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
             <div className="p-5">
               <p className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-4">

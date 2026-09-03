@@ -63,10 +63,10 @@ export default async function LawyerLayout({
         </SidebarContent>
       </Sidebar>
 
-      <SidebarInset>
-        <main>
-          <LayoutHeader />
-          <div className="min-h-screen p-4 sm:p-6">{children}</div>
+      <SidebarInset className="flex-1 min-w-0 min-h-screen">
+        <LayoutHeader />
+        <main className="min-w-0 w-full overflow-x-hidden p-4 sm:p-6">
+          <div className="min-w-0 w-full">{children}</div>
         </main>
       </SidebarInset>
     </SidebarProvider>

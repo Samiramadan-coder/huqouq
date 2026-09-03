@@ -7,24 +7,26 @@ import { getTranslations } from "next-intl/server";
 import ListOfCasesHeader from "./list-of-cases-header";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { Card, CardContent } from "@/components/ui/card";
-import { CaseDetails } from "@/types/lawyer/browse-cases";
+import { CaseDetails, Filters } from "@/types/lawyer/browse-cases";
 import { ChevronRight, Clock, MapPin } from "lucide-react";
 
 export default async function ListOfCases({
   cases,
   pagination,
   can_submit_offer,
+  filters,
 }: {
   cases: CaseDetails[];
   pagination: Meta;
   can_submit_offer: boolean;
+  filters: Filters;
 }) {
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");
 
   return (
     <div className="space-y-3">
-      <ListOfCasesHeader total={pagination.total} />
+      <ListOfCasesHeader total={pagination.total} filters={filters} />
 
       {cases.map((caseItem) => (
         <Card

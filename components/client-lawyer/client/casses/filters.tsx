@@ -58,15 +58,17 @@ export default function Filters({ counts }: { counts: Counts }) {
   }
 
   return (
-    <Tabs value={status} onValueChange={setStatus} className="w-full">
-      <TabsList className="p-0! bg-transparent gap-2">
-        {statusKeys.map((key) => (
-          <TabsTrigger
-            key={key}
-            value={key}
-            className="
+    <div>
+      <Tabs value={status} onValueChange={setStatus} className="w-full">
+        <TabsList className="p-0! bg-transparent gap-2 flex-wrap h-auto!">
+          {statusKeys.map((key) => (
+            <TabsTrigger
+              key={key}
+              value={key}
+              className="
               bg-white 
               px-3.5 
+              min-h-7
               font-normal 
               text-primary/55
               text-xs 
@@ -77,11 +79,12 @@ export default function Filters({ counts }: { counts: Counts }) {
               data-[state=active]:text-white
               data-[state=active]:border-primary
             "
-          >
-            {t(key)} ({getCount(key)})
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+            >
+              {t(key)} ({getCount(key)})
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+    </div>
   );
 }

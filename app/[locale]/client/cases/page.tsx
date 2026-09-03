@@ -37,9 +37,12 @@ export default async function Page({
     <div className="space-y-6 container max-w-7xl">
       <Title>{t("myCases")}</Title>
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-6">
         <Filters counts={data.counts} />
-        <AddNew href="/client/cases/create">{t("addNew")}</AddNew>
+
+        <div className="ms-auto shrink-0">
+          <AddNew href="/client/cases/create">{t("addNew")}</AddNew>
+        </div>
       </div>
 
       <DataPreview cases={data.data} />
