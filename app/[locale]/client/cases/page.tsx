@@ -1,11 +1,11 @@
 import { http } from "@/lib/http";
+import { Meta } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
+import { CaseDetails, Counts } from "@/types/client/cases";
 import Title from "@/components/client-lawyer/reusable/title";
 import AddNew from "@/components/client-lawyer/reusable/add-new";
 import Filters from "@/components/client-lawyer/client/casses/filters";
 import DataPreview from "@/components/client-lawyer/client/casses/data-preview";
-import { CaseDetails, Counts } from "@/types/client/cases";
-import { Meta } from "@/types/shared";
 
 type SearchParams = {
   tab?: string;

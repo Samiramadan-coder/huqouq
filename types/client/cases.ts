@@ -60,7 +60,13 @@ export type CaseDetails = {
   rejection_reason: string | null;
   reviewed_at: string | null;
   specialization: { id: number; name: string };
-  status: "pending_review" | "approved" | "rejected";
+  status:
+    | "pending_review"
+    | "approved"
+    | "rejected"
+    | "has_offers"
+    | "hired"
+    | "closed";
   status_label: string;
   title: string;
   urgency: "urgent" | "standard" | "very_urgent";

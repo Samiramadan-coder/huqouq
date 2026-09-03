@@ -17,6 +17,7 @@ import InfoRow from "./info-row";
 import { Link } from "@/i18n/navigation";
 import { cn, formatDate } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
+import { CaseStatus } from "../data-preview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CaseDetails } from "@/types/client/cases";
@@ -24,6 +25,7 @@ import { Separator } from "@/components/ui/separator";
 import { getLocale, getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
+import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Index({
@@ -129,21 +131,17 @@ export default async function Index({
         </div>
 
         <div className="mt-2 flex items-center gap-2">
-          <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
-            {caseDetails.status_label}
-          </Badge>
-          <Badge className="text-accent bg-accent/10 border border-accent/30 px-2.5 py-2 h-6 rounded-sm">
-            {t(caseDetails.urgency)}
-          </Badge>
-          {/* <div className="flex items-center gap-1">
-            <Eye className="text-primary/35 size-3.5" />
-            <span className="text-primary/35 text-xs">47 Views</span>
-          </div> */}
+          <CaseStatus caseItem={caseDetails} />
+
+          <UrgencyBadge
+            urgency={caseDetails.urgency}
+            urgency_label={caseDetails.urgency_label}
+          />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="w-full md:col-span-3">
+        <Card className="w-full md:col-span-3 rounded-xs ring-0! border border-secondary">
           <CardHeader className="pb-3">
             <CardTitle className={cn("text-sm font-semibold", fontClass)}>
               {t("caseStatusTimeline")}
@@ -221,7 +219,7 @@ export default async function Index({
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 rounded-sm border-secondary">
+        <Card className="md:col-span-2 rounded-xs ring-0! border border-secondary">
           <CardHeader className="pb-3">
             <CardTitle
               className={cn(
@@ -240,7 +238,7 @@ export default async function Index({
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-1 rounded-sm border-secondary">
+        <Card className="md:col-span-1 rounded-xs ring-0! border border-secondary">
           <CardContent className="space-y-3">
             <InfoRow
               icon={Tag}

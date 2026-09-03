@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
-import { cn, formatDate } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
@@ -40,19 +40,7 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
               </span>
             </TableCell>
             <TableCell className="px-5 py-3">
-              <Badge
-                className={cn(
-                  "rounded-sm text-[11px] font-normal",
-                  caseItem.status === "approved" &&
-                    "bg-green-100 border-green-400 text-green-800",
-                  caseItem.status === "rejected" &&
-                    "bg-red-100 border-red-400 text-red-800",
-                  caseItem.status === "pending_review" &&
-                    "bg-yellow-100 border-yellow-400 text-yellow-800",
-                )}
-              >
-                {caseItem.status_label}
-              </Badge>
+              <CaseStatus caseItem={caseItem} />
             </TableCell>
             <TableCell className="px-5 py-3">
               <span className="font-medium">{caseItem.offers_count}</span>
@@ -76,23 +64,46 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
                 </Button>
               )}
 
-              {caseItem.status === "pending_review" ||
-                (caseItem.status === "rejected" && (
-                  <Button
-                    variant="ghost"
-                    className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
-                    asChild
-                  >
-                    <Link href={`/client/cases/edit/${caseItem.id}`}>
-                      <span>{t("editCase")}</span>
-                      <ArrowRight className="size-3" />
-                    </Link>
-                  </Button>
-                ))}
+              {["pending_review", "rejected"].includes(caseItem.status) && (
+                <Button
+                  variant="ghost"
+                  className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
+                  asChild
+                >
+                  <Link href={`/client/cases/edit/${caseItem.id}`}>
+                    <span>{t("editCase")}</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
+                </Button>
+              )}
             </TableCell>
           </TableRow>
         ))
       )}
     </DataTable>
+  );
+}
+
+export function CaseStatus({ caseItem }: { caseItem: CaseDetails }) {
+  return (
+    <Badge
+      className={cn(
+        "rounded-sm text-[11px] h-6.5 font-normal",
+        caseItem.status === "pending_review" &&
+          "bg-accent/10 border-accent/25 text-accent",
+        caseItem.status === "approved" &&
+          "bg-primary/5 border-primary/20 text-primary",
+        caseItem.status === "rejected" &&
+          "bg-destructive/10 border-destructive/15 text-destructive",
+        caseItem.status === "rejected" &&
+          "bg-destructive/10 border-destructive/15 text-destructive",
+        caseItem.status === "has_offers" &&
+          "bg-green-100 border-green-300 text-green-700",
+        caseItem.status === "hired" &&
+          "bg-accent/10 border-accent/25 text-accent",
+      )}
+    >
+      {caseItem.status_label}
+    </Badge>
   );
 }
