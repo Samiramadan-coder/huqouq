@@ -4,8 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { CaseDetails, Counts } from "@/types/client/cases";
 import Title from "@/components/client-lawyer/reusable/title";
 import AddNew from "@/components/client-lawyer/reusable/add-new";
-import Filters from "@/components/client-lawyer/client/casses/filters";
-import DataPreview from "@/components/client-lawyer/client/casses/data-preview";
+import Filters from "@/components/client-lawyer/client/cases/filters";
+import DataPreview from "@/components/client-lawyer/client/cases/data-preview";
 
 type SearchParams = {
   tab?: string;

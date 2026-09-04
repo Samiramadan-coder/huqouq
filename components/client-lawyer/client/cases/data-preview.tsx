@@ -9,6 +9,38 @@ import { CaseDetails } from "@/types/client/cases";
 import { TableCell, TableRow } from "@/components/ui/table";
 
 export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
+  return <CasesTable cases={cases} />;
+}
+
+// CaseStatus and CasesTable components are defined below,
+// but they are not exported as default.
+// They are used internally within the DataPreview component.
+export function CaseStatus({ caseItem }: { caseItem: CaseDetails }) {
+  return (
+    <Badge
+      className={cn(
+        "rounded-sm text-[11px] h-6.5 font-normal",
+        caseItem.status === "pending_review" &&
+          "bg-accent/10 border-accent/25 text-accent",
+        caseItem.status === "approved" &&
+          "bg-primary/5 border-primary/20 text-primary",
+        caseItem.status === "rejected" &&
+          "bg-destructive/10 border-destructive/15 text-destructive",
+        caseItem.status === "rejected" &&
+          "bg-destructive/10 border-destructive/15 text-destructive",
+        caseItem.status === "has_offers" &&
+          "bg-green-100 border-green-300 text-green-700",
+        caseItem.status === "hired" &&
+          "bg-accent/10 border-accent/25 text-accent",
+      )}
+    >
+      {caseItem.status_label}
+    </Badge>
+  );
+}
+
+// The CasesTable component is defined below and is used to render the table of cases.
+export async function CasesTable({ cases }: { cases: CaseDetails[] }) {
   const t = await getTranslations("Client.Cases");
 
   return (
@@ -81,29 +113,5 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
         ))
       )}
     </DataTable>
-  );
-}
-
-export function CaseStatus({ caseItem }: { caseItem: CaseDetails }) {
-  return (
-    <Badge
-      className={cn(
-        "rounded-sm text-[11px] h-6.5 font-normal",
-        caseItem.status === "pending_review" &&
-          "bg-accent/10 border-accent/25 text-accent",
-        caseItem.status === "approved" &&
-          "bg-primary/5 border-primary/20 text-primary",
-        caseItem.status === "rejected" &&
-          "bg-destructive/10 border-destructive/15 text-destructive",
-        caseItem.status === "rejected" &&
-          "bg-destructive/10 border-destructive/15 text-destructive",
-        caseItem.status === "has_offers" &&
-          "bg-green-100 border-green-300 text-green-700",
-        caseItem.status === "hired" &&
-          "bg-accent/10 border-accent/25 text-accent",
-      )}
-    >
-      {caseItem.status_label}
-    </Badge>
   );
 }

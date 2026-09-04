@@ -1,4 +1,4 @@
-import Index from "@/components/client-lawyer/client/casses/details";
+import Index from "@/components/client-lawyer/client/cases/details";
 import { http } from "@/lib/http";
 import { CaseDetails } from "@/types/client/cases";
 

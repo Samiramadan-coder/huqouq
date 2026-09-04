@@ -1,4 +1,4 @@
-import Form from "@/components/client-lawyer/client/casses/form";
+import Form from "@/components/client-lawyer/client/cases/form";
 import { http } from "@/lib/http";
 import { CaseDetails } from "@/types/client/cases";
 
