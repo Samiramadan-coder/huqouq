@@ -17,6 +17,7 @@ export default function LawyerOfferCard({
   caseId: number;
   caseOffer: CaseOffer;
 }) {
+  console.log("caseOffer", caseOffer);
   const locale = useLocale();
   const t = useTranslations("Client.Cases");
   const tCommon = useTranslations("Common");
