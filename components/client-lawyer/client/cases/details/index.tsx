@@ -73,7 +73,9 @@ export default async function Index({
     {
       id: "offers",
       title: t("Timeline.OffersReceived"),
-      description: "",
+      description: t("Timeline.OffersReceivedMessage", {
+        count: caseDetails.offers_count,
+      }),
     },
     {
       id: "hired",
@@ -114,7 +116,7 @@ export default async function Index({
 
           <div className="space-x-2">
             {caseDetails.status === "pending_review" ||
-              (caseDetails.status === "rejected" && (
+              (caseDetails.can_edit && (
                 <Button
                   variant="outline"
                   className="rounded-sm border-secondary font-normal text-xs text-primary/55"
@@ -125,19 +127,19 @@ export default async function Index({
                   </Link>
                 </Button>
               ))}
-
-            {/* <Button
-              variant="outline"
-              className="rounded-sm border-secondary font-normal text-xs text-destructive"
-            >
-              {t("closeCase")}
-            </Button> */}
+            {caseDetails.can_close && (
+              <Button
+                variant="outline"
+                className="rounded-sm border-secondary font-normal text-xs text-destructive"
+              >
+                {t("closeCase")}
+              </Button>
+            )}
           </div>
         </div>
 
         <div className="mt-2 flex items-center gap-2">
           <CaseStatus caseItem={caseDetails} />
-
           <UrgencyBadge
             urgency={caseDetails.urgency}
             urgency_label={caseDetails.urgency_label}

@@ -1038,7 +1038,8 @@
         "InProgress": "In Progress",
         "PendingClosure": "Pending Closure",
         "Closed": "Closed",
-        "Reviewed": "Reviewed"
+        "Reviewed": "Reviewed",
+        "OffersReceivedMessage": "{count} offers received. Review and compare them to find the right lawyer."
       }
     }
   },
