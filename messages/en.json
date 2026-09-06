@@ -1319,6 +1319,19 @@
           "Description": "Minimum 20 characters · 0 typed"
         }
       }
+    },
+    "MyOffers": {
+      "Title": "My Offers",
+      "Description": "All offers you have submitted across cases.",
+      "All": "All",
+      "TotalOffers": "Total offers",
+      "Pending": "Pending",
+      "Cancelled": "Cancelled",
+      "Accepted": "Accepted",
+      "Declined": "Declined",
+      "Withdrawn": "Withdrawn",
+      "Proposed": "Proposed",
+      "SubmittedOn": "Submitted on {date}"
     }
   }
 }
