@@ -950,6 +950,10 @@
       "noCases": "No cases found",
       "PostedOn": "Posted on {date}",
       "ReviewedOn": "Reviewed on {date}",
+      "ConfirmHire": "Confirm Hire",
+      "ConfirmHireDescription": "By confirming, this case will move to Hired status and Ahmad will be notified. All other offers will be automatically declined.",
+      "YesHire": "Yes, Hire {name}",
+      "Cancel": "Cancel",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",

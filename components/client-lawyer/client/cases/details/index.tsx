@@ -291,7 +291,11 @@ export default async function Index({
 
           <div className="flex flex-col gap-4">
             {offers.map((offer) => (
-              <LawyerOfferCard key={offer.id} caseOffer={offer} />
+              <LawyerOfferCard
+                key={offer.id}
+                caseOffer={offer}
+                caseId={caseDetails.id}
+              />
             ))}
           </div>
         </div>
