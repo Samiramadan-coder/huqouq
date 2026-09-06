@@ -53,6 +53,8 @@ export default async function Index({
         return 1;
       case "has_offers":
         return 2;
+      case "pending_fees":
+        return 3;
       default:
         return 2;
     }
@@ -79,6 +81,11 @@ export default async function Index({
       description: t("Timeline.OffersReceivedMessage", {
         count: caseDetails.offers_count,
       }),
+    },
+    {
+      id: "pending_fees",
+      title: t("Timeline.PendingFees"),
+      description: t("Timeline.PendingFeesMessage"),
     },
     {
       id: "hired",
@@ -290,13 +297,17 @@ export default async function Index({
           </div>
 
           <div className="flex flex-col gap-4">
-            {offers.map((offer) => (
-              <LawyerOfferCard
-                key={offer.id}
-                caseOffer={offer}
-                caseId={caseDetails.id}
-              />
-            ))}
+            {offers.length > 0 ? (
+              offers.map((offer) => (
+                <LawyerOfferCard
+                  key={offer.id}
+                  caseOffer={offer}
+                  caseId={caseDetails.id}
+                />
+              ))
+            ) : (
+              <p className="text-sm text-primary/65">{t("noOffers")}</p>
+            )}
           </div>
         </div>
       </div>

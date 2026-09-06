@@ -956,6 +956,7 @@
       "Cancel": "Cancel",
       "offerAccepted": "Offer Accepted",
       "offerAcceptFailed": "Failed to accept offer. Please try again.",
+      "noOffers": "No offers received yet. Once lawyers submit their offers, they will appear here.",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",
@@ -1046,7 +1047,9 @@
         "PendingClosure": "Pending Closure",
         "Closed": "Closed",
         "Reviewed": "Reviewed",
-        "OffersReceivedMessage": "{count} offers received. Review and compare them to find the right lawyer."
+        "OffersReceivedMessage": "{count} offers received. Review and compare them to find the right lawyer.",
+        "PendingFees": "Pending fees",
+        "PendingFeesMessage": "You should pay the pending fees to the platform to complete the case closure."
       }
     }
   },
