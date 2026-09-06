@@ -20,7 +20,8 @@ export function CaseStatus({ caseItem }: { caseItem: CaseDetails }) {
     <Badge
       className={cn(
         "rounded-sm text-[11px] h-6.5 font-normal",
-        caseItem.display_status === "pending_review" &&
+        (caseItem.display_status === "pending_review" ||
+          caseItem.display_status === "pending_fees") &&
           "bg-accent/10 border-accent/25 text-accent",
         caseItem.display_status === "approved" &&
           "bg-primary/5 border-primary/20 text-primary",

@@ -2,13 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import AcceptOffer from "./accept-offer";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronRight, MessageSquare } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import AcceptOffer from "./accept-offer";
 
 export default function LawyerOfferCard({
   caseId,

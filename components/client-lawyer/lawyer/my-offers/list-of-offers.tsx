@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
-import type { Offer } from "@/types/lawyer/my-offers";
+import type { Offer, OfferStatus } from "@/types/lawyer/my-offers";
 import { getTranslations } from "next-intl/server";
 
 export default async function ListOfOffers({
@@ -26,6 +26,7 @@ export default async function ListOfOffers({
                 {offer.case.specialization}
               </Badge>
             </div>
+            {/* {offer.display_status} */}
             <OfferStatusBadge
               status={offer.display_status}
               statusLabel={offer.display_status_label}
@@ -55,14 +56,22 @@ function OfferStatusBadge({
   status,
   statusLabel,
 }: {
-  status: string;
+  status: OfferStatus;
   statusLabel: string;
 }) {
   switch (status) {
     case "pending":
       return (
-        <Badge className="rounded-xs h-6.5 bg-background text-primary/50 border border-primary/25">
-          <span className="size-2 bg-primary/10 rounded-full" />
+        <Badge className="rounded-xs h-6.5 bg-background text-primary/50 border border-primary/20">
+          <span className="size-1.5 bg-primary/10 rounded-full me-1" />
+          {statusLabel}
+        </Badge>
+      );
+
+    case "pending_fees":
+      return (
+        <Badge className="rounded-xs h-6.5 bg-amber-50 text-amber-700 border-amber-200 border">
+          <span className="size-1.5 bg-amber-700 rounded-full me-1" />
           {statusLabel}
         </Badge>
       );

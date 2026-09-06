@@ -49,6 +49,7 @@ export type Counts = {
 
 export type CaseStatus =
   | "pending_review"
+  | "pending_fees"
   | "approved"
   | "rejected"
   | "has_offers"

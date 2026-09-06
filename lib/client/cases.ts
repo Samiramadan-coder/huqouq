@@ -45,3 +45,22 @@ export async function postCase(
     return { success: false };
   }
 }
+
+// Accept Case Offer
+type AcceptOfferResponse = { success: boolean };
+
+export async function acceptCaseOffer({
+  caseId,
+  offerId,
+}: {
+  caseId: number;
+  offerId: number;
+}): Promise<AcceptOfferResponse> {
+  try {
+    await http.post(`/api/cases/${caseId}/offers/${offerId}/accept`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error accepting case offer:", error);
+    return { success: false };
+  }
+}

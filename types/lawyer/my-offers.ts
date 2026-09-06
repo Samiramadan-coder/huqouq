@@ -10,6 +10,7 @@ export type Counts = {
 export type OfferStatus =
   | "all"
   | "pending"
+  | "pending_fees"
   | "accepted"
   | "cancelled"
   | "declined"
