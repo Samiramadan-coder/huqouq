@@ -1,15 +1,24 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { CaseOffer } from "@/types/client/cases";
 import { Card, CardContent } from "@/components/ui/card";
-import { getLocale, getTranslations } from "next-intl/server";
 import { ChevronRight, MessageSquare, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
-export default async function LawyerOfferCard() {
-  const locale = await getLocale();
-  const t = await getTranslations("Client.Cases");
-  const tCommon = await getTranslations("Common");
+export default function LawyerOfferCard({
+  caseOffer,
+}: {
+  caseOffer: CaseOffer;
+}) {
+  const locale = useLocale();
+  const t = useTranslations("Client.Cases");
+  const tCommon = useTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
+  const [showFullMessage, setShowFullMessage] = useState(false);
 
   return (
     <Card className="rounded-sm border-secondary">
@@ -17,8 +26,11 @@ export default async function LawyerOfferCard() {
         <div className="flex items-start gap-4">
           <div className="relative shrink-0">
             <Avatar className="size-12">
-              <AvatarImage src="/images/lawyer.jpg" alt="Ahmad Al Rashidi" />
-              <AvatarFallback>AR</AvatarFallback>
+              <AvatarImage
+                src={caseOffer.lawyer.photo_url}
+                alt={caseOffer.lawyer.name}
+              />
+              <AvatarFallback>{caseOffer.lawyer.name[0]}</AvatarFallback>
             </Avatar>
             <span className="bg-accent text-primary-foreground absolute -bottom-0.5 -inset-e-0.5 flex size-4 items-center justify-center rounded-full border border-white text-[8px]">
               O
@@ -29,22 +41,22 @@ export default async function LawyerOfferCard() {
             <div className="flex items-start justify-between gap-6">
               <div>
                 <h3 className={cn("text-sm font-semibold", fontClass)}>
-                  Lawyer name goes here
+                  {caseOffer.lawyer.name}
                 </h3>
                 <p className="mt-1 text-[11px] text-accent">
-                  specialization goes here
+                  {caseOffer.lawyer.specializations.join(", ")}
                 </p>
               </div>
 
               <div className="shrink-0 text-right">
                 <p className={cn("text-lg font-semibold", fontClass)}>
-                  {tCommon("AED")} 1,200
+                  {tCommon("AED")} {caseOffer.amount}
                 </p>
                 <p className="text-[11px] text-primary/40">{t("fixedFee")}</p>
               </div>
             </div>
 
-            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+            {/* <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
               <div className="flex items-center gap-0.5">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Star
@@ -57,17 +69,23 @@ export default async function LawyerOfferCard() {
               <span className="text-primary/50">4.9 (134 reviews)</span>
               <span className="text-secondary">·</span>
               <span className="text-primary/50">Responds within 2 hrs</span>
-            </div>
+            </div> */}
 
-            <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-primary/65">
-              Offer description goes here
+            <p
+              className={cn(
+                "mt-4 text-sm leading-relaxed text-primary/65",
+                !showFullMessage && "line-clamp-2",
+              )}
+            >
+              {caseOffer.message}
             </p>
 
             <button
               type="button"
               className="mt-1 text-[11px] cursor-pointer text-accent hover:underline font-normal"
+              onClick={() => setShowFullMessage(!showFullMessage)}
             >
-              {t("readMore")}
+              {showFullMessage ? t("readLess") : t("readMore")}
             </button>
 
             <div className="mt-4 flex items-center justify-between gap-4">

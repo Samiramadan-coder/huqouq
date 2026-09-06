@@ -12,7 +12,6 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
   const { data: caseData, ok: ok1 } = await http.get<{
     data: CaseDetails;
-    meta: Meta;
   }>(`/api/cases/${id}`);
 
   const { data: offers, ok: ok2 } = await http.get<{
@@ -24,11 +23,13 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     throw new Error("Failed to fetch case details");
   }
 
-  // console.log(offers);
-
   return (
     <div className="container max-w-3xl space-y-6">
-      <Index caseDetails={caseData.data} offers={offers.data} />
+      <Index
+        caseDetails={caseData.data}
+        offers={offers.data}
+        pagination={offers.meta}
+      />
     </div>
   );
 }

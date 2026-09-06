@@ -27,15 +27,18 @@ import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LawyerOfferCard from "./lawyer-offer-card";
+import { Meta } from "@/types/shared";
 
 export default async function Index({
   caseDetails,
   offers,
+  pagination,
 }: {
   caseDetails: CaseDetails;
   offers: CaseOffer[];
+  pagination: Meta;
 }) {
-  console.log("Offers:", offers);
   const locale = await getLocale();
   const t = await getTranslations("Client.Cases");
   const tCommon = await getTranslations("Common");
@@ -274,23 +277,24 @@ export default async function Index({
           </CardContent>
         </Card>
 
-        {/* <div className="md:col-span-3">
+        <div className="md:col-span-3">
           <div className="flex items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-2">
               <p className={cn("font-semibold", fontClass)}>
                 {t("lawyersOffers")}
               </p>
               <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
-                3 {t("offers")}
+                {pagination.total} {t("offers")}
               </Badge>
             </div>
           </div>
 
           <div className="flex flex-col gap-4">
-            <LawyerOfferCard />
-            <LawyerOfferCard />
+            {offers.map((offer) => (
+              <LawyerOfferCard key={offer.id} caseOffer={offer} />
+            ))}
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   );
