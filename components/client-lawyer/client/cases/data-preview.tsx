@@ -20,21 +20,21 @@ export function CaseStatus({ caseItem }: { caseItem: CaseDetails }) {
     <Badge
       className={cn(
         "rounded-sm text-[11px] h-6.5 font-normal",
-        caseItem.status === "pending_review" &&
+        caseItem.display_status === "pending_review" &&
           "bg-accent/10 border-accent/25 text-accent",
-        caseItem.status === "approved" &&
+        caseItem.display_status === "approved" &&
           "bg-primary/5 border-primary/20 text-primary",
-        caseItem.status === "rejected" &&
+        caseItem.display_status === "rejected" &&
           "bg-destructive/10 border-destructive/15 text-destructive",
-        caseItem.status === "rejected" &&
+        caseItem.display_status === "rejected" &&
           "bg-destructive/10 border-destructive/15 text-destructive",
-        caseItem.status === "has_offers" &&
+        caseItem.display_status === "has_offers" &&
           "bg-green-100 border-green-300 text-green-700",
-        caseItem.status === "hired" &&
+        caseItem.display_status === "hired" &&
           "bg-accent/10 border-accent/25 text-accent",
       )}
     >
-      {caseItem.status_label}
+      {caseItem.display_status_label}
     </Badge>
   );
 }
@@ -96,7 +96,7 @@ export async function CasesTable({ cases }: { cases: CaseDetails[] }) {
                 </Button>
               )}
 
-              {["pending_review", "rejected"].includes(caseItem.status) && (
+              {caseItem.can_edit && (
                 <Button
                   variant="ghost"
                   className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"

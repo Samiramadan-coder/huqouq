@@ -1,6 +1,7 @@
 import Index from "@/components/client-lawyer/client/cases/details";
 import { http } from "@/lib/http";
-import { CaseDetails } from "@/types/client/cases";
+import { CaseDetails, CaseOffer } from "@/types/client/cases";
+import { Meta } from "@/types/shared";
 
 type Params = {
   id: string;
@@ -9,17 +10,25 @@ type Params = {
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { id } = await params;
 
-  const { data, ok } = await http.get<{ data: CaseDetails }>(
-    `/api/cases/${id}`,
-  );
+  const { data: caseData, ok: ok1 } = await http.get<{
+    data: CaseDetails;
+    meta: Meta;
+  }>(`/api/cases/${id}`);
 
-  if (!ok) {
+  const { data: offers, ok: ok2 } = await http.get<{
+    data: CaseOffer[];
+    meta: Meta;
+  }>(`/api/cases/${id}/offers`);
+
+  if (!ok1 || !ok2) {
     throw new Error("Failed to fetch case details");
   }
 
+  // console.log(offers);
+
   return (
     <div className="container max-w-3xl space-y-6">
-      <Index caseDetails={data.data} />
+      <Index caseDetails={caseData.data} offers={offers.data} />
     </div>
   );
 }

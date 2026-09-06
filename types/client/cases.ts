@@ -1,5 +1,5 @@
-import { T } from "@/types/shared";
 import z from "zod";
+import { T } from "@/types/shared";
 
 export const postCaseShema = (t: T) =>
   z
@@ -47,7 +47,27 @@ export type Counts = {
   closed: number;
 };
 
+export type CaseStatus =
+  | "pending_review"
+  | "approved"
+  | "rejected"
+  | "has_offers"
+  | "hired"
+  | "closed";
+
 export type CaseDetails = {
+  can_close: boolean;
+  can_edit: boolean;
+  chat_unlocked: boolean;
+  closed_at: null | string;
+  closed_by: null | string;
+  closing_note: null | string;
+  closure_requested_at: null | string;
+  display_status: CaseStatus;
+  display_status_label: string;
+  fee_paid_at: null | string;
+  has_offers: true;
+  hired_at: null | string;
   budget_disclosed: boolean;
   budget_max: number;
   budget_min: number;
@@ -60,16 +80,36 @@ export type CaseDetails = {
   rejection_reason: string | null;
   reviewed_at: string | null;
   specialization: { id: number; name: string };
-  status:
-    | "pending_review"
-    | "approved"
-    | "rejected"
-    | "has_offers"
-    | "hired"
-    | "closed";
+  status: CaseStatus;
   status_label: string;
   title: string;
   urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
   documents: { id: number; name: string; url: string; size_bytes: number }[];
+};
+
+type OfferStatus =
+  | "all"
+  | "pending"
+  | "accepted"
+  | "cancelled"
+  | "declined"
+  | "withdrawn";
+
+export type CaseOffer = {
+  amount: number;
+  created_at: string;
+  expected_days: number | null;
+  expected_timeline: string | null;
+  id: number;
+  message: string;
+  status: OfferStatus;
+  status_label: string;
+  lawyer: {
+    id: number;
+    name: string;
+    photo_url: string;
+    specializations: string[];
+    years_of_experience: number;
+  };
 };

@@ -20,8 +20,8 @@ import TimelineRail from "./timeline-radial";
 import { CaseStatus } from "../data-preview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CaseDetails } from "@/types/client/cases";
 import { Separator } from "@/components/ui/separator";
+import { CaseDetails, CaseOffer } from "@/types/client/cases";
 import { getLocale, getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
@@ -30,9 +30,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Index({
   caseDetails,
+  offers,
 }: {
   caseDetails: CaseDetails;
+  offers: CaseOffer[];
 }) {
+  console.log("Offers:", offers);
   const locale = await getLocale();
   const t = await getTranslations("Client.Cases");
   const tCommon = await getTranslations("Common");
@@ -40,11 +43,13 @@ export default async function Index({
   const currentStep = getCurrentStep();
 
   function getCurrentStep() {
-    switch (caseDetails.status) {
+    switch (caseDetails.display_status) {
       case "pending_review":
         return 0;
       case "approved":
         return 1;
+      case "has_offers":
+        return 2;
       default:
         return 2;
     }

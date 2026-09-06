@@ -7,7 +7,7 @@ export type Counts = {
   withdrawn: number;
 };
 
-type OfferStatus =
+export type OfferStatus =
   | "all"
   | "pending"
   | "accepted"

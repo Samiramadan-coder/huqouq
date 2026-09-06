@@ -5,7 +5,7 @@ import Hint from "@/components/client-lawyer/reusable/hint";
 import Title from "@/components/client-lawyer/reusable/title";
 import Stats from "@/components/client-lawyer/lawyer/my-offers/Stats";
 import FiltersControl from "@/components/client-lawyer/lawyer/my-offers/filters-control";
-import ListOfOffers from "@/types/lawyer/list-of-offers";
+import ListOfOffers from "@/components/client-lawyer/lawyer/my-offers/list-of-offers";
 
 type SearchParams = {
   status?: string;
