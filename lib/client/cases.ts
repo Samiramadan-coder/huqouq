@@ -47,7 +47,9 @@ export async function postCase(
 }
 
 // Accept Case Offer
-type AcceptOfferResponse = { success: boolean };
+type AcceptOfferResponse =
+  | { success: true }
+  | { success: false; message?: string };
 
 export async function acceptCaseOffer({
   caseId,
@@ -61,6 +63,9 @@ export async function acceptCaseOffer({
     return { success: true };
   } catch (error) {
     console.error("Error accepting case offer:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
     return { success: false };
   }
 }

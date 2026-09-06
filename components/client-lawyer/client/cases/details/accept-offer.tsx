@@ -38,6 +38,11 @@ export default function AcceptOffer({
       return;
     }
 
+    if (result.message) {
+      toast.error(result.message);
+      return;
+    }
+
     toast.error(t("offerAcceptFailed"));
   }
 
