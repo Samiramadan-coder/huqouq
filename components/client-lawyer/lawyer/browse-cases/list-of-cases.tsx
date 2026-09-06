@@ -70,7 +70,7 @@ export default async function ListOfCases({
 
             <div className="border-t border-secondary pt-4 flex items-center justify-between">
               <p className="text-xs text-primary/40">
-                {t("lawyersHaveOffers")}
+                {caseItem.offers_count} {t("lawyersHaveOffers")}
               </p>
 
               {can_submit_offer && (

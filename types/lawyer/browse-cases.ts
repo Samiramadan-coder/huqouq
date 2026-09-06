@@ -1,3 +1,6 @@
+import z from "zod";
+import { T } from "../shared";
+
 export type CaseDetails = {
   budget_disclosed: boolean;
   budget_max: number;
@@ -21,3 +24,11 @@ export type Filters = {
   my_specialization_ids: number[];
   specializations: { id: number; name: string }[];
 };
+
+export const offerFormSchema = (t: T) =>
+  z.object({
+    amount: z.number().min(1, t("ProposedPrice.Required")),
+    message: z.string().min(1, t("Message.Required")).min(20, t("Message.Min")),
+  });
+
+export type OfferFormData = z.infer<ReturnType<typeof offerFormSchema>>;

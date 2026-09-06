@@ -1,15 +1,15 @@
+import React from "react";
+import OfferForm from "./offer-form";
 import Title from "../../reusable/title";
 import { formatDate } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import BackBtn from "../../reusable/back-btn";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CircleAlert, MapPin, Users } from "lucide-react";
-import { getLocale, getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { CaseDetails } from "@/types/lawyer/browse-cases";
-import React from "react";
-import OfferForm from "./offer-form";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Calendar, CircleAlert, MapPin, Users } from "lucide-react";
 
 export default async function Details({
   caseDetails,
@@ -81,7 +81,7 @@ export default async function Details({
                           href={doc.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs text-accent mt-0.5 underline"
+                          className="text-xs text-accent mt-0.5 underline whitespace-nowrap"
                         >
                           {t("ViewDocument")}
                         </a>
@@ -97,7 +97,7 @@ export default async function Details({
           <Card className="p-0 rounded-xs bg-primary/4 ring-0! border border-primary/10">
             <div className="p-5 flex items-start gap-2">
               <Users className="text-primary/35 size-4 min-w-4" />
-              <p className="font-sans text-xs text-[#1B3A57]/55 leading-relaxed">
+              <p className="font-sans text-xs text-primary/55 leading-relaxed">
                 {caseDetails.offers_count} {t("OffersSubmitted2")}
               </p>
             </div>
@@ -114,7 +114,7 @@ export default async function Details({
                 </p>
               </div>
 
-              <OfferForm />
+              <OfferForm caseId={caseDetails.id} />
             </div>
           </Card>
         </div>
@@ -201,9 +201,9 @@ export default async function Details({
             <div className="p-5 flex items-start gap-2">
               <CircleAlert className="text-primary/35 size-4 min-w-4" />
 
-              <p className="font-sans text-xs text-[#1B3A57]/55 leading-relaxed">
+              <p className="font-sans text-xs text-primary/55 leading-relaxed">
                 {t("Prop1")}{" "}
-                <strong className="text-[#1B3A57]/70">{t("Prop2")}</strong>{" "}
+                <strong className="text-primary/70">{t("Prop2")}</strong>{" "}
                 {t("Prop3")}
               </p>
             </div>

@@ -1302,7 +1302,23 @@
       "OffersSubmitted2": "Lawyers have already submitted offers on this case.",
       "CompleteProfile": "Complete Profile",
       "SubmitOffer": "Submit Your Offer",
-      "SubmitOfferDescription": "Present your proposed price, estimated timeline, and a personalised message for the client."
+      "SubmitOfferDescription": "Present your proposed price, estimated timeline, and a personalised message for the client.",
+      "SubmittedSuccessfully": "Your Offer Submitted Successfully",
+      "SubmitOfferError": "Failed to Submit Offer",
+      "Fields": {
+        "ProposedPrice": {
+          "Label": "Proposed Price (AED)",
+          "Placeholder": "e.g., 5000",
+          "Required": "Proposed price is required"
+        },
+        "Message": {
+          "Label": "Message to Client",
+          "Placeholder": "Write a personalised message to the client",
+          "Required": "Message is required",
+          "Min": "Message must be at least 20 characters",
+          "Description": "Minimum 20 characters · 0 typed"
+        }
+      }
     }
   }
 }

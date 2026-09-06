@@ -26,7 +26,7 @@ export default function ListOfCasesHeader({
 
   return (
     <div className="flex items-center justify-between flex-wrap gap-4">
-      <p className="text-xs text-primary/40 flex items-center gap-2">
+      <div className="text-xs text-primary/40 flex items-center gap-2">
         <div className="block lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
@@ -42,7 +42,7 @@ export default function ListOfCasesHeader({
           </Sheet>
         </div>
         {total} {t("MatchYourFilters")}
-      </p>
+      </div>
 
       <Select>
         <SelectTrigger className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs">
