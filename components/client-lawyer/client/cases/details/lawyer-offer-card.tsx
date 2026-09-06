@@ -94,7 +94,9 @@ export default function LawyerOfferCard({
 
             <div className="mt-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <AcceptOffer offer={caseOffer} caseId={caseId} />
+                {caseOffer.status === "pending" && (
+                  <AcceptOffer offer={caseOffer} caseId={caseId} />
+                )}
 
                 <Button
                   variant="outline"
