@@ -8,13 +8,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
-import { acceptCaseOffer } from "@/lib/client/cases";
-import { useRef, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
+import { acceptCaseOffer } from "@/lib/client/cases";
 
 export default function AcceptOffer({
   caseId,

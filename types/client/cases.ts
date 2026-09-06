@@ -57,6 +57,8 @@ export type CaseStatus =
   | "closed";
 
 export type CaseDetails = {
+  reviewed_by: string | null;
+  accepted_offer: null;
   can_close: boolean;
   can_edit: boolean;
   chat_unlocked: boolean;
@@ -87,6 +89,21 @@ export type CaseDetails = {
   urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
   documents: { id: number; name: string; url: string; size_bytes: number }[];
+  hired_lawyer: null | { id: number; name: string };
+  payment: null | {
+    agreed_amount: number;
+    currency: string;
+    fee_percentage: number;
+    id: number;
+    lawyer_amount: number;
+    note: string;
+    paid_at: null | string;
+    platform_fee: number;
+    provider: string | null;
+    reference: string;
+    status: string;
+    status_label: string;
+  };
 };
 
 type OfferStatus =
