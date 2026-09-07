@@ -40,7 +40,7 @@ export const clientSidebarLinks = (t: T): SidebarLink[] => [
     type: "link",
   },
   {
-    href: "/client/cases",
+    href: "/client/my-cases",
     label: t("Cases"),
     icon: createElement(FolderOpen, { className: "size-4" }),
     type: "link",

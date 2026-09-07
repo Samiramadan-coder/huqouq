@@ -8,14 +8,17 @@ import { Counts } from "@/types/client/cases";
 export default function Filters({ counts }: { counts: Counts }) {
   const t = useTranslations("Client.Cases.Filters");
 
-  const statusKeys = [
+  const statusKeys: (keyof Counts)[] = [
     "all",
     "pending_review",
-    "approved",
-    "rejected",
+    "in_progress",
+    "published",
+    "pending_fees",
     "has_offers",
     "hired",
-    // "closed",
+    "pending_closure",
+    "closed",
+    "rejected",
   ];
 
   const [status, setStatus] = useQueryState(
@@ -25,42 +28,37 @@ export default function Filters({ counts }: { counts: Counts }) {
       .withOptions({ history: "push", shallow: false }),
   );
 
-  function getCount(key: string) {
-    if (key === "all") {
-      return counts.approved + counts.rejected + counts.pending_review;
+  function getCount(key: keyof Counts) {
+    switch (key) {
+      case "all":
+        return counts.all;
+      case "pending_review":
+        return counts.pending_review;
+      case "pending_closure":
+        return counts.pending_closure;
+      case "in_progress":
+        return counts.in_progress;
+      case "published":
+        return counts.published;
+      case "pending_fees":
+        return counts.pending_fees;
+      case "has_offers":
+        return counts.has_offers;
+      case "hired":
+        return counts.hired;
+      case "closed":
+        return counts.closed;
+      case "rejected":
+        return counts.rejected;
+      default:
+        return 0;
     }
-
-    if (key === "pending_review") {
-      return counts.pending_review;
-    }
-
-    if (key === "approved") {
-      return counts.approved;
-    }
-
-    if (key === "rejected") {
-      return counts.rejected;
-    }
-
-    if (key === "has_offers") {
-      return counts.has_offers;
-    }
-
-    if (key === "hired") {
-      return counts.hired;
-    }
-
-    if (key === "closed") {
-      return counts.closed;
-    }
-
-    return 0;
   }
 
   return (
     <div>
       <Tabs value={status} onValueChange={setStatus} className="w-full">
-        <TabsList className="p-0! bg-transparent gap-2 flex-wrap h-auto!">
+        <TabsList className="p-0! bg-transparent gap-0.5 flex-wrap h-auto!">
           {statusKeys.map((key) => (
             <TabsTrigger
               key={key}

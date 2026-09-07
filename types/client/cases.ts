@@ -39,22 +39,28 @@ export const postCaseShema = (t: T) =>
 export type PostCaseFormData = z.infer<ReturnType<typeof postCaseShema>>;
 
 export type Counts = {
-  approved: number;
+  all: number;
   pending_review: number;
-  rejected: number;
+  pending_closure: number;
+  in_progress: number;
+  published: number;
+  pending_fees: number;
   has_offers: number;
   hired: number;
   closed: number;
+  rejected: number;
 };
 
-export type CaseStatus =
-  | "pending_review"
-  | "pending_fees"
-  | "approved"
-  | "rejected"
-  | "has_offers"
-  | "hired"
-  | "closed";
+export type CaseStatus = keyof Counts;
+// | "pending_review"
+// | "pending_closure"
+// | "in_progress"
+// | "published"
+// | "pending_fees"
+// | "has_offers"
+// | "hired"
+// | "closed"
+// | "rejected";
 
 export type CaseDetails = {
   reviewed_by: string | null;

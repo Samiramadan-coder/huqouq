@@ -960,11 +960,15 @@
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",
+        "published": "Published",
         "approved": "Approved",
         "rejected": "Rejected",
         "has_offers": "Has Offers",
         "hired": "Hired",
-        "closed": "Closed"
+        "closed": "Closed",
+        "pending_fees": "Pending Fees",
+        "in_progress": "In Progress",
+        "pending_closure": "Pending Closure"
       },
       "Table": {
         "title": "Case Title",
