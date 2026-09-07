@@ -57,6 +57,10 @@ export default async function Index({
         return 2;
       case "pending_fees":
         return 3;
+      // case "hired":
+      //   return 4;
+      case "in_progress":
+        return 4;
       default:
         return 2;
     }
@@ -89,15 +93,15 @@ export default async function Index({
       title: t("Timeline.PendingFees"),
       description: t("Timeline.PendingFeesMessage"),
     },
-    {
-      id: "hired",
-      title: t("Timeline.Hired"),
-      description: "",
-    },
+    // {
+    //   id: "hired",
+    //   title: t("Timeline.Hired"),
+    //   description: t("Timeline.HiredMessage"),
+    // },
     {
       id: "progress",
       title: t("Timeline.InProgress"),
-      description: "",
+      description: t("Timeline.InProgressMessage"),
     },
     {
       id: "closure",
