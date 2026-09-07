@@ -84,8 +84,16 @@ export type CaseDetails = {
   title: string;
   urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
-  documents: { id: number; name: string; url: string; size_bytes: number }[];
-  hired_lawyer: null | { id: number; name: string };
+  documents: {
+    id: number;
+    name: string;
+    url: string;
+    size_bytes: number;
+  }[];
+  hired_lawyer: null | {
+    id: number;
+    name: string;
+  };
   payment: null | {
     agreed_amount: number;
     currency: string;

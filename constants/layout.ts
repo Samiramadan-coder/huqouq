@@ -131,7 +131,7 @@ export const lawyerSidebarLinks = (t: T): SidebarLink[] => [
     type: "link",
   },
   {
-    href: "/lawyer/cases",
+    href: "/lawyer/my-cases",
     label: t("Cases"),
     icon: createElement(FolderOpen, { className: "size-4" }),
     type: "link",
