@@ -49,7 +49,7 @@ export default function AcceptOffer({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="text-xs font-normal rounded-sm">
+        <Button className="text-xs font-normal rounded-sm h-9 px-4">
           {t("acceptOffer")}
         </Button>
       </DialogTrigger>

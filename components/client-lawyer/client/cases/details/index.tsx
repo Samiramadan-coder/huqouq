@@ -304,7 +304,7 @@ export default async function Index({
                   <LawyerOfferCard
                     key={offer.id}
                     caseOffer={offer}
-                    caseId={caseDetails.id}
+                    caseDetails={caseDetails}
                   />
                 ))}
 

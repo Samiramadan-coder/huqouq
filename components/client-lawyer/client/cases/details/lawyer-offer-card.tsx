@@ -4,17 +4,17 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import AcceptOffer from "./accept-offer";
 import { Button } from "@/components/ui/button";
-import { CaseOffer } from "@/types/client/cases";
+import { CaseDetails, CaseOffer } from "@/types/client/cases";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronRight, MessageSquare } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function LawyerOfferCard({
-  caseId,
+  caseDetails,
   caseOffer,
 }: {
-  caseId: number;
+  caseDetails: CaseDetails;
   caseOffer: CaseOffer;
 }) {
   console.log("Offer:", caseOffer);
@@ -25,7 +25,7 @@ export default function LawyerOfferCard({
   const [showFullMessage, setShowFullMessage] = useState(false);
 
   return (
-    <Card className="rounded-sm border-secondary">
+    <Card className="rounded-xs border border-secondary ring-0!">
       <CardContent>
         <div className="flex items-start gap-4">
           <div className="relative shrink-0">
@@ -94,17 +94,15 @@ export default function LawyerOfferCard({
 
             <div className="mt-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                {caseOffer.status === "pending" && (
-                  <AcceptOffer offer={caseOffer} caseId={caseId} />
-                )}
+                <AcceptOffer offer={caseOffer} caseId={caseDetails.id} />
 
-                <Button
+                {/* <Button
                   variant="outline"
                   className="text-xs font-normal rounded-sm bg-transparent text-accent border-accent/40"
                 >
                   <MessageSquare className="size-3.5" />
                   {t("message")}
-                </Button>
+                </Button> */}
               </div>
 
               <Button
