@@ -9,6 +9,7 @@ import DataPreview from "@/components/client-lawyer/client/cases/data-preview";
 
 type SearchParams = {
   tab?: string;
+  page?: string;
 };
 
 export default async function Page({
@@ -16,7 +17,7 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { tab } = await searchParams;
+  const { tab, page } = await searchParams;
   const t = await getTranslations("Client.Cases");
 
   const { data, ok } = await http.get<{
@@ -26,6 +27,7 @@ export default async function Page({
   }>("/api/cases", {
     params: {
       tab: tab || "",
+      page: page || "1",
     },
   });
 
@@ -47,7 +49,7 @@ export default async function Page({
         </div>
       </div>
 
-      <DataPreview cases={data.data} />
+      <DataPreview cases={data.data} pagination={data.meta} />
     </div>
   );
 }

@@ -5,7 +5,9 @@
     "CreatedSuccessfully": "تم الإنشاء بنجاح",
     "CreationFailed": "فشل الإنشاء",
     "EditSuccessfully": "تم التعديل بنجاح",
-    "EditFailed": "فشل التعديل"
+    "EditFailed": "فشل التعديل",
+    "Next": "التالي",
+    "Previous": "السابق"
   },
   "Header": {
     "Title": "حقوق",

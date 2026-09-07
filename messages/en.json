@@ -5,7 +5,9 @@
     "CreatedSuccessfully": "Created successfully",
     "CreationFailed": "Creation failed",
     "EditSuccessfully": "Edited successfully",
-    "EditFailed": "Editing failed"
+    "EditFailed": "Editing failed",
+    "Next": "Next",
+    "Previous": "Previous"
   },
   "Header": {
     "Title": "HUQOUQ",

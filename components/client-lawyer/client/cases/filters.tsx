@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { parseAsString, useQueryState } from "nuqs";
+import { parseAsString, useQueryState, useQueryStates } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Counts } from "@/types/client/cases";
 
@@ -21,12 +21,14 @@ export default function Filters({ counts }: { counts: Counts }) {
     "rejected",
   ];
 
-  const [status, setStatus] = useQueryState(
-    "tab",
-    parseAsString
+  const [filters, setFilters] = useQueryStates({
+    tab: parseAsString
       .withDefault("all")
       .withOptions({ history: "push", shallow: false }),
-  );
+    page: parseAsString
+      .withDefault("1")
+      .withOptions({ history: "push", shallow: false }),
+  });
 
   function getCount(key: keyof Counts) {
     switch (key) {
@@ -57,7 +59,11 @@ export default function Filters({ counts }: { counts: Counts }) {
 
   return (
     <div>
-      <Tabs value={status} onValueChange={setStatus} className="w-full">
+      <Tabs
+        value={filters.tab}
+        onValueChange={(value) => setFilters({ tab: value, page: "1" })}
+        className="w-full"
+      >
         <TabsList className="p-0! bg-transparent gap-0.5 flex-wrap h-auto!">
           {statusKeys.map((key) => (
             <TabsTrigger
