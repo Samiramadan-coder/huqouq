@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, MessageSquare } from "lucide-react";
+import { ChevronRight /*MessageSquare*/ } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function LawyerOfferCard({
