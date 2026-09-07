@@ -30,6 +30,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LawyerOfferCard from "./lawyer-offer-card";
 import { Meta } from "@/types/shared";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
+import AcceptedOffer from "./accepted-offer";
 
 export default async function Index({
   caseDetails,
@@ -285,39 +286,45 @@ export default async function Index({
           </CardContent>
         </Card>
 
-        <div className="md:col-span-3 space-y-6">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <p className={cn("font-semibold", fontClass)}>
-                {t("lawyersOffers")}
-              </p>
-              <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
-                {pagination.total} {t("offers")}
-              </Badge>
+        {caseDetails.accepted_offer ? (
+          <div className="md:col-span-3">
+            <AcceptedOffer caseDetails={caseDetails} />
+          </div>
+        ) : (
+          <div className="md:col-span-3 space-y-6">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <p className={cn("font-semibold", fontClass)}>
+                  {t("lawyersOffers")}
+                </p>
+                <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
+                  {pagination.total} {t("offers")}
+                </Badge>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {offers.length > 0 ? (
+                <>
+                  {offers.map((offer) => (
+                    <LawyerOfferCard
+                      key={offer.id}
+                      caseOffer={offer}
+                      caseId={caseDetails.id}
+                    />
+                  ))}
+
+                  <PaginationTemplate
+                    currentPage={pagination.current_page}
+                    totalPages={pagination.last_page}
+                  />
+                </>
+              ) : (
+                <p className="text-sm text-primary/65">{t("noOffers")}</p>
+              )}
             </div>
           </div>
-
-          <div className="flex flex-col gap-4">
-            {offers.length > 0 ? (
-              <>
-                {offers.map((offer) => (
-                  <LawyerOfferCard
-                    key={offer.id}
-                    caseOffer={offer}
-                    caseDetails={caseDetails}
-                  />
-                ))}
-
-                <PaginationTemplate
-                  currentPage={pagination.current_page}
-                  totalPages={pagination.last_page}
-                />
-              </>
-            ) : (
-              <p className="text-sm text-primary/65">{t("noOffers")}</p>
-            )}
-          </div>
-        </div>
+        )}
       </div>
     </>
   );

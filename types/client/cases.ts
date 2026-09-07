@@ -52,19 +52,9 @@ export type Counts = {
 };
 
 export type CaseStatus = keyof Counts;
-// | "pending_review"
-// | "pending_closure"
-// | "in_progress"
-// | "published"
-// | "pending_fees"
-// | "has_offers"
-// | "hired"
-// | "closed"
-// | "rejected";
 
 export type CaseDetails = {
   reviewed_by: string | null;
-  accepted_offer: null;
   can_close: boolean;
   can_edit: boolean;
   chat_unlocked: boolean;
@@ -110,6 +100,7 @@ export type CaseDetails = {
     status: string;
     status_label: string;
   };
+  accepted_offer: null | CaseOffer;
 };
 
 type OfferStatus =
