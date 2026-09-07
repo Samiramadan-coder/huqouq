@@ -7,8 +7,19 @@ type Params = {
   id: string;
 };
 
-export default async function Page({ params }: { params: Promise<Params> }) {
+type SearchParams = {
+  page?: string;
+};
+
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
   const { id } = await params;
+  const { page } = await searchParams;
 
   const { data: caseData, ok: ok1 } = await http.get<{
     data: CaseDetails;
@@ -17,7 +28,11 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const { data: offers, ok: ok2 } = await http.get<{
     data: CaseOffer[];
     meta: Meta;
-  }>(`/api/cases/${id}/offers`);
+  }>(`/api/cases/${id}/offers`, {
+    params: {
+      page: page || "1",
+    },
+  });
 
   if (!ok1 || !ok2) {
     throw new Error("Failed to fetch case details");

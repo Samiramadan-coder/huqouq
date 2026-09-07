@@ -29,6 +29,7 @@ import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LawyerOfferCard from "./lawyer-offer-card";
 import { Meta } from "@/types/shared";
+import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 
 export default async function Index({
   caseDetails,
@@ -49,7 +50,7 @@ export default async function Index({
     switch (caseDetails.display_status) {
       case "pending_review":
         return 0;
-      case "approved":
+      case "published":
         return 1;
       case "has_offers":
         return 2;
@@ -284,8 +285,8 @@ export default async function Index({
           </CardContent>
         </Card>
 
-        <div className="md:col-span-3">
-          <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="md:col-span-3 space-y-6">
+          <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <p className={cn("font-semibold", fontClass)}>
                 {t("lawyersOffers")}
@@ -298,13 +299,20 @@ export default async function Index({
 
           <div className="flex flex-col gap-4">
             {offers.length > 0 ? (
-              offers.map((offer) => (
-                <LawyerOfferCard
-                  key={offer.id}
-                  caseOffer={offer}
-                  caseId={caseDetails.id}
+              <>
+                {offers.map((offer) => (
+                  <LawyerOfferCard
+                    key={offer.id}
+                    caseOffer={offer}
+                    caseId={caseDetails.id}
+                  />
+                ))}
+
+                <PaginationTemplate
+                  currentPage={pagination.current_page}
+                  totalPages={pagination.last_page}
                 />
-              ))
+              </>
             ) : (
               <p className="text-sm text-primary/65">{t("noOffers")}</p>
             )}
