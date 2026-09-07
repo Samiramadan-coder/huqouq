@@ -63,6 +63,7 @@ export async function acceptCaseOffer({
 }): Promise<AcceptOfferResponse> {
   try {
     await http.post(`/api/cases/${caseId}/offers/${offerId}/accept`);
+    updateTag(`case-${caseId}`);
     return { success: true };
   } catch (error) {
     console.error("Error accepting case offer:", error);
