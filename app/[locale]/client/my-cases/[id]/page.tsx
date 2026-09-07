@@ -23,15 +23,17 @@ export default async function Page({
 
   const { data: caseData, ok: ok1 } = await http.get<{
     data: CaseDetails;
-  }>(`/api/cases/${id}`);
+  }>(`/api/cases/${id}`, {
+    next: {
+      tags: [`case-${id}`],
+    },
+  });
 
   const { data: offers, ok: ok2 } = await http.get<{
     data: CaseOffer[];
     meta: Meta;
   }>(`/api/cases/${id}/offers`, {
-    params: {
-      page: page || "1",
-    },
+    params: { page: page || "1" },
   });
 
   if (!ok1 || !ok2) {

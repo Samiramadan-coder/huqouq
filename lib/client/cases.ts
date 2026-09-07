@@ -1,3 +1,6 @@
+"use server";
+
+import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { PostCaseFormData } from "@/types/client/cases";
 
@@ -63,6 +66,23 @@ export async function acceptCaseOffer({
     return { success: true };
   } catch (error) {
     console.error("Error accepting case offer:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
+
+// Pay The Case
+type PayCaseResponse = { success: true } | { success: false; message?: string };
+
+export async function payCase(caseId: number): Promise<PayCaseResponse> {
+  try {
+    await http.post(`/api/cases/${caseId}/payment/pay`, { provider: "manual" });
+    updateTag(`case-${caseId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error paying for the case:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }

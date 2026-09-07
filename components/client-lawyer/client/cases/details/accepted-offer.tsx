@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Lock, MoveRight } from "lucide-react";
+import { Lock, MessageSquare } from "lucide-react";
+import PayTheCase from "./pay-the-case";
 import { Button } from "@/components/ui/button";
 import { CaseDetails } from "@/types/client/cases";
 import { Separator } from "@/components/ui/separator";
@@ -78,51 +79,64 @@ export default async function AcceptedOffer({
           </div>
         </div>
 
-        {caseDetails.payment?.fee_percentage && caseDetails.accepted_offer && (
-          <div className="p-4 border border-accent/40 rounded-sm bg-accent/10 mt-4 space-y-4">
-            <div className="space-y-2">
-              <p className="text-sm text-primary/70">
-                {t("platformFee")} ({caseDetails.payment?.fee_percentage}%):{" "}
-                <span
-                  className={cn("font-bold text-primary text-base", fontClass)}
-                >
-                  {tCommon("AED")} {platformFee}
-                </span>
-              </p>
-              <p className="font-sans text-[11px] text-primary/45 mb-3">
-                {t("platformFeeDescription", {
-                  percentage: caseDetails.payment?.fee_percentage,
-                })}
-              </p>
-            </div>
-            <Separator className="bg-accent/40" />
-            <div className="space-y-2">
-              <p className="text-sm text-primary/70">
-                {t("amountForLawyer")}{" "}
-                <span
-                  className={cn("font-bold text-primary text-base", fontClass)}
-                >
-                  {tCommon("AED")} {amountToPayLawyer}
-                </span>
-              </p>
-              <p className="font-sans text-[11px] text-primary/45 mb-3">
-                {t("amountForLawyerDescription")}
-              </p>
-            </div>
-          </div>
-        )}
+        {caseDetails.payment?.fee_percentage &&
+          caseDetails.accepted_offer &&
+          !caseDetails.chat_unlocked && (
+            <>
+              <div className="p-4 border border-accent/40 rounded-sm bg-accent/10 mt-4 space-y-4">
+                <div className="space-y-2">
+                  <p className="text-sm text-primary/70">
+                    {t("platformFee")} ({caseDetails.payment?.fee_percentage}%):{" "}
+                    <span
+                      className={cn(
+                        "font-bold text-primary text-base",
+                        fontClass,
+                      )}
+                    >
+                      {tCommon("AED")} {platformFee}
+                    </span>
+                  </p>
+                  <p className="font-sans text-[11px] text-primary/45 mb-3">
+                    {t("platformFeeDescription", {
+                      percentage: caseDetails.payment?.fee_percentage,
+                    })}
+                  </p>
+                </div>
+                <Separator className="bg-accent/40" />
+                <div className="space-y-2">
+                  <p className="text-sm text-primary/70">
+                    {t("amountForLawyer")}{" "}
+                    <span
+                      className={cn(
+                        "font-bold text-primary text-base",
+                        fontClass,
+                      )}
+                    >
+                      {tCommon("AED")} {amountToPayLawyer}
+                    </span>
+                  </p>
+                  <p className="font-sans text-[11px] text-primary/45 mb-3">
+                    {t("amountForLawyerDescription")}
+                  </p>
+                </div>
+              </div>
 
-        <Button className="mt-4 w-full h-11 text-primary bg-accent hover:bg-accent hover:text-primary">
-          {t("payNow")} ({tCommon("AED")} {platformFee})
-          <MoveRight className="size-4 rtl:rotate-180" />
-        </Button>
+              <PayTheCase caseId={caseDetails.id} platformFee={platformFee} />
+            </>
+          )}
+
+        {/* <PayTheCase caseId={caseDetails.id} platformFee={platformFee} /> */}
 
         <Button
           disabled={!caseDetails.chat_unlocked}
           className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"
         >
-          <Lock className="size-4 rtl:rotate-180" />
-          {t("chatUnlock")}
+          {caseDetails.chat_unlocked ? (
+            <MessageSquare className="size-4 rtl:rotate-180" />
+          ) : (
+            <Lock className="size-4 rtl:rotate-180" />
+          )}
+          {caseDetails.chat_unlocked ? t("message") : t("chatUnlock")}
         </Button>
       </CardContent>
     </Card>

@@ -937,7 +937,7 @@
       "readMore": "Read More",
       "readLess": "Read Less",
       "acceptOffer": "Accept This Offer",
-      "message": "Message",
+      "message": "Send Message",
       "viewProfile": "View Profile",
       "fixedFee": "Fixed fee for full representation",
       "caseStatusTimeline": "Case Status Timeline",
@@ -967,6 +967,8 @@
       "amountForLawyerDescription": "Pay the platform fee to Huqouq to confirm this agreement and unlock direct communication with your lawyer. Non-refundable.",
       "payNow": "Pay Platform Fee Now",
       "chatUnlock": "Chat unlocks after payment",
+      "paymentSuccess": "Payment successful! You can now chat with your lawyer.",
+      "paymentFailed": "Payment failed. Please try again.",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",
