@@ -1,12 +1,32 @@
+import ListOfCases from "@/components/client-lawyer/lawyer/my-cases/list-of-cases";
+import Hint from "@/components/client-lawyer/reusable/hint";
+import Title from "@/components/client-lawyer/reusable/title";
 import { http } from "@/lib/http";
+import { CaseDetails } from "@/types/lawyer/browse-cases";
+import { Meta } from "@/types/shared";
+import { getTranslations } from "next-intl/server";
 
 export default async function Page() {
-  const { data, ok } = await http.get("/api/lawyer/my-cases");
+  const t = await getTranslations("Lawyer.MyCases");
+
+  const { data, ok } = await http.get<{
+    data: CaseDetails[];
+    meta: Meta;
+  }>("/api/lawyer/my-cases");
 
   if (!ok) {
     throw new Error("Failed to fetch my cases");
   }
 
-  console.log(data);
-  return <div>My Cases</div>;
+  // console.log(data);
+  return (
+    <div className="space-y-6 container max-w-5xl">
+      <div>
+        <Title>{t("Title")}</Title>
+        <Hint>{t("Description")}</Hint>
+      </div>
+
+      <ListOfCases cases={data.data} pagination={data.meta} />
+    </div>
+  );
 }

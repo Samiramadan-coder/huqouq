@@ -1375,6 +1375,14 @@
       "ViewCase": "View Case",
       "NoOffers": "No offers found"
     },
-    "MyCases": {}
+    "MyCases": {
+      "Title": "My Cases",
+      "Description": "Cases where your offer was accepted — your active and past engagements.",
+      "Client": "Client",
+      "Accepted": "Accepted",
+      "AgreedFee": "Agreed Fee",
+      "ViewCase": "View Case",
+      "NoCasesFound": "No cases found"
+    }
   }
 }
