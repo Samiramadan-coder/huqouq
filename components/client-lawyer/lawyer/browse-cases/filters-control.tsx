@@ -9,6 +9,7 @@ import { Filters } from "@/types/lawyer/browse-cases";
 import { Separator } from "@/components/ui/separator";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
+import UrgencyBadge from "../../reusable/urgency-label";
 
 export default function FiltersControl({ filters }: { filters: Filters }) {
   const t = useTranslations("Lawyer.BrowseCases");
@@ -45,19 +46,21 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 className="rounded-xs"
                 id={`specialization-${spec.id}`}
                 name={`specialization-${spec.id}`}
-                checked={lawyerFilters.specializations.includes(spec.id)}
+                checked={lawyerFilters.specialization_id.includes(spec.id)}
                 onCheckedChange={(e) => {
                   const value = spec.id;
                   if (e) {
                     setLawyerFilters({
-                      specializations: [
-                        ...lawyerFilters.specializations,
+                      page: "1",
+                      specialization_id: [
+                        ...lawyerFilters.specialization_id,
                         value,
                       ],
                     });
                   } else {
                     setLawyerFilters({
-                      specializations: lawyerFilters.specializations.filter(
+                      page: "1",
+                      specialization_id: lawyerFilters.specialization_id.filter(
                         (id) => id !== value,
                       ),
                     });
@@ -93,18 +96,18 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 className="rounded-xs"
                 id={`urgency-${urgency.value}`}
                 name={`urgency-${urgency.value}`}
-                checked={lawyerFilters.urgencies.includes(urgency.value)}
+                checked={lawyerFilters.urgency.includes(urgency.value)}
                 onCheckedChange={(e) => {
                   const value = urgency.value;
                   if (e) {
                     setLawyerFilters({
-                      urgencies: [...lawyerFilters.urgencies, value],
+                      page: "1",
+                      urgency: [...lawyerFilters.urgency, value],
                     });
                   } else {
                     setLawyerFilters({
-                      urgencies: lawyerFilters.urgencies.filter(
-                        (v) => v !== value,
-                      ),
+                      page: "1",
+                      urgency: lawyerFilters.urgency.filter((v) => v !== value),
                     });
                   }
                 }}
@@ -113,7 +116,10 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 htmlFor={`urgency-${urgency.value}`}
                 className="text-xs text-primary font-medium"
               >
-                {urgency.label}
+                <UrgencyBadge
+                  urgency={urgency.value}
+                  urgency_label={urgency.label}
+                />
               </FieldLabel>
             </Field>
           ))}
@@ -133,18 +139,18 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 className="rounded-xs"
                 id={`emirate-${emirate}`}
                 name={`emirate-${emirate}`}
-                checked={lawyerFilters.emirates.includes(emirate)}
+                checked={lawyerFilters.emirate.includes(emirate)}
                 onCheckedChange={(e) => {
                   const value = emirate;
                   if (e) {
                     setLawyerFilters({
-                      emirates: [...lawyerFilters.emirates, value],
+                      page: "1",
+                      emirate: [...lawyerFilters.emirate, value],
                     });
                   } else {
                     setLawyerFilters({
-                      emirates: lawyerFilters.emirates.filter(
-                        (v) => v !== value,
-                      ),
+                      page: "1",
+                      emirate: lawyerFilters.emirate.filter((v) => v !== value),
                     });
                   }
                 }}

@@ -9,17 +9,20 @@ import {
 import { createContext, useContext } from "react";
 
 const filtersParsers = (initialSpecializations: number[] = []) => ({
-  specializations: parseAsArrayOf(parseAsInteger)
+  specialization_id: parseAsArrayOf(parseAsInteger)
     .withDefault(initialSpecializations)
     .withOptions({ history: "push", shallow: false }),
-  urgencies: parseAsArrayOf(parseAsString)
+  urgency: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
-  emirates: parseAsArrayOf(parseAsString)
+  emirate: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
   sorts: parseAsString
     .withDefault("newest")
+    .withOptions({ history: "push", shallow: false }),
+  page: parseAsString
+    .withDefault("1")
     .withOptions({ history: "push", shallow: false }),
   q: parseAsString
     .withDefault("")

@@ -1319,6 +1319,7 @@
       "SubmitOfferDescription": "Present your proposed price, estimated timeline, and a personalised message for the client.",
       "SubmittedSuccessfully": "Your Offer Submitted Successfully",
       "SubmitOfferError": "Failed to Submit Offer",
+      "noCasesFound": "No cases found matching your filters.",
       "Fields": {
         "ProposedPrice": {
           "Label": "Proposed Price (AED)",

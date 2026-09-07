@@ -48,7 +48,7 @@ export default function ListOfCasesHeader({
 
       <Select
         value={lawyerFilters.sorts}
-        onValueChange={(value) => setLawyerFilters({ sorts: value })}
+        onValueChange={(value) => setLawyerFilters({ sorts: value, page: "1" })}
       >
         <SelectTrigger className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs">
           <SelectValue />

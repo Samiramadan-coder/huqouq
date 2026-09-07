@@ -12,9 +12,9 @@ import QuerySearchAndTitle from "@/components/client-lawyer/lawyer/browse-cases/
 
 type SearchParams = {
   page?: string;
-  specializations?: string;
-  emirates?: string;
-  urgencies?: string;
+  specialization_id?: string;
+  emirate?: string;
+  urgency?: string;
   sorts?: string;
   q?: string;
 };
@@ -25,7 +25,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   const t = await getTranslations("Lawyer.BrowseCases");
-  const { page, specializations, emirates, urgencies, sorts, q } =
+  const { page, specialization_id, emirate, urgency, sorts, q } =
     await searchParams;
 
   const { data, ok } = await http.get<{
@@ -38,9 +38,9 @@ export default async function Page({
   }>("/api/lawyer/cases", {
     params: {
       page: page || "1",
-      specializations: specializations || "",
-      emirates: emirates || "",
-      urgencies: urgencies || "",
+      specialization_id: specialization_id || "",
+      emirate: emirate || "",
+      urgency: urgency || "",
       sorts: sorts || "",
       q: q || "",
     },
