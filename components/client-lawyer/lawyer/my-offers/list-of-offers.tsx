@@ -22,7 +22,7 @@ export default async function ListOfOffers({
             key={offer.id}
             className={cn("rounded-sm border border-secondary px-4 gap-0", {
               "border-amber-200": offer.display_status === "pending_fees",
-              "border-emerald-200": offer.display_status === "accepted",
+              "border-emerald-200": offer.display_status === "in_progress",
             })}
             style={{ boxShadow: "none" }}
           >
@@ -72,7 +72,7 @@ export default async function ListOfOffers({
             )}
 
             {/* Accepted Hint  */}
-            {offer.display_status === "accepted" && (
+            {offer.display_status === "in_progress" && (
               <div className="border-t border-emerald-100 mt-3 pt-3 flex flex-wrap items-center gap-2">
                 <div className="flex items-center gap-1">
                   <CircleCheck className="size-3 text-emerald-700" />{" "}
@@ -115,7 +115,7 @@ function OfferStatusBadge({
         </Badge>
       );
 
-    case "accepted":
+    case "in_progress":
       return (
         <Badge className="rounded-xs h-6.5 bg-emerald-50 text-emerald-700 border-emerald-200 border">
           <span className="size-1.5 bg-emerald-700 rounded-full me-1" />

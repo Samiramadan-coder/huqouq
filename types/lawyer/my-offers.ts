@@ -1,21 +1,17 @@
 export type Counts = {
   accepted: number;
   all: number;
-  pending_fees: number;
   cancelled: number;
+  closed: number;
   declined: number;
+  in_progress: number;
   pending: number;
+  pending_closure: number;
+  pending_fees: number;
   withdrawn: number;
 };
 
-export type OfferStatus =
-  | "all"
-  | "pending"
-  | "pending_fees"
-  | "accepted"
-  | "cancelled"
-  | "declined"
-  | "withdrawn";
+export type OfferStatus = keyof Counts;
 
 export type Offer = {
   amount: number;

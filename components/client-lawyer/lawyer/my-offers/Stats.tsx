@@ -14,19 +14,31 @@ export default async function Stats({ counts }: { counts: Counts }) {
       <StatItem count={counts.all} label={t("TotalOffers")} />
       <Separator orientation="vertical" className="bg-secondary" />
 
-      <StatItem count={counts.pending} label={t("Pending")} />
+      <StatItem count={counts.pending} label={t("pending")} />
       <Separator orientation="vertical" className="bg-secondary" />
 
-      <StatItem count={counts.accepted} label={t("Accepted")} />
+      <StatItem count={counts.pending_fees} label={t("pending_fees")} />
       <Separator orientation="vertical" className="bg-secondary" />
 
-      <StatItem count={counts.cancelled} label={t("Cancelled")} />
+      <StatItem count={counts.in_progress} label={t("in_progress")} />
       <Separator orientation="vertical" className="bg-secondary" />
 
-      <StatItem count={counts.declined} label={t("Declined")} />
+      <StatItem count={counts.cancelled} label={t("cancelled")} />
       <Separator orientation="vertical" className="bg-secondary" />
 
-      <StatItem count={counts.withdrawn} label={t("Withdrawn")} />
+      <StatItem count={counts.closed} label={t("closed")} />
+      <Separator orientation="vertical" className="bg-secondary" />
+
+      <StatItem count={counts.accepted} label={t("accepted")} />
+      <Separator orientation="vertical" className="bg-secondary" />
+
+      <StatItem count={counts.accepted} label={t("accepted")} />
+      <Separator orientation="vertical" className="bg-secondary" />
+
+      <StatItem count={counts.declined} label={t("declined")} />
+      <Separator orientation="vertical" className="bg-secondary" />
+
+      <StatItem count={counts.withdrawn} label={t("withdrawn")} />
     </Card>
   );
 }

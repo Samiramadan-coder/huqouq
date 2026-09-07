@@ -2,9 +2,22 @@
 
 import { useTranslations } from "next-intl";
 import { Counts } from "@/types/lawyer/my-offers";
+import { parseAsString, useQueryState } from "nuqs";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { parseAsString, useQueryState } from "nuqs";
+
+const statusKeys: (keyof Counts)[] = [
+  "all",
+  "pending",
+  "pending_fees",
+  "accepted",
+  "in_progress",
+  "cancelled",
+  "closed",
+  "declined",
+  "pending_closure",
+  "withdrawn",
+];
 
 export default function FiltersControl({ counts }: { counts: Counts }) {
   const t = useTranslations("Lawyer.MyOffers");
@@ -19,57 +32,14 @@ export default function FiltersControl({ counts }: { counts: Counts }) {
     <div className="overflow-x-auto">
       <Tabs value={status} onValueChange={setStatus}>
         <TabsList variant="line" className="h-auto!">
-          <TabsTrigger
-            value="all"
-            className="h-8 data-[state=active]:after:border-primary"
-          >
-            {t("All")}
-            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.all}
-            </span>
-          </TabsTrigger>
-
-          <TabsTrigger value="pending" className="h-8">
-            {t("Pending")}
-            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.pending}
-            </span>
-          </TabsTrigger>
-
-          <TabsTrigger value="pending_fees" className="h-8">
-            {t("PendingFees")}
-            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.pending_fees}
-            </span>
-          </TabsTrigger>
-
-          <TabsTrigger value="accepted" className="h-8">
-            {t("Accepted")}
-            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.accepted}
-            </span>
-          </TabsTrigger>
-
-          <TabsTrigger value="cancelled" className="h-8">
-            {t("Cancelled")}
-            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.cancelled}
-            </span>
-          </TabsTrigger>
-
-          <TabsTrigger value="declined" className="h-8">
-            {t("Declined")}
-            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.declined}
-            </span>
-          </TabsTrigger>
-
-          <TabsTrigger value="withdrawn" className="h-8">
-            {t("Withdrawn")}
-            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.withdrawn}
-            </span>
-          </TabsTrigger>
+          {statusKeys.map((key) => (
+            <TabsTrigger key={key} value={key} className="h-9">
+              {t(key)}
+              <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
+                {counts[key]}
+              </span>
+            </TabsTrigger>
+          ))}
         </TabsList>
       </Tabs>
       <Separator className="bg-secondary" />
