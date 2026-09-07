@@ -969,6 +969,13 @@
       "chatUnlock": "Chat unlocks after payment",
       "paymentSuccess": "Payment successful! You can now chat with your lawyer.",
       "paymentFailed": "Payment failed. Please try again.",
+      "declineOffer": "Decline Offer",
+      "declineOfferDescription": "Are you sure you want to decline this offer? This action cannot be undone.",
+      "ConfirmDecline": "Confirm Decline",
+      "ConfirmDeclineDescription": "By confirming, this offer will be declined and the lawyer will be notified.",
+      "YesDecline": "Yes, Decline",
+      "offerDeclined": "Offer Declined",
+      "offerDeclineFailed": "Failed to decline offer. Please try again.",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",

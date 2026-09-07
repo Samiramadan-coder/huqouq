@@ -3,12 +3,13 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import AcceptOffer from "./accept-offer";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight /*MessageSquare*/ } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import DeclineOffer from "./decline-offer";
 
 export default function LawyerOfferCard({
   caseId,
@@ -95,14 +96,7 @@ export default function LawyerOfferCard({
             <div className="mt-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <AcceptOffer offer={caseOffer} caseId={caseId} />
-
-                {/* <Button
-                  variant="outline"
-                  className="text-xs font-normal rounded-sm bg-transparent text-accent border-accent/40"
-                >
-                  <MessageSquare className="size-3.5" />
-                  {t("message")}
-                </Button> */}
+                <DeclineOffer offer={caseOffer} caseId={caseId} />
               </div>
 
               <Button

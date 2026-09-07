@@ -21,6 +21,7 @@ export default async function Page({
   const { id } = await params;
   const { page } = await searchParams;
 
+  // Fetch case details and offers concurrently
   const { data: caseData, ok: ok1 } = await http.get<{
     data: CaseDetails;
   }>(`/api/cases/${id}`, {
@@ -29,11 +30,17 @@ export default async function Page({
     },
   });
 
+  // Fetch offers for the case with pagination
   const { data: offers, ok: ok2 } = await http.get<{
     data: CaseOffer[];
     meta: Meta;
   }>(`/api/cases/${id}/offers`, {
-    params: { page: page || "1" },
+    params: {
+      page: page || "1",
+    },
+    next: {
+      tags: [`case-${id}-offers`],
+    },
   });
 
   if (!ok1 || !ok2) {

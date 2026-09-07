@@ -14,12 +14,15 @@ import {
 } from "@/components/ui/accordion";
 
 import InfoRow from "./info-row";
+import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { cn, formatDate } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
 import { CaseStatus } from "../data-preview";
+import AcceptedOffer from "./accepted-offer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import LawyerOfferCard from "./lawyer-offer-card";
 import { Separator } from "@/components/ui/separator";
 import { CaseDetails, CaseOffer } from "@/types/client/cases";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -27,10 +30,7 @@ import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import LawyerOfferCard from "./lawyer-offer-card";
-import { Meta } from "@/types/shared";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
-import AcceptedOffer from "./accepted-offer";
 
 export default async function Index({
   caseDetails,
@@ -57,8 +57,6 @@ export default async function Index({
         return 2;
       case "pending_fees":
         return 3;
-      // case "hired":
-      //   return 4;
       case "in_progress":
         return 4;
       default:
@@ -93,11 +91,6 @@ export default async function Index({
       title: t("Timeline.PendingFees"),
       description: t("Timeline.PendingFeesMessage"),
     },
-    // {
-    //   id: "hired",
-    //   title: t("Timeline.Hired"),
-    //   description: t("Timeline.HiredMessage"),
-    // },
     {
       id: "progress",
       title: t("Timeline.InProgress"),

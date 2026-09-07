@@ -74,6 +74,31 @@ export async function acceptCaseOffer({
   }
 }
 
+// Decline Case Offer
+type DeclineOfferResponse =
+  | { success: true }
+  | { success: false; message?: string };
+
+export async function declineCaseOffer({
+  caseId,
+  offerId,
+}: {
+  caseId: number;
+  offerId: number;
+}): Promise<DeclineOfferResponse> {
+  try {
+    await http.post(`/api/cases/${caseId}/offers/${offerId}/decline`);
+    updateTag(`case-${caseId}-offers`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error declining case offer:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
+
 // Pay The Case
 type PayCaseResponse = { success: true } | { success: false; message?: string };
 
