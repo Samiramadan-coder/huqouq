@@ -12,6 +12,15 @@ const filtersParsers = (initialSpecializations: number[] = []) => ({
   specializations: parseAsArrayOf(parseAsInteger)
     .withDefault(initialSpecializations)
     .withOptions({ history: "push", shallow: false }),
+  urgencies: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ history: "push", shallow: false }),
+  emirates: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ history: "push", shallow: false }),
+  sorts: parseAsString
+    .withDefault("newest")
+    .withOptions({ history: "push", shallow: false }),
   q: parseAsString
     .withDefault("")
     .withOptions({ history: "push", shallow: false }),

@@ -79,6 +79,86 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
           ))}
         </FieldGroup>
       </div>
+
+      <Separator className="bg-secondary" />
+
+      <div className="px-4 py-3">
+        <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
+          {t("Urgency")}
+        </p>
+        <FieldGroup className="gap-3">
+          {filters.urgencies.map((urgency) => (
+            <Field key={urgency.value} orientation="horizontal">
+              <Checkbox
+                className="rounded-xs"
+                id={`urgency-${urgency.value}`}
+                name={`urgency-${urgency.value}`}
+                checked={lawyerFilters.urgencies.includes(urgency.value)}
+                onCheckedChange={(e) => {
+                  const value = urgency.value;
+                  if (e) {
+                    setLawyerFilters({
+                      urgencies: [...lawyerFilters.urgencies, value],
+                    });
+                  } else {
+                    setLawyerFilters({
+                      urgencies: lawyerFilters.urgencies.filter(
+                        (v) => v !== value,
+                      ),
+                    });
+                  }
+                }}
+              />
+              <FieldLabel
+                htmlFor={`urgency-${urgency.value}`}
+                className="text-xs text-primary font-medium"
+              >
+                {urgency.label}
+              </FieldLabel>
+            </Field>
+          ))}
+        </FieldGroup>
+      </div>
+
+      <Separator className="bg-secondary" />
+
+      <div className="px-4 py-3">
+        <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
+          {t("Emirates")}
+        </p>
+        <FieldGroup className="gap-3">
+          {filters.emirates.map((emirate) => (
+            <Field key={emirate} orientation="horizontal">
+              <Checkbox
+                className="rounded-xs"
+                id={`emirate-${emirate}`}
+                name={`emirate-${emirate}`}
+                checked={lawyerFilters.emirates.includes(emirate)}
+                onCheckedChange={(e) => {
+                  const value = emirate;
+                  if (e) {
+                    setLawyerFilters({
+                      emirates: [...lawyerFilters.emirates, value],
+                    });
+                  } else {
+                    setLawyerFilters({
+                      emirates: lawyerFilters.emirates.filter(
+                        (v) => v !== value,
+                      ),
+                    });
+                  }
+                }}
+              />
+              <FieldLabel
+                htmlFor={`emirate-${emirate}`}
+                className="text-xs text-primary font-medium"
+              >
+                {emirate}
+              </FieldLabel>
+            </Field>
+          ))}
+        </FieldGroup>
+      </div>
     </Card>
   );
 }

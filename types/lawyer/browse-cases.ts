@@ -22,7 +22,19 @@ export type CaseDetails = {
 
 export type Filters = {
   my_specialization_ids: number[];
-  specializations: { id: number; name: string }[];
+  specializations: {
+    id: number;
+    name: string;
+  }[];
+  urgencies: {
+    label: string;
+    value: string;
+  }[];
+  emirates: string[];
+  sorts: {
+    label: string;
+    value: string;
+  }[];
 };
 
 export const offerFormSchema = (t: T) =>

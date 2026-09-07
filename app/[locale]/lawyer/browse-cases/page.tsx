@@ -10,8 +10,23 @@ import { LawyerBrowseCasesFiltersProvider } from "@/providers/lawyer-browse-case
 import FiltersControl from "@/components/client-lawyer/lawyer/browse-cases/filters-control";
 import QuerySearchAndTitle from "@/components/client-lawyer/lawyer/browse-cases/query-search-and-title";
 
-export default async function Page() {
+type SearchParams = {
+  page?: string;
+  specializations?: string;
+  emirates?: string;
+  urgencies?: string;
+  sorts?: string;
+  q?: string;
+};
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
   const t = await getTranslations("Lawyer.BrowseCases");
+  const { page, specializations, emirates, urgencies, sorts, q } =
+    await searchParams;
 
   const { data, ok } = await http.get<{
     data: CaseDetails[];
@@ -20,11 +35,22 @@ export default async function Page() {
     can_submit_offer: boolean;
     profile_status: string;
     submit_offer_blocked_reason: string;
-  }>("/api/lawyer/cases");
+  }>("/api/lawyer/cases", {
+    params: {
+      page: page || "1",
+      specializations: specializations || "",
+      emirates: emirates || "",
+      urgencies: urgencies || "",
+      sorts: sorts || "",
+      q: q || "",
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch lawyer cases");
   }
+
+  console.log("data", data);
 
   return (
     <LawyerBrowseCasesFiltersProvider
