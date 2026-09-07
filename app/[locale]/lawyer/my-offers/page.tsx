@@ -36,7 +36,7 @@ export default async function Page({
   console.log(data);
 
   return (
-    <div className="space-y-6 container max-w-3xl">
+    <div className="space-y-6 container max-w-4xl">
       <div className="space-y-2">
         <Title>{t("Title")}</Title>
         <Hint>{t("Description")}</Hint>

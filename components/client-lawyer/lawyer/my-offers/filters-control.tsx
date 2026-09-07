@@ -16,7 +16,7 @@ export default function FiltersControl({ counts }: { counts: Counts }) {
   );
 
   return (
-    <div>
+    <div className="overflow-x-auto">
       <Tabs value={status} onValueChange={setStatus}>
         <TabsList variant="line" className="h-auto!">
           <TabsTrigger
@@ -36,10 +36,10 @@ export default function FiltersControl({ counts }: { counts: Counts }) {
             </span>
           </TabsTrigger>
 
-          <TabsTrigger value="cancelled" className="h-8">
-            {t("Cancelled")}
+          <TabsTrigger value="pending_fees" className="h-8">
+            {t("PendingFees")}
             <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-              {counts.cancelled}
+              {counts.pending_fees}
             </span>
           </TabsTrigger>
 
@@ -47,6 +47,13 @@ export default function FiltersControl({ counts }: { counts: Counts }) {
             {t("Accepted")}
             <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
               {counts.accepted}
+            </span>
+          </TabsTrigger>
+
+          <TabsTrigger value="cancelled" className="h-8">
+            {t("Cancelled")}
+            <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
+              {counts.cancelled}
             </span>
           </TabsTrigger>
 

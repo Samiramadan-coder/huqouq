@@ -1,6 +1,7 @@
 export type Counts = {
   accepted: number;
   all: number;
+  pending_fees: number;
   cancelled: number;
   declined: number;
   pending: number;

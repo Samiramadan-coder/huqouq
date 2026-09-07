@@ -1337,12 +1337,17 @@
       "All": "All",
       "TotalOffers": "Total offers",
       "Pending": "Pending",
+      "PendingFees": "Pending Fees",
       "Cancelled": "Cancelled",
       "Accepted": "Accepted",
       "Declined": "Declined",
       "Withdrawn": "Withdrawn",
       "Proposed": "Proposed",
-      "SubmittedOn": "Submitted on {date}"
+      "SubmittedOn": "Submitted on {date}",
+      "PendingFeesHint": "Your offer was accepted. Waiting for the client to pay the platform fee.",
+      "AcceptedHint": "You were selected for this case.",
+      "ViewCase": "View Case",
+      "NoOffers": "No offers found"
     }
   }
 }

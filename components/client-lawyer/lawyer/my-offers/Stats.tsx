@@ -8,7 +8,7 @@ export default async function Stats({ counts }: { counts: Counts }) {
 
   return (
     <Card
-      className="rounded-sm border border-secondary px-4 flex-row justify-between"
+      className="rounded-sm border border-secondary px-4 flex-row flex-wrap"
       style={{ boxShadow: "none" }}
     >
       <StatItem count={counts.all} label={t("TotalOffers")} />
