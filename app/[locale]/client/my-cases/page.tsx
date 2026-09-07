@@ -41,7 +41,7 @@ export default async function Page({
     <div className="space-y-6 container max-w-7xl">
       <Title>{t("myCases")}</Title>
 
-      <div className="flex items-center justify-between flex-wrap gap-6">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <Filters counts={data.counts} />
 
         <div className="ms-auto shrink-0">

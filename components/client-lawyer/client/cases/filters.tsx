@@ -64,7 +64,7 @@ export default function Filters({ counts }: { counts: Counts }) {
         onValueChange={(value) => setFilters({ tab: value, page: "1" })}
         className="w-full"
       >
-        <TabsList className="p-0! bg-transparent gap-0.5 flex-wrap h-auto!">
+        <TabsList className="p-0! bg-transparent gap-2 flex-wrap h-auto!">
           {statusKeys.map((key) => (
             <TabsTrigger
               key={key}
