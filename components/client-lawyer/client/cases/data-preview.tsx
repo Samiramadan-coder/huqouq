@@ -75,7 +75,7 @@ export async function CasesTable({ cases }: { cases: CaseDetails[] }) {
                   className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
                   asChild
                 >
-                  <Link href={`/client/cases/edit/${caseItem.id}`}>
+                  <Link href={`/client/my-cases/edit/${caseItem.id}`}>
                     <span>{t("editCase")}</span>
                     <ArrowRight className="size-3" />
                   </Link>
