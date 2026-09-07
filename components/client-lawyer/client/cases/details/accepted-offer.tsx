@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Lock, MessageSquare } from "lucide-react";
 import PayTheCase from "./pay-the-case";
 import { Button } from "@/components/ui/button";
+import { Lock, MessageSquare } from "lucide-react";
 import { CaseDetails } from "@/types/client/cases";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
@@ -124,8 +124,6 @@ export default async function AcceptedOffer({
               <PayTheCase caseId={caseDetails.id} platformFee={platformFee} />
             </>
           )}
-
-        {/* <PayTheCase caseId={caseDetails.id} platformFee={platformFee} /> */}
 
         <Button
           disabled={!caseDetails.chat_unlocked}

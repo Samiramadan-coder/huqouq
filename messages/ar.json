@@ -916,14 +916,14 @@
       }
     },
     "Cases": {
-      "myCases": "قضايا",
+      "myCases": "قضايتي",
       "addNew": "نشر قضية جديدة",
       "view": "عرض",
       "createNew": "نشر قضية جديدة",
-      "createNewHint": "صف مسألتك القانونية وتلقى عروضًا من محامين مؤهلين.",
+      "createNewHint": "صف مسألتك القانونية وتلقى عروض من محامين مؤهلين.",
       "backToCases": "العودة إلى قضاياي",
       "editCase": "تعديل القضية",
-      "editCaseHint": "قم بتحرير تفاصيل قضيتك",
+      "editCaseHint": "تعديل تفاصيل قضيتك",
       "closeCase": "إغلاق القضية",
       "urgent": "عاجل",
       "standard": "عادي",
@@ -931,14 +931,15 @@
       "offers": "العروض",
       "lawyersOffers": "عروض المحامين",
       "readMore": "اقرأ المزيد",
+      "readLess": "اقرأ أقل",
       "acceptOffer": "قبول هذا العرض",
-      "message": "رسالة",
+      "message": "إرسال رسالة",
       "viewProfile": "عرض الملف الشخصي",
       "fixedFee": "أتعاب ثابتة للتمثيل الكامل",
       "caseStatusTimeline": "الجدول الزمني لحالة القضية",
       "posted": "تم النشر",
       "approved": "تمت الموافقة",
-      "offersReceived": "تم استلام العروض",
+      "offersReceived": "العروض المستلمة",
       "hired": "تم التوظيف",
       "inProgress": "قيد التنفيذ",
       "pendingClosure": "في انتظار الإغلاق",
@@ -947,27 +948,55 @@
       "noCases": "لم يتم العثور على أي قضايا",
       "PostedOn": "تم النشر في {date}",
       "ReviewedOn": "تمت المراجعة في {date}",
+      "ConfirmHire": "تأكيد التوظيف",
+      "ConfirmHireDescription": "بتأكيدك، ستنتقل هذه القضية إلى حالة تم التوظيف وسيتم إخطار أحمد. سيتم رفض جميع العروض الأخرى تلقائيًا.",
+      "YesHire": "نعم، توظيف {name}",
+      "Cancel": "إلغاء",
+      "offerAccepted": "تم قبول العرض",
+      "offerAcceptFailed": "فشل في قبول العرض. يرجى المحاولة مرة أخرى.",
+      "noOffers": "لم يتم استلام أي عروض بعد. بمجرد أن يقدم المحامون عروضهم، ستظهر هنا.",
+      "yourHiredLawyer": "المحامي الذي تم توظيفه",
+      "agreedAmount": "المبلغ المتفق عليه",
+      "platformFee": "رسوم منصة حقوق",
+      "platformFeeDescription": "هذا هو {percentage} من أتعابك المتفق عليها مع المحامي.",
+      "amountForLawyer": "المبلغ الذي تدفعه للمحامي مباشرة:",
+      "amountForLawyerDescription": "ادفع رسوم المنصة إلى حقوق لتأكيد هذا الاتفاق وفتح التواصل المباشر مع محاميك. غير قابل للاسترداد.",
+      "payNow": "ادفع رسوم المنصة الآن",
+      "chatUnlock": "يفتح الدردشة بعد الدفع",
+      "paymentSuccess": "تم الدفع بنجاح! يمكنك الآن الدردشة مع محاميك.",
+      "paymentFailed": "فشل الدفع. يرجى المحاولة مرة أخرى.",
+      "declineOffer": "رفض العرض",
+      "declineOfferDescription": "هل أنت متأكد أنك تريد رفض هذا العرض؟ لا يمكن التراجع عن هذا الإجراء.",
+      "ConfirmDecline": "تأكيد الرفض",
+      "ConfirmDeclineDescription": "بتأكيدك، سيتم رفض هذا العرض وسيتم إخطار المحامي.",
+      "YesDecline": "نعم، رفض",
+      "offerDeclined": "تم رفض العرض",
+      "offerDeclineFailed": "فشل في رفض العرض. يرجى المحاولة مرة أخرى.",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",
-        "approved": "منشور",
+        "published": "منشور",
+        "approved": "تمت الموافقة",
         "rejected": "مرفوض",
         "has_offers": "لديه عروض",
         "hired": "تم التوظيف",
-        "closed": "مغلق"
+        "closed": "مغلق",
+        "pending_fees": "الرسوم المعلقة",
+        "in_progress": "قيد التنفيذ",
+        "pending_closure": "في انتظار الإغلاق"
       },
       "Table": {
         "title": "عنوان القضية",
         "category": "الفئة",
         "status": "الحالة",
         "offers": "العروض",
-        "posted": "تم النشر",
+        "posted": "تاريخ النشر",
         "actions": "الإجراءات"
       },
       "Fields": {
         "caseTitle": {
           "label": "عنوان القضية",
-          "placeholder": "مثال: نزاع عقد عمل",
+          "placeholder": "مثال: نزاع عقد العمل",
           "required": "عنوان القضية مطلوب",
           "minLength": "يجب أن يكون عنوان القضية أكثر من حرفين"
         },
@@ -979,7 +1008,7 @@
         },
         "description": {
           "label": "وصف القضية",
-          "placeholder": "صف حالتك بالتفصيل — ما الذي حدث، متى وقع، أي خلفية ذات صلة، وما النتيجة التي تبحث عنها. كلما زادت التفاصيل التي تقدمها، كانت العروض التي تتلقاها أكثر دقة.",
+          "placeholder": "صف حالتك بالتفصيل — ما الذي حدث، متى حدث، أي خلفية ذات صلة، وما النتيجة التي تبحث عنها. كلما زادت التفاصيل التي تقدمها، كانت العروض التي تتلقاها أكثر دقة.",
           "notice": "سيتم مراجعة قضيتك قبل أن يتمكن المحامون من رؤيتها — عادةً خلال 24 ساعة.",
           "required": "وصف القضية مطلوب",
           "minLength": "يجب أن يكون وصف القضية أكثر من حرفين",
@@ -994,7 +1023,7 @@
             },
             "urgent": {
               "label": "عاجل",
-              "description": "تحتاج إلى المساعدة خلال 24–48 ساعة"
+              "description": "تحتاج المساعدة خلال 24–48 ساعة"
             },
             "very_urgent": {
               "label": "عاجل جدًا",
@@ -1020,8 +1049,8 @@
           "optional": "اختياري",
           "dropText": "اسحب الملفات هنا أو",
           "browse": "تصفح",
-          "formats": "PDF، DOCX، JPG، PNG — حتى 10 ميغابايت لكل ملف",
-          "required": "يجب إرفاق مستند واحد على الأقل"
+          "formats": "PDF, DOCX, JPG, PNG — حتى 10 ميغابايت لكل ملف",
+          "required": "مطلوب مستند واحد على الأقل"
         },
         "submit": {
           "button": "إرسال القضية",
@@ -1029,14 +1058,19 @@
         }
       },
       "Timeline": {
-        "Posted": "تم النشر",
-        "Approved": "تمت الموافقة",
-        "OffersReceived": "تم استلام العروض",
-        "Hired": "تم التوظيف",
-        "InProgress": "قيد التنفيذ",
-        "PendingClosure": "في انتظار الإغلاق",
-        "Closed": "مغلق",
-        "Reviewed": "تمت المراجعة"
+        "Posted": "Posted",
+        "Approved": "Published",
+        "OffersReceived": "Offers Received",
+        "Hired": "Hired",
+        "InProgress": "In Progress",
+        "PendingClosure": "Pending Closure",
+        "Closed": "Closed",
+        "Reviewed": "Reviewed",
+        "OffersReceivedMessage": "{count} offers received. Review and compare them to find the right lawyer.",
+        "PendingFees": "Pending fees",
+        "PendingFeesMessage": "Pay the platform fee to Huqouq to confirm this agreement and start working with your lawyer. The remaining 95% is paid directly to your lawyer outside the platform.",
+        "HiredMessage": "You have hired a lawyer. You can communicate with them through the chat.",
+        "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat."
       }
     }
   },
@@ -1253,52 +1287,74 @@
         }
       }
     },
-    "Dashboard": {
-      "GoodEvening": "مساء الخير",
-      "GoodMorning": "صباح الخير",
-      "GoodAfternoon": "مساء الخير",
-      "Verified": "مفعل",
-      "Unverified": "غير مفعل",
-      "Reviews": "التقييمات",
-      "CasesHandled": "القضايا المعالجة",
-      "RespondsWithinAnHour": "يرد خلال ساعة",
-      "MemberSince": "عضو منذ",
-      "Complete": "مكتمل",
-      "CompleteProfile": "اكمل الملف الشخصي",
-      "Next": "التالي",
-      "InReview": "ملفك قيد المراجعة"
-    },
     "BrowseCases": {
       "Title": "تصفح القضايا",
-      "SearchPlaceholder": "ابحث بالعنوان أو الفئة أو الكلمة الرئيسية...",
+      "SearchPlaceholder": "ابحث بالعنوان، الفئة، الكلمة المفتاحية...",
       "Filters": "الفلاتر",
       "ClearAll": "مسح الكل",
       "YourSpecialization": "تخصصك",
       "Specialization": "التخصص",
-      "lawyersHaveOffers": "لقد قدم المحامون بالفعل عروضًا",
+      "lawyersHaveOffers": "لقد قدم المحامون عروضًا بالفعل",
       "ViewDetails": "عرض التفاصيل",
       "MatchYourFilters": "القضايا التي تطابق فلاترك",
-      "MostRecent": "الأحدث",
-      "HighestBudget": "أعلى ميزانية",
-      "MostUrgent": "الأكثر إلحاحًا",
-      "FewestOffers": "أقل العروض",
       "BackToCases": "العودة إلى القضايا",
       "CaseSummary": "ملخص القضية",
       "Category": "الفئة",
       "Location": "الموقع",
       "Posted": "تاريخ النشر",
       "Budget": "الميزانية",
-      "Urgency": "الإلحاح",
+      "Urgency": "الاستعجال",
+      "Emirates": "الإمارات",
       "Competition": "المنافسة",
       "OffersSubmitted": "العروض المقدمة",
-      "Prop1": "تؤدي المقترحات المخصصة التي تشير إلى الوضع الخاص بالعميل إلى تحويل ",
+      "Prop1": "العروض المخصصة التي تشير إلى الوضع الخاص بالعميل تتحول",
       "Prop2": "3× أكثر",
-      "Prop3": "من العروض السعرية العامة.",
+      "Prop3": "من عروض الأسعار العامة.",
       "CaseDetails": "تفاصيل القضية",
       "AttachedDocuments": "المستندات المرفقة",
       "ViewDocument": "عرض المستند",
       "OffersSubmitted2": "لقد قدم المحامون بالفعل عروضًا على هذه القضية.",
-      "CompleteProfile": "اكمل الملف الشخصي"
+      "CompleteProfile": "أكمل الملف الشخصي",
+      "SubmitOffer": "تقديم عرضك",
+      "SubmitOfferDescription": "قدم السعر المقترح، والجدول الزمني المقدر، ورسالة مخصصة للعميل.",
+      "SubmittedSuccessfully": "تم تقديم عرضك بنجاح",
+      "SubmitOfferError": "فشل في تقديم العرض",
+      "noCasesFound": "لم يتم العثور على قضايا تطابق فلاترك.",
+      "Fields": {
+        "ProposedPrice": {
+          "Label": "السعر المقترح (درهم)",
+          "Placeholder": "مثال: 5000",
+          "Required": "السعر المقترح مطلوب"
+        },
+        "Message": {
+          "Label": "رسالة للعميل",
+          "Placeholder": "اكتب رسالة مخصصة للعميل",
+          "Required": "الرسالة مطلوبة",
+          "Min": "يجب أن تكون الرسالة 20 حرفًا على الأقل",
+          "Description": "الحد الأدنى 20 حرفًا · 0 مكتوبة"
+        }
+      }
+    },
+    "MyOffers": {
+      "Title": "عروضي",
+      "Description": "جميع العروض التي قدمتها عبر القضايا.",
+      "all": "الكل",
+      "TotalOffers": "إجمالي العروض",
+      "pending": "قيد الانتظار",
+      "pending_fees": "الرسوم المعلقة",
+      "cancelled": "ملغاة",
+      "accepted": "مقبولة",
+      "declined": "مرفوضة",
+      "withdrawn": "تم سحبها",
+      "in_progress": "قيد التنفيذ",
+      "pending_closure": "قيد الإغلاق",
+      "closed": "مغلقة",
+      "Proposed": "مقترحة",
+      "SubmittedOn": "تم التقديم في {date}",
+      "PendingFeesHint": "تم قبول عرضك. في انتظار أن يدفع العميل رسوم المنصة.",
+      "AcceptedHint": "تم اختيارك لهذه القضية.",
+      "ViewCase": "عرض القضية",
+      "NoOffers": "لم يتم العثور على عروض"
     }
   }
 }
