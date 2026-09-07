@@ -12,8 +12,10 @@ import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { OfferFormData, offerFormSchema } from "@/types/lawyer/browse-cases";
 import { submitOffer } from "@/lib/lawyer/browse-cases";
 import { toast } from "sonner";
+import { useRouter } from "@/i18n/navigation";
 
 export default function OfferForm({ caseId }: { caseId: number }) {
+  const router = useRouter();
   const t = useTranslations("Lawyer.BrowseCases");
   const tFields = useTranslations("Lawyer.BrowseCases.Fields");
 
@@ -36,6 +38,7 @@ export default function OfferForm({ caseId }: { caseId: number }) {
 
     if (result.success) {
       toast.success(t("SubmittedSuccessfully"));
+      router.push(`/lawyer/my-offers`);
       return;
     }
 

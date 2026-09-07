@@ -31,6 +31,8 @@ export default async function Page({
     },
   });
 
+  console.log("Fetched cases data:", data); // Debugging line to check the fetched data
+
   if (!ok) {
     throw new Error("Failed to fetch cases");
   }
