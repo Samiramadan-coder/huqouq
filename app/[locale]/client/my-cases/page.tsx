@@ -31,8 +31,6 @@ export default async function Page({
     },
   });
 
-  console.log("Fetched cases data:", data); // Debugging line to check the fetched data
-
   if (!ok) {
     throw new Error("Failed to fetch cases");
   }
@@ -45,7 +43,7 @@ export default async function Page({
         <Filters counts={data.counts} />
 
         <div className="ms-auto shrink-0">
-          <AddNew href="/client/cases/create">{t("addNew")}</AddNew>
+          <AddNew href="/client/my-cases/create">{t("addNew")}</AddNew>
         </div>
       </div>
 

@@ -16,7 +16,7 @@ export default async function RecentCases({ cases }: { cases: CaseDetails[] }) {
         </h3>
 
         <Link
-          href="/client/cases"
+          href="/client/my-cases"
           className="flex items-center gap-1 text-accent font-normal text-sm"
         >
           View All Cases

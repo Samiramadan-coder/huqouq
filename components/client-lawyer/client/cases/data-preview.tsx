@@ -20,7 +20,6 @@ export default async function DataPreview({
   return <CasesTable cases={cases} pagination={pagination} />;
 }
 
-// The CasesTable component is defined below and is used to render the table of cases.
 export async function CasesTable({
   cases,
   pagination,

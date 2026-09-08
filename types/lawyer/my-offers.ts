@@ -22,6 +22,8 @@ export type Offer = {
   message: string;
   status: OfferStatus;
   status_label: string;
+  expected_days: number;
+  expected_timeline: string;
   case: {
     id: number;
     specialization: string;

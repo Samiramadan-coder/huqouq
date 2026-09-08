@@ -42,11 +42,22 @@ export default async function ListOfOffers({
               {offer.case.title}
             </h3>
 
-            <p className="font-semibold text-xs flex items-center gap-0.5">
-              <span className="text-accent">{tCommon("AED")}</span>
-              <span>{offer.amount}</span>
-              <span className="text-primary/35">{t("Proposed")}</span>
-            </p>
+            <div className="flex items-center gap-3">
+              <p className="font-semibold text-xs flex items-center gap-1">
+                <span className="text-accent">{tCommon("AED")}</span>
+                <span>{offer.amount}</span>
+                <span className="text-primary/35">{t("Proposed")}</span>
+              </p>
+
+              {offer.expected_timeline && (
+                <div className="flex items-center gap-1">
+                  <Clock className="size-3 text-primary/35" />
+                  <span className="text-primary/35 text-xs">
+                    {offer.expected_timeline}
+                  </span>
+                </div>
+              )}
+            </div>
 
             <p className="font-semibold text-xs text-primary/35 mt-1">
               {t("SubmittedOn", { date: formatDate(offer.created_at) })}
