@@ -1,14 +1,12 @@
-import { Card } from "@/components/ui/card";
-import { CaseDetails } from "@/types/lawyer/browse-cases";
 import { Meta } from "@/types/shared";
-import UrgencyBadge from "../../reusable/urgency-label";
-import { Badge } from "@/components/ui/badge";
-import { getLocale, getTranslations } from "next-intl/server";
-import { Briefcase, Calendar, MapPin, MoveRight } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CaseDetails } from "@/types/lawyer/my-cases";
+import UrgencyBadge from "../../reusable/urgency-label";
+import { Briefcase, Calendar, MapPin } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 import PaginationTemplate from "../../reusable/pagination-template";
-// import { Button } from "@/components/ui/button";
-// import { Link } from "@/i18n/navigation";
 
 export default async function ListOfCases({
   cases,
@@ -71,12 +69,6 @@ export default async function ListOfCases({
                 >
                   {tCommon("AED")} {caseItem.accepted_offer?.amount}
                 </p>
-                {/* <Link href={`/lawyer/my-cases/${caseItem.id}`}>
-                <Button variant="ghost" className="text-xs text-accent">
-                  {t("ViewCase")}
-                  <MoveRight className="rtl:rotate-180" />
-                </Button>
-              </Link> */}
               </div>
             </Card>
           ))}

@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 import ListOfCasesHeader from "./list-of-cases-header";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { Card, CardContent } from "@/components/ui/card";
-import { CaseDetails, Filters } from "@/types/lawyer/browse-cases";
+import { Case, Filters } from "@/types/lawyer/browse-cases";
 import { ChevronRight, Clock, MapPin } from "lucide-react";
 import PaginationTemplate from "../../reusable/pagination-template";
 
@@ -17,7 +17,7 @@ export default async function ListOfCases({
   can_submit_offer,
   filters,
 }: {
-  cases: CaseDetails[];
+  cases: Case[];
   pagination: Meta;
   can_submit_offer: boolean;
   filters: Filters;

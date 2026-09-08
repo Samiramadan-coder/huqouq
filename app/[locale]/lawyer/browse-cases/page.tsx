@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import { MoveRight, TriangleAlert } from "lucide-react";
-import { CaseDetails, Filters } from "@/types/lawyer/browse-cases";
+import { Case, Filters } from "@/types/lawyer/browse-cases";
 import ListOfCases from "@/components/client-lawyer/lawyer/browse-cases/list-of-cases";
 import { LawyerBrowseCasesFiltersProvider } from "@/providers/lawyer-browse-cases-filters";
 import FiltersControl from "@/components/client-lawyer/lawyer/browse-cases/filters-control";
@@ -29,7 +29,7 @@ export default async function Page({
     await searchParams;
 
   const { data, ok } = await http.get<{
-    data: CaseDetails[];
+    data: Case[];
     filters: Filters;
     meta: Meta;
     can_submit_offer: boolean;

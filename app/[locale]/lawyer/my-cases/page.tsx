@@ -1,10 +1,10 @@
-import ListOfCases from "@/components/client-lawyer/lawyer/my-cases/list-of-cases";
-import Hint from "@/components/client-lawyer/reusable/hint";
-import Title from "@/components/client-lawyer/reusable/title";
 import { http } from "@/lib/http";
-import { CaseDetails } from "@/types/lawyer/browse-cases";
 import { Meta } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
+import { CaseDetails } from "@/types/lawyer/my-cases";
+import Hint from "@/components/client-lawyer/reusable/hint";
+import Title from "@/components/client-lawyer/reusable/title";
+import ListOfCases from "@/components/client-lawyer/lawyer/my-cases/list-of-cases";
 
 export default async function Page() {
   const t = await getTranslations("Lawyer.MyCases");
@@ -18,7 +18,7 @@ export default async function Page() {
     throw new Error("Failed to fetch my cases");
   }
 
-  // console.log(data);
+  console.log(data);
   return (
     <div className="space-y-6 container max-w-5xl">
       <div>
