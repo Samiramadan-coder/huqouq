@@ -1,13 +1,13 @@
+import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/client/cases";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { Meta } from "@/types/shared";
+import CaseStatusLabel from "../../reusable/case-status-label";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function DataPreview({
@@ -60,7 +60,10 @@ export async function CasesTable({
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3">
-                <CaseStatus caseItem={caseItem} />
+                <CaseStatusLabel
+                  status={caseItem.display_status}
+                  statusLabel={caseItem.display_status_label}
+                />
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="font-medium">{caseItem.offers_count}</span>
@@ -110,79 +113,4 @@ export async function CasesTable({
       )}
     </>
   );
-}
-
-// CaseStatus and CasesTable components are defined below,
-export function CaseStatus({ caseItem }: { caseItem: CaseDetails }) {
-  switch (caseItem.display_status) {
-    case "pending_review":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-accent/10 border-accent/25 text-accent">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "pending_closure":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-accent/10 border-accent/25 text-accent">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "in_progress":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-primary/5 border-primary/20 text-primary">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "published":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-primary/5 border-primary/20 text-primary">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "pending_fees":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-accent/10 border-accent/25 text-accent">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "has_offers":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-green-100 border-green-300 text-green-700">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "hired":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-accent/10 border-accent/25 text-accent">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "closed":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-primary/5 border-primary/20 text-primary">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    case "rejected":
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-destructive/10 border-destructive/15 text-destructive">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-
-    default:
-      return (
-        <Badge className="rounded-sm text-[11px] h-6.5 font-normal bg-primary/5 border-primary/20 text-primary">
-          {caseItem.display_status_label}
-        </Badge>
-      );
-  }
 }

@@ -18,7 +18,7 @@ import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { cn, formatDate } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
-import { CaseStatus } from "../data-preview";
+// import { CaseStatus } from "../data-preview";
 import AcceptedOffer from "./accepted-offer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,7 @@ import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
+import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
 
 export default async function Index({
   caseDetails,
@@ -148,7 +149,10 @@ export default async function Index({
         </div>
 
         <div className="mt-2 flex items-center gap-2">
-          <CaseStatus caseItem={caseDetails} />
+          <CaseStatusLabel
+            status={caseDetails.display_status}
+            statusLabel={caseDetails.display_status_label}
+          />
           <UrgencyBadge
             urgency={caseDetails.urgency}
             urgency_label={caseDetails.urgency_label}

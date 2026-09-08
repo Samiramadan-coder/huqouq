@@ -7,6 +7,7 @@ import UrgencyBadge from "../../reusable/urgency-label";
 import { Briefcase, Calendar, MapPin } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import PaginationTemplate from "../../reusable/pagination-template";
+import CaseStatusLabel from "../../reusable/case-status-label";
 
 export default async function ListOfCases({
   cases,
@@ -32,6 +33,10 @@ export default async function ListOfCases({
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2">
+                  <CaseStatusLabel
+                    status={caseItem.display_status}
+                    statusLabel={caseItem.display_status_label}
+                  />
                   <UrgencyBadge
                     urgency={caseItem.urgency}
                     urgency_label={caseItem.urgency_label}
