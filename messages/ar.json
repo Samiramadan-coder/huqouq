@@ -1321,6 +1321,11 @@
       "SubmitOfferError": "فشل في تقديم العرض",
       "noCasesFound": "لم يتم العثور على قضايا تطابق فلاترك.",
       "Fields": {
+        "EstimatedTimeline": {
+          "Label": "الجدول الزمني المقدر (أيام)",
+          "Placeholder": "مثال: 7",
+          "Required": "الجدول الزمني المقدر مطلوب"
+        },
         "ProposedPrice": {
           "Label": "السعر المقترح (درهم)",
           "Placeholder": "مثال: 5000",
