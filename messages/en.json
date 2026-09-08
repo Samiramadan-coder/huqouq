@@ -1340,6 +1340,11 @@
       "SubmitOfferError": "Failed to Submit Offer",
       "noCasesFound": "No cases found matching your filters.",
       "Fields": {
+        "EstimatedTimeline": {
+          "Label": "Estimated Timeline (days)",
+          "Placeholder": "e.g., 7",
+          "Required": "Estimated timeline is required"
+        },
         "ProposedPrice": {
           "Label": "Proposed Price (AED)",
           "Placeholder": "e.g., 5000",

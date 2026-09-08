@@ -1,18 +1,15 @@
 "use client";
 
-// import z from "zod";
-// import { T } from "@/types/shared";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { submitOffer } from "@/lib/lawyer/browse-cases";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
-// import FormSelect from "@/components/public/shared/form/form-select";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { OfferFormData, offerFormSchema } from "@/types/lawyer/browse-cases";
-import { submitOffer } from "@/lib/lawyer/browse-cases";
-import { toast } from "sonner";
-import { useRouter } from "@/i18n/navigation";
 
 export default function OfferForm({ caseId }: { caseId: number }) {
   const router = useRouter();
@@ -21,7 +18,6 @@ export default function OfferForm({ caseId }: { caseId: number }) {
 
   const {
     register,
-    // control,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -77,15 +73,16 @@ export default function OfferForm({ caseId }: { caseId: number }) {
         inputClassName="bg-background border border-accent/20!"
       />
 
-      {/* <FormSelect
-        control={control}
+      <FormInput
         required
-        name="name"
-        label="Estimated Timeline"
-        placeholder="Select estimated timeline"
-        triggerClassName="bg-background border border-accent/20!"
-        options={[]}
-      /> */}
+        errors={errors}
+        register={register}
+        name="expected_days"
+        type="number"
+        label={tFields("EstimatedTimeline.Label")}
+        placeholder={tFields("EstimatedTimeline.Placeholder")}
+        inputClassName="bg-background border border-accent/20!"
+      />
 
       <FormTextarea
         register={register}

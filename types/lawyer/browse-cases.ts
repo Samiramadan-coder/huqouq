@@ -28,23 +28,15 @@ export type CaseDetails = Case & {
 
 export type Filters = {
   my_specialization_ids: number[];
-  specializations: {
-    id: number;
-    name: string;
-  }[];
-  urgencies: {
-    label: string;
-    value: string;
-  }[];
+  specializations: { id: number; name: string }[];
+  urgencies: { label: string; value: string }[];
   emirates: string[];
-  sorts: {
-    label: string;
-    value: string;
-  }[];
+  sorts: { label: string; value: string }[];
 };
 
 export const offerFormSchema = (t: T) =>
   z.object({
+    expected_days: z.number(),
     amount: z.number().min(1, t("ProposedPrice.Required")),
     message: z.string().min(1, t("Message.Required")).min(20, t("Message.Min")),
   });
