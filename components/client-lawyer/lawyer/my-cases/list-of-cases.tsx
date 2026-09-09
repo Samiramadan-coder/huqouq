@@ -4,10 +4,11 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CaseDetails } from "@/types/lawyer/my-cases";
 import UrgencyBadge from "../../reusable/urgency-label";
-import { Briefcase, Calendar, MapPin } from "lucide-react";
+import { Briefcase, Calendar, MapPin, MoveRight } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import PaginationTemplate from "../../reusable/pagination-template";
 import CaseStatusLabel from "../../reusable/case-status-label";
+import { Link } from "@/i18n/navigation";
 
 export default async function ListOfCases({
   cases,
@@ -74,6 +75,13 @@ export default async function ListOfCases({
                 >
                   {tCommon("AED")} {caseItem.accepted_offer?.amount}
                 </p>
+                <Link
+                  className="underline text-xs text-amber-700 flex items-center gap-1 whitespace-nowrap ms-auto"
+                  href={`/lawyer/browse-cases/${caseItem.id}`}
+                >
+                  {t("ViewCase")}
+                  <MoveRight className="size-3 rtl:rotate-180" />
+                </Link>
               </div>
             </Card>
           ))}
