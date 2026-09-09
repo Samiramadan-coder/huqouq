@@ -4,6 +4,7 @@ import {
   FileText,
   CalendarDays,
   TriangleAlert,
+  ChartNoAxesColumn,
 } from "lucide-react";
 
 import {
@@ -18,7 +19,6 @@ import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { cn, formatDate } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
-// import { CaseStatus } from "../data-preview";
 import AcceptedOffer from "./accepted-offer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,8 +30,8 @@ import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
+import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 
 export default async function Index({
   caseDetails,
@@ -140,7 +140,7 @@ export default async function Index({
             {caseDetails.can_close && (
               <Button
                 variant="outline"
-                className="rounded-sm border-secondary font-normal text-xs text-destructive"
+                className="rounded-sm border-destructive/5 font-normal text-xs text-destructive/80 hover:bg-transparent hover:text-destructive hover:border-destructive/20"
               >
                 {t("closeCase")}
               </Button>
@@ -160,7 +160,7 @@ export default async function Index({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid items-start grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="w-full md:col-span-3 rounded-xs ring-0! border border-secondary">
           <CardHeader className="pb-3">
             <CardTitle className={cn("text-sm font-semibold", fontClass)}>
@@ -239,24 +239,73 @@ export default async function Index({
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 rounded-xs ring-0! border border-secondary">
-          <CardHeader className="pb-3">
-            <CardTitle
-              className={cn(
-                "text-sm font-semibold flex items-center gap-1",
-                fontClass,
-              )}
-            >
-              <FileText className="text-primary/40 size-3.5" />
-              {t("Fields.description.label")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-primary/65 leading-relaxed whitespace-pre-line">
-              {caseDetails.description}
-            </p>
-          </CardContent>
-        </Card>
+        <div className="md:col-span-2">
+          <Card className="rounded-xs ring-0! border border-secondary">
+            <CardHeader className="pb-3">
+              <CardTitle
+                className={cn(
+                  "text-sm font-semibold flex items-center gap-1",
+                  fontClass,
+                )}
+              >
+                <FileText className="text-primary/40 size-3.5" />
+                {t("Fields.description.label")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-primary/65 leading-relaxed whitespace-pre-line">
+                {caseDetails.description}
+              </p>
+            </CardContent>
+          </Card>
+
+          {caseDetails.accepted_offer ? (
+            <div className="mt-4">
+              <AcceptedOffer caseDetails={caseDetails} />
+            </div>
+          ) : (
+            <div className="space-y-6 mt-4">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <p className={cn("font-semibold", fontClass)}>
+                    {t("lawyersOffers")}
+                  </p>
+                  <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
+                    {pagination.total} {t("offers")}
+                  </Badge>
+                </div>
+
+                <Button
+                  variant="outline"
+                  className="border-secondary text-xs hover:bg-transparent hover:text-accent hover:border-accent/20"
+                >
+                  <ChartNoAxesColumn /> {t("compareOffers")}
+                </Button>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                {offers.length > 0 ? (
+                  <>
+                    {offers.map((offer) => (
+                      <LawyerOfferCard
+                        key={offer.id}
+                        caseOffer={offer}
+                        caseId={caseDetails.id}
+                      />
+                    ))}
+
+                    <PaginationTemplate
+                      currentPage={pagination.current_page}
+                      totalPages={pagination.last_page}
+                    />
+                  </>
+                ) : (
+                  <p className="text-sm text-primary/65">{t("noOffers")}</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
         <Card className="md:col-span-1 rounded-xs ring-0! border border-secondary">
           <CardContent className="space-y-3">
@@ -286,46 +335,6 @@ export default async function Index({
             </BackBtn>
           </CardContent>
         </Card>
-
-        {caseDetails.accepted_offer ? (
-          <div className="md:col-span-3">
-            <AcceptedOffer caseDetails={caseDetails} />
-          </div>
-        ) : (
-          <div className="md:col-span-3 space-y-6">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <p className={cn("font-semibold", fontClass)}>
-                  {t("lawyersOffers")}
-                </p>
-                <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
-                  {pagination.total} {t("offers")}
-                </Badge>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              {offers.length > 0 ? (
-                <>
-                  {offers.map((offer) => (
-                    <LawyerOfferCard
-                      key={offer.id}
-                      caseOffer={offer}
-                      caseId={caseDetails.id}
-                    />
-                  ))}
-
-                  <PaginationTemplate
-                    currentPage={pagination.current_page}
-                    totalPages={pagination.last_page}
-                  />
-                </>
-              ) : (
-                <p className="text-sm text-primary/65">{t("noOffers")}</p>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

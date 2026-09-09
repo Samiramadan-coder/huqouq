@@ -976,6 +976,7 @@
       "YesDecline": "Yes, Decline",
       "offerDeclined": "Offer Declined",
       "offerDeclineFailed": "Failed to decline offer. Please try again.",
+      "compareOffers": "Compare All Offers",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",

@@ -972,6 +972,7 @@
       "YesDecline": "نعم، رفض",
       "offerDeclined": "تم رفض العرض",
       "offerDeclineFailed": "فشل في رفض العرض. يرجى المحاولة مرة أخرى.",
+      "compareOffers": "قارن جميع العروض",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",

@@ -9,7 +9,7 @@ import { CaseOffer } from "@/types/client/cases";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import DeclineOffer from "./decline-offer";
+// import DeclineOffer from "./decline-offer";
 
 export default function LawyerOfferCard({
   caseId,
@@ -26,7 +26,7 @@ export default function LawyerOfferCard({
   const [showFullMessage, setShowFullMessage] = useState(false);
 
   return (
-    <Card className="rounded-xs border border-secondary ring-0!">
+    <Card className="rounded-xs border border-secondary ring-0! hover:border-accent/40">
       <CardContent>
         <div className="flex items-start gap-4">
           <div className="relative shrink-0">
@@ -96,7 +96,7 @@ export default function LawyerOfferCard({
             <div className="mt-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <AcceptOffer offer={caseOffer} caseId={caseId} />
-                <DeclineOffer offer={caseOffer} caseId={caseId} />
+                {/* <DeclineOffer offer={caseOffer} caseId={caseId} /> */}
               </div>
 
               <Button
