@@ -65,142 +65,150 @@ export default async function CompareOffers({
           </DialogDescription>
         </DialogHeader>
 
-        <Table>
-          <TableHeader>
-            <TableRow className="border-secondary">
-              <TableHead className="py-4">
-                <p className="text-xs uppercase text-primary/40">
-                  {t("lawyer")}
-                </p>
-              </TableHead>
-              {offers.map((offer) => (
-                <TableHead key={offer.id} className="py-4 min-w-70">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="size-12">
-                      <AvatarImage
-                        src={offer.lawyer.photo_url}
-                        alt={offer.lawyer.name}
-                      />
-                      <AvatarFallback>{offer.lawyer.name[0]}</AvatarFallback>
-                      <AvatarBadge className="bg-accent">
-                        <ShieldCheck />
-                      </AvatarBadge>
-                    </Avatar>
-                    <div>
-                      <h3 className={cn("text-base font-semibold", fontClass)}>
-                        {offer.lawyer.name}
-                      </h3>
-                      <span className="text-accent font-semibold text-[11px] mt-1">
-                        {t("verified")}
-                      </span>
-                    </div>
-                  </div>
+        <div className="max-h-[80vh] overflow-y-auto px-4">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-secondary">
+                <TableHead className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("lawyer")}
+                  </p>
                 </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
+                {offers.map((offer) => (
+                  <TableHead key={offer.id} className="py-4 min-w-60">
+                    <div className="flex items-center gap-4">
+                      <Avatar className="size-12">
+                        <AvatarImage
+                          src={offer.lawyer.photo_url}
+                          alt={offer.lawyer.name}
+                        />
+                        <AvatarFallback>{offer.lawyer.name[0]}</AvatarFallback>
+                        <AvatarBadge className="bg-accent">
+                          <ShieldCheck />
+                        </AvatarBadge>
+                      </Avatar>
+                      <div>
+                        <h3
+                          className={cn("text-base font-semibold", fontClass)}
+                        >
+                          {offer.lawyer.name}
+                        </h3>
+                        <span className="text-accent font-semibold text-[11px] mt-1">
+                          {t("verified")}
+                        </span>
+                      </div>
+                    </div>
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
 
-          <TableBody>
-            <TableRow className="border-secondary">
-              <TableCell className="py-4">
-                <p className="text-xs uppercase text-primary/40">
-                  {t("experience")}
-                </p>
-              </TableCell>
-              {offers.map((offer) => (
-                <TableCell key={offer.id} className="py-4">
-                  <p className="text-base text-primary/70">
-                    {offer.lawyer.years_of_experience} Years
+            <TableBody>
+              <TableRow className="border-secondary">
+                <TableCell className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("experience")}
                   </p>
                 </TableCell>
-              ))}
-            </TableRow>
+                {offers.map((offer) => (
+                  <TableCell key={offer.id} className="py-4">
+                    <p className="text-base text-primary/70">
+                      {offer.lawyer.years_of_experience} Years
+                    </p>
+                  </TableCell>
+                ))}
+              </TableRow>
 
-            <TableRow className="border-secondary">
-              <TableCell className="py-4">
-                <p className="text-xs uppercase text-primary/40">
-                  {t("price")}
-                </p>
-              </TableCell>
-              {offers.map((offer) => (
-                <TableCell key={offer.id} className="py-4">
-                  <p className={`text-lg font-bold text-accent ${fontClass}`}>
-                    {tCommon("AED")} {offer.amount}
+              <TableRow className="border-secondary">
+                <TableCell className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("price")}
                   </p>
                 </TableCell>
-              ))}
-            </TableRow>
+                {offers.map((offer) => (
+                  <TableCell key={offer.id} className="py-4">
+                    <p className={`text-lg font-bold text-accent ${fontClass}`}>
+                      {tCommon("AED")} {offer.amount}
+                    </p>
+                  </TableCell>
+                ))}
+              </TableRow>
 
-            <TableRow className="border-secondary">
-              <TableCell className="py-4">
-                <p className="text-xs uppercase text-primary/40">
-                  {t("estTimeline")}
-                </p>
-              </TableCell>
-              {offers.map((offer) => (
-                <TableCell key={offer.id} className="py-4">
-                  <p className="text-base text-primary/70">
-                    {offer.expected_timeline || "_"}
+              <TableRow className="border-secondary">
+                <TableCell className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("estTimeline")}
                   </p>
                 </TableCell>
-              ))}
-            </TableRow>
+                {offers.map((offer) => (
+                  <TableCell key={offer.id} className="py-4">
+                    <p className="text-base text-primary/70">
+                      {offer.expected_timeline || "_"}
+                    </p>
+                  </TableCell>
+                ))}
+              </TableRow>
 
-            <TableRow className="border-secondary">
-              <TableCell className="py-4">
-                <p className="text-xs uppercase text-primary/40">
-                  {t("proposal")}
-                </p>
-              </TableCell>
-
-              {offers.map((offer) => (
-                <TableCell
-                  key={offer.id}
-                  className="max-w-70 whitespace-normal wrap-break-word py-4 align-top"
-                >
-                  <Proposal message={offer.message || "_"} />
+              <TableRow className="border-secondary">
+                <TableCell className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("proposal")}
+                  </p>
                 </TableCell>
-              ))}
-            </TableRow>
 
-            <TableRow className="border-secondary">
-              <TableCell className="py-4">
-                <p className="text-xs uppercase text-primary/40">
-                  {t("specializations")}
-                </p>
-              </TableCell>
+                {offers.map((offer) => (
+                  <TableCell
+                    key={offer.id}
+                    className="max-w-70 whitespace-normal wrap-break-word py-4 align-top"
+                  >
+                    <Proposal message={offer.message || "_"} />
+                  </TableCell>
+                ))}
+              </TableRow>
 
-              {offers.map((offer) => (
-                <TableCell key={offer.id} className="py-4">
-                  <div className="flex gap-1">
-                    {offer.lawyer.specializations.map((spec) => (
-                      <Badge
-                        className="text-[10px] h-6 rounded-sm bg-accent/5 border-secondary text-primary/60"
-                        key={spec}
-                      >
-                        {spec}
-                      </Badge>
-                    ))}
-                  </div>
+              <TableRow className="border-secondary">
+                <TableCell className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("specializations")}
+                  </p>
                 </TableCell>
-              ))}
-            </TableRow>
 
-            <TableRow className="border-secondary">
-              <TableCell className="py-4">
-                <p className="text-xs uppercase text-primary/40">
-                  {t("actions")}
-                </p>
-              </TableCell>
+                {offers.map((offer) => (
+                  <TableCell key={offer.id} className="py-4">
+                    <div className="flex gap-1">
+                      {offer.lawyer.specializations.map((spec) => (
+                        <Badge
+                          className="text-[10px] h-6 rounded-sm bg-accent/5 border-secondary text-primary/60"
+                          key={spec}
+                        >
+                          {spec}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TableCell>
+                ))}
+              </TableRow>
 
-              {offers.map((offer) => (
-                <TableCell key={offer.id} className="py-4">
-                  <AcceptOffer caseId={caseId} offer={offer} />
+              <TableRow className="border-secondary">
+                <TableCell className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("actions")}
+                  </p>
                 </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
+
+                {offers.map((offer) => (
+                  <TableCell key={offer.id} className="py-4">
+                    <AcceptOffer
+                      caseId={caseId}
+                      offer={offer}
+                      btnClassName="bg-accent text-primary hover:bg-accent/90"
+                    />
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
       </DialogContent>
     </Dialog>
   );

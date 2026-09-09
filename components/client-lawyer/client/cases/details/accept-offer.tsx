@@ -12,22 +12,27 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
 import { Spinner } from "@/components/ui/spinner";
 import { acceptCaseOffer } from "@/lib/client/cases";
+import { cn } from "cn";
 
 export default function AcceptOffer({
   caseId,
   offer,
+  btnClassName,
 }: {
   caseId: number;
   offer: CaseOffer;
+  btnClassName?: string;
 }) {
+  const locale = useLocale();
   const t = useTranslations("Client.Cases");
   const [loading, setLoading] = useState(false);
   const closeBtn = useRef<HTMLButtonElement>(null);
+  const fontClass = locale === "en" ? "font-lora" : "";
 
   async function handleAcceptOffer() {
     setLoading(true);
@@ -51,13 +56,20 @@ export default function AcceptOffer({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="text-xs font-semibold rounded-sm h-9 px-4">
+        <Button
+          className={cn(
+            "text-xs font-semibold rounded-sm h-9 px-4",
+            btnClassName,
+          )}
+        >
           {t("acceptOffer")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="sm:max-w-sm ring-0!">
         <DialogHeader>
-          <DialogTitle>{t("ConfirmHire")}</DialogTitle>
+          <DialogTitle className={cn("font-bold", fontClass)}>
+            {t("ConfirmHire")}
+          </DialogTitle>
           <DialogDescription className="mt-3">
             {t("ConfirmHireDescription")}
           </DialogDescription>
