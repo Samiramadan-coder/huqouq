@@ -851,6 +851,26 @@
     }
   },
   "Client": {
+    "Dashboard": {
+      "activeCases": "Active Cases",
+      "pendingOffers": "Pending Offers",
+      "upcomingConsultations": "Upcoming Consultations",
+      "needHelp": "Need Help?",
+      "bookConsultation": "Book a Consultation",
+      "bookConsultationDesc": "Book a Consultation with a lawyer of your choice.",
+      "browseLawyers": "Browse Lawyers",
+      "emergencyLegalHelp": "Emergency Legal Help",
+      "emergencyLegalHelpDesc": "Need urgent help? Connect with an available lawyer now.",
+      "requestNow": "Request Now",
+      "recentCases": "Recent Cases",
+      "viewAllCases": "View All Cases",
+      "legalServices": "Legal Services",
+      "requestLegalService": "Request a Legal Service",
+      "requestLegalServiceDesc": "Need a contract drafted, reviewed, or a legal notice sent?",
+      "activeRequestCount": "1",
+      "activeRequest": "Active Request",
+      "viewAll": "View All"
+    },
     "Sidebar": {
       "Overview": "Overview",
       "Cases": "My Cases",

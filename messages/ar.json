@@ -847,6 +847,26 @@
     }
   },
   "Client": {
+    "Dashboard": {
+      "activeCases": "القضايا النشطة",
+      "pendingOffers": "العروض المعلقة",
+      "upcomingConsultations": "الاستشارات القادمة",
+      "needHelp": "تحتاج مساعدة؟",
+      "bookConsultation": "حجز استشارة",
+      "bookConsultationDesc": "احجز استشارة مع المحامي الذي تختاره.",
+      "browseLawyers": "تصفح المحامين",
+      "emergencyLegalHelp": "المساعدة القانونية العاجلة",
+      "emergencyLegalHelpDesc": "تحتاج مساعدة عاجلة؟ تواصل مع محامٍ متاح الآن.",
+      "requestNow": "اطلب الآن",
+      "recentCases": "القضايا الأخيرة",
+      "viewAllCases": "عرض جميع القضايا",
+      "legalServices": "الخدمات القانونية",
+      "requestLegalService": "طلب خدمة قانونية",
+      "requestLegalServiceDesc": "هل تحتاج إلى صياغة عقد أو مراجعته، أو إرسال إشعار قانوني؟",
+      "activeRequestCount": "1",
+      "activeRequest": "الطلب النشط",
+      "viewAll": "عرض الكل"
+    },
     "Sidebar": {
       "Overview": "نظرة عامة",
       "Cases": "القضايا",

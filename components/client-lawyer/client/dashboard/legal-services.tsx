@@ -1,15 +1,16 @@
 import { FileText, MoveRight, Scale } from "lucide-react";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 
 export default async function LegalServices() {
   const locale = await getLocale();
+  const t = await getTranslations("Client.Dashboard");
   const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div>
       <h3 className={`text-lg font-semibold text-primary mb-4 ${fontClass}`}>
-        Legal Services
+        {t("legalServices")}
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -20,21 +21,21 @@ export default async function LegalServices() {
           <p
             className={`text-base font-semibold text-primary mb-1.5 ${fontClass}`}
           >
-            Request a Legal Service
+            {t("requestLegalService")}
           </p>
           <p className="text-sm text-primary/50 mb-4 leading-relaxed">
-            Need a contract drafted, reviewed, or a legal notice sent?
+            {t("requestLegalServiceDesc")}
           </p>
           <Button
             variant="ghost"
             className="text-accent bg-transparent hover:bg-transparent hover:text-accent font-normal h-10 px-0"
           >
-            Request a service
+            {t("requestNow")}
             <MoveRight className="rtl:rotate-180" />
           </Button>
         </div>
 
-        <div className="p-4 bg-white border border-secondary">
+        <div className="p-4 bg-white border border-secondary hover:border-accent/40">
           <div className="flex gap-4">
             <div className="size-10 bg-background mb-3 grid place-content-center">
               <FileText className="size-4 text-primary" />
@@ -43,10 +44,10 @@ export default async function LegalServices() {
               <p
                 className={`text-base font-semibold text-primary ${fontClass}`}
               >
-                1
+                {t("activeRequestCount")}
               </p>
               <p className="text-sm text-primary/50 mb-4 leading-relaxed">
-                Active Request
+                {t("activeRequest")}
               </p>
             </div>
           </div>
@@ -54,7 +55,7 @@ export default async function LegalServices() {
             variant="outline"
             className="border-secondary text-primary bg-transparent font-normal rounded-sm h-10 px-6"
           >
-            View All
+            {t("viewAll")}
             <MoveRight className="rtl:rotate-180" />
           </Button>
         </div>
