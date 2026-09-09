@@ -4,7 +4,6 @@ import {
   FileText,
   CalendarDays,
   TriangleAlert,
-  ChartNoAxesColumn,
 } from "lucide-react";
 
 import {
@@ -20,6 +19,7 @@ import { Link } from "@/i18n/navigation";
 import { cn, formatDate } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
 import AcceptedOffer from "./accepted-offer";
+import CompareOffers from "./compare-offers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
@@ -275,12 +275,9 @@ export default async function Index({
                   </Badge>
                 </div>
 
-                <Button
-                  variant="outline"
-                  className="border-secondary text-xs hover:bg-transparent hover:text-accent hover:border-accent/20"
-                >
-                  <ChartNoAxesColumn /> {t("compareOffers")}
-                </Button>
+                {offers.length ? (
+                  <CompareOffers caseId={caseDetails.id} offers={offers} />
+                ) : null}
               </div>
 
               <div className="flex flex-col gap-4">

@@ -47,7 +47,7 @@ export default async function Page({
     throw new Error("Failed to fetch case details");
   }
 
-  console.log("Case Details:", caseData.data);
+  console.log("Case Details:", offers.data);
 
   return (
     <div className="container max-w-3xl space-y-6">

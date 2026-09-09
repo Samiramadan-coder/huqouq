@@ -3,12 +3,17 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import AcceptOffer from "./accept-offer";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
 // import DeclineOffer from "./decline-offer";
 
 export default function LawyerOfferCard({
@@ -29,18 +34,16 @@ export default function LawyerOfferCard({
     <Card className="rounded-xs border border-secondary ring-0! hover:border-accent/40">
       <CardContent>
         <div className="flex items-start gap-4">
-          <div className="relative shrink-0">
-            <Avatar className="size-12">
-              <AvatarImage
-                src={caseOffer.lawyer.photo_url}
-                alt={caseOffer.lawyer.name}
-              />
-              <AvatarFallback>{caseOffer.lawyer.name[0]}</AvatarFallback>
-            </Avatar>
-            <span className="bg-accent text-primary-foreground absolute -bottom-0.5 -inset-e-0.5 flex size-4 items-center justify-center rounded-full border border-white text-[8px]">
-              O
-            </span>
-          </div>
+          <Avatar className="size-12">
+            <AvatarImage
+              src={caseOffer.lawyer.photo_url}
+              alt={caseOffer.lawyer.name}
+            />
+            <AvatarFallback>{caseOffer.lawyer.name[0]}</AvatarFallback>
+            <AvatarBadge className="bg-accent">
+              <ShieldCheck />
+            </AvatarBadge>
+          </Avatar>
 
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-6">
