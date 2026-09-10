@@ -116,10 +116,6 @@ export default async function Index({
 
   return (
     <>
-      <BackBtn>
-        <span>{t("backToCases")}</span>
-      </BackBtn>
-
       <div>
         <div className="flex items-center justify-between gap-4">
           <Title>{caseDetails.title}</Title>

@@ -1,7 +1,11 @@
-import Index from "@/components/client-lawyer/client/cases/details";
+import { Suspense } from "react";
 import { http } from "@/lib/http";
-import { CaseDetails, CaseOffer } from "@/types/client/cases";
 import { Meta } from "@/types/shared";
+import { LoaderPinwheelIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { CaseDetails, CaseOffer } from "@/types/client/cases";
+import BackBtn from "@/components/client-lawyer/reusable/back-btn";
+import Index from "@/components/client-lawyer/client/cases/details";
 
 type Params = {
   id: string;
@@ -11,7 +15,7 @@ type SearchParams = {
   page?: string;
 };
 
-export default async function Page({
+async function SingleCase({
   params,
   searchParams,
 }: {
@@ -48,12 +52,34 @@ export default async function Page({
   }
 
   return (
+    <Index
+      caseDetails={caseData.data}
+      offers={offers.data}
+      pagination={offers.meta}
+    />
+  );
+}
+
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const t = await getTranslations("Client.Cases");
+
+  return (
     <div className="container max-w-3xl space-y-6">
-      <Index
-        caseDetails={caseData.data}
-        offers={offers.data}
-        pagination={offers.meta}
-      />
+      <BackBtn>
+        <span>{t("backToCases")}</span>
+      </BackBtn>
+
+      <Suspense
+        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+      >
+        <SingleCase params={params} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
+import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Case, Counts } from "@/types/client/cases";
 import Title from "@/components/client-lawyer/reusable/title";
@@ -12,7 +14,7 @@ type SearchParams = {
   page?: string;
 };
 
-export default async function Page({
+async function ListData({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -25,10 +27,7 @@ export default async function Page({
     counts: Counts;
     meta: Meta;
   }>("/api/cases", {
-    params: {
-      tab: tab || "",
-      page: page || "1",
-    },
+    params: { tab: tab || "", page: page || "1" },
   });
 
   if (!ok) {
@@ -36,9 +35,7 @@ export default async function Page({
   }
 
   return (
-    <div className="space-y-6 container max-w-7xl">
-      <Title>{t("myCases")}</Title>
-
+    <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <Filters counts={data.counts} />
 
@@ -48,6 +45,26 @@ export default async function Page({
       </div>
 
       <DataPreview cases={data.data} pagination={data.meta} />
+    </div>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const t = await getTranslations("Client.Cases");
+
+  return (
+    <div className="space-y-6 container max-w-7xl">
+      <Title>{t("myCases")}</Title>
+
+      <Suspense
+        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+      >
+        <ListData searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }
