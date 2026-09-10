@@ -4,10 +4,11 @@ import Details from "@/components/client-lawyer/lawyer/browse-cases/details";
 
 type Params = {
   id: string;
+  hire?: string;
 };
 
 export default async function Page({ params }: { params: Promise<Params> }) {
-  const { id } = await params;
+  const { id, hire } = await params;
 
   const { data, ok } = await http.get<{
     can_submit_offer: boolean;
@@ -20,11 +21,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     throw new Error("Failed to fetch case details");
   }
 
-  console.log("Case Details:", data.data);
-
   return (
     <div className="container max-w-5xl">
-      <Details caseDetails={data.data} />
+      <Details caseDetails={data.data} hire={!!hire} />
     </div>
   );
 }

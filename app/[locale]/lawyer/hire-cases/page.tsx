@@ -46,7 +46,6 @@ export default async function Page({
               key={caseItem.id}
               caseItem={caseItem}
               can_submit_offer={true}
-              isHireCase={true}
             />
           ))}
 

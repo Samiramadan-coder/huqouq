@@ -11,7 +11,13 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { OfferFormData, offerFormSchema } from "@/types/lawyer/browse-cases";
 
-export default function OfferForm({ caseId }: { caseId: number }) {
+export default function OfferForm({
+  caseId,
+  hire = false,
+}: {
+  caseId: number;
+  hire?: boolean;
+}) {
   const router = useRouter();
   const t = useTranslations("Lawyer.BrowseCases");
   const tFields = useTranslations("Lawyer.BrowseCases.Fields");
@@ -30,10 +36,14 @@ export default function OfferForm({ caseId }: { caseId: number }) {
   });
 
   const onSubmit: SubmitHandler<OfferFormData> = async (data) => {
-    const result = await submitOffer(data, caseId);
+    const result = await submitOffer(
+      data,
+      caseId,
+      hire ? `/api/lawyer/hire-requests/${caseId}/accept` : undefined,
+    );
 
     if (result.success) {
-      toast.success(t("SubmittedSuccessfully"));
+      toast.success(result.message);
       router.push(`/lawyer/my-offers`);
       return;
     }

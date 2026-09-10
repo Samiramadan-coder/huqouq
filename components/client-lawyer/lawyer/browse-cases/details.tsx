@@ -13,8 +13,10 @@ import { Calendar, CircleAlert, MapPin, Users } from "lucide-react";
 
 export default async function Details({
   caseDetails,
+  hire = false,
 }: {
   caseDetails: CaseDetails;
+  hire?: boolean;
 }) {
   const locale = await getLocale();
   const tCommon = await getTranslations("Common");
@@ -114,7 +116,7 @@ export default async function Details({
                 </p>
               </div>
 
-              <OfferForm caseId={caseDetails.id} />
+              <OfferForm caseId={caseDetails.id} hire={hire} />
             </div>
           </Card>
         </div>

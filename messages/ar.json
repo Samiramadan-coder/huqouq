@@ -1352,6 +1352,9 @@
       "SubmittedSuccessfully": "تم تقديم عرضك بنجاح",
       "SubmitOfferError": "فشل في تقديم العرض",
       "noCasesFound": "لم يتم العثور على قضايا تطابق فلاترك.",
+      "NoHireCasesFound": "لم يتم العثور على حالات التوظيف.",
+      "hireCases": "حالات التوظيف",
+      "hireCasesDescription": "عرض وإدارة حالات التوظيف الخاصة بك هنا.",
       "Fields": {
         "EstimatedTimeline": {
           "Label": "الجدول الزمني المقدر (أيام)",

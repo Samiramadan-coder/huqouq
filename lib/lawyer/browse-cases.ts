@@ -3,7 +3,10 @@ import { http, ValidationError } from "../http";
 
 // Submit offer response type
 type SubmitOfferResponse =
-  | { success: true }
+  | {
+      success: true;
+      message?: string;
+    }
   | {
       success: false;
       message?: string;
@@ -13,10 +16,16 @@ type SubmitOfferResponse =
 export async function submitOffer(
   formData: OfferFormData,
   id: number,
+  hireUrl?: string,
 ): Promise<SubmitOfferResponse> {
+  const url = `/api/lawyer/cases/${id}/offers`;
+
   try {
-    await http.post(`/api/lawyer/cases/${id}/offers`, formData);
-    return { success: true };
+    const { data } = await http.post<{ message: string }>(
+      hireUrl ?? url,
+      formData,
+    );
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error submitting offer:", error);
     if (error instanceof ValidationError) {
