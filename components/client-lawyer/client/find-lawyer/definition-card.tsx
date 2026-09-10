@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { LawyerDetails } from "@/types/client/find-lawyer";
 import { Clock3, Heart, ShieldCheck, Star } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 export default async function DefinitionCard({
   lawyer,
@@ -96,8 +97,13 @@ export default async function DefinitionCard({
             {t("message")}
           </Button>
 
-          <Button className="h-10 w-full rounded bg-accent text-sm font-normal text-primary hover:bg-[#c5a253]">
-            {t("sendDirectHireRequest")}
+          <Button
+            asChild
+            className="h-10 w-full rounded bg-accent text-sm font-normal text-primary hover:bg-accent"
+          >
+            <Link href={`/client/my-cases/create?lawyerId=${lawyer.id}`}>
+              {t("sendDirectHireRequest")}
+            </Link>
           </Button>
 
           <Button
