@@ -10,6 +10,7 @@ import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { OfferFormData, offerFormSchema } from "@/types/lawyer/browse-cases";
+import DeclineOffer from "./decline-offer";
 
 export default function OfferForm({
   caseId,
@@ -106,7 +107,9 @@ export default function OfferForm({
         description={tFields("Message.Description")}
       />
 
-      <div className="sm:col-span-2 flex justify-end">
+      <div className="sm:col-span-2 flex gap-2 justify-end">
+        {hire && <DeclineOffer caseId={caseId} />}
+
         <SubmitBtn
           label={t("SubmitOffer")}
           loading={isSubmitting}

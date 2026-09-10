@@ -41,3 +41,28 @@ export async function submitOffer(
     return { success: false };
   }
 }
+
+// Decline offer response type
+type DeclineOfferResponse =
+  | {
+      success: true;
+      message?: string;
+    }
+  | {
+      success: false;
+      message?: string;
+    };
+
+export async function declineOffer(
+  caseId: number,
+): Promise<DeclineOfferResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/lawyer/hire-requests/${caseId}/decline`,
+    );
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error declining offer:", error);
+    return { success: false, message: "Failed to decline offer" };
+  }
+}
