@@ -1119,7 +1119,17 @@
       "filters": "Filters",
       "clearAll": "Clear All",
       "specialization": "Specialization",
-      "emirates": "Emirates"
+      "emirates": "Emirates",
+      "reviews": "Reviews",
+      "independentPractice": "Independent Practice",
+      "years": "Years",
+      "experience": "Experience",
+      "message": "Message",
+      "sendDirectHireRequest": "Send Direct Hire Request",
+      "bookAConsultation": "Book a Consultation",
+      "freeLaunchPeriod": "Free — Launch Period",
+      "saveToFavourites": "Save to Favourites",
+      "backToFindLawyers": "Back to Find a Lawyer"
     }
   },
   "Lawyer": {
