@@ -1129,7 +1129,12 @@
       "bookAConsultation": "Book a Consultation",
       "freeLaunchPeriod": "Free — Launch Period",
       "saveToFavourites": "Save to Favourites",
-      "backToFindLawyers": "Back to Find a Lawyer"
+      "backToFindLawyers": "Back to Find a Lawyer",
+      "website": "Website",
+      "about": "About",
+      "education": "Education",
+      "services_offered": "Services Offered",
+      "present": "Present"
     }
   },
   "Lawyer": {

@@ -5,16 +5,18 @@ import Details from "./details";
 
 export default function LawyerDetailsPreview({
   lawyer,
+  ratingBreakdown,
 }: {
   lawyer: LawyerDetails;
+  ratingBreakdown: Record<string, number>;
 }) {
   console.log(lawyer);
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+    <div className="grid items-start grid-cols-1 sm:grid-cols-3 gap-8">
       <DefinitionCard lawyer={lawyer} />
 
       <div className="sm:col-span-2">
-        <Details />
+        <Details lawyer={lawyer} ratingBreakdown={ratingBreakdown} />
       </div>
     </div>
   );

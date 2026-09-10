@@ -24,7 +24,10 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   return (
     <div className="container max-w-5xl space-y-6">
       <BackBtn>{t("backToFindLawyers")}</BackBtn>
-      <LawyerDetailsPreview lawyer={data.data} />
+      <LawyerDetailsPreview
+        lawyer={data.data}
+        ratingBreakdown={data.rating_breakdown}
+      />
     </div>
   );
 }
