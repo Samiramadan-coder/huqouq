@@ -1,14 +1,16 @@
 import React from "react";
-import { LawyerDetails } from "@/types/client/find-lawyer";
+import { LawyerDetails, Review } from "@/types/client/find-lawyer";
 import DefinitionCard from "./definition-card";
 import Details from "./details";
 
 export default function LawyerDetailsPreview({
   lawyer,
   ratingBreakdown,
+  reviews,
 }: {
   lawyer: LawyerDetails;
   ratingBreakdown: Record<string, number>;
+  reviews: Review[];
 }) {
   console.log(lawyer);
   return (
@@ -16,7 +18,11 @@ export default function LawyerDetailsPreview({
       <DefinitionCard lawyer={lawyer} />
 
       <div className="sm:col-span-2">
-        <Details lawyer={lawyer} ratingBreakdown={ratingBreakdown} />
+        <Details
+          lawyer={lawyer}
+          ratingBreakdown={ratingBreakdown}
+          reviews={reviews}
+        />
       </div>
     </div>
   );

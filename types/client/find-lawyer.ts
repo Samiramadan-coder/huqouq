@@ -56,3 +56,12 @@ export type LawyerDetails = {
     end_year: number | null;
   }[];
 };
+
+export type Review = {
+  id: number;
+  rating: number;
+  comment: string;
+  created_at: string;
+  reviewer: { name: string; photo_url: string | null };
+  tags: { label: string; value: string }[];
+};

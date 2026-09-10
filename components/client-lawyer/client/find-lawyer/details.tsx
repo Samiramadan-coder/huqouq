@@ -1,13 +1,17 @@
 import { ExternalLink, Star } from "lucide-react";
-import { LawyerDetails } from "@/types/client/find-lawyer";
+import { LawyerDetails, Review } from "@/types/client/find-lawyer";
 import { getLocale, getTranslations } from "next-intl/server";
+import Image from "next/image";
+import { formatDate } from "@/lib/utils";
 
 export default async function Details({
   lawyer,
   ratingBreakdown,
+  reviews,
 }: {
   lawyer: LawyerDetails;
   ratingBreakdown: Record<string, number>;
+  reviews: Review[];
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
@@ -236,6 +240,84 @@ export default async function Details({
           </div>
         </section>
       )}
+
+      <div className="space-y-12">
+        {reviews.map((review) => {
+          const reviewerInitial =
+            review.reviewer.name?.charAt(0).toUpperCase() || "?";
+
+          return (
+            <div key={review.id} className="flex gap-5">
+              {/* Reviewer Avatar */}
+              <div className="shrink-0 pt-1">
+                {review.reviewer.photo_url ? (
+                  <div className="relative size-8 overflow-hidden rounded-full">
+                    <Image
+                      src={review.reviewer.photo_url}
+                      alt={review.reviewer.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex size-8 items-center justify-center rounded-full text-xs font-medium text-primary/70">
+                    {reviewerInitial}
+                  </div>
+                )}
+              </div>
+
+              {/* Review Content */}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-[14px] font-semibold text-primary">
+                      {review.reviewer.name}
+                    </h3>
+
+                    <p className="text-xs text-primary/40">
+                      {formatDate(review.created_at)}
+                    </p>
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-0.5">
+                    {Array.from({ length: 5 }).map((_, index) => {
+                      const isActive = index < review.rating;
+
+                      return (
+                        <Star
+                          key={index}
+                          className={`size-3.5 ${
+                            isActive
+                              ? "fill-accent text-accent"
+                              : "fill-transparent text-accent/35"
+                          }`}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <p className="mt-4 text-[15px] leading-6 text-primary/70">
+                  {review.comment}
+                </p>
+
+                {review.tags?.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {review.tags.map((tag) => (
+                      <span
+                        key={tag.value}
+                        className="rounded-md border border-primary/15 px-3 py-1 text-xs text-primary/60"
+                      >
+                        {tag.label}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
