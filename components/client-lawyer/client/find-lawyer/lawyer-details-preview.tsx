@@ -1,7 +1,6 @@
-import React from "react";
-import { LawyerDetails, Review } from "@/types/client/find-lawyer";
-import DefinitionCard from "./definition-card";
 import Details from "./details";
+import DefinitionCard from "./definition-card";
+import { LawyerDetails, Review } from "@/types/client/find-lawyer";
 
 export default function LawyerDetailsPreview({
   lawyer,

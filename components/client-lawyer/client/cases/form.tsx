@@ -28,15 +28,27 @@ const urgencyKeys = ["standard", "urgent", "very_urgent"] as const;
 export default function Form({
   caseItem,
   lawyerId,
+  specializations,
 }: {
   caseItem?: CaseDetails;
   lawyerId?: string;
+  specializations?: string;
 }) {
   const router = useRouter();
   const { referenceData } = useReferenceData();
   const t = useTranslations("Client.Cases");
   const tCommon = useTranslations("Common");
   const tFields = useTranslations("Client.Cases.Fields");
+  const availableSpecializations = referenceData?.specializations || [];
+  const selectedSpecializations =
+    specializations?.split(",").map((s) => +s) || [];
+
+  const filteredSpecializations =
+    selectedSpecializations.length > 0
+      ? availableSpecializations.filter((spec) =>
+          selectedSpecializations.includes(spec.id),
+        )
+      : availableSpecializations;
 
   const {
     control,
@@ -119,7 +131,7 @@ export default function Form({
           placeholder={tFields("category.placeholder")}
           triggerClassName="bg-white border border-accent/20!"
           options={
-            referenceData?.specializations.map((service) => ({
+            filteredSpecializations.map((service) => ({
               label: service.name,
               value: service.id,
             })) || []

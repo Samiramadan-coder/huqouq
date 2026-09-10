@@ -101,7 +101,9 @@ export default async function DefinitionCard({
             asChild
             className="h-10 w-full rounded bg-accent text-sm font-normal text-primary hover:bg-accent"
           >
-            <Link href={`/client/my-cases/create?lawyerId=${lawyer.id}`}>
+            <Link
+              href={`/client/my-cases/create?lawyerId=${lawyer.id}&specializations=${lawyer.specializations.map((s) => s.id).join(",")}`}
+            >
               {t("sendDirectHireRequest")}
             </Link>
           </Button>
