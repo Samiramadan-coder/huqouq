@@ -1107,6 +1107,19 @@
         "HiredMessage": "You have hired a lawyer. You can communicate with them through the chat.",
         "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat."
       }
+    },
+    "FindLawyer": {
+      "findLawyer": "Find Lawyer",
+      "findLawyerDescription": "Browse verified legal professionals across all UAE emirates.",
+      "searchPlaceholder": "Search by name or specialization",
+      "lawyer": "Lawyer",
+      "yearsExperience": "years experience",
+      "usuallyRespondsWithinAnHour": "Usually responds within an hour",
+      "viewProfile": "View Profile →",
+      "filters": "Filters",
+      "clearAll": "Clear All",
+      "specialization": "Specialization",
+      "emirates": "Emirates"
     }
   },
   "Lawyer": {
