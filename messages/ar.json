@@ -1103,6 +1103,34 @@
         "HiredMessage": "You have hired a lawyer. You can communicate with them through the chat.",
         "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat."
       }
+    },
+    "FindLawyer": {
+      "findLawyer": "ابحث عن محامٍ",
+      "findLawyerDescription": "تصفح المحترفين القانونيين المعتمدين في جميع إمارات الإمارات العربية المتحدة.",
+      "searchPlaceholder": "ابحث بالاسم أو التخصص",
+      "lawyer": "محامٍ",
+      "yearsExperience": "سنوات الخبرة",
+      "usuallyRespondsWithinAnHour": "عادةً ما يرد خلال ساعة",
+      "viewProfile": "عرض الملف الشخصي →",
+      "filters": "الفلاتر",
+      "clearAll": "مسح الكل",
+      "specialization": "التخصص",
+      "emirates": "الإمارات",
+      "reviews": "المراجعات",
+      "independentPractice": "ممارسة مستقلة",
+      "years": "سنوات",
+      "experience": "الخبرة",
+      "message": "رسالة",
+      "sendDirectHireRequest": "إرسال طلب توظيف مباشر",
+      "bookAConsultation": "حجز استشارة",
+      "freeLaunchPeriod": "مجاني — فترة الإطلاق",
+      "saveToFavourites": "حفظ في المفضلة",
+      "backToFindLawyers": "العودة إلى البحث عن محامٍ",
+      "website": "الموقع الإلكتروني",
+      "about": "حول",
+      "education": "التعليم",
+      "services_offered": "الخدمات المقدمة",
+      "present": "الحالي"
     }
   },
   "Lawyer": {

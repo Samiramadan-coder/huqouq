@@ -6,8 +6,19 @@ type Params = {
   id: string;
 };
 
-export default async function Page({ params }: { params: Promise<Params> }) {
+type SearchParams = {
+  hire?: string;
+};
+
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
   const { id } = await params;
+  const { hire } = await searchParams;
 
   const { data, ok } = await http.get<{
     can_submit_offer: boolean;
@@ -22,7 +33,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
   return (
     <div className="container max-w-5xl">
-      <Details caseDetails={data.data} />
+      <Details caseDetails={data.data} hire={!!hire} />
     </div>
   );
 }
