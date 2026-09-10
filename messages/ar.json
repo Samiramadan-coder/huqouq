@@ -1014,7 +1014,9 @@
         "closed": "مغلق",
         "pending_fees": "الرسوم المعلقة",
         "in_progress": "قيد التنفيذ",
-        "pending_closure": "في انتظار الإغلاق"
+        "pending_closure": "في انتظار الإغلاق",
+        "awaiting_lawyer": "في انتظار المحامي",
+        "request_declined": "تم رفض الطلب"
       },
       "Table": {
         "title": "عنوان القضية",
@@ -1383,6 +1385,11 @@
       "NoHireCasesFound": "لم يتم العثور على حالات التوظيف.",
       "hireCases": "حالات التوظيف",
       "hireCasesDescription": "عرض وإدارة حالات التوظيف الخاصة بك هنا.",
+      "declineOffer": "رفض العرض",
+      "confirmDecline": "تأكيد الرفض",
+      "confirmDeclineDescription": "هل أنت متأكد أنك تريد رفض هذا العرض؟",
+      "yesDecline": "نعم، رفض",
+      "cancel": "إلغاء",
       "Fields": {
         "EstimatedTimeline": {
           "Label": "الجدول الزمني المقدر (أيام)",

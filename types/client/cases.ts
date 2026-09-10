@@ -49,51 +49,57 @@ export type Counts = {
   hired: number;
   closed: number;
   rejected: number;
+  awaiting_lawyer: number;
+  request_declined: number;
 };
 
 export type CaseStatus = keyof Counts;
 
-export type CaseDetails = {
-  reviewed_by: string | null;
+export type Case = {
+  budget_disclosed: boolean;
+  budget_max: number;
+  budget_min: number;
   can_close: boolean;
   can_edit: boolean;
   chat_unlocked: boolean;
+  city: string;
   closed_at: null | string;
   closed_by: null | string;
   closing_note: null | string;
   closure_requested_at: null | string;
-  display_status: CaseStatus;
-  display_status_label: string;
-  fee_paid_at: null | string;
-  has_offers: true;
-  hired_at: null | string;
-  budget_disclosed: boolean;
-  budget_max: number;
-  budget_min: number;
-  city: string;
+  closure_requested_by: null | string;
   created_at: string;
   description: string;
+  display_status: CaseStatus;
+  display_status_label: string;
   documents_count: number;
-  offers_count: number;
+  fee_paid_at: null | string;
+  has_offers: boolean;
+  hired_at: null | string;
   id: number;
-  rejection_reason: string | null;
-  reviewed_at: string | null;
-  specialization: { id: number; name: string };
+  is_hire_request: boolean;
+  offers_count: number;
+  rejection_reason: null | string;
+  request_decline_reason: null | string;
+  request_declined_at: null | string;
   status: CaseStatus;
   status_label: string;
   title: string;
   urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
-  documents: {
+  reviewed_at: null | string;
+  specialization: { id: number; name: string };
+  requested_lawyer: {
     id: number;
     name: string;
-    url: string;
-    size_bytes: number;
-  }[];
-  hired_lawyer: null | {
-    id: number;
-    name: string;
+    photo_url: string;
   };
+};
+
+export type CaseDetails = Case & {
+  accepted_offer: null | CaseOffer;
+  review: null;
+  reviewed_by: null | string;
   payment: null | {
     agreed_amount: number;
     currency: string;
@@ -108,7 +114,12 @@ export type CaseDetails = {
     status: string;
     status_label: string;
   };
-  accepted_offer: null | CaseOffer;
+  documents: {
+    id: number;
+    name: string;
+    url: string;
+    size_bytes: number;
+  }[];
 };
 
 type OfferStatus =

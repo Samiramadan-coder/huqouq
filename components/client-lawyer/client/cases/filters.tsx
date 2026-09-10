@@ -14,10 +14,12 @@ export default function Filters({ counts }: { counts: Counts }) {
     "in_progress",
     "published",
     "pending_fees",
+    // "awaiting_lawyer",
     "has_offers",
     "hired",
     "pending_closure",
     "closed",
+    // "request_declined",
     "rejected",
   ];
 
@@ -76,6 +78,7 @@ export default function Filters({ counts }: { counts: Counts }) {
               font-normal 
               text-primary/55
               text-xs 
+              w-fit
               rounded-sm 
               border 
               border-secondary

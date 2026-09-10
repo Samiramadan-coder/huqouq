@@ -1,11 +1,11 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import { ArrowRight } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
+import { Case } from "@/types/client/cases";
 import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails } from "@/types/client/cases";
 import { TableCell, TableRow } from "@/components/ui/table";
 import CaseStatusLabel from "../../reusable/case-status-label";
 import PaginationTemplate from "../../reusable/pagination-template";
@@ -14,7 +14,7 @@ export default async function DataPreview({
   cases,
   pagination,
 }: {
-  cases: CaseDetails[];
+  cases: Case[];
   pagination?: Meta;
 }) {
   return <CasesTable cases={cases} pagination={pagination} />;
@@ -24,7 +24,7 @@ export async function CasesTable({
   cases,
   pagination,
 }: {
-  cases: CaseDetails[];
+  cases: Case[];
   pagination?: Meta;
 }) {
   const t = await getTranslations("Client.Cases");

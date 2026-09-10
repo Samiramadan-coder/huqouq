@@ -1,7 +1,7 @@
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails, Counts } from "@/types/client/cases";
+import { Case, Counts } from "@/types/client/cases";
 import Title from "@/components/client-lawyer/reusable/title";
 import AddNew from "@/components/client-lawyer/reusable/add-new";
 import Filters from "@/components/client-lawyer/client/cases/filters";
@@ -21,7 +21,7 @@ export default async function Page({
   const t = await getTranslations("Client.Cases");
 
   const { data, ok } = await http.get<{
-    data: CaseDetails[];
+    data: Case[];
     counts: Counts;
     meta: Meta;
   }>("/api/cases", {
