@@ -21,10 +21,18 @@ import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
+import { useRouter } from "@/i18n/navigation";
 
 const urgencyKeys = ["standard", "urgent", "very_urgent"] as const;
 
-export default function Form({ caseItem }: { caseItem?: CaseDetails }) {
+export default function Form({
+  caseItem,
+  lawyerId,
+}: {
+  caseItem?: CaseDetails;
+  lawyerId?: string;
+}) {
+  const router = useRouter();
   const { referenceData } = useReferenceData();
   const t = useTranslations("Client.Cases");
   const tCommon = useTranslations("Common");
@@ -35,7 +43,6 @@ export default function Form({ caseItem }: { caseItem?: CaseDetails }) {
     register,
     handleSubmit,
     setError,
-    reset,
     formState: { isSubmitting, errors },
   } = useForm<PostCaseFormData>({
     resolver: zodResolver(postCaseShema(tFields)),
@@ -56,14 +63,20 @@ export default function Form({ caseItem }: { caseItem?: CaseDetails }) {
 
   // Handle form submission
   const onSubmit: SubmitHandler<PostCaseFormData> = async (data) => {
-    const result = await postCase(data, caseItem?.id);
+    const result = await postCase(
+      data,
+      caseItem?.id,
+      `/api/lawyers/${lawyerId}/hire-request`,
+    );
 
     if (result.success) {
-      toast.success(
-        caseItem ? tCommon("EditSuccessfully") : tCommon("CreatedSuccessfully"),
-      );
-      reset();
+      toast.success(result.message);
+      router.back();
       return;
+    }
+
+    if (result.message) {
+      toast.error(result.message);
     }
 
     if (result.errors) {

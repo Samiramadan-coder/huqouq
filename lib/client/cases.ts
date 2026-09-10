@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
@@ -6,15 +6,20 @@ import { PostCaseFormData } from "@/types/client/cases";
 
 // Post Or Update Case
 type CaseResponse =
-  | { success: true }
+  | {
+      success: true;
+      message?: string;
+    }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof PostCaseFormData, string>>;
     };
 
 export async function postCase(
   caseData: PostCaseFormData,
   caseId?: number,
+  hireUrl?: string,
 ): Promise<CaseResponse> {
   try {
     const url = caseId ? `/api/cases/${caseId}` : "/api/cases";
@@ -30,8 +35,11 @@ export async function postCase(
       }
     });
 
-    await http.post(url, formData);
-    return { success: true };
+    const { data } = await http.post<{
+      message: string;
+    }>(hireUrl ?? url, formData);
+
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error posting case:", error);
 
@@ -42,7 +50,7 @@ export async function postCase(
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof PostCaseFormData, string>>;
-      return { success: false, errors };
+      return { success: false, errors, message: error.responseMessage };
     }
 
     return { success: false };
