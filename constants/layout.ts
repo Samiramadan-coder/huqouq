@@ -125,6 +125,12 @@ export const lawyerSidebarLinks = (t: T): SidebarLink[] => [
     type: "link",
   },
   {
+    href: "/lawyer/hire-cases",
+    label: t("HireCases"),
+    icon: createElement(FolderOpen, { className: "size-4" }),
+    type: "link",
+  },
+  {
     href: "/lawyer/my-offers",
     label: t("MyOffers"),
     icon: createElement(Percent, { className: "size-4" }),

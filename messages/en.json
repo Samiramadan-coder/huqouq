@@ -1141,6 +1141,7 @@
     "Sidebar": {
       "Overview": "Overview",
       "BrowseCases": "Browse Cases",
+      "HireCases": "Hire Cases",
       "Cases": "My Cases",
       "MyOffers": "My Offers",
       "Consultations": "Consultations",
@@ -1398,6 +1399,9 @@
       "SubmittedSuccessfully": "Your Offer Submitted Successfully",
       "SubmitOfferError": "Failed to Submit Offer",
       "noCasesFound": "No cases found matching your filters.",
+      "NoHireCasesFound": "No hire cases found.",
+      "hireCases": "Hire Cases",
+      "hireCasesDescription": "View and manage your hire cases here.",
       "Fields": {
         "EstimatedTimeline": {
           "Label": "Estimated Timeline (days)",
