@@ -1,8 +1,8 @@
-import { ExternalLink, Star } from "lucide-react";
-import { LawyerDetails, Review } from "@/types/client/find-lawyer";
-import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
+import { ExternalLink, Star } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
+import { LawyerDetails, Review } from "@/types/client/find-lawyer";
 
 export default async function Details({
   lawyer,
@@ -181,143 +181,144 @@ export default async function Details({
 
       {/* Reviews */}
       {lawyer.reviews_count > 0 && (
-        <section>
-          <div className="mb-7">
-            <h2
-              className={`text-[22px] font-semibold text-primary ${fontClass}`}
-            >
-              {t("reviews")}
-            </h2>
-            <div className="mt-3 h-px w-10 bg-accent" />
-          </div>
-
-          <div className="flex items-center gap-9">
-            <div className="shrink-0">
-              <div
-                className={`text-[50px] leading-none font-semibold text-primary ${fontClass}`}
+        <>
+          <section>
+            <div className="mb-7">
+              <h2
+                className={`text-[22px] font-semibold text-primary ${fontClass}`}
               >
-                {lawyer.rating.toFixed(1)}
-              </div>
-              <div className="mt-2 flex items-center gap-0.5">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star
-                    key={index}
-                    className="size-4 fill-accent text-accent"
-                  />
-                ))}
-              </div>
-              <p className="mt-1 text-xs text-primary/50">
-                {lawyer.reviews_count} {t("reviews")}
-              </p>
+                {t("reviews")}
+              </h2>
+              <div className="mt-3 h-px w-10 bg-accent" />
             </div>
 
-            <div className="flex-1 space-y-2">
-              {[5, 4, 3, 2, 1].map((rating) => {
-                const count = ratingBreakdown?.[String(rating)] ?? 0;
-                const percentage =
-                  lawyer.reviews_count > 0
-                    ? (count / lawyer.reviews_count) * 100
-                    : 0;
-
-                return (
-                  <div key={rating} className="flex items-center gap-3">
-                    <span className="w-2 text-xs text-primary/50">
-                      {rating}
-                    </span>
-                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-primary/5">
-                      <div
-                        className="h-full rounded-full bg-accent"
-                        style={{
-                          width: `${percentage}%`,
-                        }}
-                      />
-                    </div>
-                    <span className="w-5 text-xs text-primary/50">{count}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <div className="space-y-12">
-        {reviews.map((review) => {
-          const reviewerInitial =
-            review.reviewer.name?.charAt(0).toUpperCase() || "?";
-
-          return (
-            <div key={review.id} className="flex gap-5">
-              {/* Reviewer Avatar */}
-              <div className="shrink-0 pt-1">
-                {review.reviewer.photo_url ? (
-                  <div className="relative size-8 overflow-hidden rounded-full">
-                    <Image
-                      src={review.reviewer.photo_url}
-                      alt={review.reviewer.name}
-                      fill
-                      className="object-cover"
+            <div className="flex items-center gap-9">
+              <div className="shrink-0">
+                <div
+                  className={`text-[50px] leading-none font-semibold text-primary ${fontClass}`}
+                >
+                  {lawyer.rating.toFixed(1)}
+                </div>
+                <div className="mt-2 flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star
+                      key={index}
+                      className="size-4 fill-accent text-accent"
                     />
-                  </div>
-                ) : (
-                  <div className="flex size-8 items-center justify-center rounded-full text-xs font-medium text-primary/70">
-                    {reviewerInitial}
-                  </div>
-                )}
+                  ))}
+                </div>
+                <p className="mt-1 text-xs text-primary/50">
+                  {lawyer.reviews_count} {t("reviews")}
+                </p>
               </div>
 
-              {/* Review Content */}
-              <div className="min-w-0 flex-1">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-[14px] font-semibold text-primary">
-                      {review.reviewer.name}
-                    </h3>
+              <div className="flex-1 space-y-2">
+                {[5, 4, 3, 2, 1].map((rating) => {
+                  const count = ratingBreakdown?.[String(rating)] ?? 0;
+                  const percentage =
+                    lawyer.reviews_count > 0
+                      ? (count / lawyer.reviews_count) * 100
+                      : 0;
 
-                    <p className="text-xs text-primary/40">
-                      {formatDate(review.created_at)}
-                    </p>
+                  return (
+                    <div key={rating} className="flex items-center gap-3">
+                      <span className="w-2 text-xs text-primary/50">
+                        {rating}
+                      </span>
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-primary/5">
+                        <div
+                          className="h-full rounded-full bg-accent"
+                          style={{
+                            width: `${percentage}%`,
+                          }}
+                        />
+                      </div>
+                      <span className="w-5 text-xs text-primary/50">
+                        {count}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          <div className="space-y-12">
+            {reviews.map((review) => {
+              const reviewerInitial =
+                review.reviewer.name?.charAt(0).toUpperCase() || "?";
+
+              return (
+                <div key={review.id} className="flex gap-5">
+                  <div className="shrink-0 pt-1">
+                    {review.reviewer.photo_url ? (
+                      <div className="relative size-8 overflow-hidden rounded-full">
+                        <Image
+                          src={review.reviewer.photo_url}
+                          alt={review.reviewer.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex size-8 items-center justify-center rounded-full text-xs font-medium text-primary/70">
+                        {reviewerInitial}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="flex shrink-0 items-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, index) => {
-                      const isActive = index < review.rating;
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="text-[14px] font-semibold text-primary">
+                          {review.reviewer.name}
+                        </h3>
+                        <p className="text-xs text-primary/40">
+                          {formatDate(review.created_at)}
+                        </p>
+                      </div>
 
-                      return (
-                        <Star
-                          key={index}
-                          className={`size-3.5 ${
-                            isActive
-                              ? "fill-accent text-accent"
-                              : "fill-transparent text-accent/35"
-                          }`}
-                        />
-                      );
-                    })}
+                      <div className="flex shrink-0 items-center gap-0.5">
+                        {Array.from({ length: 5 }).map((_, index) => {
+                          const isActive = index < review.rating;
+
+                          return (
+                            <Star
+                              key={index}
+                              className={`size-3.5 ${
+                                isActive
+                                  ? "fill-accent text-accent"
+                                  : "fill-transparent text-accent/35"
+                              }`}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <p className="mt-4 text-[15px] leading-6 text-primary/70">
+                      {review.comment}
+                    </p>
+
+                    {review.tags?.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {review.tags.map((tag) => (
+                          <span
+                            key={tag.value}
+                            className="rounded-md border border-primary/15 px-3 py-1 text-xs text-primary/60"
+                          >
+                            {tag.label}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                <p className="mt-4 text-[15px] leading-6 text-primary/70">
-                  {review.comment}
-                </p>
-
-                {review.tags?.length > 0 && (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {review.tags.map((tag) => (
-                      <span
-                        key={tag.value}
-                        className="rounded-md border border-primary/15 px-3 py-1 text-xs text-primary/60"
-                      >
-                        {tag.label}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 }
