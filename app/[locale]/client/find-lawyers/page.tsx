@@ -1,33 +1,63 @@
-import FiltersControl from "@/components/client-lawyer/client/find-lawyer/filters-control";
-import ListOfLawyers from "@/components/client-lawyer/client/find-lawyer/list-of-lawyers";
-import QuerySearchAndTitle from "@/components/client-lawyer/client/find-lawyer/query-search-and-title";
+import { Suspense } from "react";
 import { http } from "@/lib/http";
-import { Lawyer } from "@/types/client/find-lawyer";
 import { Meta } from "@/types/shared";
+import { LoaderPinwheelIcon } from "lucide-react";
+import { Lawyer } from "@/types/client/find-lawyer";
+import ListOfLawyers from "@/components/client-lawyer/client/find-lawyer/list-of-lawyers";
+import FiltersControl from "@/components/client-lawyer/client/find-lawyer/filters-control";
+import QuerySearchAndTitle from "@/components/client-lawyer/client/find-lawyer/query-search-and-title";
 
-export default async function Page() {
+type SerachParams = {
+  page?: string;
+};
+
+async function GetListOfLawyers({
+  searchParams,
+}: {
+  searchParams: Promise<SerachParams>;
+}) {
+  const { page } = await searchParams;
+
   const { data, ok } = await http.get<{
     data: Lawyer[];
     meta: Meta;
-  }>("/api/lawyers");
+  }>("/api/lawyers", {
+    params: {
+      page: page || "1",
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch lawyers");
   }
-  // console.log(data, ok);
+
+  return (
+    <div className="flex gap-5">
+      <div className="w-60 shrink-0 sticky top-6 hidden lg:block">
+        <FiltersControl />
+      </div>
+
+      <div className="flex-1">
+        <ListOfLawyers lawyers={data.data} pagination={data.meta} />
+      </div>
+    </div>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SerachParams>;
+}) {
   return (
     <div className="space-y-6">
       <QuerySearchAndTitle />
 
-      <div className="flex gap-5">
-        <div className="w-60 shrink-0 sticky top-6 hidden lg:block">
-          <FiltersControl />
-        </div>
-
-        <div className="flex-1">
-          <ListOfLawyers lawyers={data.data} pagination={data.meta} />
-        </div>
-      </div>
+      <Suspense
+        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+      >
+        <GetListOfLawyers searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }
