@@ -9,6 +9,7 @@ import { getTranslations } from "next-intl/server";
 import { TableCell, TableRow } from "@/components/ui/table";
 import CaseStatusLabel from "../../reusable/case-status-label";
 import PaginationTemplate from "../../reusable/pagination-template";
+import PublishCase from "./publish-case";
 
 export default async function DataPreview({
   cases,
@@ -73,18 +74,20 @@ export async function CasesTable({
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3 space-x-4">
-                {caseItem.status !== "rejected" && (
-                  <Button
-                    variant="ghost"
-                    className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
-                    asChild
-                  >
-                    <Link href={`/client/my-cases/${caseItem.id}`}>
-                      <span>{t("view")}</span>
-                      <ArrowRight className="size-3" />
-                    </Link>
-                  </Button>
-                )}
+                {caseItem.display_status !== "rejected" &&
+                  caseItem.display_status !== "request_declined" &&
+                  caseItem.display_status !== "awaiting_lawyer" && (
+                    <Button
+                      variant="ghost"
+                      className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                      asChild
+                    >
+                      <Link href={`/client/my-cases/${caseItem.id}`}>
+                        <span>{t("view")}</span>
+                        <ArrowRight className="size-3" />
+                      </Link>
+                    </Button>
+                  )}
 
                 {caseItem.can_edit && (
                   <Button
@@ -97,6 +100,19 @@ export async function CasesTable({
                       <ArrowRight className="size-3" />
                     </Link>
                   </Button>
+                )}
+
+                {caseItem.display_status === "request_declined" && (
+                  <>
+                    <PublishCase caseId={caseItem.id} />
+                    {/* <Button
+                      variant="ghost"
+                      className="px-0 text-emerald-700 text-xs hover:bg-transparent hover:text-accent"
+                    >
+                      Publish
+                      <ArrowRight className="size-3" />
+                    </Button> */}
+                  </>
                 )}
               </TableCell>
             </TableRow>

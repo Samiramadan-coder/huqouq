@@ -1007,6 +1007,12 @@
       "proposal": "Proposal",
       "specializations": "Specializations",
       "actions": "Actions",
+      "confirmPublish": "Confirm Publish",
+      "confirmPublishDescription": "By confirming, this case will be published and visible to lawyers.",
+      "yesDoPublish": "Yes, Publish",
+      "cancel": "Cancel",
+      "publishCase": "Publish Case",
+      "publishCaseFailed": "Failed to publish case. Please try again.",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",

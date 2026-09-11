@@ -27,7 +27,13 @@ async function ListData({
     counts: Counts;
     meta: Meta;
   }>("/api/cases", {
-    params: { tab: tab || "", page: page || "1" },
+    params: {
+      tab: tab || "",
+      page: page || "1",
+    },
+    next: {
+      tags: ["cases"],
+    },
   });
 
   if (!ok) {

@@ -1003,6 +1003,12 @@
       "proposal": "الاقتراح",
       "specializations": "التخصصات",
       "actions": "الإجراءات",
+      "confirmPublish": "تأكيد النشر",
+      "confirmPublishDescription": "بتأكيدك، سيتم نشر هذه القضية وستكون مرئية للمحامين.",
+      "yesDoPublish": "نعم، انشر",
+      "cancel": "إلغاء",
+      "publishCase": "نشر القضية",
+      "publishCaseFailed": "فشل في نشر القضية. يرجى المحاولة مرة أخرى.",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",

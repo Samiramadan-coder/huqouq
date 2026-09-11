@@ -1,4 +1,4 @@
-// "use server";
+"use server";
 
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
@@ -117,6 +117,30 @@ export async function payCase(caseId: number): Promise<PayCaseResponse> {
     return { success: true };
   } catch (error) {
     console.error("Error paying for the case:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
+
+// Publish Case
+type PublishCaseResponse =
+  | { success: true; message?: string }
+  | { success: false; message?: string };
+
+export async function publishCase(
+  caseId: number,
+): Promise<PublishCaseResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/cases/${caseId}/publish-to-marketplace`,
+    );
+
+    updateTag(`cases`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error publishing the case:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }
