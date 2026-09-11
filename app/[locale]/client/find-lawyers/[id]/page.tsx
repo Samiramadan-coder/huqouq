@@ -11,8 +11,19 @@ type Params = {
   id: string;
 };
 
-async function GetLawyerDetails({ params }: { params: Promise<Params> }) {
+type SearchParams = {
+  caseId?: string;
+};
+
+async function GetLawyerDetails({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
   const { id } = await params;
+  const { caseId } = await searchParams;
 
   // Fetch lawyer details and reviews concurrently
   const { data: lawyerDetails, ok: ok1 } = await http.get<{
@@ -35,11 +46,18 @@ async function GetLawyerDetails({ params }: { params: Promise<Params> }) {
       lawyer={lawyerDetails.data}
       ratingBreakdown={lawyerDetails.rating_breakdown}
       reviews={reviews.data}
+      caseId={caseId}
     />
   );
 }
 
-export default async function Page({ params }: { params: Promise<Params> }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
   const t = await getTranslations("Client.FindLawyer");
 
   return (
@@ -49,7 +67,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
       <Suspense
         fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
       >
-        <GetLawyerDetails params={params} />
+        <GetLawyerDetails params={params} searchParams={searchParams} />
       </Suspense>
     </div>
   );

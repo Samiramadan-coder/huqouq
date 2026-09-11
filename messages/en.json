@@ -1013,6 +1013,7 @@
       "cancel": "Cancel",
       "publishCase": "Publish Case",
       "publishCaseFailed": "Failed to publish case. Please try again.",
+      "assignToLawyer": "Assign to Lawyer",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",
@@ -1142,7 +1143,13 @@
       "about": "About",
       "education": "Education",
       "services_offered": "Services Offered",
-      "present": "Present"
+      "present": "Present",
+      "assign": "Assign",
+      "confirmAssign": "Confirm Assign",
+      "confirmAssignDescription": "By confirming, this case will be assigned to a lawyer.",
+      "yesDoAssign": "Yes, Assign",
+      "cancel": "Cancel",
+      "assignToLawyerFailed": "Failed to assign the case to the lawyer."
     }
   },
   "Lawyer": {

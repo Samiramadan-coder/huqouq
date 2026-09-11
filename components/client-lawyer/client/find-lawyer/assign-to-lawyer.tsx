@@ -12,19 +12,24 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { publishCase } from "@/lib/client/cases";
 import { Spinner } from "@/components/ui/spinner";
+import { sendToLawyer } from "@/lib/client/find-lawyer";
 
-export default function PublishCase({ caseId }: { caseId: number }) {
+export default function AssignToLawyer({
+  caseId,
+  lawyerId,
+}: {
+  caseId: number;
+  lawyerId: number;
+}) {
   const [loading, setLoading] = useState(false);
-  const t = useTranslations("Client.Cases");
+  const t = useTranslations("Client.FindLawyer");
 
-  async function handlePublishCase() {
+  async function handleAssignToLawyer() {
     setLoading(true);
-    const result = await publishCase(caseId);
+    const result = await sendToLawyer(caseId, lawyerId);
     setLoading(false);
 
     if (result.success) {
@@ -37,7 +42,7 @@ export default function PublishCase({ caseId }: { caseId: number }) {
       return;
     }
 
-    toast.error(t("publishCaseFailed"));
+    toast.error(t("assignToLawyerFailed"));
   }
 
   return (
@@ -45,27 +50,26 @@ export default function PublishCase({ caseId }: { caseId: number }) {
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="px-0 text-emerald-700 text-xs hover:bg-transparent hover:text-emerald-700"
+          className="text-white h-10 rounded bg-emerald-700 text-xs hover:bg-emerald-700/90 hover:text-white w-full"
         >
-          {t("publishCase")}
-          <ArrowRight className="size-3" />
+          {t("assign")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>{t("confirmPublish")}</DialogTitle>
+          <DialogTitle>{t("confirmAssign")}</DialogTitle>
           <DialogDescription className="mt-3">
-            {t("confirmPublishDescription")}
+            {t("confirmAssignDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <DialogFooter className="bg-white border-none">
           <Button
-            onClick={handlePublishCase}
+            onClick={handleAssignToLawyer}
             className="bg-emerald-700 text-white border-secondary hover:bg-emerald-700/90 rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}
-            {t("yesDoPublish")}
+            {t("yesDoAssign")}
           </Button>
           <DialogClose asChild>
             <Button

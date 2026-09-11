@@ -1,6 +1,7 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/utils";
+import PublishCase from "./publish-case";
 import { ArrowRight } from "lucide-react";
 import { Case } from "@/types/client/cases";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { getTranslations } from "next-intl/server";
 import { TableCell, TableRow } from "@/components/ui/table";
 import CaseStatusLabel from "../../reusable/case-status-label";
 import PaginationTemplate from "../../reusable/pagination-template";
-import PublishCase from "./publish-case";
+// import AssignToLawyer from "./assign-to-lawyer";
 
 export default async function DataPreview({
   cases,
@@ -105,13 +106,17 @@ export async function CasesTable({
                 {caseItem.display_status === "request_declined" && (
                   <>
                     <PublishCase caseId={caseItem.id} />
-                    {/* <Button
+                    <Button
                       variant="ghost"
-                      className="px-0 text-emerald-700 text-xs hover:bg-transparent hover:text-accent"
+                      className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                      asChild
                     >
-                      Publish
-                      <ArrowRight className="size-3" />
-                    </Button> */}
+                      <Link href={`/client/find-lawyers?caseId=${caseItem.id}`}>
+                        <span>{t("assignToLawyer")}</span>
+                        <ArrowRight className="size-3" />
+                      </Link>
+                    </Button>
+                    {/* <AssignToLawyer caseId={caseItem.id} /> */}
                   </>
                 )}
               </TableCell>

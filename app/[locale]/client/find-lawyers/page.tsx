@@ -9,6 +9,7 @@ import QuerySearchAndTitle from "@/components/client-lawyer/client/find-lawyer/q
 
 type SerachParams = {
   page?: string;
+  caseId?: string;
 };
 
 async function GetListOfLawyers({
@@ -16,7 +17,7 @@ async function GetListOfLawyers({
 }: {
   searchParams: Promise<SerachParams>;
 }) {
-  const { page } = await searchParams;
+  const { page, caseId } = await searchParams;
 
   const { data, ok } = await http.get<{
     data: Lawyer[];
@@ -38,7 +39,11 @@ async function GetListOfLawyers({
       </div>
 
       <div className="flex-1">
-        <ListOfLawyers lawyers={data.data} pagination={data.meta} />
+        <ListOfLawyers
+          lawyers={data.data}
+          pagination={data.meta}
+          caseId={caseId}
+        />
       </div>
     </div>
   );

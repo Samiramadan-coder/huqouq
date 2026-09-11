@@ -7,11 +7,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { LawyerDetails } from "@/types/client/find-lawyer";
 import { Clock3, Heart, ShieldCheck, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import AssignToLawyer from "./assign-to-lawyer";
 
 export default async function DefinitionCard({
   lawyer,
+  caseId,
 }: {
   lawyer: LawyerDetails;
+  caseId?: string;
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
@@ -107,6 +110,8 @@ export default async function DefinitionCard({
               {t("sendDirectHireRequest")}
             </Link>
           </Button>
+
+          {caseId && <AssignToLawyer caseId={+caseId} lawyerId={lawyer.id} />}
 
           <Button
             variant="outline"

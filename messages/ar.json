@@ -1009,6 +1009,7 @@
       "cancel": "إلغاء",
       "publishCase": "نشر القضية",
       "publishCaseFailed": "فشل في نشر القضية. يرجى المحاولة مرة أخرى.",
+      "assignToLawyer": "تعيين إلى محامٍ",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",
@@ -1138,7 +1139,13 @@
       "about": "حول",
       "education": "التعليم",
       "services_offered": "الخدمات المقدمة",
-      "present": "الحالي"
+      "present": "الحالي",
+      "assign": "تعيين",
+      "confirmAssign": "تأكيد التعيين",
+      "confirmAssignDescription": "بتأكيدك، سيتم تعيين هذه القضية إلى محامٍ.",
+      "yesDoAssign": "نعم، عين",
+      "cancel": "إلغاء",
+      "assignToLawyerFailed": "فشل في تعيين القضية للمحامي."
     }
   },
   "Lawyer": {

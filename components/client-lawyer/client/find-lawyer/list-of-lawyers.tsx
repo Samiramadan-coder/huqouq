@@ -13,9 +13,11 @@ import Image from "next/image";
 export default async function ListOfLawyers({
   lawyers,
   pagination,
+  caseId,
 }: {
   lawyers: Lawyer[];
   pagination: Meta;
+  caseId?: string;
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
@@ -103,7 +105,9 @@ export default async function ListOfLawyers({
                   </p>
 
                   <Link
-                    href={`/client/find-lawyers/${lawyer.id}`}
+                    href={`/client/find-lawyers/${lawyer.id}${
+                      caseId ? `?caseId=${caseId}` : ""
+                    }`}
                     className="inline-flex text-sm font-medium text-accent transition-opacity hover:opacity-70"
                   >
                     {t("viewProfile")}
