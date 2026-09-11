@@ -24,10 +24,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
 import { Separator } from "@/components/ui/separator";
-import { CaseDetails, CaseOffer } from "@/types/client/cases";
 import { getLocale, getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
+import { CaseDetails, CaseOffer, Step } from "@/types/client/cases";
 import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
@@ -37,82 +37,60 @@ export default async function Index({
   caseDetails,
   offers,
   pagination,
+  timeline,
 }: {
   caseDetails: CaseDetails;
   offers: CaseOffer[];
   pagination: Meta;
+  timeline: Step[];
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.Cases");
   const tCommon = await getTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
-  const currentStep = getCurrentStep();
 
-  function getCurrentStep() {
-    switch (caseDetails.display_status) {
-      case "pending_review":
-        return 0;
-      case "published":
-        return 1;
-      case "has_offers":
-        return 2;
-      case "pending_fees":
-        return 3;
+  function getStepDescription(key: Step["key"], at: string | null) {
+    switch (key) {
+      case "posted":
+        return t("PostedOn", {
+          date: formatDate(at!),
+        });
+
+      case "approved":
+        return at
+          ? t("ReviewedOn", { date: formatDate(at) })
+          : t("Timeline.ReviewedOnPending");
+
+      case "offers":
+        return t("Timeline.OffersReceivedMessage", {
+          count: caseDetails.offers_count,
+        });
+
+      case "hired":
+        return at
+          ? t("Timeline.HiredOn", {
+              date: formatDate(at),
+            })
+          : "";
+
       case "in_progress":
-        return 4;
+        return at
+          ? t("Timeline.InProgressMessage")
+          : t("Timeline.PendingFeesMessage");
+
+      case "pending_closure":
+        return "";
+
+      case "closed":
+        return "";
+
+      case "reviewed":
+        return "";
+
       default:
-        return 2;
+        return "";
     }
   }
-
-  const timeline = [
-    {
-      id: "posted",
-      title: t("Timeline.Posted"),
-      description: t("PostedOn", {
-        date: formatDate(caseDetails.created_at),
-      }),
-    },
-    {
-      id: "approved",
-      title: t("Timeline.Approved"),
-      description: t("ReviewedOn", {
-        date: formatDate(caseDetails.reviewed_at || ""),
-      }),
-    },
-    {
-      id: "offers",
-      title: t("Timeline.OffersReceived"),
-      description: t("Timeline.OffersReceivedMessage", {
-        count: caseDetails.offers_count,
-      }),
-    },
-    {
-      id: "pending_fees",
-      title: t("Timeline.PendingFees"),
-      description: t("Timeline.PendingFeesMessage"),
-    },
-    {
-      id: "progress",
-      title: t("Timeline.InProgress"),
-      description: t("Timeline.InProgressMessage"),
-    },
-    {
-      id: "closure",
-      title: t("Timeline.PendingClosure"),
-      description: "",
-    },
-    {
-      id: "closed",
-      title: t("Timeline.Closed"),
-      description: "",
-    },
-    {
-      id: "reviewed",
-      title: t("Timeline.Reviewed"),
-      description: "",
-    },
-  ];
 
   return (
     <>
@@ -167,19 +145,21 @@ export default async function Index({
           <CardContent>
             <Accordion
               type="multiple"
-              defaultValue={[timeline[currentStep].id]}
+              defaultValue={[
+                timeline.find((step) => step.state === "current")?.key || "",
+              ]}
               className="w-full"
             >
               {timeline.map((item, index) => {
-                const isCompleted = index < currentStep;
-                const isCurrent = index === currentStep;
-                const isPending = index > currentStep;
-                const isEnabled = index <= currentStep;
+                const isCompleted = item.state === "done";
+                const isCurrent = item.state === "current";
+                const isPending = item.state === "upcoming";
+                const isEnabled = item.state !== "upcoming";
                 const isLast = index === timeline.length - 1;
 
                 return (
                   <div
-                    key={item.id}
+                    key={item.key}
                     className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
                   >
                     <TimelineRail
@@ -189,7 +169,7 @@ export default async function Index({
                     />
 
                     <AccordionItem
-                      value={item.id}
+                      value={item.key}
                       disabled={!isEnabled}
                       className="border-none"
                     >
@@ -211,12 +191,12 @@ export default async function Index({
                               isPending && "font-normal text-primary/25",
                             )}
                           >
-                            {item.title}
+                            {item.label}
                           </span>
 
                           {isCurrent && (
                             <Badge className="h-5 rounded-full px-2 text-[10px] font-normal">
-                              Current
+                              {t("Timeline.Current")}
                             </Badge>
                           )}
                         </div>
@@ -224,7 +204,7 @@ export default async function Index({
 
                       <AccordionContent className="pb-4">
                         <div className="rounded-sm border-s-2 border-accent/70 bg-background px-4 py-3 text-xs leading-5 text-primary/70">
-                          {item.description}
+                          {getStepDescription(item.key, item.at)}
                         </div>
                       </AccordionContent>
                     </AccordionItem>

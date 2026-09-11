@@ -78,7 +78,7 @@ export default function Form({
     const result = await postCase(
       data,
       caseItem?.id,
-      `/api/lawyers/${lawyerId}/hire-request`,
+      lawyerId ? `/api/lawyers/${lawyerId}/hire-request` : undefined,
     );
 
     if (result.success) {

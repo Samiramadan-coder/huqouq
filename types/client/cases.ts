@@ -147,3 +147,18 @@ export type CaseOffer = {
     years_of_experience: number;
   };
 };
+
+export type Step = {
+  at: string | null;
+  key:
+    | "posted"
+    | "approved"
+    | "offers"
+    | "hired"
+    | "in_progress"
+    | "pending_closure"
+    | "closed"
+    | "reviewed";
+  label: string;
+  state: "done" | "current" | "upcoming";
+};

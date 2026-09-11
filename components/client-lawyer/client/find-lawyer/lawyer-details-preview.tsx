@@ -13,7 +13,6 @@ export default function LawyerDetailsPreview({
   reviews: Review[];
   caseId?: string;
 }) {
-  console.log(lawyer);
   return (
     <div className="grid items-start grid-cols-1 sm:grid-cols-3 gap-8">
       <DefinitionCard lawyer={lawyer} caseId={caseId} />

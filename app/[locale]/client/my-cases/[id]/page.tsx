@@ -3,7 +3,7 @@ import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails, CaseOffer } from "@/types/client/cases";
+import { CaseDetails, CaseOffer, Step } from "@/types/client/cases";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Index from "@/components/client-lawyer/client/cases/details";
 
@@ -47,8 +47,17 @@ async function SingleCase({
     },
   });
 
-  if (!ok1 || !ok2) {
-    throw new Error("Failed to fetch case details");
+  // Fetch CaseTimeline
+  const { data: timeline, ok: ok3 } = await http.get<{
+    data: { steps: Step[] };
+  }>(`/api/cases/${id}/timeline`, {
+    next: {
+      tags: [`case-${id}-timeline`],
+    },
+  });
+
+  if (!ok1 || !ok2 || !ok3) {
+    throw new Error("Failed to fetch case details or timeline or offers");
   }
 
   return (
@@ -56,6 +65,7 @@ async function SingleCase({
       caseDetails={caseData.data}
       offers={offers.data}
       pagination={offers.meta}
+      timeline={timeline.data.steps}
     />
   );
 }

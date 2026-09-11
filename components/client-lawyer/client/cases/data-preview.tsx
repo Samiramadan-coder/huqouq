@@ -74,20 +74,16 @@ export async function CasesTable({
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3 space-x-4">
-                {caseItem.display_status !== "rejected" &&
-                  caseItem.display_status !== "request_declined" &&
-                  caseItem.display_status !== "awaiting_lawyer" && (
-                    <Button
-                      variant="ghost"
-                      className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
-                      asChild
-                    >
-                      <Link href={`/client/my-cases/${caseItem.id}`}>
-                        <span>{t("view")}</span>
-                        <ArrowRight className="size-3" />
-                      </Link>
-                    </Button>
-                  )}
+                <Button
+                  variant="ghost"
+                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                  asChild
+                >
+                  <Link href={`/client/my-cases/${caseItem.id}`}>
+                    <span>{t("view")}</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
+                </Button>
 
                 {caseItem.can_edit && (
                   <Button

@@ -18,7 +18,6 @@ export default async function Page() {
     throw new Error("Failed to fetch my cases");
   }
 
-  console.log(data);
   return (
     <div className="space-y-6 container max-w-5xl">
       <div>

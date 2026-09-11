@@ -1114,7 +1114,10 @@
         "PendingFees": "Pending fees",
         "PendingFeesMessage": "Pay the platform fee to Huqouq to confirm this agreement and start working with your lawyer. The remaining 95% is paid directly to your lawyer outside the platform.",
         "HiredMessage": "You have hired a lawyer. You can communicate with them through the chat.",
-        "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat."
+        "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat.",
+        "HiredOn": "Hired on {date}",
+        "Current": "Current",
+        "ReviewedOnPending": "Reviewed on (pending)"
       }
     },
     "FindLawyer": {

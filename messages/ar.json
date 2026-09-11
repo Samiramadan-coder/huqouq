@@ -1098,19 +1098,22 @@
         }
       },
       "Timeline": {
-        "Posted": "Posted",
-        "Approved": "Published",
-        "OffersReceived": "Offers Received",
-        "Hired": "Hired",
-        "InProgress": "In Progress",
-        "PendingClosure": "Pending Closure",
-        "Closed": "Closed",
-        "Reviewed": "Reviewed",
-        "OffersReceivedMessage": "{count} offers received. Review and compare them to find the right lawyer.",
-        "PendingFees": "Pending fees",
-        "PendingFeesMessage": "Pay the platform fee to Huqouq to confirm this agreement and start working with your lawyer. The remaining 95% is paid directly to your lawyer outside the platform.",
-        "HiredMessage": "You have hired a lawyer. You can communicate with them through the chat.",
-        "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat."
+        "Posted": "تم النشر",
+        "Approved": "تم النشر",
+        "OffersReceived": "تم استلام العروض",
+        "Hired": "تم التوظيف",
+        "InProgress": "قيد التنفيذ",
+        "PendingClosure": "في انتظار الإغلاق",
+        "Closed": "مغلق",
+        "Reviewed": "تمت المراجعة",
+        "OffersReceivedMessage": "تم استلام {count} عرض. قم بمراجعتها ومقارنتها للعثور على المحامي المناسب.",
+        "PendingFees": "الرسوم المعلقة",
+        "PendingFeesMessage": "ادفع رسوم المنصة إلى حقوق لتأكيد هذا الاتفاق وبدء العمل مع محاميك. يتم دفع الـ 95٪ المتبقية مباشرة إلى محاميك خارج المنصة.",
+        "HiredMessage": "لقد قمت بتوظيف محامٍ. يمكنك التواصل معهم عبر الدردشة.",
+        "InProgressMessage": "محاميك يعمل على قضيتك. يمكنك التواصل معهم عبر الدردشة.",
+        "HiredOn": "تم التوظيف في {date}",
+        "Current": "الحالي",
+        "ReviewedOnPending": "تمت المراجعة (قيد الانتظار)"
       }
     },
     "FindLawyer": {

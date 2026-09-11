@@ -21,8 +21,6 @@ export default function UpdateProfile() {
   const locale = useLocale();
   const t = useTranslations("Client.Profile");
 
-  console.log(user);
-
   const {
     control,
     register,
