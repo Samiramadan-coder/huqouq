@@ -10,7 +10,6 @@ import { getTranslations } from "next-intl/server";
 import { TableCell, TableRow } from "@/components/ui/table";
 import CaseStatusLabel from "../../reusable/case-status-label";
 import PaginationTemplate from "../../reusable/pagination-template";
-// import AssignToLawyer from "./assign-to-lawyer";
 
 export default async function DataPreview({
   cases,
@@ -116,7 +115,6 @@ export async function CasesTable({
                         <ArrowRight className="size-3" />
                       </Link>
                     </Button>
-                    {/* <AssignToLawyer caseId={caseItem.id} /> */}
                   </>
                 )}
               </TableCell>
