@@ -1,6 +1,10 @@
 import { http } from "@/lib/http";
 import { CaseDetails } from "@/types/lawyer/browse-cases";
 import Details from "@/components/client-lawyer/lawyer/browse-cases/details";
+import { Suspense } from "react";
+import { LoaderPinwheelIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 
 type Params = {
   id: string;
@@ -10,7 +14,7 @@ type SearchParams = {
   hire?: string;
 };
 
-export default async function Page({
+async function GetCaseDetails({
   params,
   searchParams,
 }: {
@@ -31,9 +35,29 @@ export default async function Page({
     throw new Error("Failed to fetch case details");
   }
 
+  return <Details caseDetails={data.data} hire={!!hire} />;
+}
+
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const t = await getTranslations("Lawyer.BrowseCases");
+
   return (
-    <div className="container max-w-5xl">
-      <Details caseDetails={data.data} hire={!!hire} />
+    <div className="container max-w-5xl space-y-6">
+      <BackBtn>
+        <span>{t("BackToCases")}</span>
+      </BackBtn>
+
+      <Suspense
+        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+      >
+        <GetCaseDetails params={params} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

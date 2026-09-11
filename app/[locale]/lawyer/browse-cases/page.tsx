@@ -3,12 +3,13 @@ import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
-import { MoveRight, TriangleAlert } from "lucide-react";
+import { LoaderPinwheelIcon, MoveRight, TriangleAlert } from "lucide-react";
 import { Case, Filters } from "@/types/lawyer/browse-cases";
 import ListOfCases from "@/components/client-lawyer/lawyer/browse-cases/list-of-cases";
 import { LawyerBrowseCasesFiltersProvider } from "@/providers/lawyer-browse-cases-filters";
 import FiltersControl from "@/components/client-lawyer/lawyer/browse-cases/filters-control";
 import QuerySearchAndTitle from "@/components/client-lawyer/lawyer/browse-cases/query-search-and-title";
+import { Suspense } from "react";
 
 type SearchParams = {
   page?: string;
@@ -19,7 +20,7 @@ type SearchParams = {
   q?: string;
 };
 
-export default async function Page({
+async function GetListOfCases({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -93,5 +94,19 @@ export default async function Page({
         </div>
       </div>
     </LawyerBrowseCasesFiltersProvider>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense
+      fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+    >
+      <GetListOfCases searchParams={searchParams} />
+    </Suspense>
   );
 }

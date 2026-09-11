@@ -3,7 +3,6 @@ import OfferForm from "./offer-form";
 import Title from "../../reusable/title";
 import { formatDate } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import BackBtn from "../../reusable/back-btn";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import UrgencyBadge from "../../reusable/urgency-label";
@@ -24,11 +23,7 @@ export default async function Details({
   const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
-    <div className="space-y-6">
-      <BackBtn>
-        <span>{t("BackToCases")}</span>
-      </BackBtn>
-
+    <div className="space-y-4">
       <div>
         <Title>{caseDetails.title}</Title>
 

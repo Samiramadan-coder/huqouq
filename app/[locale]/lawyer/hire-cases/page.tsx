@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
+import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Case } from "@/types/lawyer/browse-cases";
 import Hint from "@/components/client-lawyer/reusable/hint";
@@ -11,7 +13,7 @@ type SearchParams = {
   page?: string;
 };
 
-export default async function Page({
+async function GetListOfCases({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -33,12 +35,7 @@ export default async function Page({
   }
 
   return (
-    <div className="container max-w-5xl space-y-6">
-      <div>
-        <Title>{t("hireCases")}</Title>
-        <Hint>{t("hireCasesDescription")}</Hint>
-      </div>
-
+    <div>
       {data.data.length > 0 ? (
         <div className="space-y-4">
           {data.data.map((caseItem) => (
@@ -58,6 +55,49 @@ export default async function Page({
       ) : (
         <p className="text-sm text-primary/50">{t("NoHireCasesFound")}</p>
       )}
+    </div>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const t = await getTranslations("Lawyer.BrowseCases");
+
+  return (
+    <div className="container max-w-5xl space-y-6">
+      <div>
+        <Title>{t("hireCases")}</Title>
+        <Hint>{t("hireCasesDescription")}</Hint>
+      </div>
+
+      <Suspense
+        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+      >
+        <GetListOfCases searchParams={searchParams} />
+      </Suspense>
+
+      {/* {data.data.length > 0 ? (
+        <div className="space-y-4">
+          {data.data.map((caseItem) => (
+            <CaseCard
+              key={caseItem.id}
+              caseItem={caseItem}
+              can_submit_offer={true}
+              isHireCase={true}
+            />
+          ))}
+
+          <PaginationTemplate
+            currentPage={data.meta.current_page}
+            totalPages={data.meta.last_page}
+          />
+        </div>
+      ) : (
+        <p className="text-sm text-primary/50">{t("NoHireCasesFound")}</p>
+      )} */}
     </div>
   );
 }
