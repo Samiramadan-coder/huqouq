@@ -1152,7 +1152,8 @@
       "confirmAssignDescription": "By confirming, this case will be assigned to a lawyer.",
       "yesDoAssign": "Yes, Assign",
       "cancel": "Cancel",
-      "assignToLawyerFailed": "Failed to assign the case to the lawyer."
+      "assignToLawyerFailed": "Failed to assign the case to the lawyer.",
+      "lawyersFound": "Lawyers found"
     }
   },
   "Lawyer": {

@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { getLocale, getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import AssignToLawyer from "./assign-to-lawyer";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { LawyerDetails } from "@/types/client/find-lawyer";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Clock3, Heart, ShieldCheck, Star } from "lucide-react";
-import { Link } from "@/i18n/navigation";
-import AssignToLawyer from "./assign-to-lawyer";
 
 export default async function DefinitionCard({
   lawyer,
@@ -30,7 +30,7 @@ export default async function DefinitionCard({
           <div className="relative">
             <div className="relative size-32 overflow-hidden rounded-full border-2 border-[#e8dcc4]">
               <Image
-                src={lawyer.photo_url || "/avatar-1.png"}
+                src={lawyer.photo_url || "/avatar.png"}
                 alt={lawyer.name}
                 fill
                 className="object-cover"

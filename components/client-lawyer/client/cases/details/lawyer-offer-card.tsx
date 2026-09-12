@@ -14,7 +14,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-// import DeclineOffer from "./decline-offer";
+import { Link } from "@/i18n/navigation";
 
 export default function LawyerOfferCard({
   caseId,
@@ -98,16 +98,17 @@ export default function LawyerOfferCard({
             <div className="mt-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <AcceptOffer offer={caseOffer} caseId={caseId} />
-                {/* <DeclineOffer offer={caseOffer} caseId={caseId} /> */}
               </div>
 
-              <Button
-                variant="ghost"
-                className="px-0 text-primary/45 font-normal text-xs hover:bg-transparent"
-              >
-                {t("viewProfile")}
-                <ChevronRight className="size-3.5" />
-              </Button>
+              <Link href={`/client/find-lawyers/${caseOffer.lawyer.id}`}>
+                <Button
+                  variant="ghost"
+                  className="px-0 text-primary/45 font-normal text-xs hover:bg-transparent"
+                >
+                  {t("viewProfile")}
+                  <ChevronRight className="size-3.5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

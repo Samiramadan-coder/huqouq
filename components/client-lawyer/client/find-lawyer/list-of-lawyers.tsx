@@ -1,14 +1,14 @@
+import Image from "next/image";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getLocale, getTranslations } from "next-intl/server";
-import ListOfCasesHeader from "./list-of-lawyers-header";
-import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Shield, Star } from "lucide-react";
-import PaginationTemplate from "../../reusable/pagination-template";
 import { Lawyer } from "@/types/client/find-lawyer";
-import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+import ListOfLawyersHeader from "./list-of-lawyers-header";
+import { getLocale, getTranslations } from "next-intl/server";
+import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function ListOfLawyers({
   lawyers,
@@ -25,7 +25,7 @@ export default async function ListOfLawyers({
 
   return (
     <div className="space-y-3">
-      <ListOfCasesHeader total={pagination.total} />
+      <ListOfLawyersHeader total={pagination.total} />
 
       {lawyers.length > 0 ? (
         <>
@@ -38,7 +38,7 @@ export default async function ListOfLawyers({
               >
                 <div className="relative aspect-410/545 w-full overflow-hidden bg-muted">
                   <Image
-                    src={lawyer.photo_url || "/avatar-1.png"}
+                    src={lawyer.photo_url || "/avatar.png"}
                     alt={lawyer.name}
                     fill
                     priority

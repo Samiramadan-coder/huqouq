@@ -1148,7 +1148,8 @@
       "confirmAssignDescription": "بتأكيدك، سيتم تعيين هذه القضية إلى محامٍ.",
       "yesDoAssign": "نعم، عين",
       "cancel": "إلغاء",
-      "assignToLawyerFailed": "فشل في تعيين القضية للمحامي."
+      "assignToLawyerFailed": "فشل في تعيين القضية للمحامي.",
+      "lawyersFound": "تم العثور على محامين"
     }
   },
   "Lawyer": {
