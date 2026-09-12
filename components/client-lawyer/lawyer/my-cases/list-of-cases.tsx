@@ -29,7 +29,7 @@ export default async function ListOfCases({
           {cases.map((caseItem) => (
             <Card
               key={caseItem.id}
-              className="ring-0! rounded-xs border border-secondary flex-row gap-4 px-6"
+              className="ring-0! rounded-xs border border-secondary sm:flex-row gap-4 px-6"
               style={{ boxShadow: "none" }}
             >
               <div className="flex-1">
@@ -51,7 +51,7 @@ export default async function ListOfCases({
                   {caseItem.title}
                 </h2>
 
-                <div className="mt-2 flex items-center gap-2">
+                <div className="mt-2 flex items-center flex-col sm:flex-row flex-wrap gap-2">
                   <span className="flex items-center gap-1 text-xs text-primary/40">
                     <MapPin className="size-3" /> {caseItem.city}
                   </span>
