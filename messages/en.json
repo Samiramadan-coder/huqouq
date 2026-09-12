@@ -1425,6 +1425,8 @@
       "confirmDeclineDescription": "Are you sure you want to decline this offer?",
       "yesDecline": "Yes, Decline",
       "cancel": "Cancel",
+      "client": "Client",
+      "contactInformationHidden": "Full contact details are shared once you are hired on this case.",
       "Fields": {
         "EstimatedTimeline": {
           "Label": "Estimated Timeline (days)",

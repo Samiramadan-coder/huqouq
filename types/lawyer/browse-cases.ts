@@ -18,6 +18,20 @@ export type Case = {
 };
 
 export type CaseDetails = Case & {
+  client: {
+    // contact_visible: boolean;
+    // first_name: string;
+    // photo_url: string;
+    city: string;
+    contact_visible: boolean;
+    email: string;
+    first_name: string;
+    id: number;
+    last_name: string;
+    name: string;
+    phone: string;
+    photo_url: string;
+  };
   documents: {
     id: number;
     name: string;

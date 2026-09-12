@@ -8,7 +8,8 @@ import { Separator } from "@/components/ui/separator";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { CaseDetails } from "@/types/lawyer/browse-cases";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Calendar, CircleAlert, MapPin, Users } from "lucide-react";
+import { Calendar, CircleAlert, Lock, MapPin, Users } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function Details({
   caseDetails,
@@ -40,6 +41,54 @@ export default async function Details({
 
       <div className="flex flex-col lg:flex-row gap-5">
         <div className="flex-1 space-y-3 order-2 lg:order-1">
+          <Card className="p-0 rounded-xs ring-0! border border-secondary">
+            <div className="p-5">
+              <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                {t("client")}
+              </p>
+
+              <div className="flex items-center gap-2 mt-2">
+                <Avatar size="lg">
+                  <AvatarImage
+                    src={caseDetails.client.photo_url}
+                    alt={caseDetails.client.first_name}
+                  />
+                  <AvatarFallback>
+                    {caseDetails.client.first_name[0]}
+                  </AvatarFallback>
+                </Avatar>
+
+                <div>
+                  <p className="font-semibold">
+                    {caseDetails.client.first_name}
+                    {caseDetails.client.contact_visible
+                      ? " — " + caseDetails.client.city
+                      : ""}
+                  </p>
+                  {caseDetails.client.contact_visible && (
+                    <>
+                      <p className="text-xs text-primary/40 mt-0.5">
+                        {caseDetails.client.email}
+                      </p>
+                      <p className="text-xs text-primary/40 mt-0.5">
+                        {caseDetails.client.phone}
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {!caseDetails.client.contact_visible && (
+                <div className="border border-secondary bg-background p-3 mt-4 flex items-center gap-2">
+                  <Lock className="size-4 text-primary/35" />
+                  <p className="text-xs text-primary/35">
+                    {t("contactInformationHidden")}
+                  </p>
+                </div>
+              )}
+            </div>
+          </Card>
+
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
             <div className="p-5">
               <p className="text-[10px] text-primary/35 uppercase tracking-widest">

@@ -1406,6 +1406,8 @@
       "confirmDeclineDescription": "هل أنت متأكد أنك تريد رفض هذا العرض؟",
       "yesDecline": "نعم، رفض",
       "cancel": "إلغاء",
+      "client": "العميل",
+      "contactInformationHidden": "يتم مشاركة تفاصيل الاتصال الكاملة بمجرد توظيفك في هذه القضية.",
       "Fields": {
         "EstimatedTimeline": {
           "Label": "الجدول الزمني المقدر (أيام)",

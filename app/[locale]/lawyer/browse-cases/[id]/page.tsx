@@ -1,10 +1,10 @@
-import { http } from "@/lib/http";
-import { CaseDetails } from "@/types/lawyer/browse-cases";
-import Details from "@/components/client-lawyer/lawyer/browse-cases/details";
 import { Suspense } from "react";
+import { http } from "@/lib/http";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { CaseDetails } from "@/types/lawyer/browse-cases";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
+import Details from "@/components/client-lawyer/lawyer/browse-cases/details";
 
 type Params = {
   id: string;
@@ -34,6 +34,8 @@ async function GetCaseDetails({
   if (!ok) {
     throw new Error("Failed to fetch case details");
   }
+
+  console.log(data);
 
   return <Details caseDetails={data.data} hire={!!hire} />;
 }
