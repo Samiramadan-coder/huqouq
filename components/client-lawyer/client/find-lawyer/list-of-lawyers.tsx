@@ -33,7 +33,7 @@ export default async function ListOfLawyers({
             {lawyers.map((lawyer) => (
               <Card
                 key={lawyer.id}
-                className="overflow-hidden rounded-md border border-secondary bg-white p-0 !ring-0!"
+                className="group overflow-hidden rounded-md border border-secondary hover:border-accent/50 bg-white p-0 !ring-0!"
                 style={{ boxShadow: "none" }}
               >
                 <div className="relative aspect-410/545 w-full overflow-hidden bg-muted">
@@ -42,7 +42,7 @@ export default async function ListOfLawyers({
                     alt={lawyer.name}
                     fill
                     priority
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
 
                   <Button

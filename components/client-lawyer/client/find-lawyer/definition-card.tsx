@@ -95,7 +95,7 @@ export default async function DefinitionCard({
         <div className="space-y-2.5">
           <Button
             variant="outline"
-            className="h-11 w-full rounded border-primary bg-white text-sm font-normal text-primary hover:bg-slate-50"
+            className="h-11 w-full rounded border-primary bg-white text-sm font-normal text-primary hover:bg-primary hover:text-white"
           >
             {t("message")}
           </Button>
@@ -115,9 +115,11 @@ export default async function DefinitionCard({
 
           <Button
             variant="outline"
-            className="h-15 w-full flex-col gap-0 rounded border-accent bg-white text-accent hover:bg-[#fffdf8]"
+            className="h-15 w-full flex-col gap-0 rounded border-accent bg-white hover:bg-[#fffdf8]"
           >
-            <span className="text-sm">{t("bookAConsultation")}</span>
+            <span className="text-sm text-accent">
+              {t("bookAConsultation")}
+            </span>
             <span className="text-[11px] font-normal text-accent">
               {t("freeLaunchPeriod")}
             </span>
