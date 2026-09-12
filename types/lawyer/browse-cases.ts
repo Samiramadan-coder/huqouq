@@ -19,9 +19,6 @@ export type Case = {
 
 export type CaseDetails = Case & {
   client: {
-    // contact_visible: boolean;
-    // first_name: string;
-    // photo_url: string;
     city: string;
     contact_visible: boolean;
     email: string;

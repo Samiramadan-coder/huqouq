@@ -43,7 +43,8 @@ export default function ListOfCasesHeader({
             </SheetContent>
           </Sheet>
         </div>
-        {total} {t("MatchYourFilters")}
+        <span className="text-primary font-bold">{total}</span>{" "}
+        {t("MatchYourFilters")}
       </div>
 
       <Select
