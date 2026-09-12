@@ -1466,7 +1466,8 @@
       "PendingFeesHint": "Your offer was accepted. Waiting for the client to pay the platform fee.",
       "AcceptedHint": "You were selected for this case.",
       "ViewCase": "View Case",
-      "NoOffers": "No offers found"
+      "NoOffers": "No offers found",
+      "ClientBudget": "Client Budget"
     },
     "MyCases": {
       "Title": "My Cases",

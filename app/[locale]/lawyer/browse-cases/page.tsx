@@ -51,12 +51,8 @@ async function GetListOfCases({
     throw new Error("Failed to fetch lawyer cases");
   }
 
-  console.log(data);
-
   return (
-    <LawyerBrowseCasesFiltersProvider
-      initialSpecializations={data.filters.my_specialization_ids}
-    >
+    <LawyerBrowseCasesFiltersProvider>
       <div className="space-y-6">
         <QuerySearchAndTitle />
 

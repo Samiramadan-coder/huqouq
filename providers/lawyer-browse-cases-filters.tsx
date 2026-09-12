@@ -8,9 +8,9 @@ import {
 } from "nuqs";
 import { createContext, useContext } from "react";
 
-const filtersParsers = (initialSpecializations: number[] = []) => ({
+const filtersParsers = () => ({
   specialization_id: parseAsArrayOf(parseAsInteger)
-    .withDefault(initialSpecializations)
+    .withDefault([])
     .withOptions({ history: "push", shallow: false }),
   urgency: parseAsArrayOf(parseAsString)
     .withDefault([])
@@ -43,14 +43,10 @@ const BrowseFiltersContext =
 
 export function LawyerBrowseCasesFiltersProvider({
   children,
-  initialSpecializations,
 }: {
   children: React.ReactNode;
-  initialSpecializations: number[];
 }) {
-  const [lawyerFilters, setLawyerFilters] = useQueryStates(
-    filtersParsers(initialSpecializations),
-  );
+  const [lawyerFilters, setLawyerFilters] = useQueryStates(filtersParsers());
 
   return (
     <BrowseFiltersContext.Provider value={{ lawyerFilters, setLawyerFilters }}>

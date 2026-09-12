@@ -43,11 +43,22 @@ export default async function ListOfOffers({
             </h3>
 
             <div className="flex items-center gap-3">
-              <p className="font-semibold text-xs flex items-center gap-1">
+              <p className="text-xs flex items-center gap-1">
                 <span className="text-accent">{tCommon("AED")}</span>
-                <span>{offer.amount}</span>
+                <span className="font-bold">{offer.amount}</span>
                 <span className="text-primary/35">{t("Proposed")}</span>
               </p>
+
+              <div className="flex items-center gap-1">
+                <span className="text-primary/35 text-xs">
+                  {t("ClientBudget")}:
+                </span>
+
+                <span className="text-primary/35 text-xs">
+                  {tCommon("AED")} {offer.case.budget_min} -{" "}
+                  {offer.case.budget_max}
+                </span>
+              </div>
 
               {offer.expected_timeline && (
                 <div className="flex items-center gap-1">

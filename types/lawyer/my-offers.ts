@@ -25,6 +25,9 @@ export type Offer = {
   expected_days: number;
   expected_timeline: string;
   case: {
+    budget_disclosed: boolean;
+    budget_max: number;
+    budget_min: number;
     id: number;
     specialization: string;
     status: string;
