@@ -1010,6 +1010,7 @@
       "publishCase": "نشر القضية",
       "publishCaseFailed": "فشل في نشر القضية. يرجى المحاولة مرة أخرى.",
       "assignToLawyer": "تعيين إلى محامٍ",
+      "rating": "التقييم",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",
@@ -1149,7 +1150,10 @@
       "yesDoAssign": "نعم، عين",
       "cancel": "إلغاء",
       "assignToLawyerFailed": "فشل في تعيين القضية للمحامي.",
-      "lawyersFound": "تم العثور على محامين"
+      "lawyersFound": "تم العثور على محامين",
+      "languages": "اللغات",
+      "ratings": "التقييمات",
+      "availability": "التوافر"
     }
   },
   "Lawyer": {

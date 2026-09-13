@@ -62,6 +62,33 @@ export type Review = {
   rating: number;
   comment: string;
   created_at: string;
-  reviewer: { name: string; photo_url: string | null };
-  tags: { label: string; value: string }[];
+  reviewer: {
+    name: string;
+    photo_url: string | null;
+  };
+  tags: {
+    label: string;
+    value: string;
+  }[];
+};
+
+export type Filters = {
+  emirates: string[];
+  languages: string[];
+  specializations: {
+    id: number;
+    name: string;
+  }[];
+  sorts: {
+    value: string;
+    label: string;
+  }[];
+  ratings: {
+    value: string;
+    label: string;
+  }[];
+  availability: {
+    value: string;
+    label: string;
+  }[];
 };

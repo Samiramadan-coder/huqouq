@@ -4,21 +4,29 @@ import {
   Select,
   SelectContent,
   SelectGroup,
+  SelectItem,
   // SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-// import { Filters } from "@/types/lawyer/browse-cases";
+import { Filters } from "@/types/client/find-lawyer";
 import { useTranslations } from "next-intl";
 import FiltersControl from "./filters-control";
 import { Button } from "@/components/ui/button";
 import { ListFilterPlus } from "lucide-react";
+import { useFindLawyerFilters } from "@/providers/find-lawyer-filters";
 // import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
 
-export default function ListOfLawyersHeader({ total }: { total: number }) {
+export default function ListOfLawyersHeader({
+  total,
+  filters,
+}: {
+  total: number;
+  filters: Filters;
+}) {
   const t = useTranslations("Client.FindLawyer");
-  // const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
+  const { lawyerFilters, setLawyerFilters } = useFindLawyerFilters();
 
   return (
     <div className="flex items-center justify-between flex-wrap gap-4">
@@ -32,7 +40,7 @@ export default function ListOfLawyersHeader({ total }: { total: number }) {
             </SheetTrigger>
             <SheetContent>
               <div className="mt-14 px-2">
-                <FiltersControl />
+                <FiltersControl filters={filters} />
               </div>
             </SheetContent>
           </Sheet>
@@ -42,19 +50,19 @@ export default function ListOfLawyersHeader({ total }: { total: number }) {
       </div>
 
       <Select
-      // value={lawyerFilters.sorts}
-      // onValueChange={(value) => setLawyerFilters({ sorts: value, page: "1" })}
+        value={lawyerFilters.sorts}
+        onValueChange={(value) => setLawyerFilters({ sorts: value, page: "1" })}
       >
         <SelectTrigger className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {/* {filters.sorts.map((sort) => (
+            {filters.sorts.map((sort) => (
               <SelectItem key={sort.value} value={sort.value}>
                 {sort.label}
               </SelectItem>
-            ))} */}
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>

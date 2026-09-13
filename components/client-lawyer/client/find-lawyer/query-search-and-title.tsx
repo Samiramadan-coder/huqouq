@@ -9,9 +9,11 @@ import { Search } from "lucide-react";
 import Hint from "../../reusable/hint";
 import Title from "../../reusable/title";
 import { useTranslations } from "next-intl";
+import { useFindLawyerFilters } from "@/providers/find-lawyer-filters";
 
 export default function QuerySearchAndTitle() {
   const t = useTranslations("Client.FindLawyer");
+  const { lawyerFilters, setLawyerFilters } = useFindLawyerFilters();
 
   return (
     <div className="flex items-center justify-between flex-wrap gap-4">
@@ -24,6 +26,8 @@ export default function QuerySearchAndTitle() {
         <InputGroupInput
           placeholder={t("searchPlaceholder")}
           className="placeholder:text-primary/35"
+          value={lawyerFilters.q}
+          onChange={(e) => setLawyerFilters({ q: e.target.value, page: "1" })}
         />
         <InputGroupAddon>
           <Search className="text-primary/35" />

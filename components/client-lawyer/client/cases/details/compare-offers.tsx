@@ -28,7 +28,7 @@ import AcceptOffer from "./accept-offer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
-import { ChartNoAxesColumn, ShieldCheck } from "lucide-react";
+import { ChartNoAxesColumn, ShieldCheck, Star } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import Proposal from "./proposal-message";
 
@@ -115,6 +115,38 @@ export default async function CompareOffers({
                     <p className="text-base text-primary/70">
                       {offer.lawyer.years_of_experience} Years
                     </p>
+                  </TableCell>
+                ))}
+              </TableRow>
+
+              <TableRow className="border-secondary">
+                <TableCell className="py-4">
+                  <p className="text-xs uppercase text-primary/40">
+                    {t("rating")}
+                  </p>
+                </TableCell>
+                {offers.map((offer) => (
+                  <TableCell key={offer.id} className="py-4">
+                    <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+                      <div className="flex items-center gap-0.5">
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Star
+                            key={index}
+                            className={cn(
+                              "size-3.5",
+                              index < (offer.lawyer.rating ?? 0)
+                                ? "fill-accent text-accent"
+                                : "fill-primary/20 text-primary/20",
+                            )}
+                          />
+                        ))}
+                      </div>
+
+                      <span className="text-primary/50">
+                        {offer.lawyer.rating} ({offer.lawyer.reviews_count}{" "}
+                        reviews)
+                      </span>
+                    </div>
                   </TableCell>
                 ))}
               </TableRow>

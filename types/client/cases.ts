@@ -145,6 +145,8 @@ export type CaseOffer = {
     photo_url: string;
     specializations: string[];
     years_of_experience: number;
+    rating: null | number;
+    reviews_count: number;
   };
 };
 

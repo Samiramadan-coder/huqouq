@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import AcceptOffer from "./accept-offer";
-import { ChevronRight, ShieldCheck } from "lucide-react";
+import { ChevronRight, ShieldCheck, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/cases";
 import { useLocale, useTranslations } from "next-intl";
@@ -63,20 +63,26 @@ export default function LawyerOfferCard({
               </div>
             </div>
 
-            {/* <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
               <div className="flex items-center gap-0.5">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Star
                     key={index}
-                    className="size-3.5 fill-accent text-accent"
+                    className={cn(
+                      "size-3.5",
+                      index < (caseOffer.lawyer.rating ?? 0)
+                        ? "fill-accent text-accent"
+                        : "fill-primary/20 text-primary/20",
+                    )}
                   />
                 ))}
               </div>
 
-              <span className="text-primary/50">4.9 (134 reviews)</span>
-              <span className="text-secondary">·</span>
-              <span className="text-primary/50">Responds within 2 hrs</span>
-            </div> */}
+              <span className="text-primary/50">
+                {caseOffer.lawyer.rating} ({caseOffer.lawyer.reviews_count}{" "}
+                reviews)
+              </span>
+            </div>
 
             <p
               className={cn(

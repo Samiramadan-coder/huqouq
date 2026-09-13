@@ -4,16 +4,15 @@ import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { Filters } from "@/types/lawyer/browse-cases";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Filters } from "@/types/client/find-lawyer";
 import { Separator } from "@/components/ui/separator";
-// import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-// import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
-// import UrgencyBadge from "../../reusable/urgency-label";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { useFindLawyerFilters } from "@/providers/find-lawyer-filters";
 
-export default function FiltersControl() {
+export default function FiltersControl({ filters }: { filters: Filters }) {
   const t = useTranslations("Client.FindLawyer");
-  // const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
+  const { lawyerFilters, setLawyerFilters } = useFindLawyerFilters();
 
   return (
     <Card className="rounded-sm ring-0! border border-secondary p-0 gap-0">
@@ -39,7 +38,7 @@ export default function FiltersControl() {
         <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
           {t("specialization")}
         </p>
-        {/* <FieldGroup className="gap-3">
+        <FieldGroup className="gap-3">
           {filters.specializations.map((spec) => (
             <Field key={spec.id} orientation="horizontal">
               <Checkbox
@@ -71,16 +70,11 @@ export default function FiltersControl() {
                 htmlFor={`specialization-${spec.id}`}
                 className="text-xs text-primary font-medium"
               >
-                {spec.name}{" "}
-                {filters.my_specialization_ids.includes(spec.id) && (
-                  <span className="uppercase text-accent text-[9px] font-semibold">
-                    {t("YourSpecialization")}
-                  </span>
-                )}
+                {spec.name}
               </FieldLabel>
             </Field>
           ))}
-        </FieldGroup> */}
+        </FieldGroup>
       </div>
 
       <Separator className="bg-secondary" />
@@ -89,7 +83,7 @@ export default function FiltersControl() {
         <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
           {t("emirates")}
         </p>
-        {/* <FieldGroup className="gap-3">
+        <FieldGroup className="gap-3">
           {filters.emirates.map((emirate) => (
             <Field key={emirate} orientation="horizontal">
               <Checkbox
@@ -120,7 +114,135 @@ export default function FiltersControl() {
               </FieldLabel>
             </Field>
           ))}
-        </FieldGroup> */}
+        </FieldGroup>
+      </div>
+
+      <Separator className="bg-secondary" />
+
+      <div className="px-4 py-3">
+        <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
+          {t("languages")}
+        </p>
+        <FieldGroup className="gap-3">
+          {filters.languages.map((language) => (
+            <Field key={language} orientation="horizontal">
+              <Checkbox
+                className="rounded-xs"
+                id={`language-${language}`}
+                name={`language-${language}`}
+                checked={lawyerFilters.languages.includes(language)}
+                onCheckedChange={(e) => {
+                  const value = language;
+                  if (e) {
+                    setLawyerFilters({
+                      page: "1",
+                      languages: [...lawyerFilters.languages, value],
+                    });
+                  } else {
+                    setLawyerFilters({
+                      page: "1",
+                      languages: lawyerFilters.languages.filter(
+                        (v) => v !== value,
+                      ),
+                    });
+                  }
+                }}
+              />
+              <FieldLabel
+                htmlFor={`language-${language}`}
+                className="text-xs text-primary font-medium"
+              >
+                {language}
+              </FieldLabel>
+            </Field>
+          ))}
+        </FieldGroup>
+      </div>
+
+      <Separator className="bg-secondary" />
+
+      <div className="px-4 py-3">
+        <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
+          {t("ratings")}
+        </p>
+        <FieldGroup className="gap-3">
+          {filters.ratings.map((rating) => (
+            <Field key={rating.value} orientation="horizontal">
+              <Checkbox
+                className="rounded-xs"
+                id={`rating-${rating.value}`}
+                name={`rating-${rating.value}`}
+                checked={lawyerFilters.rating.includes(rating.value.toString())}
+                onCheckedChange={(e) => {
+                  const value = rating.value;
+                  if (e) {
+                    setLawyerFilters({
+                      page: "1",
+                      rating: [...lawyerFilters.rating, value.toString()],
+                    });
+                  } else {
+                    setLawyerFilters({
+                      page: "1",
+                      rating: lawyerFilters.rating.filter(
+                        (v) => v !== value.toString(),
+                      ),
+                    });
+                  }
+                }}
+              />
+              <FieldLabel
+                htmlFor={`rating-${rating.value}`}
+                className="text-xs text-primary font-medium"
+              >
+                {rating.label}
+              </FieldLabel>
+            </Field>
+          ))}
+        </FieldGroup>
+      </div>
+
+      <Separator className="bg-secondary" />
+
+      <div className="px-4 py-3">
+        <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
+          {t("availability")}
+        </p>
+        <FieldGroup className="gap-3">
+          {filters.availability.map((availability) => (
+            <Field key={availability.value} orientation="horizontal">
+              <Checkbox
+                className="rounded-xs"
+                id={`availability-${availability.value}`}
+                name={`availability-${availability.value}`}
+                checked={lawyerFilters.availability.includes(
+                  availability.value,
+                )}
+                onCheckedChange={(e) => {
+                  const value = availability.value;
+                  if (e) {
+                    setLawyerFilters({
+                      page: "1",
+                      availability: [...lawyerFilters.availability, value],
+                    });
+                  } else {
+                    setLawyerFilters({
+                      page: "1",
+                      availability: lawyerFilters.availability.filter(
+                        (v) => v !== value,
+                      ),
+                    });
+                  }
+                }}
+              />
+              <FieldLabel
+                htmlFor={`availability-${availability.value}`}
+                className="text-xs text-primary font-medium"
+              >
+                {availability.label}
+              </FieldLabel>
+            </Field>
+          ))}
+        </FieldGroup>
       </div>
     </Card>
   );

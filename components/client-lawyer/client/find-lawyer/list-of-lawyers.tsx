@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, Shield, Star } from "lucide-react";
-import { Lawyer } from "@/types/client/find-lawyer";
+import { Filters, Lawyer } from "@/types/client/find-lawyer";
 import { Card, CardContent } from "@/components/ui/card";
 import ListOfLawyersHeader from "./list-of-lawyers-header";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -14,10 +14,12 @@ export default async function ListOfLawyers({
   lawyers,
   pagination,
   caseId,
+  filters,
 }: {
   lawyers: Lawyer[];
   pagination: Meta;
   caseId?: string;
+  filters: Filters;
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
@@ -25,7 +27,7 @@ export default async function ListOfLawyers({
 
   return (
     <div className="space-y-3">
-      <ListOfLawyersHeader total={pagination.total} />
+      <ListOfLawyersHeader total={pagination.total} filters={filters} />
 
       {lawyers.length > 0 ? (
         <>
