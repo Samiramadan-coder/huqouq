@@ -35,8 +35,6 @@ async function GetCaseDetails({
     throw new Error("Failed to fetch case details");
   }
 
-  console.log(data);
-
   return <Details caseDetails={data.data} hire={!!hire} />;
 }
 

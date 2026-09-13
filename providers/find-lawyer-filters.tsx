@@ -12,13 +12,13 @@ const filtersParsers = () => ({
   specialization_id: parseAsArrayOf(parseAsInteger)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
-  languages: parseAsArrayOf(parseAsString)
+  language: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
   emirate: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
-  sorts: parseAsString
+  sort: parseAsString
     .withDefault("newest")
     .withOptions({ history: "push", shallow: false }),
   page: parseAsString

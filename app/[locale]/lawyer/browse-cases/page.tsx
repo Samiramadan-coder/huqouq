@@ -76,8 +76,8 @@ async function GetListOfCases({
           </div>
         )}
 
-        <div className="flex gap-5">
-          <div className="w-60 shrink-0 sticky top-6 hidden lg:block">
+        <div className="flex items-start gap-5">
+          <div className="w-60 shrink-0 sticky top-20 hidden lg:block">
             <FiltersControl filters={data.filters} />
           </div>
 

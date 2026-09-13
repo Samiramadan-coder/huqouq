@@ -11,6 +11,13 @@ import QuerySearchAndTitle from "@/components/client-lawyer/client/find-lawyer/q
 type SerachParams = {
   page?: string;
   caseId?: string;
+  specialization_id?: string;
+  emirate?: string;
+  language?: string;
+  rating?: string;
+  availability?: string;
+  sort?: string;
+  q?: string;
 };
 
 async function GetListOfLawyers({
@@ -18,7 +25,17 @@ async function GetListOfLawyers({
 }: {
   searchParams: Promise<SerachParams>;
 }) {
-  const { page, caseId } = await searchParams;
+  const {
+    page,
+    caseId,
+    specialization_id,
+    emirate,
+    language,
+    rating,
+    availability,
+    sort,
+    q,
+  } = await searchParams;
 
   const { data, ok } = await http.get<{
     data: Lawyer[];
@@ -27,6 +44,13 @@ async function GetListOfLawyers({
   }>("/api/lawyers", {
     params: {
       page: page || "1",
+      specialization_id: specialization_id ?? "",
+      emirate: emirate ?? "",
+      language: language ?? "",
+      rating: rating ?? "",
+      sort: sort ?? "",
+      q: q ?? "",
+      availability: availability ?? "",
     },
   });
 
@@ -35,8 +59,8 @@ async function GetListOfLawyers({
   }
 
   return (
-    <div className="flex gap-5">
-      <div className="w-60 shrink-0 sticky top-6 hidden lg:block">
+    <div className="flex items-start gap-5">
+      <div className="w-60 shrink-0 sticky top-20 hidden lg:block">
         <FiltersControl filters={data.filters} />
       </div>
 

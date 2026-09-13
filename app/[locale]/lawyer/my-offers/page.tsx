@@ -34,8 +34,6 @@ async function GetMOffers({
     throw new Error("Failed to fetch offers");
   }
 
-  console.log(data.data);
-
   return (
     <div className="space-y-4">
       <Stats counts={data.counts} />

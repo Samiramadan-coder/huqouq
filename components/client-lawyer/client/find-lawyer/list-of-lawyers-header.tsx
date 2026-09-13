@@ -50,8 +50,8 @@ export default function ListOfLawyersHeader({
       </div>
 
       <Select
-        value={lawyerFilters.sorts}
-        onValueChange={(value) => setLawyerFilters({ sorts: value, page: "1" })}
+        value={lawyerFilters.sort}
+        onValueChange={(value) => setLawyerFilters({ sort: value, page: "1" })}
       >
         <SelectTrigger className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs">
           <SelectValue />

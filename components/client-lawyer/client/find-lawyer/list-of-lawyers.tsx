@@ -80,7 +80,11 @@ export default async function ListOfLawyers({
                       {Array.from({ length: 5 }).map((_, index) => (
                         <Star
                           key={index}
-                          className="size-3 fill-accent text-accent"
+                          className={`size-3 ${
+                            index < lawyer.rating
+                              ? "fill-accent text-accent"
+                              : "fill-primary/20 text-primary/20"
+                          }`}
                         />
                       ))}
                     </div>

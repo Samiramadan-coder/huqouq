@@ -27,6 +27,18 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
         <Button
           variant="ghost"
           className="p-0 text-xs font-semibold hover:text-accent hover:bg-transparent text-accent"
+          onClick={() =>
+            setLawyerFilters({
+              page: "1",
+              specialization_id: [],
+              emirate: [],
+              language: [],
+              rating: [],
+              availability: [],
+              sort: "",
+              q: "",
+            })
+          }
         >
           {t("clearAll")}
         </Button>
@@ -130,18 +142,18 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 className="rounded-xs"
                 id={`language-${language}`}
                 name={`language-${language}`}
-                checked={lawyerFilters.languages.includes(language)}
+                checked={lawyerFilters.language.includes(language)}
                 onCheckedChange={(e) => {
                   const value = language;
                   if (e) {
                     setLawyerFilters({
                       page: "1",
-                      languages: [...lawyerFilters.languages, value],
+                      language: [...lawyerFilters.language, value],
                     });
                   } else {
                     setLawyerFilters({
                       page: "1",
-                      languages: lawyerFilters.languages.filter(
+                      language: lawyerFilters.language.filter(
                         (v) => v !== value,
                       ),
                     });
