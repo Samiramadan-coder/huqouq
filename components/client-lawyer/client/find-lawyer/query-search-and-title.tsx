@@ -10,10 +10,14 @@ import Hint from "../../reusable/hint";
 import Title from "../../reusable/title";
 import { useTranslations } from "next-intl";
 import { useFindLawyerFilters } from "@/providers/find-lawyer-filters";
+import { useDebouncedState } from "@/hook/use-debounced-state";
 
 export default function QuerySearchAndTitle() {
   const t = useTranslations("Client.FindLawyer");
   const { lawyerFilters, setLawyerFilters } = useFindLawyerFilters();
+  const [search, setSearch] = useDebouncedState(lawyerFilters.q, (q) =>
+    setLawyerFilters({ q, page: "1" }),
+  );
 
   return (
     <div className="flex items-center justify-between flex-wrap gap-4">
@@ -26,8 +30,8 @@ export default function QuerySearchAndTitle() {
         <InputGroupInput
           placeholder={t("searchPlaceholder")}
           className="placeholder:text-primary/35"
-          value={lawyerFilters.q}
-          onChange={(e) => setLawyerFilters({ q: e.target.value, page: "1" })}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <InputGroupAddon>
           <Search className="text-primary/35" />
