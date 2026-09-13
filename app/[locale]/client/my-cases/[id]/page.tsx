@@ -60,6 +60,8 @@ async function SingleCase({
     throw new Error("Failed to fetch case details or timeline or offers");
   }
 
+  console.log(timeline);
+
   return (
     <Index
       caseDetails={caseData.data}

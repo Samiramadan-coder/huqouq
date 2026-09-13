@@ -49,32 +49,32 @@ export default async function Index({
   const tCommon = await getTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
 
-  function getStepDescription(key: Step["key"], at: string | null) {
-    switch (key) {
+  function getStepDescription(step: Step) {
+    switch (step.key) {
       case "posted":
         return t("PostedOn", {
-          date: formatDate(at!),
+          date: formatDate(step.at!),
         });
 
       case "approved":
-        return at
-          ? t("ReviewedOn", { date: formatDate(at) })
+        return step.at
+          ? t("ReviewedOn", { date: formatDate(step.at) })
           : t("Timeline.ReviewedOnPending");
 
       case "offers":
         return t("Timeline.OffersReceivedMessage", {
-          count: caseDetails.offers_count,
+          count: step.meta.offers_count,
         });
 
       case "hired":
-        return at
-          ? t("Timeline.HiredOn", {
-              date: formatDate(at),
+        return step.meta
+          ? t("Timeline.HiredTo", {
+              name: step.meta.lawyer,
             })
           : "";
 
       case "in_progress":
-        return at
+        return step.at
           ? t("Timeline.InProgressMessage")
           : t("Timeline.PendingFeesMessage");
 
@@ -204,7 +204,7 @@ export default async function Index({
 
                       <AccordionContent className="pb-4">
                         <div className="rounded-sm border-s-2 border-accent/70 bg-background px-4 py-3 text-xs leading-5 text-primary/70">
-                          {getStepDescription(item.key, item.at)}
+                          {getStepDescription(item)}
                         </div>
                       </AccordionContent>
                     </AccordionItem>

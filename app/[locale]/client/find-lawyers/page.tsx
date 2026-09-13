@@ -14,7 +14,7 @@ type SerachParams = {
   specialization_id?: string;
   emirate?: string;
   language?: string;
-  rating?: string;
+  min_rating?: string;
   availability?: string;
   sort?: string;
   q?: string;
@@ -31,7 +31,7 @@ async function GetListOfLawyers({
     specialization_id,
     emirate,
     language,
-    rating,
+    min_rating,
     availability,
     sort,
     q,
@@ -47,7 +47,7 @@ async function GetListOfLawyers({
       specialization_id: specialization_id ?? "",
       emirate: emirate ?? "",
       language: language ?? "",
-      rating: rating ?? "",
+      min_rating: min_rating ?? "",
       sort: sort ?? "",
       q: q ?? "",
       availability: availability ?? "",

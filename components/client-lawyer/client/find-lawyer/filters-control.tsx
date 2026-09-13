@@ -33,7 +33,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
               specialization_id: [],
               emirate: [],
               language: [],
-              rating: [],
+              min_rating: [],
               availability: [],
               sort: "",
               q: "",
@@ -184,18 +184,23 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 className="rounded-xs"
                 id={`rating-${rating.value}`}
                 name={`rating-${rating.value}`}
-                checked={lawyerFilters.rating.includes(rating.value.toString())}
+                checked={lawyerFilters.min_rating.includes(
+                  rating.value.toString(),
+                )}
                 onCheckedChange={(e) => {
                   const value = rating.value;
                   if (e) {
                     setLawyerFilters({
                       page: "1",
-                      rating: [...lawyerFilters.rating, value.toString()],
+                      min_rating: [
+                        ...lawyerFilters.min_rating,
+                        value.toString(),
+                      ],
                     });
                   } else {
                     setLawyerFilters({
                       page: "1",
-                      rating: lawyerFilters.rating.filter(
+                      min_rating: lawyerFilters.min_rating.filter(
                         (v) => v !== value.toString(),
                       ),
                     });

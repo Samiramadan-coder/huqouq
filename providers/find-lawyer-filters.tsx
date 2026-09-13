@@ -27,7 +27,7 @@ const filtersParsers = () => ({
   availability: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
-  rating: parseAsArrayOf(parseAsString)
+  min_rating: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
   q: parseAsString

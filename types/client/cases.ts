@@ -150,17 +150,21 @@ export type CaseOffer = {
   };
 };
 
-export type Step = {
+type BaseStep = {
   at: string | null;
-  key:
-    | "posted"
-    | "approved"
-    | "offers"
-    | "hired"
-    | "in_progress"
-    | "pending_closure"
-    | "closed"
-    | "reviewed";
   label: string;
   state: "done" | "current" | "upcoming";
 };
+
+export type Step =
+  | (BaseStep & {
+      key:
+        | "posted"
+        | "approved"
+        | "in_progress"
+        | "pending_closure"
+        | "closed"
+        | "reviewed";
+    })
+  | (BaseStep & { key: "offers"; meta: { offers_count: number } })
+  | (BaseStep & { key: "hired"; meta: { lawyer: string } | undefined });
