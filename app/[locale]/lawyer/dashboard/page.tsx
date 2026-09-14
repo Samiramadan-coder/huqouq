@@ -5,7 +5,6 @@ export default async function Page() {
   return (
     <div className="container max-w-7xl mx-auto space-y-6 py-10">
       <Info />
-
       <RecentCases />
     </div>
   );
