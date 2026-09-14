@@ -1158,6 +1158,14 @@
       "languages": "Languages",
       "ratings": "Ratings",
       "availability": "Availability"
+    },
+    "Messages": {
+      "Title": "Messages",
+      "SearchPlaceholder": "Search conversations…",
+      "Verified": "Verified",
+      "IsResolved": "Is this case resolved?",
+      "MarkAsComplete": "Mark as Complete",
+      "WriteAMessage": "Write a message"
     }
   },
   "Lawyer": {

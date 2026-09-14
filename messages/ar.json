@@ -1154,6 +1154,14 @@
       "languages": "اللغات",
       "ratings": "التقييمات",
       "availability": "التوافر"
+    },
+    "Messages": {
+      "Title": "الرسائل",
+      "SearchPlaceholder": "ابحث في المحادثات…",
+      "Verified": "تم التحقق",
+      "IsResolved": "هل تم حل هذه القضية؟",
+      "MarkAsComplete": "وضع علامة كمكتمل",
+      "WriteAMessage": "اكتب رسالة"
     }
   },
   "Lawyer": {
