@@ -41,14 +41,14 @@ export default function RecentCases() {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <h3 className={`text-lg font-semibold text-primary ${fontClass}`}>
           {t("RecentCases")}
         </h3>
 
         <Link
           href="/lawyer/browse-cases"
-          className="text-sm text-accent flex items-center gap-1"
+          className="text-sm text-accent flex items-center gap-1 ms-auto"
         >
           {t("ViewAll")}
           <ArrowRight className="rtl:rotate-180 size-4" />
