@@ -3,7 +3,7 @@ import RecentCases from "@/components/client-lawyer/lawyer/dashboard/recent-case
 
 export default async function Page() {
   return (
-    <div className="max-w-7xl mx-auto space-y-6 py-10">
+    <div className="container max-w-7xl mx-auto space-y-6 py-10">
       <Info />
 
       <RecentCases />
