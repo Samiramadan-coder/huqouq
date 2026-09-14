@@ -1,4 +1,4 @@
-import { CaseOffer, CaseStatus } from "../client/cases";
+import { CaseOffer, CaseStatus } from "../client/my-cases";
 
 type Client = {
   first_name: string;

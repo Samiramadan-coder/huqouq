@@ -27,7 +27,7 @@ import { cn } from "@/lib/utils";
 import AcceptOffer from "./accept-offer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CaseOffer } from "@/types/client/cases";
+import { CaseOffer } from "@/types/client/my-cases";
 import { ChartNoAxesColumn, ShieldCheck, Star } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import Proposal from "./proposal-message";

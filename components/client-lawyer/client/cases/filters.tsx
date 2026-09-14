@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { parseAsString, useQueryStates } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Counts } from "@/types/client/cases";
+import { Counts } from "@/types/client/my-cases";
 
 export default function Filters({ counts }: { counts: Counts }) {
   const t = useTranslations("Client.Cases.Filters");

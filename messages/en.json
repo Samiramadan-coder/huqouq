@@ -1387,7 +1387,17 @@
       "Complete": "Complete",
       "CompleteProfile": "Complete Profile",
       "Next": "Next",
-      "InReview": "Your Profile Is In Review"
+      "InReview": "Your Profile Is In Review",
+      "RecentCases": "Recent Cases Matching Your Specialization",
+      "ViewAll": "Browse All Cases",
+      "CaseTitle": "Case Title",
+      "Category": "Category",
+      "Urgency": "Urgency",
+      "Posted": "Posted",
+      "Offers": "Offers",
+      "Actions": "Actions",
+      "NoCases": "No cases found.",
+      "View": "View"
     },
     "BrowseCases": {
       "Title": "Browse Cases",

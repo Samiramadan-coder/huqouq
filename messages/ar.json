@@ -1370,6 +1370,31 @@
         }
       }
     },
+    "Dashboard": {
+      "GoodEvening": "مساء الخير",
+      "GoodMorning": "صباح الخير",
+      "GoodAfternoon": "طاب يومك",
+      "Verified": "تم التحقق",
+      "Unverified": "لم يتم التحقق",
+      "Reviews": "التقييمات",
+      "CasesHandled": "القضايا التي تم التعامل معها",
+      "RespondsWithinAnHour": "يستجيب خلال ساعة",
+      "MemberSince": "عضو منذ",
+      "Complete": "مكتمل",
+      "CompleteProfile": "أكمل الملف الشخصي",
+      "Next": "التالي",
+      "InReview": "ملفك الشخصي قيد المراجعة",
+      "RecentCases": "الحالات الأخيرة التي تطابق تخصصك",
+      "ViewAll": "تصفح جميع القضايا",
+      "CaseTitle": "عنوان القضية",
+      "Category": "الفئة",
+      "Urgency": "الاستعجال",
+      "Posted": "تاريخ النشر",
+      "Offers": "العروض",
+      "Actions": "الإجراءات",
+      "NoCases": "لم يتم العثور على قضايا.",
+      "View": "عرض"
+    },
     "BrowseCases": {
       "Title": "تصفح القضايا",
       "SearchPlaceholder": "ابحث بالعنوان، الفئة، الكلمة المفتاحية...",
@@ -1454,6 +1479,15 @@
       "ViewCase": "عرض القضية",
       "NoOffers": "لم يتم العثور على عروض",
       "ClientBudget": "ميزانية العميل"
+    },
+    "MyCases": {
+      "Title": "حالاتي",
+      "Description": "الحالات التي تم قبول عرضك فيها — مشاركاتك النشطة والسابقة.",
+      "Client": "العميل",
+      "Accepted": "تم القبول",
+      "AgreedFee": "الرسوم المتفق عليها",
+      "ViewCase": "عرض القضية",
+      "NoCasesFound": "لم يتم العثور على حالات"
     }
   }
 }

@@ -1,5 +1,5 @@
 import { http } from "@/lib/http";
-import { CaseDetails, Counts } from "@/types/client/cases";
+import { CaseDetails, Counts } from "@/types/client/my-cases";
 import Stats from "@/components/client-lawyer/client/dashboard/stats";
 import WelcomeText from "@/components/client-lawyer/reusable/welcome-text";
 import NeedHelp from "@/components/client-lawyer/client/dashboard/need-help";

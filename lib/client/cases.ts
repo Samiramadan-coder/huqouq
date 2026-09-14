@@ -2,7 +2,7 @@
 
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
-import { PostCaseFormData } from "@/types/client/cases";
+import { PostCaseFormData } from "@/types/client/my-cases";
 
 // Post Or Update Case
 type CaseResponse =

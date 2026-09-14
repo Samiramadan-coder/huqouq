@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { CaseOffer } from "@/types/client/cases";
+import { CaseOffer } from "@/types/client/my-cases";
 import { Spinner } from "@/components/ui/spinner";
 import { declineCaseOffer } from "@/lib/client/cases";
 

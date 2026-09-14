@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import PayTheCase from "./pay-the-case";
 import { Button } from "@/components/ui/button";
 import { Lock, MessageSquare } from "lucide-react";
-import { CaseDetails } from "@/types/client/cases";
+import { CaseDetails } from "@/types/client/my-cases";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLocale, getTranslations } from "next-intl/server";

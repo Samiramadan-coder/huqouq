@@ -3,7 +3,7 @@ import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails, CaseOffer, Step } from "@/types/client/cases";
+import { CaseDetails, CaseOffer, Step } from "@/types/client/my-cases";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Index from "@/components/client-lawyer/client/cases/details";
 

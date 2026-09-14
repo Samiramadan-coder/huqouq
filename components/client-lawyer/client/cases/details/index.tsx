@@ -27,7 +27,7 @@ import { Separator } from "@/components/ui/separator";
 import { getLocale, getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
-import { CaseDetails, CaseOffer, Step } from "@/types/client/cases";
+import { CaseDetails, CaseOffer, Step } from "@/types/client/my-cases";
 import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";

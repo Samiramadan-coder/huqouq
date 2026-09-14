@@ -4,7 +4,7 @@ import {
   CaseDetails,
   PostCaseFormData,
   postCaseShema,
-} from "@/types/client/cases";
+} from "@/types/client/my-cases";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Hint from "../../reusable/hint";

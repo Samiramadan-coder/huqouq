@@ -1,9 +1,12 @@
 import Info from "@/components/client-lawyer/lawyer/dashboard/info";
+import RecentCases from "@/components/client-lawyer/lawyer/dashboard/recent-cases";
 
 export default async function Page() {
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto space-y-6">
       <Info />
+
+      <RecentCases />
     </div>
   );
 }

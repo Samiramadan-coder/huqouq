@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/utils";
 import PublishCase from "./publish-case";
 import { ArrowRight } from "lucide-react";
-import { Case } from "@/types/client/cases";
+import { Case } from "@/types/client/my-cases";
 import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";

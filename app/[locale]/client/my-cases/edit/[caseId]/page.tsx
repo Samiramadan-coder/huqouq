@@ -1,6 +1,6 @@
 import Form from "@/components/client-lawyer/client/cases/form";
 import { http } from "@/lib/http";
-import { CaseDetails } from "@/types/client/cases";
+import { CaseDetails } from "@/types/client/my-cases";
 
 type Params = {
   caseId: string;

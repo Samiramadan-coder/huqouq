@@ -2,7 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { MoveRight } from "lucide-react";
 import { getLocale } from "next-intl/server";
-import { CaseDetails } from "@/types/client/cases";
+import { CaseDetails } from "@/types/client/my-cases";
 import { CasesTable } from "../cases/data-preview";
 
 export default async function RecentCases({ cases }: { cases: CaseDetails[] }) {

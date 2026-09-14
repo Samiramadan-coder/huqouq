@@ -5,7 +5,7 @@ import { useState } from "react";
 import AcceptOffer from "./accept-offer";
 import { ChevronRight, ShieldCheck, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CaseOffer } from "@/types/client/cases";
+import { CaseOffer } from "@/types/client/my-cases";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import {
