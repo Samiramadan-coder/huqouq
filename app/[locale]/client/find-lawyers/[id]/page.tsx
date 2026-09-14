@@ -61,7 +61,7 @@ export default async function Page({
   const t = await getTranslations("Client.FindLawyer");
 
   return (
-    <div className="container max-w-5xl space-y-6">
+    <div className="container max-w-5xl space-y-6 py-10">
       <BackBtn>{t("backToFindLawyers")}</BackBtn>
 
       <Suspense

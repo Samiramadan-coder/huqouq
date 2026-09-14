@@ -53,7 +53,7 @@ async function GetListOfCases({
 
   return (
     <LawyerBrowseCasesFiltersProvider>
-      <div className="space-y-6">
+      <div className="space-y-6 px-4 sm:px-6 py-10">
         <QuerySearchAndTitle />
 
         {data.can_submit_offer === false && (

@@ -67,7 +67,7 @@ export default async function Page({
   const t = await getTranslations("Lawyer.BrowseCases");
 
   return (
-    <div className="container max-w-5xl space-y-6">
+    <div className="container max-w-5xl space-y-6 py-10">
       <div>
         <Title>{t("hireCases")}</Title>
         <Hint>{t("hireCasesDescription")}</Hint>
@@ -78,26 +78,6 @@ export default async function Page({
       >
         <GetListOfCases searchParams={searchParams} />
       </Suspense>
-
-      {/* {data.data.length > 0 ? (
-        <div className="space-y-4">
-          {data.data.map((caseItem) => (
-            <CaseCard
-              key={caseItem.id}
-              caseItem={caseItem}
-              can_submit_offer={true}
-              isHireCase={true}
-            />
-          ))}
-
-          <PaginationTemplate
-            currentPage={data.meta.current_page}
-            totalPages={data.meta.last_page}
-          />
-        </div>
-      ) : (
-        <p className="text-sm text-primary/50">{t("NoHireCasesFound")}</p>
-      )} */}
     </div>
   );
 }

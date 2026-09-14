@@ -80,7 +80,7 @@ export default async function Page({
   const t = await getTranslations("Client.Cases");
 
   return (
-    <div className="container max-w-3xl space-y-6">
+    <div className="container max-w-3xl space-y-6 py-10">
       <BackBtn>
         <span>{t("backToCases")}</span>
       </BackBtn>

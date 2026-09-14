@@ -106,7 +106,7 @@ export default function Form({
   };
 
   return (
-    <div className="container max-w-3xl space-y-6">
+    <div className="container max-w-3xl space-y-6 py-10">
       <div>
         <Title>{caseItem ? t("editCase") : t("createNew")}</Title>
         <Hint>{caseItem ? t("editCaseHint") : t("createNewHint")}</Hint>

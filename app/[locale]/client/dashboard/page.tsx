@@ -17,7 +17,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="container max-w-7xl space-y-6">
+    <div className="container max-w-7xl space-y-6 py-10">
       <WelcomeText />
       <Stats activeCases={data.counts.all} hasOffers={data.counts.has_offers} />
       <NeedHelp />

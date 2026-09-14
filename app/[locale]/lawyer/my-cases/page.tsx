@@ -25,7 +25,7 @@ export default async function Page() {
   const t = await getTranslations("Lawyer.MyCases");
 
   return (
-    <div className="space-y-6 container max-w-5xl">
+    <div className="space-y-6 container max-w-5xl py-10">
       <div>
         <Title>{t("Title")}</Title>
         <Hint>{t("Description")}</Hint>

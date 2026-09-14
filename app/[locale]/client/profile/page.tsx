@@ -4,7 +4,7 @@ import UpdateProfile from "@/components/client-lawyer/client/profile/update-prof
 
 export default function Page() {
   return (
-    <div className="space-y-6 container max-w-3xl">
+    <div className="space-y-6 container max-w-3xl py-10">
       <PersonalInfo />
       <UpdateProfile />
       <QuickLinks />

@@ -63,7 +63,7 @@ export default async function Page({
   const t = await getTranslations("Client.Cases");
 
   return (
-    <div className="space-y-6 container max-w-7xl">
+    <div className="space-y-6 container max-w-7xl py-10">
       <Title>{t("myCases")}</Title>
 
       <Suspense
