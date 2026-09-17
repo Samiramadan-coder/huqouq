@@ -1,19 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { ensureFirebaseAuth, sendTextMessage } from "@/features/chat";
-import { db, storage } from "@/lib/firebase";
-import { useUser } from "@/providers/user-provider";
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { ArrowUp, CheckCheck, Paperclip } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
+import { db, storage } from "@/lib/firebase";
+import MarkAsComplete from "./mark-as-complete";
+import { useUser } from "@/providers/user-provider";
+import { ArrowUp, CheckCheck, Paperclip } from "lucide-react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ensureFirebaseAuth, sendTextMessage } from "@/features/chat";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 export default function SendMessage({ caseId }: { caseId: string }) {
   const { user } = useUser();
@@ -48,9 +48,7 @@ export default function SendMessage({ caseId }: { caseId: string }) {
 
     if (!allowedTypes.includes(file.type)) {
       console.error("Unsupported file type:", file.type);
-
       event.target.value = "";
-
       return;
     }
 
@@ -99,17 +97,10 @@ export default function SendMessage({ caseId }: { caseId: string }) {
       <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
         <p className="flex items-center gap-2 text-sm font-medium text-primary">
           <CheckCheck className="size-3 text-accent" />
-
           <span className="text-xs text-primary/70">{t("IsResolved")}</span>
         </p>
 
-        <Button
-          type="button"
-          variant="outline"
-          className="rounded-sm border-secondary bg-white text-[11px] font-medium text-accent"
-        >
-          {t("MarkAsComplete")}
-        </Button>
+        <MarkAsComplete caseId={+caseId} />
       </Card>
 
       {/* Selected file */}
@@ -240,19 +231,12 @@ async function sendFileMessage({
 
   await setDoc(messageRef, {
     senderId: String(userId),
-
     type: "file",
-
     text: cleanText || null,
-
     fileUrl,
-
     fileName: file.name,
-
     fileType: file.type || "application/octet-stream",
-
     fileSizeBytes: file.size || null,
-
     createdAt: serverTimestamp(),
   });
 
@@ -260,14 +244,10 @@ async function sendFileMessage({
     chatRef,
     {
       caseId: String(caseId),
-
       caseTitle: caseTitle ?? null,
-
       lastMessage:
         cleanText || (file.type.startsWith("image/") ? "Photo" : "File"),
-
       lastMessageAt: serverTimestamp(),
-
       lastMessageSenderId: String(userId),
     },
     {

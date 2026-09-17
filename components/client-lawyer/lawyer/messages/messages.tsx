@@ -89,14 +89,6 @@ export default function Messages({
           <div className="flex min-h-0 flex-1 flex-col">
             <div className="flex-1 overflow-y-auto px-5 py-4">
               <div className="flex flex-col gap-5">
-                <div className="text-center">
-                  <Badge className="text-[11px] bg-accent/10 text-accent py-1 font-normal px-3 border-accent/20">
-                    {t("AcceptedYourCase", {
-                      lawyerName: activeCase?.client.name || "Client",
-                    })}
-                  </Badge>
-                </div>
-
                 {messages.map((message) => {
                   const isFile = message.type === "file";
 
