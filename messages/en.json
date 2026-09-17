@@ -1134,7 +1134,8 @@
         "Current": "Current",
         "ReviewedOnPending": "Reviewed on (pending)",
         "PendingClosureOn": "Case nearing resolution. Final review pending before closure.",
-        "ClosedCase": "Case is being closed."
+        "ClosedCase": "Case is being closed.",
+        "ReviewedOn": "Reviewed on {date}"
       }
     },
     "FindLawyer": {

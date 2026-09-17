@@ -1129,7 +1129,8 @@
         "Current": "الحالي",
         "ReviewedOnPending": "تمت المراجعة (قيد الانتظار)",
         "PendingClosureOn": "القضية تقترب من الحل. المراجعة النهائية معلقة قبل الإغلاق.",
-        "ClosedCase": "يتم إغلاق القضية."
+        "ClosedCase": "يتم إغلاق القضية.",
+        "ReviewedOn": "تمت المراجعة في {date}"
       }
     },
     "FindLawyer": {

@@ -86,7 +86,7 @@ export default async function Index({
         return t("Timeline.ClosedCase");
 
       case "reviewed":
-        return "";
+        return t("Timeline.ReviewedOn", { date: formatDate(step.at!) });
 
       default:
         return "";
