@@ -24,6 +24,8 @@ import { useUser } from "@/providers/user-provider";
 import { doc, onSnapshot } from "firebase/firestore";
 import { CaseDetails } from "@/types/lawyer/my-cases";
 
+import { ensureFirebaseAuth } from "@/features/chat";
+
 export default function ChatMembers({
   cases,
   caseId,
@@ -33,24 +35,26 @@ export default function ChatMembers({
 }) {
   const locale = useLocale();
   const t = useTranslations("Lawyer.Messages");
+
   const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="px-4 pt-5 pb-3 border-b border-secondary">
+    <div className="flex h-full flex-col">
+      <div className="border-b border-secondary px-4 pt-5 pb-3">
         <h1
-          className={`${fontClass} font-semibold text-[17px] text-primary mb-3`}
+          className={`${fontClass} mb-3 text-[17px] font-semibold text-primary`}
         >
           {t("Title")}
         </h1>
 
-        <InputGroup className="bg-background border-secondary rounded-sm h-9">
+        <InputGroup className="h-9 rounded-sm border-secondary bg-background">
           <InputGroupInput
             placeholder={t("SearchPlaceholder")}
-            className="placeholder:text-primary/35 placeholder:text-xs"
+            className="placeholder:text-xs placeholder:text-primary/35"
           />
+
           <InputGroupAddon>
-            <Search className="text-primary/35 size-3" />
+            <Search className="size-3 text-primary/35" />
           </InputGroupAddon>
         </InputGroup>
       </div>
@@ -64,7 +68,6 @@ export default function ChatMembers({
   );
 }
 
-// ChatMember component represents an individual chat member in the chat members list.
 function ChatMember({
   caseItem,
   caseId,
@@ -75,7 +78,6 @@ function ChatMember({
   const { user } = useUser();
   const router = useRouter();
 
-  // console.log(user, caseItem);
   const [chatMeta, setChatMeta] = useState<{
     lastMessage: string | null;
     lastMessageAt: Date | null;
@@ -89,47 +91,97 @@ function ChatMember({
   });
 
   useEffect(() => {
-    if (!caseItem.id || !user?.id) return;
+    if (!caseItem.id || !user?.id) {
+      return;
+    }
 
-    const chatRef = doc(db, "chats", String(caseItem.id));
+    let unsubscribe: (() => void) | undefined;
 
-    const unsubscribe = onSnapshot(chatRef, (snapshot) => {
-      if (!snapshot.exists()) return;
+    let cancelled = false;
 
-      const data = snapshot.data();
+    const startListener = async () => {
+      try {
+        await ensureFirebaseAuth();
 
-      const lastMessageAt = data.lastMessageAt?.toDate?.() ?? null;
+        if (cancelled) {
+          return;
+        }
 
-      const myLastRead = data.lastRead?.[String(user?.id)]?.toDate?.() ?? null;
+        const chatRef = doc(db, "chats", String(caseItem.id));
 
-      const isUnread =
-        !!data.lastMessageSenderId &&
-        String(data.lastMessageSenderId) !== String(user?.id) &&
-        (!myLastRead || (lastMessageAt && lastMessageAt > myLastRead));
+        unsubscribe = onSnapshot(
+          chatRef,
 
-      setChatMeta({
-        lastMessage: data.lastMessage ?? null,
-        lastMessageAt,
-        lastMessageSenderId:
-          data.lastMessageSenderId != null
-            ? String(data.lastMessageSenderId)
-            : null,
-        isUnread: Boolean(isUnread),
-      });
-    });
+          (snapshot) => {
+            if (!snapshot.exists()) {
+              setChatMeta({
+                lastMessage: null,
+                lastMessageAt: null,
+                lastMessageSenderId: null,
+                isUnread: false,
+              });
 
-    return unsubscribe;
+              return;
+            }
+
+            const data = snapshot.data();
+
+            const lastMessageAt = data.lastMessageAt?.toDate?.() ?? null;
+
+            const myLastRead =
+              data.lastRead?.[String(user.id)]?.toDate?.() ?? null;
+
+            const isUnread =
+              !!data.lastMessageSenderId &&
+              String(data.lastMessageSenderId) !== String(user.id) &&
+              (!myLastRead || (lastMessageAt && lastMessageAt > myLastRead));
+
+            setChatMeta({
+              lastMessage: data.lastMessage ?? null,
+
+              lastMessageAt,
+
+              lastMessageSenderId:
+                data.lastMessageSenderId != null
+                  ? String(data.lastMessageSenderId)
+                  : null,
+
+              isUnread: Boolean(isUnread),
+            });
+          },
+
+          (error) => {
+            console.error(
+              `Chat listener error for case ${caseItem.id}:`,
+              error,
+            );
+          },
+        );
+      } catch (error) {
+        console.error(`Firebase auth error for case ${caseItem.id}:`, error);
+      }
+    };
+
+    startListener();
+
+    return () => {
+      cancelled = true;
+
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [caseItem.id, user?.id]);
 
   return (
     <button
+      type="button"
       onClick={() => {
         router.push(`/lawyer/messages?caseId=${caseItem.id}`);
       }}
-      type="button"
       className={cn(
         "flex w-full items-center gap-3 border-b border-secondary px-4 py-3 text-start transition-colors last:border-b-0 hover:bg-gray-50",
-        +caseId === caseItem.id ? "bg-gray-100" : "",
+        String(caseId) === String(caseItem.id) ? "bg-gray-100" : "",
       )}
     >
       <Avatar className="size-11 shrink-0">
@@ -168,11 +220,12 @@ function ChatMember({
 
         <div className="mt-1 flex items-center gap-2">
           <p
-            className={`min-w-0 flex-1 truncate text-xs ${
+            className={cn(
+              "min-w-0 flex-1 truncate text-xs",
               chatMeta.isUnread
                 ? "font-semibold text-primary"
-                : "text-primary/50"
-            }`}
+                : "text-primary/50",
+            )}
           >
             {chatMeta.lastMessage || "No messages yet"}
           </p>

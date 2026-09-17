@@ -9,18 +9,34 @@ import {
   setDoc,
 } from "firebase/firestore";
 
+import { signInAnonymously, type User } from "firebase/auth";
+
 import { auth, db } from "@/lib/firebase";
-import { signInAnonymously } from "firebase/auth";
+
 import type { ChatMessage, SendTextMessageParams } from "@/types/chat";
 
-export async function ensureFirebaseAuth() {
+let firebaseAuthPromise: Promise<User> | null = null;
+
+export async function ensureFirebaseAuth(): Promise<User> {
   if (auth.currentUser) {
     return auth.currentUser;
   }
 
-  const result = await signInAnonymously(auth);
+  if (firebaseAuthPromise) {
+    return firebaseAuthPromise;
+  }
 
-  return result.user;
+  firebaseAuthPromise = signInAnonymously(auth)
+    .then((result) => {
+      return result.user;
+    })
+    .catch((error) => {
+      firebaseAuthPromise = null;
+
+      throw error;
+    });
+
+  return firebaseAuthPromise;
 }
 
 export function subscribeToMessages(
@@ -29,51 +45,83 @@ export function subscribeToMessages(
   onMessages: (messages: ChatMessage[]) => void,
   onError?: (error: Error) => void,
 ) {
-  const messagesRef = collection(db, "chats", String(caseId), "messages");
+  let unsubscribeFirestore: (() => void) | null = null;
 
-  const messagesQuery = query(messagesRef, orderBy("createdAt", "asc"));
+  let cancelled = false;
 
-  return onSnapshot(
-    messagesQuery,
+  const startListener = async () => {
+    try {
+      await ensureFirebaseAuth();
 
-    (snapshot) => {
-      const messages: ChatMessage[] = snapshot.docs.map((document) => {
-        const data = document.data();
+      if (cancelled) {
+        return;
+      }
 
-        return {
-          id: document.id,
+      const messagesRef = collection(db, "chats", String(caseId), "messages");
 
-          senderId: String(data.senderId ?? ""),
+      const messagesQuery = query(messagesRef, orderBy("createdAt", "asc"));
 
-          type: data.type ?? "text",
+      unsubscribeFirestore = onSnapshot(
+        messagesQuery,
 
-          text: data.text ?? null,
+        (snapshot) => {
+          const messages: ChatMessage[] = snapshot.docs.map((document) => {
+            const data = document.data();
 
-          fileName: data.fileName ?? null,
+            return {
+              id: document.id,
 
-          fileType: data.fileType ?? null,
+              senderId: String(data.senderId ?? ""),
 
-          fileUrl: data.fileUrl ?? null,
+              type: data.type ?? "text",
 
-          fileSizeBytes: data.fileSizeBytes ?? null,
+              text: data.text ?? null,
 
-          replyTo: data.replyTo ?? null,
+              fileName: data.fileName ?? null,
 
-          createdAt: data.createdAt?.toDate?.() ?? null,
+              fileType: data.fileType ?? null,
 
-          sentByUser: String(data.senderId) === String(currentUserId),
-        };
-      });
+              fileUrl: data.fileUrl ?? null,
 
-      onMessages(messages);
-    },
+              fileSizeBytes: data.fileSizeBytes ?? null,
 
-    (error) => {
-      console.error("Messages listener error:", error);
+              replyTo: data.replyTo ?? null,
 
-      onError?.(error);
-    },
-  );
+              createdAt: data.createdAt?.toDate?.() ?? null,
+
+              sentByUser: String(data.senderId) === String(currentUserId),
+            };
+          });
+
+          onMessages(messages);
+        },
+
+        (error) => {
+          console.error(`Messages listener error for case ${caseId}:`, error);
+
+          onError?.(error);
+        },
+      );
+    } catch (error) {
+      console.error("Firebase authentication error:", error);
+
+      onError?.(
+        error instanceof Error
+          ? error
+          : new Error("Firebase authentication failed"),
+      );
+    }
+  };
+
+  startListener();
+
+  return () => {
+    cancelled = true;
+
+    if (unsubscribeFirestore) {
+      unsubscribeFirestore();
+    }
+  };
 }
 
 export async function sendTextMessage({
@@ -103,7 +151,9 @@ export async function sendTextMessage({
     text: cleanText,
 
     fileName: null,
+
     fileType: null,
+
     fileUrl: null,
 
     replyTo,

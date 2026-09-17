@@ -1,8 +1,7 @@
 import { http } from "@/lib/http";
-import { Case } from "@/types/client/my-cases";
+import { CaseDetails } from "@/types/lawyer/my-cases";
 import Messages from "@/components/client-lawyer/lawyer/messages/messages";
 import ChatMembers from "@/components/client-lawyer/lawyer/messages/chat-members";
-import { CaseDetails } from "@/types/lawyer/my-cases";
 
 type SearchParams = {
   caseId: string;
