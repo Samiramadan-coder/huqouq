@@ -71,3 +71,12 @@ export function buildQueryString(params?: Record<string, unknown>) {
 
   return searchParams.toString();
 }
+
+export const formatTime = (date: Date | null) => {
+  if (!date) return "";
+
+  return date.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+};

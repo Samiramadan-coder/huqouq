@@ -1,15 +1,36 @@
+import { http } from "@/lib/http";
+import { Case } from "@/types/client/my-cases";
 import Messages from "@/components/client-lawyer/client/messages/messages";
 import ChatMembers from "@/components/client-lawyer/client/messages/chat-members";
 
-export default function Page() {
+type SearchParams = {
+  caseId?: string;
+  userId: string;
+};
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { caseId, userId } = await searchParams;
+
+  const { data, ok } = await http.get<{ data: Case[] }>("/api/cases");
+
+  if (!ok) {
+    throw new Error("Failed to fetch cases");
+  }
+
   return (
     <div className="flex h-[calc(100vh-56px)]">
       <aside className="w-75 h-full bg-white border-e border-secondary">
-        <ChatMembers />
+        <ChatMembers
+          cases={data.data.filter((caseItem) => caseItem.chat_unlocked)}
+        />
       </aside>
 
       <div className="flex-1 h-full">
-        <Messages />
+        <Messages caseId={caseId} myUserId={userId} />
       </div>
     </div>
   );
