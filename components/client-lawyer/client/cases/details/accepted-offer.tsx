@@ -1,12 +1,18 @@
 import { cn } from "@/lib/utils";
 import PayTheCase from "./pay-the-case";
 import { Button } from "@/components/ui/button";
-import { Lock, MessageSquare } from "lucide-react";
+import { Lock, MessageSquare, ShieldCheck } from "lucide-react";
 import { CaseDetails } from "@/types/client/my-cases";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import { Link } from "@/i18n/navigation";
 
 export default async function AcceptedOffer({
   caseDetails,
@@ -49,10 +55,10 @@ export default async function AcceptedOffer({
                 <AvatarFallback>
                   {caseDetails.accepted_offer.lawyer.name[0]}
                 </AvatarFallback>
+                <AvatarBadge className="bg-accent">
+                  <ShieldCheck />
+                </AvatarBadge>
               </Avatar>
-              <span className="bg-accent text-primary-foreground absolute -bottom-0.5 -inset-e-0.5 flex size-4 items-center justify-center rounded-full border border-white text-[8px]">
-                O
-              </span>
             </div>
 
             <div>
@@ -125,17 +131,19 @@ export default async function AcceptedOffer({
             </>
           )}
 
-        <Button
-          disabled={!caseDetails.chat_unlocked}
-          className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"
-        >
-          {caseDetails.chat_unlocked ? (
-            <MessageSquare className="size-4 rtl:rotate-180" />
-          ) : (
-            <Lock className="size-4 rtl:rotate-180" />
-          )}
-          {caseDetails.chat_unlocked ? t("message") : t("chatUnlock")}
-        </Button>
+        <Link href={`/client/messages?caseId=${caseDetails.id}`}>
+          <Button
+            disabled={!caseDetails.chat_unlocked}
+            className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"
+          >
+            {caseDetails.chat_unlocked ? (
+              <MessageSquare className="size-4 rtl:rotate-180" />
+            ) : (
+              <Lock className="size-4 rtl:rotate-180" />
+            )}
+            {caseDetails.chat_unlocked ? t("message") : t("chatUnlock")}
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );
