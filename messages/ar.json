@@ -1161,7 +1161,9 @@
       "Verified": "تم التحقق",
       "IsResolved": "هل تم حل هذه القضية؟",
       "MarkAsComplete": "وضع علامة كمكتمل",
-      "WriteAMessage": "اكتب رسالة"
+      "WriteAMessage": "اكتب رسالة",
+      "SelectCase": "يرجى تحديد قضية لعرض الرسائل.",
+      "AcceptedYourCase": "قام {lawyerName} بقبول قضيتك"
     }
   },
   "Lawyer": {
