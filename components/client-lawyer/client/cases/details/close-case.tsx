@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogClose,
@@ -8,26 +10,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { markCaseAsComplete } from "@/lib/lawyer/messages";
-import { toast } from "sonner";
+import { closeCase } from "@/lib/client/cases";
 
-export default function MarkAsComplete({ caseId }: { caseId: number }) {
-  const t = useTranslations("Lawyer.Messages");
+export default function CloseCase({ caseId }: { caseId: number }) {
+  const t = useTranslations("Client.Cases");
   const [loading, setLoading] = useState(false);
   const closeBtn = useRef<HTMLButtonElement>(null);
 
-  async function handleMarkAsComplete() {
+  async function handleCloseCase() {
     setLoading(true);
-    const result = await markCaseAsComplete(caseId);
+    const result = await closeCase(caseId);
 
     if (result.success) {
       toast.success(result.message);
-      setLoading(false);
       closeBtn.current?.click();
+      setLoading(false);
       return;
     }
 
@@ -37,7 +39,7 @@ export default function MarkAsComplete({ caseId }: { caseId: number }) {
       return;
     }
 
-    toast.error(t("MarkAsCompleteFailed"));
+    toast.error(t("closeCaseFailed"));
     setLoading(false);
   }
 
@@ -45,29 +47,28 @@ export default function MarkAsComplete({ caseId }: { caseId: number }) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          type="button"
           variant="outline"
-          className="rounded-sm border-secondary bg-white text-[11px] font-medium text-accent"
+          className="rounded-sm border-destructive/5 font-normal text-xs text-destructive/80 hover:bg-transparent hover:text-destructive hover:border-destructive/20"
         >
-          {t("MarkAsComplete")}
+          {t("closeCase")}
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>{t("MarkAsComplete")}</DialogTitle>
+          <DialogTitle>{t("closeCase")}</DialogTitle>
           <DialogDescription className="mt-3">
-            {t("MarkAsCompleteDescription")}
+            {t("closeCaseDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <DialogFooter className="bg-white border-none">
           <Button
-            onClick={handleMarkAsComplete}
-            className="bg-emerald-700 text-white border-secondary hover:bg-emerald-700/90 rounded-sm h-11 flex-1"
+            onClick={handleCloseCase}
+            className="bg-destructive text-white border-secondary hover:bg-destructive/20 hover:text-destructive rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}
-            {t("MarkAsComplete")}
+            {t("closeCase")}
           </Button>
           <DialogClose asChild ref={closeBtn}>
             <Button

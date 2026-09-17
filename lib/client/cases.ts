@@ -147,3 +147,25 @@ export async function publishCase(
     return { success: false };
   }
 }
+
+// Close Case
+type CloseCaseResponse =
+  | { success: true; message?: string }
+  | { success: false; message?: string };
+
+export async function closeCase(caseId: number): Promise<CloseCaseResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/cases/${caseId}/close`,
+    );
+    updateTag(`case-${caseId}`);
+    updateTag(`case-${caseId}-timeline`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error closing the case:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}

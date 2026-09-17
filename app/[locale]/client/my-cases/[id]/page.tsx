@@ -3,9 +3,9 @@ import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails, CaseOffer, Step } from "@/types/client/my-cases";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Index from "@/components/client-lawyer/client/cases/details";
+import { CaseDetails, CaseOffer, Step } from "@/types/client/my-cases";
 
 type Params = {
   id: string;
@@ -59,6 +59,8 @@ async function SingleCase({
   if (!ok1 || !ok2 || !ok3) {
     throw new Error("Failed to fetch case details or timeline or offers");
   }
+
+  console.log(timeline);
 
   return (
     <Index

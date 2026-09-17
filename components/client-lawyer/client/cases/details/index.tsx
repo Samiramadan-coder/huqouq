@@ -32,6 +32,7 @@ import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
+import CloseCase from "./close-case";
 
 export default async function Index({
   caseDetails,
@@ -79,10 +80,10 @@ export default async function Index({
           : t("Timeline.PendingFeesMessage");
 
       case "pending_closure":
-        return "";
+        return t("Timeline.PendingClosureOn");
 
       case "closed":
-        return "";
+        return t("Timeline.ClosedCase");
 
       case "reviewed":
         return "";
@@ -112,12 +113,13 @@ export default async function Index({
                 </Button>
               ))}
             {caseDetails.can_close && (
-              <Button
-                variant="outline"
-                className="rounded-sm border-destructive/5 font-normal text-xs text-destructive/80 hover:bg-transparent hover:text-destructive hover:border-destructive/20"
-              >
-                {t("closeCase")}
-              </Button>
+              <CloseCase caseId={caseDetails.id} />
+              // <Button
+              //   variant="outline"
+              //   className="rounded-sm border-destructive/5 font-normal text-xs text-destructive/80 hover:bg-transparent hover:text-destructive hover:border-destructive/20"
+              // >
+              //   {t("closeCase")}
+              // </Button>
             )}
           </div>
         </div>

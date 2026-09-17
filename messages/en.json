@@ -949,6 +949,8 @@
       "editCase": "Edit Case",
       "editCaseHint": "Edit the details of your case",
       "closeCase": "Close Case",
+      "closeCaseDescription": "By closing the case, it will be marked as completed and no further actions can be taken.",
+      "closeCaseFailed": "Failed to close case.",
       "urgent": "Urgent",
       "standard": "Standard",
       "very_urgent": "Very Urgent",
@@ -1118,7 +1120,9 @@
         "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat.",
         "HiredTo": "Hired to {name}",
         "Current": "Current",
-        "ReviewedOnPending": "Reviewed on (pending)"
+        "ReviewedOnPending": "Reviewed on (pending)",
+        "PendingClosureOn": "Case nearing resolution. Final review pending before closure.",
+        "ClosedCase": "Case is being closed."
       }
     },
     "FindLawyer": {

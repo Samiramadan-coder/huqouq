@@ -945,6 +945,8 @@
       "editCase": "تعديل القضية",
       "editCaseHint": "تعديل تفاصيل قضيتك",
       "closeCase": "إغلاق القضية",
+      "closeCaseDescription": "بإغلاق القضية، سيتم وضع علامة على أنها مكتملة ولن يمكن اتخاذ أي إجراءات أخرى.",
+      "closeCaseFailed": "فشل في إغلاق القضية.",
       "urgent": "عاجل",
       "standard": "عادي",
       "very_urgent": "عاجل جدًا",
@@ -1114,7 +1116,9 @@
         "InProgressMessage": "محاميك يعمل على قضيتك. يمكنك التواصل معهم عبر الدردشة.",
         "HiredTo": "تم التوظيف إلى {name}",
         "Current": "الحالي",
-        "ReviewedOnPending": "تمت المراجعة (قيد الانتظار)"
+        "ReviewedOnPending": "تمت المراجعة (قيد الانتظار)",
+        "PendingClosureOn": "القضية تقترب من الحل. المراجعة النهائية معلقة قبل الإغلاق.",
+        "ClosedCase": "يتم إغلاق القضية."
       }
     },
     "FindLawyer": {
@@ -1498,6 +1502,19 @@
       "AgreedFee": "الرسوم المتفق عليها",
       "ViewCase": "عرض القضية",
       "NoCasesFound": "لم يتم العثور على حالات"
+    },
+    "Messages": {
+      "Title": "الرسائل",
+      "SearchPlaceholder": "ابحث في المحادثات…",
+      "Verified": "تم التحقق",
+      "IsResolved": "هل تم حل هذه القضية؟",
+      "MarkAsComplete": "وضع علامة كمكتمل",
+      "WriteAMessage": "اكتب رسالة",
+      "SelectCase": "يرجى تحديد قضية لعرض الرسائل.",
+      "AcceptedYourCase": "{lawyerName} قبل قضيتك",
+      "MarkAsCompleteDescription": "من خلال وضع علامة على هذه القضية كمكتملة بمجرد الانتهاء من جميع الأعمال، فإنك تشير إلى أن القضية قد تم الانتهاء منها بنجاح.",
+      "Cancel": "إلغاء",
+      "MarkAsCompleteFailed": "فشل في وضع علامة على القضية كمكتملة"
     }
   }
 }
