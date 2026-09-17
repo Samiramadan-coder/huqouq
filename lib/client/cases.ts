@@ -2,7 +2,7 @@
 
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
-import { PostCaseFormData } from "@/types/client/my-cases";
+import { PostCaseFormData, RateLawyerForm } from "@/types/client/my-cases";
 
 // Post Or Update Case
 type CaseResponse =
@@ -163,6 +163,34 @@ export async function closeCase(caseId: number): Promise<CloseCaseResponse> {
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error closing the case:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
+
+// Rate Lawyer
+type RateLawyerResponse =
+  | { success: true; message?: string }
+  | { success: false; message?: string };
+
+export async function rateLawyer({
+  caseId,
+  review,
+}: {
+  caseId: number;
+  review: RateLawyerForm;
+}): Promise<RateLawyerResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/cases/${caseId}/review`,
+      review,
+    );
+    updateTag(`cases`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error rating the lawyer:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }

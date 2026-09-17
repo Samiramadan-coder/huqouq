@@ -177,3 +177,12 @@ export type Step =
     })
   | (BaseStep & { key: "offers"; meta: { offers_count: number } })
   | (BaseStep & { key: "hired"; meta: { lawyer: string } | undefined });
+
+export const rateFormSchema = (t: T) =>
+  z.object({
+    rating: z.number().min(1, t("ratingRequired")),
+    comment: z.string(),
+    tags: z.array(z.string()).optional(),
+  });
+
+export type RateLawyerForm = z.infer<ReturnType<typeof rateFormSchema>>;
