@@ -4,8 +4,7 @@ import Messages from "@/components/client-lawyer/client/messages/messages";
 import ChatMembers from "@/components/client-lawyer/client/messages/chat-members";
 
 type SearchParams = {
-  caseId?: string;
-  userId: string;
+  caseId: string;
 };
 
 export default async function Page({
@@ -13,9 +12,11 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { caseId, userId } = await searchParams;
+  const { caseId } = await searchParams;
 
-  const { data, ok } = await http.get<{ data: Case[] }>("/api/cases");
+  const { data, ok } = await http.get<{
+    data: Case[];
+  }>("/api/cases");
 
   if (!ok) {
     throw new Error("Failed to fetch cases");
@@ -26,11 +27,15 @@ export default async function Page({
       <aside className="w-75 h-full bg-white border-e border-secondary">
         <ChatMembers
           cases={data.data.filter((caseItem) => caseItem.chat_unlocked)}
+          caseId={caseId}
         />
       </aside>
 
       <div className="flex-1 h-full">
-        <Messages caseId={caseId} myUserId={userId} />
+        <Messages
+          caseId={caseId}
+          activeCase={data.data.find((caseItem) => caseItem.id === +caseId)}
+        />
       </div>
     </div>
   );

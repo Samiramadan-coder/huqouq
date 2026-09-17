@@ -7,48 +7,36 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group";
-
-import {
-  ArrowUp,
-  CheckCheck,
-  FileText,
-  Paperclip,
-  ShieldCheck,
-} from "lucide-react";
-
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { ChatMessage } from "@/types/chat";
-import { useEffect, useRef, useState } from "react";
-import { subscribeToMessages } from "@/features/chat";
 import { formatTime } from "@/lib/utils";
+import SendMessage from "./send-message";
+import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
+import { Case } from "@/types/client/my-cases";
+import type { ChatMessage } from "@/types/chat";
+import { useUser } from "@/providers/user-provider";
+import { useEffect, useRef, useState } from "react";
+import { FileText, ShieldCheck } from "lucide-react";
+import { subscribeToMessages } from "@/features/chat";
 
 export default function Messages({
   caseId,
-  myUserId,
+  activeCase,
 }: {
-  caseId?: string;
-  myUserId: string;
+  caseId: string;
+  activeCase: Case | undefined;
 }) {
+  const { user } = useUser();
   const t = useTranslations("Client.Messages");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
-    if (!caseId || !myUserId) return;
+    if (!caseId || !user?.id) return;
 
     const unsubscribe = subscribeToMessages(
       String(caseId),
-      String(myUserId),
+      String(user?.id),
       (messages) => {
         setMessages(messages);
       },
@@ -58,7 +46,7 @@ export default function Messages({
     );
 
     return unsubscribe;
-  }, [caseId, myUserId]);
+  }, [caseId, user?.id]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -68,15 +56,14 @@ export default function Messages({
 
   return (
     <div className="flex h-full flex-col">
-      {/* Header */}
       <div className="flex shrink-0 items-center gap-3 border-b border-secondary bg-white px-5 py-3.5">
         <Avatar className="size-9 shrink-0">
           <AvatarImage
-            src="https://i.pravatar.cc/150?img=12"
-            alt="Ahmad Al Rashidi"
+            src={activeCase?.hired_lawyer.photo_url || "/avatar.png"}
+            alt={activeCase?.hired_lawyer.name || "Avatar"}
           />
           <AvatarFallback className="bg-primary text-xs font-semibold text-white">
-            A
+            {activeCase?.hired_lawyer.name.slice(0, 2) || "A"}
           </AvatarFallback>
           <AvatarBadge className="bg-accent">
             <ShieldCheck />
@@ -85,24 +72,24 @@ export default function Messages({
 
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-primary">
-            Ahmad Al Rashidi
+            {activeCase?.hired_lawyer.name || "Unknown"}
             <Badge className="ms-2 border-accent/40 bg-white text-[10px] text-accent">
               {t("Verified")}
             </Badge>
           </p>
 
           <span className="block truncate text-[11px] text-primary/50">
-            Tenancy Agreement Review
+            {activeCase?.title || "No case title"}
           </span>
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex min-h-0 flex-1 flex-col">
-        {/* Messages */}
         <div className="flex-1 overflow-y-auto px-5 py-4">
           <div className="flex flex-col gap-5">
             {messages.map((message) => {
+              const isFile = message.type === "file";
+
               if (message.type === "system") {
                 return (
                   <div key={message.id} className="flex justify-center">
@@ -119,7 +106,6 @@ export default function Messages({
                     {formatTime(message.createdAt)}
                   </span>
 
-                  {/* Bubble wrapper */}
                   <div
                     className={
                       message.sentByUser
@@ -129,56 +115,79 @@ export default function Messages({
                   >
                     <div
                       className={[
-                        "max-w-[70%] rounded-md px-4 py-3 text-sm leading-5",
-                        message.sentByUser
-                          ? "bg-primary text-white"
-                          : "border border-secondary bg-white text-primary",
-                      ].join(" ")}
+                        "max-w-[70%] rounded-md text-sm leading-5",
+                        !isFile && "px-4 py-3",
+                        !isFile &&
+                          (message.sentByUser
+                            ? "bg-primary text-white"
+                            : "border border-secondary bg-white text-primary"),
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
                     >
-                      {/* Text message */}
-                      {message.type === "text" && (
+                      {message.type === "text" && message.text && (
                         <p className="whitespace-pre-wrap wrap-break-word">
                           {message.text}
                         </p>
                       )}
 
-                      {/* Image */}
-                      {message.type === "file" &&
-                        message.fileType?.startsWith("image/") &&
-                        message.fileUrl && (
-                          <a
-                            href={message.fileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block"
-                          >
-                            <Image
-                              src={message.fileUrl}
-                              alt={message.fileName || "Attachment"}
-                              width={320}
-                              height={288}
-                              className="max-h-72 max-w-80 rounded-md object-cover"
-                            />
-                          </a>
-                        )}
+                      {message.type === "file" && (
+                        <div className="space-y-2">
+                          {message.fileType?.startsWith("image/") &&
+                            message.fileUrl && (
+                              <a
+                                href={message.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block"
+                              >
+                                <Image
+                                  src={message.fileUrl}
+                                  alt={message.fileName || "Attachment"}
+                                  width={320}
+                                  height={288}
+                                  className="max-h-72 max-w-80 rounded-md object-cover"
+                                />
+                              </a>
+                            )}
 
-                      {/* Other files */}
-                      {message.type === "file" &&
-                        !message.fileType?.startsWith("image/") &&
-                        message.fileUrl && (
-                          <a
-                            href={message.fileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex max-w-72 items-center gap-2"
-                          >
-                            <FileText className="size-4 shrink-0" />
+                          {!message.fileType?.startsWith("image/") &&
+                            message.fileUrl && (
+                              <a
+                                href={message.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={[
+                                  "flex max-w-72 items-center gap-2 rounded-md border px-3 py-2",
+                                  message.sentByUser
+                                    ? "border-primary/20 bg-primary text-white"
+                                    : "border-secondary bg-white text-primary",
+                                ].join(" ")}
+                              >
+                                <FileText className="size-4 shrink-0" />
 
-                            <span className="truncate">
-                              {message.fileName || "File"}
-                            </span>
-                          </a>
-                        )}
+                                <span className="truncate">
+                                  {message.fileName || "File"}
+                                </span>
+                              </a>
+                            )}
+
+                          {message.text && (
+                            <div
+                              className={[
+                                "w-fit max-w-72 rounded-md px-4 py-3",
+                                message.sentByUser
+                                  ? "ms-auto bg-primary text-white"
+                                  : "border border-secondary bg-white text-primary",
+                              ].join(" ")}
+                            >
+                              <p className="whitespace-pre-wrap wrap-break-word">
+                                {message.text}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -189,43 +198,7 @@ export default function Messages({
           </div>
         </div>
 
-        {/* Bottom area */}
-        <div className="shrink-0 space-y-3 px-5 py-4">
-          <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
-            <p className="flex items-center gap-2 text-sm font-medium text-primary">
-              <CheckCheck className="size-3 text-accent" />
-              <span className="text-xs text-primary/70">{t("IsResolved")}</span>
-            </p>
-            <Button
-              variant="outline"
-              className="rounded-sm border-secondary bg-white text-[11px] font-medium text-accent"
-            >
-              {t("MarkAsComplete")}
-            </Button>
-          </Card>
-
-          {/* Message input */}
-          <InputGroup className="h-12 rounded-xs border-secondary bg-white">
-            <InputGroupInput
-              placeholder={t("WriteAMessage")}
-              className="text-sm placeholder:text-xs placeholder:text-primary/50"
-            />
-
-            <InputGroupAddon align="inline-end">
-              <InputGroupButton type="button" size="icon-xs">
-                <Paperclip className="text-primary/50" />
-              </InputGroupButton>
-
-              <InputGroupButton
-                type="button"
-                size="icon-sm"
-                className="size-7 rounded-full bg-primary/40 text-white hover:bg-primary/60 disabled:opacity-100"
-              >
-                <ArrowUp />
-              </InputGroupButton>
-            </InputGroupAddon>
-          </InputGroup>
-        </div>
+        <SendMessage caseId={caseId} />
       </div>
     </div>
   );

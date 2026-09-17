@@ -21,10 +21,16 @@ import { Case } from "@/types/client/my-cases";
 import { Search, ShieldCheck } from "lucide-react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useUser } from "@/providers/user-provider";
+import { cn } from "@/lib/utils";
+import { useRouter } from "@/i18n/navigation";
 
-export default function ChatMembers({ cases }: { cases: Case[] }) {
-  console.log(cases);
-
+export default function ChatMembers({
+  cases,
+  caseId,
+}: {
+  cases: Case[];
+  caseId: string;
+}) {
   const locale = useLocale();
   const t = useTranslations("Client.Messages");
   const fontClass = locale === "en" ? "font-lora" : "";
@@ -51,7 +57,7 @@ export default function ChatMembers({ cases }: { cases: Case[] }) {
 
       <div className="flex-1 overflow-y-auto">
         {cases.map((caseItem) => (
-          <ChatMember key={caseItem.id} caseItem={caseItem} />
+          <ChatMember key={caseItem.id} caseItem={caseItem} caseId={caseId} />
         ))}
       </div>
     </div>
@@ -59,8 +65,9 @@ export default function ChatMembers({ cases }: { cases: Case[] }) {
 }
 
 // ChatMember component represents an individual chat member in the chat members list.
-function ChatMember({ caseItem }: { caseItem: Case }) {
+function ChatMember({ caseItem, caseId }: { caseItem: Case; caseId: string }) {
   const { user } = useUser();
+  const router = useRouter();
 
   const [chatMeta, setChatMeta] = useState<{
     lastMessage: string | null;
@@ -77,7 +84,7 @@ function ChatMember({ caseItem }: { caseItem: Case }) {
   useEffect(() => {
     if (!caseItem.id || !user?.id) return;
 
-    const chatRef = doc(db, "chats", String(23));
+    const chatRef = doc(db, "chats", String(caseItem.id));
 
     const unsubscribe = onSnapshot(chatRef, (snapshot) => {
       if (!snapshot.exists()) return;
@@ -86,11 +93,11 @@ function ChatMember({ caseItem }: { caseItem: Case }) {
 
       const lastMessageAt = data.lastMessageAt?.toDate?.() ?? null;
 
-      const myLastRead = data.lastRead?.[String(39)]?.toDate?.() ?? null;
+      const myLastRead = data.lastRead?.[String(user?.id)]?.toDate?.() ?? null;
 
       const isUnread =
         !!data.lastMessageSenderId &&
-        String(data.lastMessageSenderId) !== String(39) &&
+        String(data.lastMessageSenderId) !== String(user?.id) &&
         (!myLastRead || (lastMessageAt && lastMessageAt > myLastRead));
 
       setChatMeta({
@@ -109,8 +116,14 @@ function ChatMember({ caseItem }: { caseItem: Case }) {
 
   return (
     <button
+      onClick={() => {
+        router.push(`/client/messages?caseId=${caseItem.id}`);
+      }}
       type="button"
-      className="flex w-full items-center gap-3 border-b border-secondary px-4 py-3 text-start transition-colors last:border-b-0 hover:bg-gray-50"
+      className={cn(
+        "flex w-full items-center gap-3 border-b border-secondary px-4 py-3 text-start transition-colors last:border-b-0 hover:bg-gray-50",
+        +caseId === caseItem.id ? "bg-gray-100" : "",
+      )}
     >
       <Avatar className="size-11 shrink-0">
         <AvatarImage
