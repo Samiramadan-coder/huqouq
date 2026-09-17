@@ -1165,7 +1165,9 @@
       "Verified": "Verified",
       "IsResolved": "Is this case resolved?",
       "MarkAsComplete": "Mark as Complete",
-      "WriteAMessage": "Write a message"
+      "WriteAMessage": "Write a message",
+      "SelectCase": "Please select a case to view messages.",
+      "AcceptedYourCase": "{lawyerName} accepted your case"
     }
   },
   "Lawyer": {
