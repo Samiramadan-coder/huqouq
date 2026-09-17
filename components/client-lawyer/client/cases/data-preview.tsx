@@ -1,4 +1,5 @@
 import { Meta } from "@/types/shared";
+import RateLawyer from "./rate-lawyer";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/utils";
 import PublishCase from "./publish-case";
@@ -28,6 +29,7 @@ export async function CasesTable({
   cases: Case[];
   pagination?: Meta;
 }) {
+  console.log(cases);
   const t = await getTranslations("Client.Cases");
 
   return (
@@ -74,6 +76,10 @@ export async function CasesTable({
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3 space-x-4">
+                {caseItem.display_status === "closed" && (
+                  <RateLawyer caseItem={caseItem} />
+                )}
+
                 <Button
                   variant="ghost"
                   className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
