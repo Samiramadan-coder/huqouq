@@ -1,21 +1,28 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { ensureFirebaseAuth, sendTextMessage } from "@/features/chat";
+import { Card } from "@/components/ui/card";
 import { db, storage } from "@/lib/firebase";
-import { useUser } from "@/providers/user-provider";
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { ArrowUp, CheckCheck, Paperclip } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { useUser } from "@/providers/user-provider";
+import { ArrowUp, CheckCheck, Paperclip } from "lucide-react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ensureFirebaseAuth, sendTextMessage } from "@/features/chat";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import CloseCase from "../cases/details/close-case";
+import { Case } from "@/types/client/my-cases";
 
-export default function SendMessage({ caseId }: { caseId: string }) {
+export default function SendMessage({
+  caseId,
+  activeCase,
+}: {
+  caseId: string;
+  activeCase: Case | undefined;
+}) {
   const { user } = useUser();
   const [message, setMessage] = useState("");
   const t = useTranslations("Client.Messages");
@@ -96,23 +103,17 @@ export default function SendMessage({ caseId }: { caseId: string }) {
 
   return (
     <div className="shrink-0 space-y-3 px-5 py-4">
-      <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
-        <p className="flex items-center gap-2 text-sm font-medium text-primary">
-          <CheckCheck className="size-3 text-accent" />
+      {activeCase?.can_close && (
+        <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
+          <p className="flex items-center gap-2 text-sm font-medium text-primary">
+            <CheckCheck className="size-3 text-accent" />
+            <span className="text-xs text-primary/70">{t("IsResolved")}</span>
+          </p>
 
-          <span className="text-xs text-primary/70">{t("IsResolved")}</span>
-        </p>
+          <CloseCase caseId={+caseId} />
+        </Card>
+      )}
 
-        <Button
-          type="button"
-          variant="outline"
-          className="rounded-sm border-secondary bg-white text-[11px] font-medium text-accent"
-        >
-          {t("MarkAsComplete")}
-        </Button>
-      </Card>
-
-      {/* Selected file */}
       {selectedFile && (
         <div className="flex items-center justify-between rounded-sm border border-secondary bg-white px-3 py-2">
           <div className="flex min-w-0 items-center gap-2">
@@ -140,66 +141,70 @@ export default function SendMessage({ caseId }: { caseId: string }) {
         </div>
       )}
 
-      <InputGroup className="h-12 rounded-xs border-secondary bg-white">
-        <InputGroupInput
-          value={message}
-          disabled={sending}
-          onChange={(event) => {
-            setMessage(event.target.value);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
-              event.preventDefault();
+      {!activeCase?.can_close &&
+        activeCase?.display_status !== "pending_closure" &&
+        activeCase?.display_status !== "closed" && (
+          <InputGroup className="h-12 rounded-xs border-secondary bg-white">
+            <InputGroupInput
+              value={message}
+              disabled={sending}
+              onChange={(event) => {
+                setMessage(event.target.value);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
 
-              handleSend();
-            }
-          }}
-          placeholder={sending ? "Sending..." : t("WriteAMessage")}
-          className="text-sm placeholder:text-xs placeholder:text-primary/50"
-        />
-
-        <InputGroupAddon align="inline-end">
-          <input
-            ref={fileInputRef}
-            type="file"
-            hidden
-            accept={[
-              "image/jpeg",
-              "image/png",
-              "image/webp",
-              "image/gif",
-              ".pdf",
-              ".doc",
-              ".docx",
-            ].join(",")}
-            onChange={handleFileChange}
-          />
-
-          <InputGroupButton
-            type="button"
-            size="icon-xs"
-            disabled={sending}
-            onClick={handleOpenFiles}
-          >
-            <Paperclip
-              className={selectedFile ? "text-accent" : "text-primary/50"}
+                  handleSend();
+                }
+              }}
+              placeholder={sending ? "Sending..." : t("WriteAMessage")}
+              className="text-sm placeholder:text-xs placeholder:text-primary/50"
             />
-          </InputGroupButton>
 
-          <InputGroupButton
-            type="button"
-            size="icon-sm"
-            disabled={!canSend}
-            onClick={handleSend}
-            className={[
-              "size-7 rounded-full text-white disabled:opacity-100",
-              canSend ? "bg-primary hover:bg-primary/90" : "bg-primary/40",
-            ].join(" ")}
-          >
-            <ArrowUp />
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
+            <InputGroupAddon align="inline-end">
+              <input
+                ref={fileInputRef}
+                type="file"
+                hidden
+                accept={[
+                  "image/jpeg",
+                  "image/png",
+                  "image/webp",
+                  "image/gif",
+                  ".pdf",
+                  ".doc",
+                  ".docx",
+                ].join(",")}
+                onChange={handleFileChange}
+              />
+
+              <InputGroupButton
+                type="button"
+                size="icon-xs"
+                disabled={sending}
+                onClick={handleOpenFiles}
+              >
+                <Paperclip
+                  className={selectedFile ? "text-accent" : "text-primary/50"}
+                />
+              </InputGroupButton>
+
+              <InputGroupButton
+                type="button"
+                size="icon-sm"
+                disabled={!canSend}
+                onClick={handleSend}
+                className={[
+                  "size-7 rounded-full text-white disabled:opacity-100",
+                  canSend ? "bg-primary hover:bg-primary/90" : "bg-primary/40",
+                ].join(" ")}
+              >
+                <ArrowUp />
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
+        )}
     </div>
   );
 }

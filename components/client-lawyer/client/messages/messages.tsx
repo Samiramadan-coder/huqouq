@@ -207,7 +207,7 @@ export default function Messages({
               </div>
             </div>
 
-            <SendMessage caseId={caseId} />
+            <SendMessage caseId={caseId} activeCase={activeCase} />
           </div>
         </>
       ) : (
