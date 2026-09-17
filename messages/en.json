@@ -1502,6 +1502,16 @@
       "AgreedFee": "Agreed Fee",
       "ViewCase": "View Case",
       "NoCasesFound": "No cases found"
+    },
+    "Messages": {
+      "Title": "Messages",
+      "SearchPlaceholder": "Search conversations…",
+      "Verified": "Verified",
+      "IsResolved": "Is this case resolved?",
+      "MarkAsComplete": "Mark as Complete",
+      "WriteAMessage": "Write a message",
+      "SelectCase": "Please select a case to view messages.",
+      "AcceptedYourCase": "{lawyerName} accepted your case"
     }
   }
 }
