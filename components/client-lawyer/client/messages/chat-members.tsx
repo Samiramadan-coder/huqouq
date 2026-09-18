@@ -23,6 +23,7 @@ import { Case } from "@/types/client/my-cases";
 import { Search, ShieldCheck } from "lucide-react";
 import { useUser } from "@/providers/user-provider";
 import { doc, onSnapshot } from "firebase/firestore";
+import { ensureFirebaseAuth } from "@/features/chat";
 
 export default function ChatMembers({
   cases,
@@ -84,34 +85,60 @@ function ChatMember({ caseItem, caseId }: { caseItem: Case; caseId: string }) {
   useEffect(() => {
     if (!caseItem.id || !user?.id) return;
 
-    const chatRef = doc(db, "chats", String(caseItem.id));
+    let unsubscribe: (() => void) | undefined;
 
-    const unsubscribe = onSnapshot(chatRef, (snapshot) => {
-      if (!snapshot.exists()) return;
+    const startListener = async () => {
+      try {
+        await ensureFirebaseAuth();
 
-      const data = snapshot.data();
+        const chatRef = doc(db, "chats", String(caseItem.id));
 
-      const lastMessageAt = data.lastMessageAt?.toDate?.() ?? null;
+        unsubscribe = onSnapshot(
+          chatRef,
+          (snapshot) => {
+            if (!snapshot.exists()) {
+              return;
+            }
 
-      const myLastRead = data.lastRead?.[String(user?.id)]?.toDate?.() ?? null;
+            const data = snapshot.data();
 
-      const isUnread =
-        !!data.lastMessageSenderId &&
-        String(data.lastMessageSenderId) !== String(user?.id) &&
-        (!myLastRead || (lastMessageAt && lastMessageAt > myLastRead));
+            const lastMessageAt = data.lastMessageAt?.toDate?.() ?? null;
 
-      setChatMeta({
-        lastMessage: data.lastMessage ?? null,
-        lastMessageAt,
-        lastMessageSenderId:
-          data.lastMessageSenderId != null
-            ? String(data.lastMessageSenderId)
-            : null,
-        isUnread: Boolean(isUnread),
-      });
-    });
+            const myLastRead =
+              data.lastRead?.[String(user.id)]?.toDate?.() ?? null;
 
-    return unsubscribe;
+            const isUnread =
+              !!data.lastMessageSenderId &&
+              String(data.lastMessageSenderId) !== String(user.id) &&
+              (!myLastRead || (lastMessageAt && lastMessageAt > myLastRead));
+
+            setChatMeta({
+              lastMessage: data.lastMessage ?? null,
+
+              lastMessageAt,
+
+              lastMessageSenderId:
+                data.lastMessageSenderId != null
+                  ? String(data.lastMessageSenderId)
+                  : null,
+
+              isUnread: Boolean(isUnread),
+            });
+          },
+          (error) => {
+            console.error("Chat listener error:", error);
+          },
+        );
+      } catch (error) {
+        console.error("Firebase auth error:", error);
+      }
+    };
+
+    startListener();
+
+    return () => {
+      unsubscribe?.();
+    };
   }, [caseItem.id, user?.id]);
 
   return (

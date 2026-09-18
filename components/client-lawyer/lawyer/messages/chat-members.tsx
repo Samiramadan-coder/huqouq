@@ -23,7 +23,6 @@ import { Search, ShieldCheck } from "lucide-react";
 import { useUser } from "@/providers/user-provider";
 import { doc, onSnapshot } from "firebase/firestore";
 import { CaseDetails } from "@/types/lawyer/my-cases";
-
 import { ensureFirebaseAuth } from "@/features/chat";
 
 export default function ChatMembers({
@@ -36,7 +35,23 @@ export default function ChatMembers({
   const locale = useLocale();
   const t = useTranslations("Lawyer.Messages");
 
+  const [firebaseReady, setFirebaseReady] = useState(false);
+
   const fontClass = locale === "en" ? "font-lora" : "";
+
+  useEffect(() => {
+    const initFirebase = async () => {
+      try {
+        await ensureFirebaseAuth();
+
+        setFirebaseReady(true);
+      } catch (error) {
+        console.error("Firebase auth init error:", error);
+      }
+    };
+
+    initFirebase();
+  }, []);
 
   return (
     <div className="flex h-full flex-col">
@@ -60,9 +75,10 @@ export default function ChatMembers({
       </div>
 
       <div className="flex-1 overflow-y-auto">
-        {cases.map((caseItem) => (
-          <ChatMember key={caseItem.id} caseItem={caseItem} caseId={caseId} />
-        ))}
+        {firebaseReady &&
+          cases.map((caseItem) => (
+            <ChatMember key={caseItem.id} caseItem={caseItem} caseId={caseId} />
+          ))}
       </div>
     </div>
   );
@@ -95,82 +111,54 @@ function ChatMember({
       return;
     }
 
-    let unsubscribe: (() => void) | undefined;
+    const chatRef = doc(db, "chats", String(caseItem.id));
 
-    let cancelled = false;
+    const unsubscribe = onSnapshot(
+      chatRef,
 
-    const startListener = async () => {
-      try {
-        await ensureFirebaseAuth();
+      (snapshot) => {
+        if (!snapshot.exists()) {
+          setChatMeta({
+            lastMessage: null,
+            lastMessageAt: null,
+            lastMessageSenderId: null,
+            isUnread: false,
+          });
 
-        if (cancelled) {
           return;
         }
 
-        const chatRef = doc(db, "chats", String(caseItem.id));
+        const data = snapshot.data();
 
-        unsubscribe = onSnapshot(
-          chatRef,
+        const lastMessageAt = data.lastMessageAt?.toDate?.() ?? null;
 
-          (snapshot) => {
-            if (!snapshot.exists()) {
-              setChatMeta({
-                lastMessage: null,
-                lastMessageAt: null,
-                lastMessageSenderId: null,
-                isUnread: false,
-              });
+        const myLastRead = data.lastRead?.[String(user.id)]?.toDate?.() ?? null;
 
-              return;
-            }
+        const isUnread =
+          !!data.lastMessageSenderId &&
+          String(data.lastMessageSenderId) !== String(user.id) &&
+          (!myLastRead || (lastMessageAt && lastMessageAt > myLastRead));
 
-            const data = snapshot.data();
+        setChatMeta({
+          lastMessage: data.lastMessage ?? null,
 
-            const lastMessageAt = data.lastMessageAt?.toDate?.() ?? null;
+          lastMessageAt,
 
-            const myLastRead =
-              data.lastRead?.[String(user.id)]?.toDate?.() ?? null;
+          lastMessageSenderId:
+            data.lastMessageSenderId != null
+              ? String(data.lastMessageSenderId)
+              : null,
 
-            const isUnread =
-              !!data.lastMessageSenderId &&
-              String(data.lastMessageSenderId) !== String(user.id) &&
-              (!myLastRead || (lastMessageAt && lastMessageAt > myLastRead));
+          isUnread: Boolean(isUnread),
+        });
+      },
 
-            setChatMeta({
-              lastMessage: data.lastMessage ?? null,
+      (error) => {
+        console.error(`Chat listener error for case ${caseItem.id}:`, error);
+      },
+    );
 
-              lastMessageAt,
-
-              lastMessageSenderId:
-                data.lastMessageSenderId != null
-                  ? String(data.lastMessageSenderId)
-                  : null,
-
-              isUnread: Boolean(isUnread),
-            });
-          },
-
-          (error) => {
-            console.error(
-              `Chat listener error for case ${caseItem.id}:`,
-              error,
-            );
-          },
-        );
-      } catch (error) {
-        console.error(`Firebase auth error for case ${caseItem.id}:`, error);
-      }
-    };
-
-    startListener();
-
-    return () => {
-      cancelled = true;
-
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
+    return unsubscribe;
   }, [caseItem.id, user?.id]);
 
   return (
@@ -181,6 +169,7 @@ function ChatMember({
       }}
       className={cn(
         "flex w-full items-center gap-3 border-b border-secondary px-4 py-3 text-start transition-colors last:border-b-0 hover:bg-gray-50",
+
         String(caseId) === String(caseItem.id) ? "bg-gray-100" : "",
       )}
     >
@@ -222,6 +211,7 @@ function ChatMember({
           <p
             className={cn(
               "min-w-0 flex-1 truncate text-xs",
+
               chatMeta.isUnread
                 ? "font-semibold text-primary"
                 : "text-primary/50",
