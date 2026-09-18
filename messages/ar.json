@@ -1179,7 +1179,8 @@
       "MarkAsComplete": "وضع علامة كمكتمل",
       "WriteAMessage": "اكتب رسالة",
       "SelectCase": "يرجى تحديد قضية لعرض الرسائل.",
-      "AcceptedYourCase": "قام {lawyerName} بقبول قضيتك"
+      "AcceptedYourCase": "قام {lawyerName} بقبول قضيتك",
+      "You": "أنت"
     }
   },
   "Lawyer": {
@@ -1526,7 +1527,8 @@
       "AcceptedYourCase": "{lawyerName} قبل قضيتك",
       "MarkAsCompleteDescription": "من خلال وضع علامة على هذه القضية كمكتملة بمجرد الانتهاء من جميع الأعمال، فإنك تشير إلى أن القضية قد تم الانتهاء منها بنجاح.",
       "Cancel": "إلغاء",
-      "MarkAsCompleteFailed": "فشل في وضع علامة على القضية كمكتملة"
+      "MarkAsCompleteFailed": "فشل في وضع علامة على القضية كمكتملة",
+      "You": "أنت"
     }
   }
 }

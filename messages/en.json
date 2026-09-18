@@ -1184,7 +1184,8 @@
       "MarkAsComplete": "Mark as Complete",
       "WriteAMessage": "Write a message",
       "SelectCase": "Please select a case to view messages.",
-      "AcceptedYourCase": "{lawyerName} accepted your case"
+      "AcceptedYourCase": "{lawyerName} accepted your case",
+      "You": "You"
     }
   },
   "Lawyer": {
@@ -1531,7 +1532,8 @@
       "AcceptedYourCase": "{lawyerName} accepted your case",
       "MarkAsCompleteDescription": "By marking this case as complete once all work has been finished, you indicate that the case has been successfully concluded.",
       "Cancel": "Cancel",
-      "MarkAsCompleteFailed": "Failed to mark the case as complete"
+      "MarkAsCompleteFailed": "Failed to mark the case as complete",
+      "You": "You"
     }
   }
 }

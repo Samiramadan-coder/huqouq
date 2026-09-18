@@ -72,11 +72,47 @@ export function buildQueryString(params?: Record<string, unknown>) {
   return searchParams.toString();
 }
 
-export const formatTime = (date: Date | null) => {
+export const formatChatDate = (date: Date | null) => {
   if (!date) return "";
 
-  return date.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 0) return "just now";
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+
+  if (diffInSeconds < 60) {
+    return "just now";
+  }
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}m ago`;
+  }
+
+  if (diffInHours < 24) {
+    return `${diffInHours}h ago`;
+  }
+
+  const isToday = date.toDateString() === now.toDateString();
+
+  if (isToday) {
+    return "Today";
+  }
+
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+
+  if (date.toDateString() === yesterday.toDateString()) {
+    return "Yesterday";
+  }
+
+  const isSameYear = date.getFullYear() === now.getFullYear();
+
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    ...(isSameYear && { year: "numeric" }),
   });
 };
