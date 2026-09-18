@@ -13,7 +13,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 
-import { cn } from "@/lib/utils";
+import { cn, formatChatDate } from "@/lib/utils";
 import { db } from "@/lib/firebase";
 import { useLocale } from "next-intl";
 import { useTranslations } from "use-intl";
@@ -195,11 +195,7 @@ function ChatMember({
           </p>
 
           <span className="shrink-0 text-[11px] text-primary/50">
-            {chatMeta.lastMessageAt &&
-              chatMeta.lastMessageAt.toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+            {chatMeta.lastMessageAt && formatChatDate(chatMeta.lastMessageAt)}
           </span>
         </div>
 
