@@ -299,11 +299,13 @@ export default async function Index({
               label={t("posted")}
               value={formatDate(caseDetails.created_at)}
             />
-            <InfoRow
-              icon={TriangleAlert}
-              label={t("Fields.budget.label")}
-              value={`${caseDetails.budget_min} - ${caseDetails.budget_max} ${tCommon("AED")}`}
-            />
+            {caseDetails.budget_min && caseDetails.budget_max && (
+              <InfoRow
+                icon={TriangleAlert}
+                label={t("Fields.budget.label")}
+                value={`${caseDetails.budget_min} - ${caseDetails.budget_max} ${tCommon("AED")}`}
+              />
+            )}
             <Separator className="bg-secondary" />
             <BackBtn>
               <span className="text-xs">{t("backToCases")}</span>

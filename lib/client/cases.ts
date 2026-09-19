@@ -39,6 +39,7 @@ export async function postCase(
       message: string;
     }>(hireUrl ?? url, formData);
 
+    updateTag("cases");
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error posting case:", error);
