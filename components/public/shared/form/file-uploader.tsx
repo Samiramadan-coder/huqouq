@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import {
   Controller,
   type Control,
@@ -15,13 +16,13 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 
-import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FileIcon, Plus, X } from "lucide-react";
 
-type FileValue = string | File | null;
+type FileItem = string | File;
+type FileValue = FileItem | FileItem[] | null;
 
 type SingleFormFileUploaderProps<T extends FieldValues> = {
   name: Path<T>;
@@ -46,7 +47,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
   description,
   uploadButtonClassName,
   previewBlockClassName,
-  multiple,
+  multiple = false,
 }: SingleFormFileUploaderProps<T>) {
   const t = useTranslations("Common");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -58,15 +59,54 @@ export default function SingleFormFileUploader<T extends FieldValues>({
       render={({ field, fieldState }) => {
         const value = (field.value ?? null) as FileValue;
 
-        const displayValues: (string | File)[] = [];
+        const displayValues: FileItem[] = Array.isArray(value)
+          ? value
+          : value
+            ? [value]
+            : [];
 
-        if (Array.isArray(value)) {
-          displayValues.push(...value);
-        }
+        const handleRemove = (index: number) => {
+          if (multiple) {
+            const newValue = displayValues.filter(
+              (_, itemIndex) => itemIndex !== index,
+            );
 
-        if (!Array.isArray(value) && value !== null) {
-          displayValues.push(value);
-        }
+            field.onChange(newValue);
+          } else {
+            field.onChange(null);
+          }
+
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
+        };
+
+        const handleFileChange = (
+          event: React.ChangeEvent<HTMLInputElement>,
+        ) => {
+          const files = event.target.files
+            ? Array.from(event.target.files)
+            : [];
+
+          if (!files.length) {
+            return;
+          }
+
+          if (multiple) {
+            const existingFiles: FileItem[] = Array.isArray(value)
+              ? value
+              : value
+                ? [value]
+                : [];
+
+            field.onChange([...existingFiles, ...files]);
+          } else {
+            field.onChange(files[0]);
+          }
+
+          // يسمح باختيار نفس الملف مرة أخرى
+          event.target.value = "";
+        };
 
         return (
           <Field className={className} data-invalid={fieldState.invalid}>
@@ -84,70 +124,55 @@ export default function SingleFormFileUploader<T extends FieldValues>({
 
             <FieldContent>
               <div className="space-y-2">
-                {displayValues.length > 0 ? (
-                  <>
-                    {displayValues.map((displayValue, index) => (
-                      <div
-                        key={index}
-                        className={cn(
-                          "flex bg-background min-h-11 items-center gap-3 border border-dashed border-accent/30 px-3",
-                          previewBlockClassName,
-                        )}
+                {displayValues.map((displayValue, index) => {
+                  const fileName =
+                    displayValue instanceof File
+                      ? displayValue.name
+                      : displayValue;
+
+                  return (
+                    <div
+                      key={`${fileName}-${index}`}
+                      className={cn(
+                        "flex bg-background min-h-11 items-center gap-3 border border-dashed border-accent/30 px-3",
+                        previewBlockClassName,
+                      )}
+                    >
+                      <FileIcon className="size-4 shrink-0 text-muted-foreground" />
+
+                      <span
+                        className="min-w-0 flex-1 truncate text-sm"
+                        title={fileName}
                       >
-                        <FileIcon className="size-4 shrink-0 text-muted-foreground" />
-                        <span
-                          className="min-w-0 flex-1 truncate text-sm"
-                          title={
-                            displayValue instanceof File
-                              ? displayValue.name
-                              : displayValue
-                          }
-                        >
-                          {displayValue instanceof File
-                            ? displayValue.name
-                            : displayValue}
-                        </span>
+                        {fileName}
+                      </span>
 
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="size-8 shrink-0"
-                          onClick={() => {
-                            if (Array.isArray(displayValues)) {
-                              const newValue = displayValues.filter(
-                                (_, i) => i !== index,
-                              );
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="size-8 shrink-0"
+                        onClick={() => handleRemove(index)}
+                      >
+                        <X className="size-4" />
+                      </Button>
+                    </div>
+                  );
+                })}
 
-                              field.onChange(newValue);
-                            } else {
-                              field.onChange(null);
-                            }
-
-                            if (fileInputRef.current) {
-                              fileInputRef.current.value = "";
-                            }
-                          }}
-                        >
-                          <X className="size-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </>
-                ) : (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => fileInputRef.current?.click()}
-                    className={cn(
-                      "rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-accent/30 hover:bg-background px-3 text-sm text-primary/50",
-                      uploadButtonClassName,
-                    )}
-                  >
-                    <Plus className="size-4" />
-                    {t("UploadFile")}
-                  </Button>
-                )}
+                {/* زر رفع الملفات يظل ظاهرًا دائمًا */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  className={cn(
+                    "rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-accent/30 hover:bg-background px-3 text-sm text-primary/50",
+                    uploadButtonClassName,
+                  )}
+                >
+                  <Plus className="size-4" />
+                  {t("UploadFile")}
+                </Button>
 
                 <input
                   ref={fileInputRef}
@@ -155,17 +180,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                   accept={accept}
                   className="hidden"
                   multiple={multiple}
-                  onChange={(event) => {
-                    const files = event.target.files
-                      ? Array.from(event.target.files)
-                      : [];
-
-                    if (multiple) {
-                      field.onChange(files);
-                    } else {
-                      field.onChange(files[0] || null);
-                    }
-                  }}
+                  onChange={handleFileChange}
                 />
 
                 <FieldError errors={[fieldState.error]} />
