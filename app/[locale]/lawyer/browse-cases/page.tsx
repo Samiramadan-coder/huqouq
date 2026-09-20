@@ -102,7 +102,11 @@ export default async function Page({
 }) {
   return (
     <Suspense
-      fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+      fallback={
+        <div className="p-4 sm:p-6">
+          <LoaderPinwheelIcon className="animate-spin text-accent" />
+        </div>
+      }
     >
       <GetListOfCases searchParams={searchParams} />
     </Suspense>

@@ -209,16 +209,20 @@ export default async function Details({
                 </div>
                 <Separator className="bg-secondary" />
 
-                <div>
-                  <p className="text-[10px] text-primary/35 uppercase tracking-widest">
-                    {t("Budget")}
-                  </p>
-                  <p className="text-sm text-accent font-semibold mt-1">
-                    {tCommon("AED")} {caseDetails.budget_min} -{" "}
-                    {caseDetails.budget_max}
-                  </p>
-                </div>
-                <Separator className="bg-secondary" />
+                {caseDetails.budget_min && caseDetails.budget_max && (
+                  <>
+                    <div>
+                      <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                        {t("Budget")}
+                      </p>
+                      <p className="text-sm text-accent font-semibold mt-1">
+                        {tCommon("AED")} {caseDetails.budget_min} -{" "}
+                        {caseDetails.budget_max}
+                      </p>
+                    </div>
+                    <Separator className="bg-secondary" />
+                  </>
+                )}
 
                 <div>
                   <p className="text-[10px] text-primary/35 uppercase tracking-widest mb-1">

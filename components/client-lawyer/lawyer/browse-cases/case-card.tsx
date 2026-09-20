@@ -40,9 +40,11 @@ export default async function CaseCard({
         <p className="text-sm mb-2 text-primary/55">{caseItem.description}</p>
 
         <div className="flex items-center flex-wrap gap-4 mb-4">
-          <p className="text-sm font-semibold text-accent">
-            {tCommon("AED")} {caseItem.budget_min} - {caseItem.budget_max}
-          </p>
+          {caseItem.budget_min && caseItem.budget_max && (
+            <p className="text-sm font-semibold text-accent">
+              {tCommon("AED")} {caseItem.budget_min} - {caseItem.budget_max}
+            </p>
+          )}
 
           <div className="flex items-center gap-1 text-xs text-primary/50">
             <MapPin className="size-3" />
