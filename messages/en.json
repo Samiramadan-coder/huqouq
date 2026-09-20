@@ -924,6 +924,42 @@
       "getInTouch": "get in touch"
     }
   },
+  "Contact": {
+    "title": "Get in Touch",
+    "description": "Have questions or feedback? We'd love to hear from you. Fill out the form below and we'll respond as soon as possible.",
+    "email": "Email",
+    "phone": "Phone",
+    "office": "Office",
+    "address": "Dubai, UAE",
+    "downloadOurApp": "Download Our App",
+    "downloadOnThe": "Download on the",
+    "appStore": "App Store",
+    "getItOn": "Get it on",
+    "googlePlay": "Google Play",
+    "form": {
+      "submit": "Send Message",
+      "name": {
+        "label": "Full Name",
+        "placeholder": "Your Name",
+        "required": "Name is required"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "your@email.com",
+        "invalid": "Invalid email address"
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "Select a subject",
+        "required": "Subject is required"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell us how we can help...",
+        "required": "Message is required"
+      }
+    }
+  },
   "Client": {
     "Dashboard": {
       "activeCases": "Active Cases",

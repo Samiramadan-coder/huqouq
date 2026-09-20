@@ -33,6 +33,7 @@ type FormTextareaProps<T extends FieldValues> = {
   description?: ReactNode;
   rows?: number;
   labelDescription?: ReactNode;
+  labelClassName?: string;
 };
 
 export default function FormTextarea<T extends FieldValues>({
@@ -48,6 +49,7 @@ export default function FormTextarea<T extends FieldValues>({
   description,
   rows = 4,
   labelDescription,
+  labelClassName,
 }: FormTextareaProps<T>) {
   const error = get(errors, name);
 
@@ -59,6 +61,7 @@ export default function FormTextarea<T extends FieldValues>({
           className={cn(
             "text-xs font-semibold uppercase tracking-widest text-primary/50",
             required && "after:ms-1 after:text-destructive after:content-['*']",
+            labelClassName,
           )}
         >
           {label}

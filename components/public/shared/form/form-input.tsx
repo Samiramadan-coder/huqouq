@@ -34,6 +34,7 @@ type FormInputProps<T extends FieldValues> = {
   prefix?: ReactNode;
   suffix?: ReactNode;
   description?: ReactNode;
+  labelClassName?: string;
 };
 
 export default function FormInput<T extends FieldValues>({
@@ -50,6 +51,7 @@ export default function FormInput<T extends FieldValues>({
   prefix,
   suffix,
   description,
+  labelClassName,
 }: FormInputProps<T>) {
   const error = get(errors, name);
 
@@ -73,6 +75,7 @@ export default function FormInput<T extends FieldValues>({
           className={cn(
             "text-xs text-primary/50 uppercase tracking-widest font-semibold",
             required && "after:ms-1 after:text-destructive after:content-['*']",
+            labelClassName,
           )}
         >
           {label}
