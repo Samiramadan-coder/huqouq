@@ -76,9 +76,10 @@ export async function CasesTable({
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3 space-x-4">
-                {caseItem.display_status === "closed" && (
-                  <RateLawyer caseItem={caseItem} />
-                )}
+                {caseItem.display_status === "closed" &&
+                  caseItem.is_reviewed === false && (
+                    <RateLawyer caseItem={caseItem} />
+                  )}
 
                 <Button
                   variant="ghost"

@@ -89,6 +89,7 @@ export type Case = {
   urgency_label: string;
   reviewed_at: null | string;
   specialization: { id: number; name: string };
+  is_reviewed: boolean;
   hired_lawyer: {
     id: number;
     name: string;
