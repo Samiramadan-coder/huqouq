@@ -1134,6 +1134,7 @@
       "publishCaseFailed": "فشل في نشر القضية. يرجى المحاولة مرة أخرى.",
       "assignToLawyer": "تعيين إلى محامٍ",
       "rating": "التقييم",
+      "RejectionReason": "سبب الرفض: {reason}",
       "Filters": {
         "all": "الكل",
         "pending_review": "في انتظار المراجعة",

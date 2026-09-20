@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/accordion";
 
 import InfoRow from "./info-row";
+import CloseCase from "./close-case";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { cn, formatDate } from "@/lib/utils";
@@ -32,7 +33,6 @@ import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
-import CloseCase from "./close-case";
 
 export default async function Index({
   caseDetails,
@@ -58,9 +58,18 @@ export default async function Index({
         });
 
       case "approved":
-        return step.at
-          ? t("ReviewedOn", { date: formatDate(step.at) })
-          : t("Timeline.ReviewedOnPending");
+        return step.at ? (
+          <div>
+            <p>{t("ReviewedOn", { date: formatDate(step.at) })}</p>
+            {caseDetails.rejection_reason && (
+              <p className="text-red-400">
+                {t("RejectionReason", { reason: caseDetails.rejection_reason })}
+              </p>
+            )}
+          </div>
+        ) : (
+          t("Timeline.ReviewedOnPending")
+        );
 
       case "offers":
         return t("Timeline.OffersReceivedMessage", {
@@ -112,15 +121,7 @@ export default async function Index({
                   </Link>
                 </Button>
               ))}
-            {caseDetails.can_close && (
-              <CloseCase caseId={caseDetails.id} />
-              // <Button
-              //   variant="outline"
-              //   className="rounded-sm border-destructive/5 font-normal text-xs text-destructive/80 hover:bg-transparent hover:text-destructive hover:border-destructive/20"
-              // >
-              //   {t("closeCase")}
-              // </Button>
-            )}
+            {caseDetails.can_close && <CloseCase caseId={caseDetails.id} />}
           </div>
         </div>
 
@@ -152,67 +153,69 @@ export default async function Index({
               ]}
               className="w-full"
             >
-              {timeline.map((item, index) => {
-                const isCompleted = item.state === "done";
-                const isCurrent = item.state === "current";
-                const isPending = item.state === "upcoming";
-                const isEnabled = item.state !== "upcoming";
-                const isLast = index === timeline.length - 1;
+              {timeline
+                .filter((item) => item.state !== "skipped")
+                .map((item, index) => {
+                  const isCompleted = item.state === "done";
+                  const isCurrent = item.state === "current";
+                  const isPending = item.state === "upcoming";
+                  const isEnabled = item.state !== "upcoming";
+                  const isLast = index === timeline.length - 1;
 
-                return (
-                  <div
-                    key={item.key}
-                    className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
-                  >
-                    <TimelineRail
-                      completed={isCompleted}
-                      current={isCurrent}
-                      last={isLast}
-                    />
-
-                    <AccordionItem
-                      value={item.key}
-                      disabled={!isEnabled}
-                      className="border-none"
+                  return (
+                    <div
+                      key={item.key}
+                      className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
                     >
-                      <AccordionTrigger
-                        className={cn(
-                          "min-h-12 py-0 hover:no-underline",
-                          "[&>svg]:size-4 [&>svg]:shrink-0",
-                          "[&>svg]:text-accent/70!",
-                          isPending &&
-                            "cursor-default text-muted-foreground/35 [&>svg]:hidden",
-                        )}
+                      <TimelineRail
+                        completed={isCompleted}
+                        current={isCurrent}
+                        last={isLast}
+                      />
+
+                      <AccordionItem
+                        value={item.key}
+                        disabled={!isEnabled}
+                        className="border-none"
                       >
-                        <div className="flex min-w-0 items-center gap-2">
-                          <span
-                            className={cn(
-                              "text-sm",
-                              isCompleted && "font-normal text-primary/70",
-                              isCurrent && "font-medium",
-                              isPending && "font-normal text-primary/25",
-                            )}
-                          >
-                            {item.label}
-                          </span>
-
-                          {isCurrent && (
-                            <Badge className="h-5 rounded-full px-2 text-[10px] font-normal">
-                              {t("Timeline.Current")}
-                            </Badge>
+                        <AccordionTrigger
+                          className={cn(
+                            "min-h-12 py-0 hover:no-underline",
+                            "[&>svg]:size-4 [&>svg]:shrink-0",
+                            "[&>svg]:text-accent/70!",
+                            isPending &&
+                              "cursor-default text-muted-foreground/35 [&>svg]:hidden",
                           )}
-                        </div>
-                      </AccordionTrigger>
+                        >
+                          <div className="flex min-w-0 items-center gap-2">
+                            <span
+                              className={cn(
+                                "text-sm",
+                                isCompleted && "font-normal text-primary/70",
+                                isCurrent && "font-medium",
+                                isPending && "font-normal text-primary/25",
+                              )}
+                            >
+                              {item.label}
+                            </span>
 
-                      <AccordionContent className="pb-4">
-                        <div className="rounded-sm border-s-2 border-accent/70 bg-background px-4 py-3 text-xs leading-5 text-primary/70">
-                          {getStepDescription(item)}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </div>
-                );
-              })}
+                            {isCurrent && (
+                              <Badge className="h-5 rounded-full px-2 text-[10px] font-normal">
+                                {t("Timeline.Current")}
+                              </Badge>
+                            )}
+                          </div>
+                        </AccordionTrigger>
+
+                        <AccordionContent className="pb-4">
+                          <div className="rounded-sm border-s-2 border-accent/70 bg-background px-4 py-3 text-xs leading-5 text-primary/70">
+                            {getStepDescription(item)}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </div>
+                  );
+                })}
             </Accordion>
           </CardContent>
         </Card>

@@ -1139,6 +1139,7 @@
       "publishCaseFailed": "Failed to publish case. Please try again.",
       "assignToLawyer": "Assign to Lawyer",
       "rating": "Rating",
+      "RejectionReason": "Rejection Reason: {reason}",
       "Filters": {
         "all": "All",
         "pending_review": "Pending Review",

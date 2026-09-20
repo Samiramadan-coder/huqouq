@@ -162,7 +162,7 @@ export type CaseOffer = {
 type BaseStep = {
   at: string | null;
   label: string;
-  state: "done" | "current" | "upcoming";
+  state: "done" | "current" | "upcoming" | "skipped";
 };
 
 export type Step =
