@@ -60,11 +60,11 @@ export const lawyerLinks = (t: T) => [
 export const legalLinks = (t: T) => [
   {
     label: t("Links.PrivacyPolicy"),
-    href: "/privacy-policy",
+    href: "/privacy",
   },
   {
     label: t("Links.TermsOfService"),
-    href: "/terms-of-service",
+    href: "/terms",
   },
   {
     label: t("Links.CookiePolicy"),

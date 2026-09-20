@@ -311,7 +311,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                     {t.rich("termsAgreement", {
                       terms: (chunks) => (
                         <Link
-                          href="/terms-of-use"
+                          href="/terms"
                           className="text-accent hover:underline"
                         >
                           {chunks}
@@ -319,7 +319,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                       ),
                       privacy: (chunks) => (
                         <Link
-                          href="/privacy-policy"
+                          href="/privacy"
                           className="text-accent hover:underline"
                         >
                           {chunks}

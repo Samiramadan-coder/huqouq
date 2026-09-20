@@ -850,6 +850,80 @@
       }
     }
   },
+  "Terms": {
+    "title": "Terms of Use",
+    "lastUpdated": "Last Updated: June 2025",
+    "introduction": "Please read these Terms of Use carefully before using the HUQUQ platform. These terms govern your access to and use of our services.",
+    "acceptanceOfTerms": {
+      "title": "Acceptance of Terms",
+      "content": "By accessing and using the HUQUQ platform, you agree to be bound by these Terms of Use. If you do not agree to these terms, you are not permitted to use our services."
+    },
+    "userResponsibilities": {
+      "title": "User Responsibilities",
+      "content": "Users agree to provide accurate information during registration and maintain the confidentiality of their account credentials. You are responsible for all activities conducted through your account."
+    },
+    "lawyerVerificationDisclaimer": {
+      "title": "Lawyer Verification Disclaimer",
+      "content": "While HUQUQ verifies lawyer credentials and professional standing, the platform does not guarantee the quality or outcome of legal services provided. HUQUQ is not responsible for disputes between clients and lawyers."
+    },
+    "limitationOfLiability": {
+      "title": "Limitation of Liability",
+      "content": "HUQUQ shall not be liable for any direct, indirect, incidental, or consequential damages arising from the use of the platform or services obtained through it."
+    },
+    "intellectualProperty": {
+      "title": "Intellectual Property",
+      "content": "All content, trademarks, and materials on the HUQUQ platform are protected by intellectual property laws. Users may not reproduce or distribute platform content without written permission."
+    },
+    "modificationsToTerms": {
+      "title": "Modifications to Terms",
+      "content": "HUQUQ reserves the right to modify these terms at any time. Continued use of the platform constitutes acceptance of the modified terms."
+    },
+    "governingLaw": {
+      "title": "Governing Law — UAE",
+      "content": "These Terms of Use are governed by the laws of the United Arab Emirates. Any legal disputes shall be resolved in the courts of Dubai."
+    },
+    "contact": {
+      "title": "For questions about these Terms of Use, please",
+      "getInTouch": "contact us"
+    }
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last Updated: June 2026",
+    "introduction": "HUQUQ (\"we,\" \"us,\" or \"our\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our platform.",
+    "informationWeCollect": {
+      "title": "Information We Collect",
+      "content": "We collect information you provide during registration, including your name, email, phone number, and professional credentials. We also collect usage data and device information to improve your experience."
+    },
+    "howWeUseYourInformation": {
+      "title": "How We Use Your Information",
+      "content": "Your information is used to verify your identity and professional credentials, match you with relevant legal services, process payments, and communicate updates about your cases. We use analytics to improve our platform and service quality."
+    },
+    "dataSharingAndThirdParties": {
+      "title": "Data Sharing & Third Parties",
+      "content": "Information is shared only with third parties necessary for service delivery, such as payment processors, cloud storage providers, and other service providers. All third parties are bound by confidentiality agreements and comply with data protection standards."
+    },
+    "yourRights": {
+      "title": "Your Rights",
+      "content": "You have the right to access, correct, or delete your personal information. To exercise these rights, contact us via the form below. We will respond to requests within 30 days."
+    },
+    "dataSecurity": {
+      "title": "Data Security",
+      "content": "We employ industry-standard encryption and security measures to protect your data. While we strive for maximum security, no online platform is entirely immune to breaches."
+    },
+    "contactForPrivacyConcerns": {
+      "title": "Contact for Privacy Concerns",
+      "content": "If you have concerns about how we handle your data or to exercise your privacy rights, please contact us through our privacy inquiry form or email us directly at the address provided."
+    },
+    "policyUpdates": {
+      "title": "Policy Updates",
+      "content": "We may update this Privacy Policy periodically. We will notify you of significant changes via email or platform notifications."
+    },
+    "contact": {
+      "title": "For privacy-related questions, please",
+      "getInTouch": "get in touch"
+    }
+  },
   "Client": {
     "Dashboard": {
       "activeCases": "Active Cases",
