@@ -20,6 +20,26 @@ export type PostLegalServiceFormData = z.infer<
   ReturnType<typeof postLegalServiceShema>
 >;
 
+export type LegalService = {
+  created_at: string;
+  description: string;
+  display_status: "pending_review";
+  display_status_label: string;
+  emirate: string;
+  has_offers: boolean;
+  id: number;
+  offers_count: number;
+  rejection_reason: string | null;
+  reviewed_at: string | null;
+  service_type: string;
+  service_type_label: string;
+  status: "pending_review";
+  status_label: string;
+  submitted_at: string;
+  urgency: "standard" | "urgent" | "very_urgent";
+  urgency_label: string;
+};
+
 type Attachment = {
   download_url: string;
   id: number;
