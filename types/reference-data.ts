@@ -38,6 +38,11 @@ export type City = {
   cities: string[];
 };
 
+export type LegalServiceType = {
+  value: string;
+  label: string;
+};
+
 export type ReferenceData = {
   academic_degrees: AcademicDegree[];
   account_types: AccountType[];
@@ -48,4 +53,5 @@ export type ReferenceData = {
   services: Service[];
   specializations: Specialization[];
   cities: City[];
+  legal_service_types: LegalServiceType[];
 };

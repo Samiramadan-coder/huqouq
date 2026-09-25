@@ -1297,6 +1297,62 @@
       "SelectCase": "Please select a case to view messages.",
       "AcceptedYourCase": "{lawyerName} accepted your case",
       "You": "You"
+    },
+    "LegalServices": {
+      "create": "Request a Legal Service",
+      "edit": "Edit Legal Service",
+      "createServiceHint": "Describe what you need — lawyers will submit their proposed fees and delivery timeline.",
+      "editServiceHint": "Update the details of your legal service request as needed.",
+      "Fields": {
+        "recieveHint": "You will receive offers from lawyers with their proposed fees and timeline. You'll pay the full amount securely to Huqouq, which holds it until your service is delivered and approved.",
+        "type": {
+          "label": "Service Type",
+          "placeholder": "Select a service type",
+          "required": "Type is required"
+        },
+        "description": {
+          "label": "Description / Requirements",
+          "placeholder": "Describe exactly what you need — for example: I need a commercial lease agreement drafted for a retail space in Dubai. The lease term is 2 years and I need the contract in both Arabic and English...",
+          "required": "Description is required",
+          "notice": "Your request will be reviewed before being visible to lawyers — usually within 24 hours.",
+          "minLength": "Description must be at least 2 characters long",
+          "maxLength": "Description cannot exceed 2000 characters"
+        },
+        "urgency": {
+          "label": "Urgency Level",
+          "options": {
+            "standard": {
+              "label": "Standard",
+              "description": "No rush — within 2–5 days"
+            },
+            "urgent": {
+              "label": "Urgent",
+              "description": "Need help within 24–48 hrs"
+            },
+            "very_urgent": {
+              "label": "Very Urgent",
+              "description": "Need immediate assistance"
+            }
+          }
+        },
+        "location": {
+          "label": "Location / Emirate",
+          "placeholder": "Select an emirate",
+          "required": "Location is required"
+        },
+        "documents": {
+          "label": "Attach Documents",
+          "optional": "optional",
+          "dropText": "Drag files here or",
+          "browse": "browse",
+          "formats": "PDF, DOCX, JPG, PNG — up to 10 MB each",
+          "required": "At least one document is required"
+        },
+        "submit": {
+          "button": "Submit Request",
+          "disabledMessage": "Fill in the required fields to submit."
+        }
+      }
     }
   },
   "Lawyer": {
