@@ -1,24 +1,63 @@
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
-import { LegalService } from "@/types/client/legal-services";
-import ListOfServices from "@/components/client-lawyer/client/legal-services/list-of-services";
+import { Counts, LegalService } from "@/types/client/legal-services";
+import Filters from "@/components/client-lawyer/client/legal-services/filters";
 import SectionTitle from "@/components/client-lawyer/client/legal-services/section-title";
+import ListOfServices from "@/components/client-lawyer/client/legal-services/list-of-services";
+import { Suspense } from "react";
+import { LoaderPinwheelIcon } from "lucide-react";
 
-export default async function Page() {
+type SearchParams = {
+  tab?: string;
+  page?: string;
+};
+
+async function ListOfLegalServices({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { page, tab } = await searchParams;
+
   const { data, ok } = await http.get<{
     data: LegalService[];
     meta: Meta;
-  }>("/api/legal-services");
+    counts: Counts;
+  }>("/api/legal-services", {
+    params: {
+      page: page ?? "1",
+      tab: tab ?? "",
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch legal services");
   }
 
   console.log(data);
+
+  return (
+    <div className=" space-y-4">
+      <Filters counts={data.counts} />
+      <ListOfServices services={data.data} pagination={data.meta} />
+    </div>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
   return (
     <div className="py-10 container max-w-5xl space-y-6">
       <SectionTitle />
-      <ListOfServices services={data.data} pagination={data.meta} />
+
+      <Suspense
+        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+      >
+        <ListOfLegalServices searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

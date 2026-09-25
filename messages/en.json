@@ -1306,6 +1306,16 @@
       "offers": "Offers",
       "title": "My Legal Services",
       "hint": "Track your service requests, review offers, and manage deliveries.",
+      "Filters": {
+        "all": "All",
+        "approved": "Approved",
+        "completed": "Completed",
+        "delivered": "Delivered",
+        "has_offers": "Has Offers",
+        "in_progress": "In Progress",
+        "pending_review": "Pending Review",
+        "rejected": "Rejected"
+      },
       "Fields": {
         "recieveHint": "You will receive offers from lawyers with their proposed fees and timeline. You'll pay the full amount securely to Huqouq, which holds it until your service is delivered and approved.",
         "type": {

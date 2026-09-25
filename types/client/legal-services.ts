@@ -20,6 +20,17 @@ export type PostLegalServiceFormData = z.infer<
   ReturnType<typeof postLegalServiceShema>
 >;
 
+export type Counts = {
+  all: number;
+  approved: number;
+  completed: number;
+  delivered: number;
+  has_offers: number;
+  in_progress: number;
+  pending_review: number;
+  rejected: number;
+};
+
 export type LegalService = {
   created_at: string;
   description: string;

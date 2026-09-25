@@ -1,0 +1,89 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { parseAsString, useQueryStates } from "nuqs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Counts } from "@/types/client/legal-services";
+
+export default function Filters({ counts }: { counts: Counts }) {
+  const t = useTranslations("Client.LegalServices.Filters");
+
+  const statusKeys: (keyof Counts)[] = [
+    "all",
+    "approved",
+    "completed",
+    "delivered",
+    "has_offers",
+    "in_progress",
+    "pending_review",
+    "rejected",
+  ];
+
+  const [filters, setFilters] = useQueryStates({
+    tab: parseAsString
+      .withDefault("all")
+      .withOptions({ history: "push", shallow: false }),
+    page: parseAsString
+      .withDefault("1")
+      .withOptions({ history: "push", shallow: false }),
+  });
+
+  function getCount(key: keyof Counts) {
+    switch (key) {
+      case "all":
+        return counts.all;
+      case "pending_review":
+        return counts.pending_review;
+      case "delivered":
+        return counts.delivered;
+      case "in_progress":
+        return counts.in_progress;
+      case "approved":
+        return counts.approved;
+      case "completed":
+        return counts.completed;
+      case "has_offers":
+        return counts.has_offers;
+      case "rejected":
+        return counts.rejected;
+      default:
+        return 0;
+    }
+  }
+
+  return (
+    <div>
+      <Tabs
+        value={filters.tab}
+        onValueChange={(value) => setFilters({ tab: value, page: "1" })}
+        className="w-full"
+      >
+        <TabsList className="p-0! bg-transparent gap-2 flex-wrap h-auto!">
+          {statusKeys.map((key) => (
+            <TabsTrigger
+              key={key}
+              value={key}
+              className="
+              bg-white 
+              px-3.5 
+              min-h-7
+              font-normal 
+              text-primary/55
+              text-xs 
+              w-fit
+              rounded-sm 
+              border 
+              border-secondary
+              data-[state=active]:bg-primary
+              data-[state=active]:text-white
+              data-[state=active]:border-primary
+            "
+            >
+              {t(key)} ({getCount(key)})
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+    </div>
+  );
+}
