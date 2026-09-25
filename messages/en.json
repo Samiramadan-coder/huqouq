@@ -1307,6 +1307,13 @@
       "title": "My Legal Services",
       "hint": "Track your service requests, review offers, and manage deliveries.",
       "noLegalServices": "No legal services found.",
+      "view": "View",
+      "backToLegal": "Back to Legal Services",
+      "legalStatusTimeLine": "Legal Status Timeline",
+      "current": "Current",
+      "postedOn": "Posted on {date}",
+      "Submitted": "Submitted",
+      "lawyersOffers": "Lawyers' Offers",
       "Filters": {
         "all": "All",
         "approved": "Approved",

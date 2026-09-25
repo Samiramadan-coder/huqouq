@@ -1,10 +1,12 @@
 import { LegalService } from "@/types/client/legal-services";
 import { Meta } from "@/types/shared";
-import { LucideFileText } from "lucide-react";
+import { ArrowRight, LucideFileText } from "lucide-react";
 import PaginationTemplate from "../../reusable/pagination-template";
 import { formatDate } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export default async function ListOfServices({
   services,
@@ -41,16 +43,29 @@ export default async function ListOfServices({
               </div>
 
               <div className="flex flex-wrap items-center gap-3 shrink-0">
-                <ServiceStatus
+                <LegalServiceStatus
                   status={service.display_status}
                   statusLabel={service.display_status_label}
                 />
+
                 <span className="text-xs text-accent font-medium">
                   {service.offers_count} {t("offers")}
                 </span>
+
                 <span className="text-xs text-primary/30">
                   {formatDate(service.created_at)}
                 </span>
+
+                <Button
+                  variant="ghost"
+                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                  asChild
+                >
+                  <Link href={`/client/legal-services/${service.id}`}>
+                    <span>{t("view")}</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
+                </Button>
               </div>
             </div>
           ))}
@@ -65,7 +80,7 @@ export default async function ListOfServices({
   );
 }
 
-function ServiceStatus({
+export function LegalServiceStatus({
   status,
   statusLabel,
 }: {

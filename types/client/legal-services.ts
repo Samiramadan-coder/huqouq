@@ -89,7 +89,7 @@ export type LegalServiceDetails = {
   deadline: string | null;
   deliveries: [];
   description: string;
-  display_status: string;
+  display_status: "pending_review";
   display_status_label: string;
   emirate: string;
   has_offers: boolean;
