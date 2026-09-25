@@ -1,3 +1,6 @@
+"use server";
+
+import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { PostLegalServiceFormData } from "@/types/client/legal-services";
 
@@ -38,7 +41,7 @@ export async function postLegalService(
       message: string;
     }>(url, formData);
 
-    // updateTag("cases");
+    updateTag("client-legal-services");
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error posting legal service:", error);

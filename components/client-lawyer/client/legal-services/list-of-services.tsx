@@ -1,12 +1,12 @@
-import { LegalService } from "@/types/client/legal-services";
 import { Meta } from "@/types/shared";
-import { ArrowRight, LucideFileText } from "lucide-react";
-import PaginationTemplate from "../../reusable/pagination-template";
+import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/utils";
-import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
+import { ArrowRight, LucideFileText } from "lucide-react";
+import { LegalService } from "@/types/client/legal-services";
+import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function ListOfServices({
   services,
@@ -91,6 +91,20 @@ export function LegalServiceStatus({
     case "pending_review":
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-accent/30 bg-accent/5 text-accent">
+          {statusLabel}
+        </Badge>
+      );
+
+    case "approved":
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal border-green-200 bg-green-50 text-green-700">
+          {statusLabel}
+        </Badge>
+      );
+
+    case "rejected":
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal border-red-200 bg-red-50 text-red-700">
           {statusLabel}
         </Badge>
       );

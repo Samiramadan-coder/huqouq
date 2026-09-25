@@ -1,11 +1,11 @@
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
+import { LoaderPinwheelIcon } from "lucide-react";
 import { Counts, LegalService } from "@/types/client/legal-services";
 import Filters from "@/components/client-lawyer/client/legal-services/filters";
 import SectionTitle from "@/components/client-lawyer/client/legal-services/section-title";
 import ListOfServices from "@/components/client-lawyer/client/legal-services/list-of-services";
-import { Suspense } from "react";
-import { LoaderPinwheelIcon } from "lucide-react";
 
 type SearchParams = {
   tab?: string;
@@ -27,6 +27,9 @@ async function ListOfLegalServices({
     params: {
       page: page ?? "1",
       tab: tab ?? "",
+    },
+    next: {
+      tags: ["client-legal-services"],
     },
   });
 

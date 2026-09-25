@@ -56,19 +56,22 @@ export default async function Index({
           date: formatDate(step.at!),
         });
 
-      // case "approved":
-      //   return step.at ? (
-      //     <div>
-      //       <p>{t("ReviewedOn", { date: formatDate(step.at) })}</p>
-      //       {caseDetails.rejection_reason && (
-      //         <p className="text-red-400">
-      //           {t("RejectionReason", { reason: caseDetails.rejection_reason })}
-      //         </p>
-      //       )}
-      //     </div>
-      //   ) : (
-      //     t("Timeline.ReviewedOnPending")
-      //   );
+      case "approved":
+      case "rejected":
+        return step.at ? (
+          <div>
+            <p>{t("reviewedOn", { date: formatDate(step.at) })}</p>
+            {legalService.rejection_reason && (
+              <p className="text-red-400">
+                {t("rejectionReason", {
+                  reason: legalService.rejection_reason,
+                })}
+              </p>
+            )}
+          </div>
+        ) : (
+          t("reviewedOnPending")
+        );
 
       // case "offers":
       //   return t("Timeline.OffersReceivedMessage", {

@@ -20,6 +20,8 @@ export type PostLegalServiceFormData = z.infer<
   ReturnType<typeof postLegalServiceShema>
 >;
 
+type Status = "pending_review" | "approved" | "rejected";
+
 export type Counts = {
   all: number;
   approved: number;
@@ -34,7 +36,7 @@ export type Counts = {
 export type LegalService = {
   created_at: string;
   description: string;
-  display_status: "pending_review";
+  display_status: Status;
   display_status_label: string;
   emirate: string;
   has_offers: boolean;
@@ -44,7 +46,7 @@ export type LegalService = {
   reviewed_at: string | null;
   service_type: string;
   service_type_label: string;
-  status: "pending_review";
+  status: Status;
   status_label: string;
   submitted_at: string;
   urgency: "standard" | "urgent" | "very_urgent";
@@ -65,6 +67,7 @@ type TimelineEvent = {
   key:
     | "submitted"
     | "approved"
+    | "rejected"
     | "offer_accepted"
     | "payment_secured"
     | "in_progress"
@@ -75,8 +78,6 @@ type TimelineEvent = {
 };
 
 export type LegalServiceDetails = {
-  accepted_offer: null;
-  attachments: Attachment[];
   can: {
     approve_delivery: boolean;
     edit: boolean;
@@ -85,11 +86,13 @@ export type LegalServiceDetails = {
     rate: boolean;
     request_revision: boolean;
   };
+  accepted_offer: null;
+  attachments: Attachment[];
   created_at: string;
   deadline: string | null;
   deliveries: [];
   description: string;
-  display_status: "pending_review";
+  display_status: Status;
   display_status_label: string;
   emirate: string;
   has_offers: boolean;
@@ -103,8 +106,8 @@ export type LegalServiceDetails = {
   reviewed_at: null | string;
   service_type: string;
   service_type_label: string;
-  status: string;
-  status_label: "pending_review";
+  status: Status;
+  status_label: string;
   submitted_at: string;
   urgency: "standard" | "urgent" | "very_urgent";
   urgency_label: string;
