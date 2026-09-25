@@ -4,6 +4,7 @@ import { LucideFileText } from "lucide-react";
 import PaginationTemplate from "../../reusable/pagination-template";
 import { formatDate } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
+import { Badge } from "@/components/ui/badge";
 
 export default async function ListOfServices({
   services,
@@ -36,6 +37,10 @@ export default async function ListOfServices({
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <ServiceStatus
+              status={service.display_status}
+              statusLabel={service.display_status_label}
+            />
             <span className="text-xs text-accent font-medium">
               {service.offers_count} {t("offers")}
             </span>
@@ -52,4 +57,28 @@ export default async function ListOfServices({
       />
     </div>
   );
+}
+
+function ServiceStatus({
+  status,
+  statusLabel,
+}: {
+  status: LegalService["display_status"];
+  statusLabel: string;
+}) {
+  switch (status) {
+    case "pending_review":
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal border-accent/30 bg-accent/5 text-accent">
+          {statusLabel}
+        </Badge>
+      );
+
+    default:
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal border-accent/30 bg-accent/5 text-accent">
+          {statusLabel}
+        </Badge>
+      );
+  }
 }

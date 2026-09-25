@@ -34,7 +34,7 @@ async function ListOfLegalServices({
     throw new Error("Failed to fetch legal services");
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className=" space-y-4">
