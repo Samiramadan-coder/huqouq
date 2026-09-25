@@ -1306,6 +1306,7 @@
       "offers": "Offers",
       "title": "My Legal Services",
       "hint": "Track your service requests, review offers, and manage deliveries.",
+      "noLegalServices": "No legal services found.",
       "Filters": {
         "all": "All",
         "approved": "Approved",
