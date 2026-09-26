@@ -1725,6 +1725,18 @@
       "Cancel": "Cancel",
       "MarkAsCompleteFailed": "Failed to mark the case as complete",
       "You": "You"
+    },
+    "LegalServices": {
+      "title": "Browse Legal Service Requests",
+      "requestsAvailable": "requests available",
+      "searchPlaceholder": "Search service type, keyword...",
+      "filters": "Filters",
+      "clearAll": "Clear All",
+      "serviceType": "Service Type",
+      "urgency": "Urgency",
+      "location": "Location / Emirate",
+      "offersSubmitted": "Offers Submitted",
+      "view": "View & Submit Offer"
     }
   }
 }
