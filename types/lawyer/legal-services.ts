@@ -25,3 +25,16 @@ export type LegalService = {
     submit_offer: boolean;
   };
 };
+
+type Attachment = {
+  download_url: string;
+  id: number;
+  mime_type: string;
+  name: string;
+  size_bytes: number;
+  uploaded_at: string;
+};
+
+export type LegalServiceDetails = LegalService & {
+  attachments: Attachment[];
+};

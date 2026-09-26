@@ -4,12 +4,12 @@ import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Filters } from "@/types/lawyer/browse-cases";
+// import { Checkbox } from "@/components/ui/checkbox";
+// import { Filters } from "@/types/lawyer/browse-cases";
 import { Separator } from "@/components/ui/separator";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+// import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 // import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
-import UrgencyBadge from "../../reusable/urgency-label";
+// import UrgencyBadge from "../../reusable/urgency-label";
 
 export default function FiltersControl() {
   const t = useTranslations("Lawyer.LegalServices");

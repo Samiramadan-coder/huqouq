@@ -1736,7 +1736,16 @@
       "urgency": "Urgency",
       "location": "Location / Emirate",
       "offersSubmitted": "Offers Submitted",
-      "view": "View & Submit Offer"
+      "view": "View & Submit Offer",
+      "Details": {
+        "backToServices": "Back to Legal Services",
+        "requestDetails": "Request Details",
+        "client": "Client",
+        "contactDetailsHidden": "Contact details shared after acceptance",
+        "firstNameOnly": "First Name Only",
+        "clientDocuments": "Client Documents",
+        "download": "Download"
+      }
     }
   }
 }
