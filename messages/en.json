@@ -1342,6 +1342,9 @@
       "inProgress": "In Progress",
       "inProgressMessage": "{name} is working on your Contract Review. You will be notified when the work is delivered.",
       "openChat": "Open Chat",
+      "offerAccepted": "Offer Accepted {date}",
+      "paymentSecured": "Payment Secured {date}",
+      "inProgressMsg": "Your lawyer is working on your Service. You can communicate with them through the chat.",
       "Filters": {
         "all": "All",
         "approved": "Approved",

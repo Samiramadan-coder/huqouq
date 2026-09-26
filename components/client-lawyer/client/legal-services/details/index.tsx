@@ -1,12 +1,4 @@
-import {
-  Tag,
-  MapPin,
-  FileText,
-  CalendarDays,
-  TriangleAlert,
-  Calendar,
-  Clock,
-} from "lucide-react";
+import { MapPin, Calendar, Clock } from "lucide-react";
 
 import {
   Accordion,
@@ -15,32 +7,18 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-// import InfoRow from "./info-row";
-// import CloseCase from "./close-case";
-import { Meta } from "@/types/shared";
-import { Link } from "@/i18n/navigation";
-import { cn, formatDate } from "@/lib/utils";
-// import TimelineRail from "./timeline-radial";
-// import AcceptedOffer from "./accepted-offer";
-// import CompareOffers from "./compare-offers";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-// import LawyerOfferCard from "./lawyer-offer-card";
-import { Separator } from "@/components/ui/separator";
-import { getLocale, getTranslations } from "next-intl/server";
-import Title from "@/components/client-lawyer/reusable/title";
-import BackBtn from "@/components/client-lawyer/reusable/back-btn";
-import { LegalServiceDetails } from "@/types/client/legal-services";
-import { CaseDetails, CaseOffer, Step } from "@/types/client/my-cases";
-import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
-import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 import TimelineRail from "./timeline-radial";
-import { LegalServiceStatus } from "../list-of-services";
-import LawyerOfferCard from "./lawyer-offer-card";
 import CompareOffers from "./compare-offers";
 import OfferAccepted from "./accepted-offer";
+import { cn, formatDate } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import LawyerOfferCard from "./lawyer-offer-card";
+import { Separator } from "@/components/ui/separator";
+import { LegalServiceStatus } from "../list-of-services";
+import { getLocale, getTranslations } from "next-intl/server";
+import BackBtn from "@/components/client-lawyer/reusable/back-btn";
+import { LegalServiceDetails } from "@/types/client/legal-services";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Index({
   legalService,
@@ -49,7 +27,6 @@ export default async function Index({
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.LegalServices");
-  const tCommon = await getTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
 
   function getStepDescription(step: LegalServiceDetails["timeline"][number]) {
@@ -76,31 +53,20 @@ export default async function Index({
           t("reviewedOnPending")
         );
 
-      // case "offers":
-      //   return t("Timeline.OffersReceivedMessage", {
-      //     count: step.meta.offers_count,
-      //   });
+      case "offer_accepted":
+        return t("offerAccepted", {
+          date: formatDate(step.at!),
+        });
 
-      // case "hired":
-      //   return step.meta
-      //     ? t("Timeline.HiredTo", {
-      //         name: step.meta.lawyer,
-      //       })
-      //     : "";
+      case "payment_secured":
+        return t("paymentSecured", {
+          date: formatDate(step.at!),
+        });
 
-      // case "in_progress":
-      //   return step.at
-      //     ? t("Timeline.InProgressMessage")
-      //     : t("Timeline.PendingFeesMessage");
-
-      // case "pending_closure":
-      //   return t("Timeline.PendingClosureOn");
-
-      // case "closed":
-      //   return t("Timeline.ClosedCase");
-
-      // case "reviewed":
-      //   return t("Timeline.ReviewedOn", { date: formatDate(step.at!) });
+      case "in_progress":
+        return t("inProgressMsg", {
+          date: formatDate(step.at!),
+        });
 
       default:
         return "";
