@@ -38,6 +38,8 @@ import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-lab
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 import TimelineRail from "./timeline-radial";
 import { LegalServiceStatus } from "../list-of-services";
+import LawyerOfferCard from "./lawyer-offer-card";
+import CompareOffers from "./compare-offers";
 
 export default async function Index({
   legalService,
@@ -206,26 +208,29 @@ export default async function Index({
                 </Badge>
               </div>
 
-              {/* {legalService.offers_count ? (
-                <CompareOffers caseId={caseDetails.id} offers={offers} />
-              ) : null} */}
+              {legalService.offers_count ? (
+                <CompareOffers
+                  serviceId={legalService.id}
+                  offers={legalService.offers}
+                />
+              ) : null}
             </div>
 
-            {/* <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4">
               {legalService.offers_count > 0 ? (
                 <>
                   {legalService.offers.map((offer) => (
                     <LawyerOfferCard
                       key={offer.id}
-                      caseOffer={offer}
-                      caseId={caseDetails.id}
+                      serviceId={legalService.id}
+                      serviceOffer={offer}
                     />
                   ))}
                 </>
               ) : (
                 <p className="text-sm text-primary/65">{t("noOffers")}</p>
               )}
-            </div> */}
+            </div>
           </div>
         )}
       </div>

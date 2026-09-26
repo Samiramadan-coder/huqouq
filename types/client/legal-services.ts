@@ -20,7 +20,7 @@ export type PostLegalServiceFormData = z.infer<
   ReturnType<typeof postLegalServiceShema>
 >;
 
-type Status = "pending_review" | "approved" | "rejected";
+type Status = "pending_review" | "approved" | "rejected" | "has_offers";
 
 export type Counts = {
   all: number;
@@ -77,15 +77,42 @@ type TimelineEvent = {
   state: string;
 };
 
-export type LegalServiceDetails = {
-  can: {
-    approve_delivery: boolean;
-    edit: boolean;
-    open_chat: boolean;
-    pay: boolean;
-    rate: boolean;
-    request_revision: boolean;
+type Can = {
+  approve_delivery: boolean;
+  edit: boolean;
+  open_chat: boolean;
+  pay: boolean;
+  rate: boolean;
+  request_revision: boolean;
+};
+
+export type Offer = {
+  created_at: string;
+  delivery_amount: number;
+  delivery_time_label: string;
+  delivery_unit: string;
+  delivery_unit_label: string;
+  fee: number;
+  id: number;
+  message: string;
+  outcome: string;
+  status: string;
+  status_label: string;
+  updated_at: string;
+  lawyer: {
+    id: number;
+    name: string;
+    photo_url: string;
+    rating: number;
+    reviews_count: number;
+    specialization: string;
+    verified: boolean;
+    years_of_experience: number;
   };
+};
+
+export type LegalServiceDetails = {
+  can: Can;
   accepted_offer: null;
   attachments: Attachment[];
   created_at: string;
@@ -112,4 +139,5 @@ export type LegalServiceDetails = {
   urgency: "standard" | "urgent" | "very_urgent";
   urgency_label: string;
   timeline: TimelineEvent[];
+  offers: Offer[];
 };

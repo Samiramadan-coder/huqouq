@@ -15,13 +15,18 @@ async function LegalService({ params }: { params: Promise<Params> }) {
 
   const { data, ok } = await http.get<{ data: LegalServiceDetails }>(
     `/api/legal-services/${id}`,
+    {
+      next: {
+        tags: [`client-legal-service-${id}`],
+      },
+    },
   );
 
   if (!ok) {
     throw new Error("Failed to fetch legal service details");
   }
 
-  // console.log(data.data);
+  console.log(data.data);
 
   return <Index legalService={data.data} />;
 }

@@ -59,3 +59,30 @@ export async function postLegalService(
     return { success: false };
   }
 }
+
+// Accept Case Offer
+type AcceptOfferResponse =
+  | { success: true; message?: string }
+  | { success: false; message?: string };
+
+export async function acceptServiceOffer({
+  serviceId,
+  offerId,
+}: {
+  serviceId: number;
+  offerId: number;
+}): Promise<AcceptOfferResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/legal-services/${serviceId}/offers/${offerId}/accept`,
+    );
+    updateTag(`client-legal-service-${serviceId}`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error accepting case offer:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}

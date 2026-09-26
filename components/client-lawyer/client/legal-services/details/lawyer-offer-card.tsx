@@ -1,0 +1,126 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import AcceptOffer from "./accept-offer";
+import { ChevronRight, ShieldCheck, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useLocale, useTranslations } from "next-intl";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import { Link } from "@/i18n/navigation";
+import { Offer } from "@/types/client/legal-services";
+
+export default function LawyerOfferCard({
+  serviceId,
+  serviceOffer,
+}: {
+  serviceId: number;
+  serviceOffer: Offer;
+}) {
+  const locale = useLocale();
+  const t = useTranslations("Client.LegalServices");
+  const tCommon = useTranslations("Common");
+  const fontClass = locale === "en" ? "font-lora" : "";
+  const [showFullMessage, setShowFullMessage] = useState(false);
+
+  return (
+    <Card className="rounded-xs border border-secondary ring-0! hover:border-accent/40">
+      <CardContent>
+        <div className="flex items-start gap-4">
+          <Avatar className="size-12">
+            <AvatarImage
+              src={serviceOffer.lawyer.photo_url}
+              alt={serviceOffer.lawyer.name}
+            />
+            <AvatarFallback>{serviceOffer.lawyer.name[0]}</AvatarFallback>
+            <AvatarBadge className="bg-accent">
+              <ShieldCheck />
+            </AvatarBadge>
+          </Avatar>
+
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <h3 className={cn("text-sm font-semibold", fontClass)}>
+                  {serviceOffer.lawyer.name}
+                </h3>
+                <p className="mt-1 text-[11px] text-accent">
+                  {serviceOffer.lawyer.specialization}
+                </p>
+              </div>
+
+              <div className="shrink-0 text-right">
+                <p className={cn("text-lg font-semibold", fontClass)}>
+                  {tCommon("AED")} {serviceOffer.fee}
+                </p>
+                <p className="text-[11px] text-primary/40">
+                  {serviceOffer.delivery_time_label}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+              <div className="flex items-center gap-0.5">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    className={cn(
+                      "size-3.5",
+                      index < (serviceOffer.lawyer.rating ?? 0)
+                        ? "fill-accent text-accent"
+                        : "fill-primary/20 text-primary/20",
+                    )}
+                  />
+                ))}
+              </div>
+
+              <span className="text-primary/50">
+                {serviceOffer.lawyer.rating} (
+                {serviceOffer.lawyer.reviews_count} reviews)
+              </span>
+            </div>
+
+            <p
+              className={cn(
+                "mt-4 text-sm leading-relaxed text-primary/65",
+                !showFullMessage && "line-clamp-2",
+              )}
+            >
+              {serviceOffer.message}
+            </p>
+
+            <button
+              type="button"
+              className="mt-1 text-[11px] cursor-pointer text-accent hover:underline font-normal"
+              onClick={() => setShowFullMessage(!showFullMessage)}
+            >
+              {showFullMessage ? t("readLess") : t("readMore")}
+            </button>
+
+            <div className="mt-4 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <AcceptOffer offer={serviceOffer} serviceId={serviceId} />
+              </div>
+
+              <Link href={`/client/find-lawyers/${serviceOffer.lawyer.id}`}>
+                <Button
+                  variant="ghost"
+                  className="px-0 text-primary/45 font-normal text-xs hover:bg-transparent"
+                >
+                  {t("viewProfile")}
+                  <ChevronRight className="size-3.5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

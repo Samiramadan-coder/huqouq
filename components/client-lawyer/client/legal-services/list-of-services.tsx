@@ -109,6 +109,13 @@ export function LegalServiceStatus({
         </Badge>
       );
 
+    case "has_offers":
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal border-primary/10 bg-primary/5 text-primary">
+          {statusLabel}
+        </Badge>
+      );
+
     default:
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-accent/30 bg-accent/5 text-accent">
