@@ -1818,6 +1818,23 @@
         "actions": "Actions",
         "noOffers": "No offers found"
       }
+    },
+    "ActiveServices": {
+      "title": "My Active Services",
+      "all": "All",
+      "completed": "Completed",
+      "in_progress": "In Progress",
+      "delivered": "Delivered",
+      "view": "View",
+      "Table": {
+        "serviceType": "Service Type",
+        "client": "Client",
+        "agreedFee": "Agreed Fee",
+        "deadLine": "Deadline",
+        "status": "Status",
+        "actions": "Actions",
+        "noServices": "No active services found"
+      }
     }
   }
 }
