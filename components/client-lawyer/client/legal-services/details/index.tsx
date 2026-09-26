@@ -40,6 +40,7 @@ import TimelineRail from "./timeline-radial";
 import { LegalServiceStatus } from "../list-of-services";
 import LawyerOfferCard from "./lawyer-offer-card";
 import CompareOffers from "./compare-offers";
+import OfferAccepted from "./accepted-offer";
 
 export default async function Index({
   legalService,
@@ -192,9 +193,12 @@ export default async function Index({
       </Card>
 
       <div className="md:col-span-2">
-        {legalService.accepted_offer ? (
-          <div className="mt-4">
-            {/* <AcceptedOffer caseDetails={caseDetails} /> */}
+        {legalService.accepted_offer && legalService.hired_lawyer ? (
+          <div>
+            <OfferAccepted
+              offer={legalService.accepted_offer}
+              hiredLawyer={legalService.hired_lawyer}
+            />
           </div>
         ) : (
           <div className="space-y-6 mt-4">

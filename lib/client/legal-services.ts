@@ -68,13 +68,16 @@ type AcceptOfferResponse =
 export async function acceptServiceOffer({
   serviceId,
   offerId,
+  fee,
 }: {
   serviceId: number;
   offerId: number;
+  fee: number;
 }): Promise<AcceptOfferResponse> {
   try {
     const { data } = await http.post<{ message: string }>(
-      `/api/legal-services/${serviceId}/offers/${offerId}/accept`,
+      `/api/legal-services/${serviceId}/offers/${offerId}/pay`,
+      { fee, provider: "manual" },
     );
     updateTag(`client-legal-service-${serviceId}`);
     return { success: true, message: data.message };

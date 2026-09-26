@@ -86,6 +86,21 @@ type Can = {
   request_revision: boolean;
 };
 
+export type AcceptedOffer = {
+  created_at: string;
+  delivery_amount: number;
+  delivery_time_label: string;
+  delivery_unit: string;
+  delivery_unit_label: string;
+  fee: number;
+  id: number;
+  message: string;
+  outcome: string;
+  status: string;
+  status_label: string;
+  updated_at: string;
+};
+
 export type Offer = {
   created_at: string;
   delivery_amount: number;
@@ -111,9 +126,20 @@ export type Offer = {
   };
 };
 
+export type HiredLawyer = {
+  id: number;
+  name: string;
+  photo_url: string;
+  rating: number;
+  reviews_count: number;
+  specialization: string;
+  verified: boolean;
+  years_of_experience: number;
+};
+
 export type LegalServiceDetails = {
   can: Can;
-  accepted_offer: null;
+  accepted_offer: null | AcceptedOffer;
   attachments: Attachment[];
   created_at: string;
   deadline: string | null;
@@ -123,7 +149,7 @@ export type LegalServiceDetails = {
   display_status_label: string;
   emirate: string;
   has_offers: boolean;
-  hired_lawyer: null;
+  hired_lawyer: null | HiredLawyer;
   id: number;
   latest_delivery: null;
   offers_count: number;
@@ -140,4 +166,19 @@ export type LegalServiceDetails = {
   urgency_label: string;
   timeline: TimelineEvent[];
   offers: Offer[];
+};
+
+export type PaymentDetails = {
+  currency: string;
+  delivery_time_label: string;
+  fee: number;
+  fee_percentage: number;
+  lawyer_amount: number;
+  lawyer_name: string;
+  note: string;
+  offer_id: number;
+  platform_fee: number;
+  service_type: string;
+  service_type_label: string;
+  total: number;
 };
