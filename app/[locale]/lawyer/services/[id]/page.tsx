@@ -27,7 +27,7 @@ async function LegalService({ params }: { params: Promise<Params> }) {
 export default async function Page({ params }: { params: Promise<Params> }) {
   const t = await getTranslations("Lawyer.LegalServices.Details");
   return (
-    <div className="p-4 sm:px-6">
+    <div className="p-4 sm:px-6 space-y-6">
       <BackBtn>{t("backToServices")}</BackBtn>
 
       <Suspense
