@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { Clock, FileText, MapPin, Paperclip } from "lucide-react";
 import { LegalServiceDetails } from "@/types/lawyer/legal-services";
+import OfferForm from "./offer-form";
 
 export default async function Details({
   service,
@@ -47,7 +48,7 @@ export default async function Details({
           <p className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-2">
             {t("Details.requestDetails")}
           </p>
-          <p className="font-sans text-sm text-primary leading-relaxed">
+          <p className="text-sm text-primary leading-relaxed">
             {service.description}
           </p>
         </div>
@@ -63,38 +64,49 @@ export default async function Details({
               </span>
             </div>
             <div>
-              <p className="font-sans text-sm font-medium text-primary">
+              <p className="text-sm font-medium text-primary">
                 {service.client.first_name} ({t("Details.firstNameOnly")})
               </p>
-              <p className="font-sans text-xs text-primary/40">
+              <p className="text-xs text-primary/40">
                 {service.emirate} · {t("Details.contactDetailsHidden")}
               </p>
             </div>
           </div>
         </div>
         <div className="bg-white border border-secondary rounded-sm p-5">
-          <p className="font-sans text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-3">
+          <p className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-3">
             {t("Details.clientDocuments")}
           </p>
 
-          {service.attachments.map((attach) => (
-            <div className="flex flex-col gap-2" key={attach.id}>
-              <div className="flex items-center justify-between gap-3 bg-background border border-secondary rounded-sm px-4 py-2.5">
-                <div className="flex items-center gap-2.5">
-                  <Paperclip className="size-3 text-primary/40 shrink-0" />
-                  <span className="font-sans text-sm text-primary">
-                    {attach.name}
-                  </span>
-                  <span className="font-sans text-xs text-primary/35">
-                    {(attach.size_bytes / 1024).toFixed(2)} KB
-                  </span>
+          <div className="space-y-2">
+            {service.attachments.map((attach) => (
+              <div className="flex flex-col gap-2" key={attach.id}>
+                <div className="flex items-center justify-between gap-3 bg-background border border-secondary rounded-sm px-4 py-2.5">
+                  <div className="flex items-center gap-2.5">
+                    <Paperclip className="size-3 text-primary/40 shrink-0" />
+                    <span className="text-sm text-primary">{attach.name}</span>
+                    <span className="text-xs text-primary/35">
+                      {(attach.size_bytes / 1024).toFixed(2)} KB
+                    </span>
+                  </div>
+                  <button className="text-xs font-semibold text-accent hover:text-accent/80 transition-colors">
+                    {t("Details.download")}
+                  </button>
                 </div>
-                <button className="font-sans text-xs font-semibold text-accent hover:text-accent/80 transition-colors">
-                  {t("Details.download")}
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="w-85 shrink-0 sticky top-6 flex flex-col gap-4">
+        <div className="bg-white border border-secondary rounded-sm overflow-hidden">
+          <div className="bg-primary px-5 py-3.5">
+            <p className="text-sm font-semibold text-white">
+              {t("Details.submitOffer")}
+            </p>
+          </div>
+          <OfferForm serviceId={service.id} />
         </div>
       </div>
     </div>

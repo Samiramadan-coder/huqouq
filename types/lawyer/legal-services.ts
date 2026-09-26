@@ -1,3 +1,6 @@
+import z from "zod";
+import { T } from "../shared";
+
 export type LegalService = {
   description: string;
   display_status_label: string;
@@ -38,3 +41,25 @@ type Attachment = {
 export type LegalServiceDetails = LegalService & {
   attachments: Attachment[];
 };
+
+export const offerSchema = (t: T) =>
+  z.object({
+    fee: z.number().min(1, { message: t("fee.required") }),
+
+    delivery_amount: z.number().min(1, {
+      message: t("delivery_time.required"),
+    }),
+
+    delivery_unit: z.string(),
+
+    message: z
+      .string()
+      .min(1, {
+        message: t("message.required"),
+      })
+      .max(6000, {
+        message: t("message.maxLength"),
+      }),
+  });
+
+export type OfferFormData = z.infer<ReturnType<typeof offerSchema>>;

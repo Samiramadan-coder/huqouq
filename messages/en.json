@@ -1744,7 +1744,33 @@
         "contactDetailsHidden": "Contact details shared after acceptance",
         "firstNameOnly": "First Name Only",
         "clientDocuments": "Client Documents",
-        "download": "Download"
+        "download": "Download",
+        "submitOffer": "Submit Your Offer",
+        "submitOfferError": "Failed to Submit Offer",
+        "OfferForm": {
+          "submitOffer": "Submit Offer",
+          "fee": {
+            "label": "Proposed Fee (AED)",
+            "placeholder": "AED e.g. 1500",
+            "required": "Proposed fee is required"
+          },
+          "delivery_time": {
+            "label": "Delivery Time",
+            "required": "Delivery days is required",
+            "placeholder": "e.g. 7",
+            "options": {
+              "days": "Days",
+              "weeks": "Weeks"
+            }
+          },
+          "message": {
+            "label": "Proposal Message",
+            "placeholder": "Introduce yourself, describe your relevant experience, and explain how you will approach this service...",
+            "required": "Message is required",
+            "maxLength": "Message must be at most 6000 characters",
+            "description": "{count} / 6000"
+          }
+        }
       }
     }
   }

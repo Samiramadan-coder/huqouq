@@ -27,7 +27,7 @@ type SelectOption = {
 
 type FormSelectProps<T extends FieldValues> = {
   name: Path<T>;
-  label: string;
+  label?: string;
   placeholder?: string;
   required?: boolean;
   control: Control<T>;
@@ -70,16 +70,18 @@ export default function FormSelect<T extends FieldValues>({
 
         return (
           <Field className={className} data-invalid={fieldState.invalid}>
-            <FieldLabel
-              htmlFor={name}
-              className={cn(
-                "text-xs text-primary/50 uppercase tracking-widest font-semibold",
-                required &&
-                  "after:ms-1 after:text-destructive after:content-['*']",
-              )}
-            >
-              {label}
-            </FieldLabel>
+            {label && (
+              <FieldLabel
+                htmlFor={name}
+                className={cn(
+                  "text-xs text-primary/50 uppercase tracking-widest font-semibold",
+                  required &&
+                    "after:ms-1 after:text-destructive after:content-['*']",
+                )}
+              >
+                {label}
+              </FieldLabel>
+            )}
 
             <FieldContent>
               <div className="space-y-1.5">
