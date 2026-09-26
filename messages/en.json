@@ -1800,6 +1800,24 @@
           }
         }
       }
+    },
+    "ServiceOffers": {
+      "title": "My Service Offers",
+      "accepted": "Accepted",
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "all": "All",
+      "view": "View",
+      "Table": {
+        "serviceType": "Service Type",
+        "client": "Client",
+        "proposedFee": "Proposed Fee",
+        "deliveryTime": "Delivery Time",
+        "submitted": "Submitted",
+        "status": "Status",
+        "actions": "Actions",
+        "noOffers": "No offers found"
+      }
     }
   }
 }
