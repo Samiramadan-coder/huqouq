@@ -1345,6 +1345,8 @@
       "offerAccepted": "Offer Accepted {date}",
       "paymentSecured": "Payment Secured {date}",
       "inProgressMsg": "Your lawyer is working on your Service. You can communicate with them through the chat.",
+      "editItem": "Edit",
+      "noOffers": "No offers yet",
       "Filters": {
         "all": "All",
         "approved": "Approved",

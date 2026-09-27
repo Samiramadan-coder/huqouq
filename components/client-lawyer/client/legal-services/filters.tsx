@@ -2,8 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { parseAsString, useQueryStates } from "nuqs";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { Counts } from "@/types/client/legal-services";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Filters({ counts }: { counts: Counts }) {
   const t = useTranslations("Client.LegalServices.Filters");
@@ -28,62 +29,24 @@ export default function Filters({ counts }: { counts: Counts }) {
       .withOptions({ history: "push", shallow: false }),
   });
 
-  function getCount(key: keyof Counts) {
-    switch (key) {
-      case "all":
-        return counts.all;
-      case "pending_review":
-        return counts.pending_review;
-      case "delivered":
-        return counts.delivered;
-      case "in_progress":
-        return counts.in_progress;
-      case "approved":
-        return counts.approved;
-      case "completed":
-        return counts.completed;
-      case "has_offers":
-        return counts.has_offers;
-      case "rejected":
-        return counts.rejected;
-      default:
-        return 0;
-    }
-  }
-
   return (
-    <div>
+    <div className="overflow-auto">
       <Tabs
         value={filters.tab}
         onValueChange={(value) => setFilters({ tab: value, page: "1" })}
-        className="w-full"
       >
-        <TabsList className="p-0! bg-transparent gap-2 flex-wrap h-auto!">
+        <TabsList variant="line" className="h-auto!">
           {statusKeys.map((key) => (
-            <TabsTrigger
-              key={key}
-              value={key}
-              className="
-              bg-white 
-              px-3.5 
-              min-h-7
-              font-normal 
-              text-primary/55
-              text-xs 
-              w-fit
-              rounded-sm 
-              border 
-              border-secondary
-              data-[state=active]:bg-primary
-              data-[state=active]:text-white
-              data-[state=active]:border-primary
-            "
-            >
-              {t(key)} ({getCount(key)})
+            <TabsTrigger key={key} value={key} className="h-9">
+              {t(key)}
+              <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
+                {counts[key]}
+              </span>
             </TabsTrigger>
           ))}
         </TabsList>
       </Tabs>
+      <Separator className="bg-secondary" />
     </div>
   );
 }

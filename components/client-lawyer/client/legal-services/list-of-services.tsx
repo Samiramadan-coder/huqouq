@@ -26,17 +26,19 @@ export default async function ListOfServices({
           {services.map((service) => (
             <div
               key={service.id}
-              className="bg-white px-5 py-4 border border-accent/30 flex items-center gap-4"
+              className="flex flex-wrap items-center gap-4 border border-accent/30 bg-white px-5 py-4"
             >
-              <div className="flex-1 flex items-center gap-4">
-                <div className="w-9 h-9 rounded-sm bg-background border border-secondary flex items-center justify-center shrink-0">
+              <div className="flex min-w-0 flex-[1_1_320px] items-center gap-4">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-secondary bg-background">
                   <LucideFileText className="size-4 text-accent" />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-primary truncate">
+
+                <div className="min-w-0 flex-1 overflow-hidden">
+                  <p className="truncate text-sm font-semibold text-primary">
                     {service.service_type_label}
                   </p>
-                  <p className="text-xs text-primary/45 mt-0.5 truncate max-w-sm">
+
+                  <p className="mt-0.5 truncate text-xs text-primary/45">
                     {service.description}
                   </p>
                 </div>
@@ -48,7 +50,7 @@ export default async function ListOfServices({
                   statusLabel={service.display_status_label}
                 />
 
-                <span className="text-xs text-accent font-medium">
+                <span className="text-xs font-medium text-accent">
                   {service.offers_count} {t("offers")}
                 </span>
 
@@ -58,7 +60,7 @@ export default async function ListOfServices({
 
                 <Button
                   variant="ghost"
-                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                  className="px-0 text-xs text-accent hover:bg-transparent hover:text-accent"
                   asChild
                 >
                   <Link href={`/client/legal-services/${service.id}`}>

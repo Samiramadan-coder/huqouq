@@ -6,13 +6,15 @@ import AddNew from "../../reusable/add-new";
 export default async function SectionTitle() {
   const t = await getTranslations("Client.LegalServices");
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex items-center justify-between flex-wrap gap-4">
       <div>
         <Title>{t("title")}</Title>
         <Hint>{t("hint")}</Hint>
       </div>
 
-      <AddNew href="/client/legal-services/create">{t("create")}</AddNew>
+      <div className="ms-auto">
+        <AddNew href="/client/legal-services/create">{t("create")}</AddNew>
+      </div>
     </div>
   );
 }

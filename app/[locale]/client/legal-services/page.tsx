@@ -51,7 +51,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <div className="py-10 container max-w-5xl space-y-6">
+    <div className="py-10 container max-w-7xl space-y-6">
       <SectionTitle />
 
       <Suspense
