@@ -4,16 +4,16 @@ import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { Filters } from "@/types/lawyer/browse-cases";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-// import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-// import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
-// import UrgencyBadge from "../../reusable/urgency-label";
+import { Filters } from "@/types/lawyer/legal-services";
+import UrgencyBadge from "../../reusable/urgency-label";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { useLawyerBrowseServicesFilters } from "@/providers/lawyer-browse-services-filters";
 
-export default function FiltersControl() {
+export default function FiltersControl({ filters }: { filters: Filters }) {
   const t = useTranslations("Lawyer.LegalServices");
-  // const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
+  const { lawyerFilters, setLawyerFilters } = useLawyerBrowseServicesFilters();
 
   return (
     <Card className="rounded-sm ring-0! border border-secondary p-0 gap-0">
@@ -39,28 +39,25 @@ export default function FiltersControl() {
         <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
           {t("serviceType")}
         </p>
-        {/* <FieldGroup className="gap-3">
-          {filters.specializations.map((spec) => (
-            <Field key={spec.id} orientation="horizontal">
+        <FieldGroup className="gap-3">
+          {filters.service_types.map((service) => (
+            <Field key={service.value} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`specialization-${spec.id}`}
-                name={`specialization-${spec.id}`}
-                checked={lawyerFilters.specialization_id.includes(spec.id)}
+                id={`service-type-${service.value}`}
+                name={`service-type-${service.value}`}
+                checked={lawyerFilters.service_type.includes(service.value)}
                 onCheckedChange={(e) => {
-                  const value = spec.id;
+                  const value = service.value;
                   if (e) {
                     setLawyerFilters({
                       page: "1",
-                      specialization_id: [
-                        ...lawyerFilters.specialization_id,
-                        value,
-                      ],
+                      service_type: [...lawyerFilters.service_type, value],
                     });
                   } else {
                     setLawyerFilters({
                       page: "1",
-                      specialization_id: lawyerFilters.specialization_id.filter(
+                      service_type: lawyerFilters.service_type.filter(
                         (id) => id !== value,
                       ),
                     });
@@ -68,19 +65,14 @@ export default function FiltersControl() {
                 }}
               />
               <FieldLabel
-                htmlFor={`specialization-${spec.id}`}
-                className="text-xs text-primary font-medium"
+                htmlFor={`service-type-${service.value}`}
+                className="text-xs text-primary font-medium truncate"
               >
-                {spec.name}{" "}
-                {filters.my_specialization_ids.includes(spec.id) && (
-                  <span className="uppercase text-accent text-[9px] font-semibold">
-                    {t("YourSpecialization")}
-                  </span>
-                )}
+                {service.label}{" "}
               </FieldLabel>
             </Field>
           ))}
-        </FieldGroup> */}
+        </FieldGroup>
       </div>
 
       <Separator className="bg-secondary" />
@@ -89,25 +81,27 @@ export default function FiltersControl() {
         <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
           {t("urgency")}
         </p>
-        {/* <FieldGroup className="gap-3">
+        <FieldGroup className="gap-3">
           {filters.urgencies.map((urgency) => (
             <Field key={urgency.value} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
                 id={`urgency-${urgency.value}`}
                 name={`urgency-${urgency.value}`}
-                checked={lawyerFilters.urgency.includes(urgency.value)}
+                checked={lawyerFilters.urgencies.includes(urgency.value)}
                 onCheckedChange={(e) => {
                   const value = urgency.value;
                   if (e) {
                     setLawyerFilters({
                       page: "1",
-                      urgency: [...lawyerFilters.urgency, value],
+                      urgencies: [...lawyerFilters.urgencies, value],
                     });
                   } else {
                     setLawyerFilters({
                       page: "1",
-                      urgency: lawyerFilters.urgency.filter((v) => v !== value),
+                      urgencies: lawyerFilters.urgencies.filter(
+                        (v) => v !== value,
+                      ),
                     });
                   }
                 }}
@@ -123,7 +117,7 @@ export default function FiltersControl() {
               </FieldLabel>
             </Field>
           ))}
-        </FieldGroup> */}
+        </FieldGroup>
       </div>
 
       <Separator className="bg-secondary" />
@@ -132,25 +126,27 @@ export default function FiltersControl() {
         <p className="text-primary/40 text-[10px] uppercase font-semibold mb-4">
           {t("location")}
         </p>
-        {/* <FieldGroup className="gap-3">
+        <FieldGroup className="gap-3">
           {filters.emirates.map((emirate) => (
             <Field key={emirate} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
                 id={`emirate-${emirate}`}
                 name={`emirate-${emirate}`}
-                checked={lawyerFilters.emirate.includes(emirate)}
+                checked={lawyerFilters.emirates.includes(emirate)}
                 onCheckedChange={(e) => {
                   const value = emirate;
                   if (e) {
                     setLawyerFilters({
                       page: "1",
-                      emirate: [...lawyerFilters.emirate, value],
+                      emirates: [...lawyerFilters.emirates, value],
                     });
                   } else {
                     setLawyerFilters({
                       page: "1",
-                      emirate: lawyerFilters.emirate.filter((v) => v !== value),
+                      emirates: lawyerFilters.emirates.filter(
+                        (v) => v !== value,
+                      ),
                     });
                   }
                 }}
@@ -163,7 +159,7 @@ export default function FiltersControl() {
               </FieldLabel>
             </Field>
           ))}
-        </FieldGroup> */}
+        </FieldGroup>
       </div>
     </Card>
   );

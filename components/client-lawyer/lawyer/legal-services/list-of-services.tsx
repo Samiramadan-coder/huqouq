@@ -1,29 +1,28 @@
-// import CaseCard from "./case-card";
 import { Meta } from "@/types/shared";
-import { getTranslations } from "next-intl/server";
-// import ListOfCasesHeader from "./list-of-cases-header";
-// import { Case, Filters } from "@/types/lawyer/browse-cases";
-import PaginationTemplate from "../../reusable/pagination-template";
-import { LegalService } from "@/types/lawyer/legal-services";
-import { Clock, FileText, MapPin } from "lucide-react";
-import UrgencyBadge from "../../reusable/urgency-label";
 import { formatDate } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
+import { Clock, FileText, MapPin } from "lucide-react";
+import UrgencyBadge from "../../reusable/urgency-label";
+import PaginationTemplate from "../../reusable/pagination-template";
+import { LegalService, Filters } from "@/types/lawyer/legal-services";
 import ListOfLegalServicesHeader from "./list-of-legal-services-header";
 
 export default async function ListOfLegalServices({
   services,
   pagination,
+  filters,
 }: {
   services: LegalService[];
   pagination: Meta;
+  filters: Filters;
 }) {
   const t = await getTranslations("Lawyer.LegalServices");
 
   return (
     <div className="space-y-3">
-      <ListOfLegalServicesHeader total={pagination.total} />
+      <ListOfLegalServicesHeader total={pagination.total} filters={filters} />
 
       {services.length > 0 ? (
         <>
@@ -82,7 +81,7 @@ export default async function ListOfLegalServices({
           />
         </>
       ) : (
-        <p className="text-sm text-primary/50">{t("noCasesFound")}</p>
+        <p className="text-sm text-primary/50">{t("noLegalServices")}</p>
       )}
     </div>
   );

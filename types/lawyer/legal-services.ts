@@ -83,3 +83,10 @@ export const offerSchema = (t: T) =>
   });
 
 export type OfferFormData = z.infer<ReturnType<typeof offerSchema>>;
+
+export type Filters = {
+  service_types: { label: string; value: string }[];
+  urgencies: { label: string; value: string }[];
+  emirates: string[];
+  sorts: { label: string; value: string }[];
+};
