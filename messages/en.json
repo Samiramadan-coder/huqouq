@@ -1840,6 +1840,17 @@
         "status": "Status",
         "actions": "Actions",
         "noServices": "No active services found"
+      },
+      "Details": {
+        "backToServices": "Back to Active Services",
+        "client": "Client",
+        "daysRemaining": "{days} days remaining",
+        "statusTimeline": "Status Timeline",
+        "serviceSummary": "Service Summary",
+        "type": "Type",
+        "agreedFee": "Agreed Fee",
+        "platformFee": "Platform Fee",
+        "yourEarnings": "Your Earnings"
       }
     }
   }
