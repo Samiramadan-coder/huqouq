@@ -2,6 +2,7 @@ import { Check, MapPin, User } from "lucide-react";
 import { OfferStatus } from "../data-preview";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ServiceDetails } from "@/types/lawyer/active-services";
+import DeliverWork from "./deliver-work";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const locale = await getLocale();
@@ -96,6 +97,8 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             ))}
           </div>
         </div>
+
+        <DeliverWork serviceId={service.id} />
       </div>
 
       <div className="w-70 shrink-0 sticky top-6 flex flex-col gap-4">

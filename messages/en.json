@@ -1850,7 +1850,13 @@
         "type": "Type",
         "agreedFee": "Agreed Fee",
         "platformFee": "Platform Fee",
-        "yourEarnings": "Your Earnings"
+        "yourEarnings": "Your Earnings",
+        "deliverWork": "Deliver Work",
+        "pleaseUploadAtLeastOneDocument": "Please upload at least one document",
+        "note": "Delivery Note (optional)",
+        "notePlaceholder": "Add a note to the client explaining the delivered work...",
+        "markAsDelivered": "Mark as Delivered",
+        "deliverWorkError": "Failed to deliver work. Please try again."
       }
     }
   }
