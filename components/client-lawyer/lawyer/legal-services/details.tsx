@@ -1,15 +1,19 @@
+import OfferForm from "./offer-form";
+import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
+import DownloadFile from "./download-file";
 import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { Clock, FileText, MapPin, Paperclip } from "lucide-react";
 import { LegalServiceDetails } from "@/types/lawyer/legal-services";
-import OfferForm from "./offer-form";
 
 export default async function Details({
   service,
 }: {
   service: LegalServiceDetails;
 }) {
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("token")?.value;
   const t = await getTranslations("Lawyer.LegalServices");
 
   return (
@@ -89,9 +93,13 @@ export default async function Details({
                       {(attach.size_bytes / 1024).toFixed(2)} KB
                     </span>
                   </div>
-                  <button className="text-xs font-semibold text-accent hover:text-accent/80 transition-colors">
-                    {t("Details.download")}
-                  </button>
+                  {token && (
+                    <DownloadFile
+                      id={attach.id}
+                      token={token}
+                      name={attach.name}
+                    />
+                  )}
                 </div>
               </div>
             ))}
