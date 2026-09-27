@@ -74,7 +74,7 @@ export default async function DataPreview({
                   className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
                   asChild
                 >
-                  <Link href={`/lawyer/services/${service.id}`}>
+                  <Link href={`/lawyer/active-services/${service.id}`}>
                     <span>{t("view")}</span>
                     <ArrowRight className="size-3" />
                   </Link>

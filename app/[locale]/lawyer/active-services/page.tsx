@@ -38,8 +38,6 @@ async function ListOfServiceOffers({
     throw new Error("Failed to fetch service offers");
   }
 
-  console.log(data);
-
   return (
     <div className="space-y-6">
       <FiltersControl counts={data.counts} />
