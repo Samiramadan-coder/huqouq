@@ -1,15 +1,15 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
-import { LoaderPinwheelIcon, MoveRight, TriangleAlert } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
 import { Filters, LegalService } from "@/types/lawyer/legal-services";
+import { LoaderPinwheelIcon, MoveRight, TriangleAlert } from "lucide-react";
 import FiltersControl from "@/components/client-lawyer/lawyer/legal-services/filters-control";
 import { LawyerBrowseServicesFiltersProvider } from "@/providers/lawyer-browse-services-filters";
 import ListOfLegalServices from "@/components/client-lawyer/lawyer/legal-services/list-of-services";
 import QuerySearchAndTitle from "@/components/client-lawyer/lawyer/legal-services/query-search-and-title";
-import { Button } from "@/components/ui/button";
-import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 
 type SearchParams = {
   page?: string;
@@ -85,6 +85,7 @@ async function GetListOfLegalServices({
               services={data.data}
               pagination={data.meta}
               filters={data.filters}
+              can_submit_offer={data.can_submit_offer}
             />
           </div>
         </div>

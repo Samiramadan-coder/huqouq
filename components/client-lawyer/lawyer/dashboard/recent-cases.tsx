@@ -62,7 +62,9 @@ export default function RecentCases() {
           t("Urgency"),
           t("Offers"),
           t("Posted"),
-          t("Actions"),
+          ...(user?.lawyer_profile?.profile_status === "approved"
+            ? [t("Actions")]
+            : []),
         ]}
       >
         {cases.length === 0 ? (
@@ -96,18 +98,20 @@ export default function RecentCases() {
                   {formatDate(caseItem.posted_at)}
                 </span>
               </TableCell>
-              <TableCell className="px-5 py-3 space-x-4">
-                <Button
-                  variant="ghost"
-                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
-                  asChild
-                >
-                  <Link href={`/client/my-cases/${caseItem.id}`}>
-                    <span>{t("View")}</span>
-                    <ArrowRight className="size-3" />
-                  </Link>
-                </Button>
-              </TableCell>
+              {user?.lawyer_profile?.profile_status === "approved" && (
+                <TableCell className="px-5 py-3 space-x-4">
+                  <Button
+                    variant="ghost"
+                    className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                    asChild
+                  >
+                    <Link href={`/client/my-cases/${caseItem.id}`}>
+                      <span>{t("View")}</span>
+                      <ArrowRight className="size-3" />
+                    </Link>
+                  </Button>
+                </TableCell>
+              )}
             </TableRow>
           ))
         )}

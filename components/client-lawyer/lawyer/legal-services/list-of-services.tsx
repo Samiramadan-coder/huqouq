@@ -13,10 +13,12 @@ export default async function ListOfLegalServices({
   services,
   pagination,
   filters,
+  can_submit_offer,
 }: {
   services: LegalService[];
   pagination: Meta;
   filters: Filters;
+  can_submit_offer: boolean;
 }) {
   const t = await getTranslations("Lawyer.LegalServices");
 
@@ -65,11 +67,13 @@ export default async function ListOfLegalServices({
                     </div>
                   </div>
 
-                  <Link href={`/lawyer/services/${service.id}`}>
-                    <Button className="text-sm font-semibold bg-accent hover:bg-accent/80 rounded-sm p-4 h-8 text-primary">
-                      {t("view")}
-                    </Button>
-                  </Link>
+                  {can_submit_offer && (
+                    <Link href={`/lawyer/services/${service.id}`}>
+                      <Button className="text-sm font-semibold bg-accent hover:bg-accent/80 rounded-sm p-4 h-8 text-primary">
+                        {t("view")}
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
