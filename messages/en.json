@@ -1765,6 +1765,7 @@
       "location": "Location / Emirate",
       "offersSubmitted": "Offers Submitted",
       "view": "View & Submit Offer",
+      "offerStatus": "Offer Status",
       "Details": {
         "backToServices": "Back to Legal Services",
         "requestDetails": "Request Details",
@@ -1807,6 +1808,7 @@
       "pending": "Pending",
       "rejected": "Rejected",
       "all": "All",
+      "totalOffers": "Total Offers",
       "view": "View",
       "Table": {
         "serviceType": "Service Type",

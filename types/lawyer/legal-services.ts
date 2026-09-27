@@ -1,13 +1,42 @@
 import z from "zod";
 import { T } from "../shared";
 
+type Can = {
+  add_files: boolean;
+  deliver: boolean;
+  edit_offer: boolean;
+  open_chat: boolean;
+  submit_offer: boolean;
+};
+
+type Client = {
+  first_name: string;
+  name: string;
+  photo_url: string;
+};
+
+export type myOffer = {
+  created_at: string;
+  delivery_amount: number;
+  delivery_time_label: string;
+  delivery_unit: string;
+  delivery_unit_label: string;
+  fee: number;
+  id: number;
+  message: string;
+  outcome: string;
+  status: "pending" | "accepted" | "rejected";
+  status_label: string;
+  updated_at: string;
+};
+
 export type LegalService = {
   description: string;
   display_status_label: string;
   documents_count: number;
   emirate: string;
   id: number;
-  my_offer: null;
+  my_offer: myOffer | null;
   offers_count: number;
   service_type: string;
   service_type_label: string;
@@ -16,17 +45,8 @@ export type LegalService = {
   submitted_at: string;
   urgency: "urgent" | "very_urgent" | "standard";
   urgency_label: string;
-  client: {
-    first_name: string;
-    photo_url: string;
-  };
-  can: {
-    add_files: boolean;
-    deliver: boolean;
-    edit_offer: boolean;
-    open_chat: boolean;
-    submit_offer: boolean;
-  };
+  client: Client;
+  can: Can;
 };
 
 type Attachment = {

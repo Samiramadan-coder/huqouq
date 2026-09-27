@@ -100,7 +100,7 @@ export default async function DataPreview({
   );
 }
 
-async function OfferStatus({
+export function OfferStatus({
   status,
   statusLabel,
 }: {

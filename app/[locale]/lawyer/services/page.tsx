@@ -31,6 +31,8 @@ async function GetListOfLegalServices({
     throw new Error("Failed to fetch legal services");
   }
 
+  console.log(data);
+
   return (
     <div className="space-y-6 px-4 sm:px-6 py-10">
       <QuerySearchAndTitle />

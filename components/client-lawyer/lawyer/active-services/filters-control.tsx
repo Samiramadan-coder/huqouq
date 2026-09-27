@@ -1,9 +1,9 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Counts } from "@/types/lawyer/active-services";
 import { parseAsString, useQueryState } from "nuqs";
-import { Separator } from "@/components/ui/separator";
+import { Counts } from "@/types/lawyer/active-services";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const statusKeys: (keyof Counts)[] = [
@@ -25,18 +25,30 @@ export default function FiltersControl({ counts }: { counts: Counts }) {
   return (
     <div className="overflow-x-auto">
       <Tabs value={status} onValueChange={setStatus}>
-        <TabsList variant="line" className="h-auto!">
-          {statusKeys.map((key) => (
-            <TabsTrigger key={key} value={key} className="h-9">
-              {t(key)}
-              <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
-                {counts[key]}
-              </span>
-            </TabsTrigger>
-          ))}
+        <TabsList className="h-auto! bg-white rounded-sm p-1">
+          {statusKeys.map((key) => {
+            const active = status === key;
+
+            return (
+              <TabsTrigger
+                key={key}
+                value={key}
+                className="rounded-sm h-9 px-4 shadow-none! data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                {t(key)}
+                <span
+                  className={cn(
+                    "ml-1 size-4.5 bg-background rounded-full text-primary/40 text-[11px] grid place-items-center",
+                    active && "bg-white/20 text-white",
+                  )}
+                >
+                  {counts[key]}
+                </span>
+              </TabsTrigger>
+            );
+          })}
         </TabsList>
       </Tabs>
-      <Separator className="bg-secondary" />
     </div>
   );
 }

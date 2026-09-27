@@ -19,6 +19,7 @@ async function ListOfServiceOffers({
   searchParams: Promise<SearchParams>;
 }) {
   const { page, status } = await searchParams;
+  const t = await getTranslations("Lawyer.ServiceOffers");
 
   const { data, ok } = await http.get<{
     counts: Counts;
@@ -39,6 +40,23 @@ async function ListOfServiceOffers({
 
   return (
     <div className="space-y-6">
+      <p className="text-sm text-primary/45 mt-0.5">
+        <span>
+          {data.counts.all} {t("totalOffers")}
+        </span>
+        <span> · </span>
+        <span>
+          {data.counts.pending} {t("pending")}
+        </span>
+        <span> · </span>
+        <span>
+          {data.counts.accepted} {t("accepted")}
+        </span>
+        <span> · </span>
+        <span>
+          {data.counts.rejected} {t("rejected")}
+        </span>
+      </p>
       <FiltersControl counts={data.counts} />
       <DataPreview offers={data.data} pagination={data.meta} />
     </div>
@@ -52,7 +70,7 @@ export default async function Page({
 }) {
   const t = await getTranslations("Lawyer.ServiceOffers");
   return (
-    <div className="container max-w-7xl py-10 space-y-6">
+    <div className="container py-10">
       <Title>{t("title")}</Title>
 
       <Suspense
