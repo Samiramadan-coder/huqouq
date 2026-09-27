@@ -26,6 +26,8 @@ async function LegalService({ params }: { params: Promise<Params> }) {
     throw new Error("Failed to fetch legal service details");
   }
 
+  console.log("data", data);
+
   return <Index legalService={data.data} />;
 }
 

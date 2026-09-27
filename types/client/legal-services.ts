@@ -20,7 +20,12 @@ export type PostLegalServiceFormData = z.infer<
   ReturnType<typeof postLegalServiceShema>
 >;
 
-type Status = "pending_review" | "approved" | "rejected" | "has_offers";
+type Status =
+  | "pending_review"
+  | "approved"
+  | "rejected"
+  | "has_offers"
+  | "delivered";
 
 export type Counts = {
   all: number;
@@ -34,6 +39,7 @@ export type Counts = {
 };
 
 export type LegalService = {
+  can_edit: boolean;
   created_at: string;
   description: string;
   display_status: Status;

@@ -1,10 +1,10 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, LucideFileText } from "lucide-react";
+import { ArrowRight, CircleAlert, LucideFileText } from "lucide-react";
 import { LegalService } from "@/types/client/legal-services";
 import PaginationTemplate from "../../reusable/pagination-template";
 
@@ -26,49 +26,82 @@ export default async function ListOfServices({
           {services.map((service) => (
             <div
               key={service.id}
-              className="flex flex-wrap items-center gap-4 border border-accent/30 bg-white px-5 py-4"
+              className={cn(
+                "border border-accent/30 bg-white",
+                service.display_status === "delivered" && "border-amber-200",
+              )}
             >
-              <div className="flex min-w-0 flex-[1_1_320px] items-center gap-4">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-secondary bg-background">
-                  <LucideFileText className="size-4 text-accent" />
+              <div className="flex flex-wrap items-center gap-4 px-5 py-4">
+                <div className="flex min-w-0 flex-[1_1_320px] items-center gap-4">
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-secondary bg-background">
+                    <LucideFileText className="size-4 text-accent" />
+                  </div>
+
+                  <div className="min-w-0 flex-1 overflow-hidden">
+                    <p className="truncate text-sm font-semibold text-primary">
+                      {service.service_type_label}
+                    </p>
+
+                    <p className="mt-0.5 truncate text-xs text-primary/45">
+                      {service.description}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="min-w-0 flex-1 overflow-hidden">
-                  <p className="truncate text-sm font-semibold text-primary">
-                    {service.service_type_label}
-                  </p>
+                <div className="flex flex-wrap items-center gap-3 shrink-0">
+                  <LegalServiceStatus
+                    status={service.display_status}
+                    statusLabel={service.display_status_label}
+                  />
 
-                  <p className="mt-0.5 truncate text-xs text-primary/45">
-                    {service.description}
-                  </p>
+                  <span className="text-xs font-medium text-accent">
+                    {service.offers_count} {t("offers")}
+                  </span>
+
+                  <span className="text-xs text-primary/30">
+                    {formatDate(service.created_at)}
+                  </span>
+
+                  <Button
+                    variant="ghost"
+                    className="px-0 text-xs text-accent hover:bg-transparent hover:text-accent"
+                    asChild
+                  >
+                    <Link href={`/client/legal-services/${service.id}`}>
+                      <span>{t("view")}</span>
+                      <ArrowRight className="size-3" />
+                    </Link>
+                  </Button>
+
+                  {service.can_edit && (
+                    <Button
+                      variant="ghost"
+                      className="px-0 text-xs text-primary hover:bg-transparent hover:text-accent"
+                      asChild
+                    >
+                      <Link href={`/client/legal-services/edit/${service.id}`}>
+                        <span>{t("editItem")}</span>
+                        <ArrowRight className="size-3" />
+                      </Link>
+                    </Button>
+                  )}
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 shrink-0">
-                <LegalServiceStatus
-                  status={service.display_status}
-                  statusLabel={service.display_status_label}
-                />
-
-                <span className="text-xs font-medium text-accent">
-                  {service.offers_count} {t("offers")}
-                </span>
-
-                <span className="text-xs text-primary/30">
-                  {formatDate(service.created_at)}
-                </span>
-
-                <Button
-                  variant="ghost"
-                  className="px-0 text-xs text-accent hover:bg-transparent hover:text-accent"
-                  asChild
-                >
-                  <Link href={`/client/legal-services/${service.id}`}>
-                    <span>{t("view")}</span>
-                    <ArrowRight className="size-3" />
-                  </Link>
-                </Button>
-              </div>
+              {service.display_status === "delivered" && (
+                <div className="border-t border-amber-100 px-5 py-3 flex items-center gap-2">
+                  <CircleAlert className="size-3 text-amber-600 shrink-0" />
+                  <p className="font-sans text-xs text-amber-700 font-medium">
+                    {t("documentsareDelivered")}{" "}
+                    <Link
+                      href={`/client/legal-services/${service.id}`}
+                      className="underline hover:no-underline"
+                    >
+                      <span>{t("reviewNow")}</span>
+                    </Link>
+                  </p>
+                </div>
+              )}
             </div>
           ))}
 
@@ -114,6 +147,13 @@ export function LegalServiceStatus({
     case "has_offers":
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-primary/10 bg-primary/5 text-primary">
+          {statusLabel}
+        </Badge>
+      );
+
+    case "delivered":
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal border-amber-200 bg-amber-50 text-amber-700">
           {statusLabel}
         </Badge>
       );
