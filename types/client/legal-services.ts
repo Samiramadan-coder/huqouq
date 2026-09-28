@@ -26,7 +26,8 @@ type Status =
   | "rejected"
   | "has_offers"
   | "in_progress"
-  | "delivered";
+  | "delivered"
+  | "completed";
 
 export type Counts = {
   all: number;

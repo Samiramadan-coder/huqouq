@@ -13,6 +13,7 @@ import { LegalServiceDetails } from "@/types/client/legal-services";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import DeliveredSection from "./delivered-section";
+import Completed from "./completed";
 
 export default async function Index({
   legalService,
@@ -27,14 +28,16 @@ export default async function Index({
     <div className="grid items-start grid-cols-1 md:grid-cols-3 gap-4 mt-4">
       <div className="md:col-span-2 space-y-4">
         {/* Accepted offer and hired lawyer section */}
-        {legalService.accepted_offer && legalService.hired_lawyer && (
-          <div>
-            <OfferAccepted
-              offer={legalService.accepted_offer}
-              hiredLawyer={legalService.hired_lawyer}
-            />
-          </div>
-        )}
+        {legalService.accepted_offer &&
+          legalService.hired_lawyer &&
+          legalService.display_status === "in_progress" && (
+            <div>
+              <OfferAccepted
+                offer={legalService.accepted_offer}
+                hiredLawyer={legalService.hired_lawyer}
+              />
+            </div>
+          )}
 
         {/* Lawyers offers section */}
         {legalService.accepted_offer === null && (
@@ -75,8 +78,12 @@ export default async function Index({
           </div>
         )}
 
-        {legalService.status === "delivered" && (
+        {legalService.display_status === "delivered" && (
           <DeliveredSection service={legalService} />
+        )}
+
+        {legalService.display_status === "completed" && (
+          <Completed service={legalService} />
         )}
 
         {/* Legal status timeline section */}

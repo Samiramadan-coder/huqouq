@@ -1359,6 +1359,9 @@
       "approveDescription": "Are you sure you want to approve the delivery? This action cannot be undone.",
       "cancel": "Cancel",
       "approveDeliveryFailed": "Failed to approve delivery. Please try again.",
+      "serviceCompleted": "Service Completed",
+      "rateThisService": "Rate This Service",
+      "paymentReleased": "Payment Released {amount} to {lawyerName}",
       "Filters": {
         "all": "All",
         "approved": "Approved",

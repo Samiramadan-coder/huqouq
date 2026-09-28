@@ -20,7 +20,7 @@ export default async function DeliveredSection({
     <div className="bg-white border border-amber-200 rounded-sm overflow-hidden">
       <div className="bg-amber-50 border-b border-amber-200 px-5 py-4 flex items-start gap-3">
         <CircleAlert className="text-amber-600 size-5" />
-        <p className="font-sans text-sm font-semibold text-amber-800">
+        <p className=" text-sm font-semibold text-amber-800">
           {t("lawyerDeliveredFlag", {
             lawyerName: service.hired_lawyer?.name || "",
           })}
@@ -28,7 +28,7 @@ export default async function DeliveredSection({
       </div>
 
       <div className="px-5 py-5 border-b border-secondary">
-        <p className="font-sans text-xs font-semibold tracking-widest uppercase text-primary/35 mb-3">
+        <p className=" text-xs font-semibold tracking-widest uppercase text-primary/35 mb-3">
           {t("deliveredFiles")}
         </p>
 
@@ -43,10 +43,10 @@ export default async function DeliveredSection({
                 aria-hidden="true"
               />
               <div className="flex-1 min-w-0">
-                <p className="font-sans text-sm text-primary font-medium truncate">
+                <p className=" text-sm text-primary font-medium truncate">
                   {file.name}
                 </p>
-                <p className="font-sans text-xs text-primary/35">
+                <p className=" text-xs text-primary/35">
                   {(file.size_bytes / 1024).toFixed(2)} KB
                 </p>
               </div>
@@ -56,10 +56,10 @@ export default async function DeliveredSection({
         </div>
       </div>
       <div className="px-5 py-4 border-b border-[#EDE9E1]">
-        <p className="font-sans text-xs font-semibold tracking-widest uppercase text-primary/35 mb-2">
+        <p className=" text-xs font-semibold tracking-widest uppercase text-primary/35 mb-2">
           {t("noteFromLawyer")}
         </p>
-        <p className="font-sans text-sm text-primary/60 leading-relaxed">
+        <p className=" text-sm text-primary/60 leading-relaxed">
           {service.deliveries[0].note || "-"}
         </p>
       </div>
@@ -69,13 +69,13 @@ export default async function DeliveredSection({
 
           <Button
             variant="ghost"
-            className="h-10.5 inline-flex items-center gap-2 border border-amber-400 text-amber-700 font-sans text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-amber-50 transition-colors duration-200"
+            className="h-10.5 inline-flex items-center gap-2 border border-amber-400 text-amber-700  text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-amber-50 transition-colors duration-200"
           >
             <RotateCcw className="size-4 shrink-0" aria-hidden="true" />
             {t("requestRevision")}
           </Button>
         </div>
-        <button className="self-start font-sans text-xs text-[#9B2C2C]/60 hover:text-[#9B2C2C] transition-colors duration-200 underline underline-offset-2">
+        <button className="self-start  text-xs text-[#9B2C2C]/60 hover:text-[#9B2C2C] transition-colors duration-200 underline underline-offset-2">
           {t("openDispute")}
         </button>
       </div>
