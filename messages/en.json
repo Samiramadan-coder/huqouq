@@ -1356,6 +1356,9 @@
       "approve": "Approve Delivery",
       "requestRevision": "Request Revision",
       "openDispute": "Open a Dispute",
+      "approveDescription": "Are you sure you want to approve the delivery? This action cannot be undone.",
+      "cancel": "Cancel",
+      "approveDeliveryFailed": "Failed to approve delivery. Please try again.",
       "Filters": {
         "all": "All",
         "approved": "Approved",

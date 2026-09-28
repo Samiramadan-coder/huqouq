@@ -2,8 +2,9 @@ import { cookies } from "next/headers";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import { LegalServiceDetails } from "@/types/client/legal-services";
-import { CircleAlert, CircleCheck, FileText, RotateCcw } from "lucide-react";
+import { CircleAlert, FileText, RotateCcw } from "lucide-react";
 import DownloadFile from "@/components/client-lawyer/reusable/download-file";
+import ApproveDelivery from "./approve-delivery";
 
 export default async function DeliveredSection({
   service,
@@ -64,13 +65,8 @@ export default async function DeliveredSection({
       </div>
       <div className="px-5 py-5 flex flex-col gap-4">
         <div className="flex flex-wrap gap-3">
-          <Button
-            variant="ghost"
-            className="h-10.5 inline-flex items-center gap-2 bg-emerald-600 text-white font-sans text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-emerald-700 transition-colors duration-200"
-          >
-            <CircleCheck className="size-4 shrink-0" aria-hidden="true" />
-            {t("approve")}
-          </Button>
+          <ApproveDelivery serviceId={service.id} />
+
           <Button
             variant="ghost"
             className="h-10.5 inline-flex items-center gap-2 border border-amber-400 text-amber-700 font-sans text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-amber-50 transition-colors duration-200"

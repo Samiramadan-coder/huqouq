@@ -89,3 +89,26 @@ export async function acceptServiceOffer({
     return { success: false };
   }
 }
+
+// Close Case
+type ApproveDeliveryResponse =
+  | { success: true; message?: string }
+  | { success: false; message?: string };
+
+export async function approveDelivery(
+  serviceId: number,
+): Promise<ApproveDeliveryResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/legal-services/${serviceId}/approve-delivery`,
+    );
+    updateTag(`client-legal-service-${serviceId}`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error approving delivery:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
