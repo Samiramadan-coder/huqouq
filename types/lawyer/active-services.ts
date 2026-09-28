@@ -14,8 +14,15 @@ type Can = {
 };
 
 type Client = {
+  // first_name: string;
+  // name: string;
+  // photo_url: string;
+  contact_visible: boolean;
+  email: string;
   first_name: string;
+  last_name: string;
   name: string;
+  phone: string;
   photo_url: string;
 };
 

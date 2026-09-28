@@ -36,8 +36,6 @@ async function ListOfServiceOffers({
     throw new Error("Failed to fetch service offers");
   }
 
-  console.log(data);
-
   return (
     <div className="space-y-6">
       <p className="text-sm text-primary/45 mt-0.5">

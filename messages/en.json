@@ -1350,6 +1350,7 @@
       "reviewNow": "Review Now",
       "documentsareDelivered": "Documents are delivered and pending your approval.",
       "lawyerDeliveredFlag": "{lawyerName} has delivered your Legal Notice. Please review and approve.",
+      "deliveredLegalNotice": "{lawyerName} has delivered your Legal Notice. Please review and approve.",
       "deliveredFiles": "Delivered Files",
       "download": "Download",
       "noteFromLawyer": "Note from Lawyer",

@@ -88,20 +88,23 @@ export default async function ListOfServices({
                 </div>
               </div>
 
-              {service.display_status === "delivered" && (
-                <div className="border-t border-amber-100 px-5 py-3 flex items-center gap-2">
-                  <CircleAlert className="size-3 text-amber-600 shrink-0" />
-                  <p className="font-sans text-xs text-amber-700 font-medium">
-                    {t("documentsareDelivered")}{" "}
-                    <Link
-                      href={`/client/legal-services/${service.id}`}
-                      className="underline hover:no-underline"
-                    >
-                      <span>{t("reviewNow")}</span>
-                    </Link>
-                  </p>
-                </div>
-              )}
+              {service.display_status === "delivered" &&
+                service.hired_lawyer && (
+                  <div className="border-t border-amber-100 px-5 py-3 flex items-center gap-2">
+                    <CircleAlert className="size-3 text-amber-600 shrink-0" />
+                    <p className="font-sans text-xs text-amber-700 font-medium">
+                      {t("deliveredLegalNotice", {
+                        lawyerName: service.hired_lawyer?.name,
+                      })}{" "}
+                      <Link
+                        href={`/client/legal-services/${service.id}`}
+                        className="underline hover:no-underline"
+                      >
+                        <span>{t("reviewNow")}</span>
+                      </Link>
+                    </p>
+                  </div>
+                )}
             </div>
           ))}
 

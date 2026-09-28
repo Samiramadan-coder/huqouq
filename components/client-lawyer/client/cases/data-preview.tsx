@@ -29,7 +29,6 @@ export async function CasesTable({
   cases: Case[];
   pagination?: Meta;
 }) {
-  console.log(cases);
   const t = await getTranslations("Client.Cases");
 
   return (

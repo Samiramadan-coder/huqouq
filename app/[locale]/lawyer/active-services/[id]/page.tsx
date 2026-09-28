@@ -24,8 +24,6 @@ async function ActiveServiceDetails({ params }: { params: Promise<Params> }) {
     throw new Error("Failed to fetch service details");
   }
 
-  console.log(data);
-
   return <Index service={data.data} />;
 }
 

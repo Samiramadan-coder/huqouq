@@ -129,11 +129,15 @@ export default async function Index({ service }: { service: ServiceDetails }) {
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2">
               <User className="size-3 text-primary/30 shrink-0" />
-              <span className="text-xs text-primary/60">-</span>
+              <span className="text-xs text-primary/60">
+                {service.client.email}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="size-3 text-primary/30 shrink-0" />
-              <span className="text-xs text-primary/60">-</span>
+              <span className="text-xs text-primary/60">
+                {service.client.phone}
+              </span>
             </div>
           </div>
         </div>

@@ -40,6 +40,17 @@ export type Counts = {
   rejected: number;
 };
 
+export type HiredLawyer = {
+  id: number;
+  name: string;
+  photo_url: string;
+  rating: number;
+  reviews_count: number;
+  specialization: string;
+  verified: boolean;
+  years_of_experience: number;
+};
+
 export type LegalService = {
   can_edit: boolean;
   created_at: string;
@@ -59,6 +70,7 @@ export type LegalService = {
   submitted_at: string;
   urgency: "standard" | "urgent" | "very_urgent";
   urgency_label: string;
+  hired_lawyer: null | HiredLawyer;
 };
 
 type Attachment = {
@@ -134,17 +146,6 @@ export type Offer = {
   };
 };
 
-export type HiredLawyer = {
-  id: number;
-  name: string;
-  photo_url: string;
-  rating: number;
-  reviews_count: number;
-  specialization: string;
-  verified: boolean;
-  years_of_experience: number;
-};
-
 type Payment = {
   amount: number;
   currency: string;
@@ -177,7 +178,6 @@ export type LegalServiceDetails = LegalService & {
   attachments: Attachment[];
   deadline: string | null;
   deliveries: Delivery[];
-  hired_lawyer: null | HiredLawyer;
   latest_delivery: null | Delivery;
   payment: null | Payment;
   review: null | Review;
