@@ -15,6 +15,9 @@ async function ActiveServiceDetails({ params }: { params: Promise<Params> }) {
 
   const { data, ok } = await http.get<{ data: ServiceDetails }>(
     `/api/lawyer/legal-services/${id}`,
+    {
+      next: { tags: [`lawyer-legal-service-${id}`] },
+    },
   );
 
   if (!ok) {

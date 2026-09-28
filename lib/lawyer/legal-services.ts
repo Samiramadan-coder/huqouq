@@ -1,6 +1,9 @@
+"use server";
+
 import { http, ValidationError } from "../http";
 import { OfferFormData } from "@/types/lawyer/legal-services";
 import { DeliverWorkFormValues } from "@/components/client-lawyer/lawyer/active-services/details/deliver-work";
+import { updateTag } from "next/cache";
 
 // Submit offer response type
 type SubmitOfferResponse =
@@ -22,6 +25,7 @@ export async function submitOffer(
 
   try {
     const { data } = await http.post<{ message: string }>(url, formData);
+    updateTag(`lawyer-legal-service-${id}`);
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error submitting offer:", error);
@@ -65,6 +69,8 @@ export async function deliverWork(
 
   try {
     const { data } = await http.post<{ message: string }>(url, formData);
+
+    updateTag(`lawyer-legal-service-${id}`);
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error delivering work:", error);

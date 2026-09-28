@@ -1880,7 +1880,8 @@
         "note": "Delivery Note (optional)",
         "notePlaceholder": "Add a note to the client explaining the delivered work...",
         "markAsDelivered": "Mark as Delivered",
-        "deliverWorkError": "Failed to deliver work. Please try again."
+        "deliverWorkError": "Failed to deliver work. Please try again.",
+        "revisions": "Revisions"
       }
     }
   }

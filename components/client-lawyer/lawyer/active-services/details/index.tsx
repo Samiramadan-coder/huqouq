@@ -3,6 +3,7 @@ import { OfferStatus } from "../data-preview";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ServiceDetails } from "@/types/lawyer/active-services";
 import DeliverWork from "./deliver-work";
+import Revisions from "./revisions";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const locale = await getLocale();
@@ -97,6 +98,10 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             ))}
           </div>
         </div>
+
+        {service.revisions.length && (
+          <Revisions revisions={service.revisions} />
+        )}
 
         <DeliverWork serviceId={service.id} />
       </div>

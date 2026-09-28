@@ -93,9 +93,16 @@ export type Service = {
   my_offer: MyOffer;
 };
 
+export type Revision = {
+  delivery_id: number;
+  id: number;
+  note: string;
+  requested_at: string;
+};
+
 export type ServiceDetails = Service & {
   attachments: Attachment[];
   timeline: TimelineEntry[];
   deliveries: [];
-  revisions: [];
+  revisions: Revision[];
 };
