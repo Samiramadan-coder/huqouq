@@ -1362,6 +1362,13 @@
       "serviceCompleted": "Service Completed",
       "rateThisService": "Rate This Service",
       "paymentReleased": "Payment Released {amount} to {lawyerName}",
+      "submitReview": "Submit Review",
+      "skipForNow": "Skip for now",
+      "commentPlaceholder": "Write your review here",
+      "ratingRequired": "Rating is required",
+      "errorRating": "Error rating the service",
+      "yourReview": "Your Review",
+      "comment": "Comment",
       "Filters": {
         "all": "All",
         "approved": "Approved",

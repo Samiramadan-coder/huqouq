@@ -3,6 +3,7 @@
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { PostLegalServiceFormData } from "@/types/client/legal-services";
+import { RatingSchema } from "@/components/client-lawyer/client/legal-services/details/rate-service";
 
 // Post Or Update Case
 type LegalServiceResponse =
@@ -60,7 +61,7 @@ export async function postLegalService(
   }
 }
 
-// Accept Case Offer
+// Accept Service Offer
 type AcceptOfferResponse =
   | { success: true; message?: string }
   | { success: false; message?: string };
@@ -90,7 +91,7 @@ export async function acceptServiceOffer({
   }
 }
 
-// Close Case
+// Approve Delivery
 type ApproveDeliveryResponse =
   | { success: true; message?: string }
   | { success: false; message?: string };
@@ -106,6 +107,32 @@ export async function approveDelivery(
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error approving delivery:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
+
+// Rate Lawyer
+type RateServiceResponse =
+  | { success: true; message?: string }
+  | { success: false; message?: string };
+
+export async function rateService(
+  serviceId: number,
+  review: RatingSchema,
+): Promise<RateServiceResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/legal-services/${serviceId}/review`,
+      review,
+    );
+
+    updateTag(`client-legal-service-${serviceId}`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error rating the lawyer:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }

@@ -165,6 +165,12 @@ type Delivery = {
   files: Attachment[];
 };
 
+type Review = {
+  comment: string;
+  created_at: string;
+  rating: number;
+};
+
 export type LegalServiceDetails = LegalService & {
   can: Can;
   accepted_offer: null | AcceptedOffer;
@@ -174,7 +180,7 @@ export type LegalServiceDetails = LegalService & {
   hired_lawyer: null | HiredLawyer;
   latest_delivery: null | Delivery;
   payment: null | Payment;
-  review: null;
+  review: null | Review;
   timeline: TimelineEvent[];
   offers: Offer[];
   revisions: [];

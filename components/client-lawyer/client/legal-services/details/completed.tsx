@@ -1,6 +1,7 @@
-import { LegalServiceDetails } from "@/types/client/legal-services";
+import RateService from "./rate-service";
 import { CircleCheck, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { LegalServiceDetails } from "@/types/client/legal-services";
 
 export default async function Completed({
   service,
@@ -29,10 +30,26 @@ export default async function Completed({
         </div>
       </div>
       <div className="px-5 py-4">
-        <button className="inline-flex items-center gap-2 border border-accent/40 text-accent  text-sm font-semibold px-4 py-2 rounded-sm hover:bg-accent/8 transition-colors duration-200">
-          <Star className="size-5" />
-          {t("rateThisService")}
-        </button>
+        {service.review ? (
+          <div>
+            <p className="text-sm font-semibold mb-1">{t("yourReview")}</p>
+            <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
+              <span className="font-semibold text-primary/70">
+                {t("rating")}
+              </span>
+              : {service.review.rating}
+              <Star className="size-4 fill-accent text-accent" />
+            </p>
+            <p className="text-xs text-muted-foreground">
+              <span className="font-semibold text-primary/70">
+                {t("comment")}
+              </span>
+              : {service.review.comment}
+            </p>
+          </div>
+        ) : (
+          <RateService serviceId={service.id} />
+        )}
       </div>
     </div>
   );
