@@ -35,7 +35,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const t = await getTranslations("Client.LegalServices");
 
   return (
-    <div className="container max-w-4xl py-10">
+    <div className="container max-w-7xl py-10">
       <BackBtn>
         <span>{t("backToLegal")}</span>
       </BackBtn>

@@ -1,7 +1,7 @@
 import OfferForm from "./offer-form";
 import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
-import DownloadFile from "./download-file";
+import DownloadFile from "../../reusable/download-file";
 import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { OfferStatus } from "../service-offers/data-preview";

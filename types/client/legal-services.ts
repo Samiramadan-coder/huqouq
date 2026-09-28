@@ -25,6 +25,7 @@ type Status =
   | "approved"
   | "rejected"
   | "has_offers"
+  | "in_progress"
   | "delivered";
 
 export type Counts = {
@@ -143,35 +144,39 @@ export type HiredLawyer = {
   years_of_experience: number;
 };
 
-export type LegalServiceDetails = {
+type Payment = {
+  amount: number;
+  currency: string;
+  fee_percentage: number;
+  lawyer_amount: number;
+  paid_at: string;
+  payout_due_at: string | null;
+  payout_status: string;
+  payout_status_label: string;
+  platform_fee: number;
+  reference: string;
+};
+
+type Delivery = {
+  delivered_at: string;
+  id: number;
+  note: string | null;
+  files: Attachment[];
+};
+
+export type LegalServiceDetails = LegalService & {
   can: Can;
   accepted_offer: null | AcceptedOffer;
   attachments: Attachment[];
-  created_at: string;
   deadline: string | null;
-  deliveries: [];
-  description: string;
-  display_status: Status;
-  display_status_label: string;
-  emirate: string;
-  has_offers: boolean;
+  deliveries: Delivery[];
   hired_lawyer: null | HiredLawyer;
-  id: number;
-  latest_delivery: null;
-  offers_count: number;
-  payment: null;
-  rejection_reason: null | string;
+  latest_delivery: null | Delivery;
+  payment: null | Payment;
   review: null;
-  reviewed_at: null | string;
-  service_type: string;
-  service_type_label: string;
-  status: Status;
-  status_label: string;
-  submitted_at: string;
-  urgency: "standard" | "urgent" | "very_urgent";
-  urgency_label: string;
   timeline: TimelineEvent[];
   offers: Offer[];
+  revisions: [];
 };
 
 export type PaymentDetails = {

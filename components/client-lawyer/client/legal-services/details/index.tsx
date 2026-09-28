@@ -1,12 +1,3 @@
-import { MapPin, Calendar, Clock } from "lucide-react";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
 import TimelineRail from "./timeline-radial";
 import CompareOffers from "./compare-offers";
 import OfferAccepted from "./accepted-offer";
@@ -14,11 +5,14 @@ import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import LawyerOfferCard from "./lawyer-offer-card";
 import { Separator } from "@/components/ui/separator";
+import { MapPin, Calendar, Clock, MessageSquare } from "lucide-react";
 import { LegalServiceStatus } from "../list-of-services";
 import { getLocale, getTranslations } from "next-intl/server";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { LegalServiceDetails } from "@/types/client/legal-services";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import DeliveredSection from "./delivered-section";
 
 export default async function Index({
   legalService,
@@ -29,144 +23,21 @@ export default async function Index({
   const t = await getTranslations("Client.LegalServices");
   const fontClass = locale === "en" ? "font-lora" : "";
 
-  function getStepDescription(step: LegalServiceDetails["timeline"][number]) {
-    switch (step.key) {
-      case "submitted":
-        return t("postedOn", {
-          date: formatDate(step.at!),
-        });
-
-      case "approved":
-      case "rejected":
-        return step.at ? (
-          <div>
-            <p>{t("reviewedOn", { date: formatDate(step.at) })}</p>
-            {legalService.rejection_reason && (
-              <p className="text-red-400">
-                {t("rejectionReason", {
-                  reason: legalService.rejection_reason,
-                })}
-              </p>
-            )}
-          </div>
-        ) : (
-          t("reviewedOnPending")
-        );
-
-      case "offer_accepted":
-        return t("offerAccepted", {
-          date: formatDate(step.at!),
-        });
-
-      case "payment_secured":
-        return t("paymentSecured", {
-          date: formatDate(step.at!),
-        });
-
-      case "in_progress":
-        return t("inProgressMsg", {
-          date: formatDate(step.at!),
-        });
-
-      default:
-        return "";
-    }
-  }
-
   return (
     <div className="grid items-start grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-      <Card className="w-full md:col-span-3 rounded-xs ring-0! border border-secondary">
-        <CardHeader className="pb-3">
-          <CardTitle className={cn("text-sm font-semibold", fontClass)}>
-            {t("legalStatusTimeLine")}
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <Accordion
-            type="multiple"
-            defaultValue={[
-              legalService.timeline.find((step) => step.state === "current")
-                ?.key || "",
-            ]}
-            className="w-full"
-          >
-            {legalService.timeline
-              .filter((item) => item.state !== "skipped")
-              .map((item, index) => {
-                const isCompleted = item.state === "done";
-                const isCurrent = item.state === "current";
-                const isPending = item.state === "upcoming";
-                const isEnabled = item.state !== "upcoming";
-                const isLast = index === legalService.timeline.length - 1;
-
-                return (
-                  <div
-                    key={item.key}
-                    className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
-                  >
-                    <TimelineRail
-                      completed={isCompleted}
-                      current={isCurrent}
-                      last={isLast}
-                    />
-
-                    <AccordionItem
-                      value={item.key}
-                      disabled={!isEnabled}
-                      className="border-none"
-                    >
-                      <AccordionTrigger
-                        className={cn(
-                          "min-h-12 py-0 hover:no-underline",
-                          "[&>svg]:size-4 [&>svg]:shrink-0",
-                          "[&>svg]:text-accent/70!",
-                          isPending &&
-                            "cursor-default text-muted-foreground/35 [&>svg]:hidden",
-                        )}
-                      >
-                        <div className="flex min-w-0 items-center gap-2">
-                          <span
-                            className={cn(
-                              "text-sm",
-                              isCompleted && "font-normal text-primary/70",
-                              isCurrent && "font-medium",
-                              isPending && "font-normal text-primary/25",
-                            )}
-                          >
-                            {item.label}
-                          </span>
-
-                          {isCurrent && (
-                            <Badge className="h-5 rounded-full px-2 text-[10px] font-normal">
-                              {t("current")}
-                            </Badge>
-                          )}
-                        </div>
-                      </AccordionTrigger>
-
-                      <AccordionContent className="pb-4">
-                        <div className="rounded-sm border-s-2 border-accent/70 bg-background px-4 py-3 text-xs leading-5 text-primary/70">
-                          {getStepDescription(item)}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </div>
-                );
-              })}
-          </Accordion>
-        </CardContent>
-      </Card>
-
-      <div className="md:col-span-2">
-        {legalService.accepted_offer && legalService.hired_lawyer ? (
+      <div className="md:col-span-2 space-y-4">
+        {/* Accepted offer and hired lawyer section */}
+        {legalService.accepted_offer && legalService.hired_lawyer && (
           <div>
             <OfferAccepted
               offer={legalService.accepted_offer}
               hiredLawyer={legalService.hired_lawyer}
             />
           </div>
-        ) : (
+        )}
+
+        {/* Lawyers offers section */}
+        {legalService.accepted_offer === null && (
           <div className="space-y-6 mt-4">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
@@ -203,6 +74,55 @@ export default async function Index({
             </div>
           </div>
         )}
+
+        {legalService.status === "delivered" && (
+          <DeliveredSection service={legalService} />
+        )}
+
+        {/* Legal status timeline section */}
+        <Card className="w-full rounded-xs ring-0! border border-secondary">
+          <CardHeader className="pb-3">
+            <CardTitle className={cn("text-sm font-semibold", fontClass)}>
+              {t("legalStatusTimeLine")}
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <div className="w-full space-y-4">
+              {legalService.timeline
+                .filter((item) => item.state !== "skipped")
+                .map((item, index) => {
+                  const isCompleted = item.state === "done";
+                  const isCurrent = item.state === "current";
+                  const isPending = item.state === "upcoming";
+                  const isLast = index === legalService.timeline.length - 1;
+
+                  return (
+                    <div
+                      key={item.key}
+                      className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
+                    >
+                      <TimelineRail
+                        completed={isCompleted}
+                        current={isCurrent}
+                        last={isLast}
+                      />
+
+                      <span
+                        className={cn(
+                          isCompleted && "text-primary/55 line-through",
+                          isCurrent && "text-primary",
+                          isPending && "text-primary/25",
+                        )}
+                      >
+                        {item.label}
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="md:col-span-1 space-y-4">
@@ -257,7 +177,12 @@ export default async function Index({
           </CardContent>
         </Card>
 
-        <BackBtn>
+        <Button className="bg-accent text-primary rounded-sm hover:bg-accent/80 w-full h-10">
+          <MessageSquare />
+          {t("openChat")}
+        </Button>
+
+        <BackBtn className="w-full h-10 border-secondary">
           <span>{t("backToLegal")}</span>
         </BackBtn>
       </div>
