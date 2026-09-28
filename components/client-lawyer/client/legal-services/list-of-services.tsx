@@ -126,6 +126,7 @@ export function LegalServiceStatus({
     case "pending_review":
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-accent/30 bg-accent/5 text-accent">
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent"></span>
           {statusLabel}
         </Badge>
       );
@@ -133,6 +134,15 @@ export function LegalServiceStatus({
     case "approved":
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-green-200 bg-green-50 text-green-700">
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-green-700"></span>
+          {statusLabel}
+        </Badge>
+      );
+
+    case "in_progress":
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal border-[#bee3f8] bg-[#EDF2F7] text-primary">
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-primary"></span>
           {statusLabel}
         </Badge>
       );
@@ -140,13 +150,15 @@ export function LegalServiceStatus({
     case "rejected":
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-red-200 bg-red-50 text-red-700">
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-red-700"></span>
           {statusLabel}
         </Badge>
       );
 
     case "has_offers":
       return (
-        <Badge className="rounded-xs text-xs py-3 font-normal border-primary/10 bg-primary/5 text-primary">
+        <Badge className="rounded-xs text-xs py-3 font-normal border-accent/25 bg-accent/8 text-primary">
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent"></span>
           {statusLabel}
         </Badge>
       );
@@ -154,6 +166,7 @@ export function LegalServiceStatus({
     case "delivered":
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-amber-200 bg-amber-50 text-amber-700">
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-amber-700"></span>
           {statusLabel}
         </Badge>
       );
@@ -161,6 +174,7 @@ export function LegalServiceStatus({
     default:
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal border-accent/30 bg-accent/5 text-accent">
+          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent"></span>
           {statusLabel}
         </Badge>
       );
