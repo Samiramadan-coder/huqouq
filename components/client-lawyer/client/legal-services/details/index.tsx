@@ -1,19 +1,19 @@
+import Completed from "./completed";
 import TimelineRail from "./timeline-radial";
 import CompareOffers from "./compare-offers";
 import OfferAccepted from "./accepted-offer";
 import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
+import DeliveredSection from "./delivered-section";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Calendar, Clock, MessageSquare } from "lucide-react";
 import { LegalServiceStatus } from "../list-of-services";
 import { getLocale, getTranslations } from "next-intl/server";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { LegalServiceDetails } from "@/types/client/legal-services";
+import { MapPin, Calendar, Clock, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import DeliveredSection from "./delivered-section";
-import Completed from "./completed";
 
 export default async function Index({
   legalService,
@@ -78,10 +78,12 @@ export default async function Index({
           </div>
         )}
 
+        {/* Delivered section */}
         {legalService.display_status === "delivered" && (
           <DeliveredSection service={legalService} />
         )}
 
+        {/* Completed section */}
         {legalService.display_status === "completed" && (
           <Completed service={legalService} />
         )}

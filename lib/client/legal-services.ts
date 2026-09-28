@@ -4,6 +4,7 @@ import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { PostLegalServiceFormData } from "@/types/client/legal-services";
 import { RatingSchema } from "@/components/client-lawyer/client/legal-services/details/rate-service";
+import { RequestRevisionFormValues } from "@/components/client-lawyer/client/legal-services/details/request-revision";
 
 // Post Or Update Case
 type LegalServiceResponse =
@@ -133,6 +134,32 @@ export async function rateService(
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error rating the lawyer:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
+
+// Request Revision
+type RequestRevisionResponse =
+  | { success: true; message?: string }
+  | { success: false; message?: string };
+
+export async function requestRevision(
+  formData: RequestRevisionFormValues,
+  serviceId: number,
+): Promise<RequestRevisionResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/legal-services/${serviceId}/request-revision`,
+      formData,
+    );
+
+    updateTag(`client-legal-service-${serviceId}`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error requesting revision:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }

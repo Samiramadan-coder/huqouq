@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
-import { Button } from "@/components/ui/button";
-import { getTranslations } from "next-intl/server";
-import { LegalServiceDetails } from "@/types/client/legal-services";
-import { CircleAlert, FileText, RotateCcw } from "lucide-react";
-import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 import ApproveDelivery from "./approve-delivery";
+import RequestRevision from "./request-revision";
+import { getTranslations } from "next-intl/server";
+import { CircleAlert, FileText } from "lucide-react";
+import { LegalServiceDetails } from "@/types/client/legal-services";
+import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 
 export default async function DeliveredSection({
   service,
@@ -66,14 +66,7 @@ export default async function DeliveredSection({
       <div className="px-5 py-5 flex flex-col gap-4">
         <div className="flex flex-wrap gap-3">
           <ApproveDelivery serviceId={service.id} />
-
-          <Button
-            variant="ghost"
-            className="h-10.5 inline-flex items-center gap-2 border border-amber-400 text-amber-700  text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-amber-50 transition-colors duration-200"
-          >
-            <RotateCcw className="size-4 shrink-0" aria-hidden="true" />
-            {t("requestRevision")}
-          </Button>
+          <RequestRevision serviceId={service.id} />
         </div>
         <button className="self-start  text-xs text-[#9B2C2C]/60 hover:text-[#9B2C2C] transition-colors duration-200 underline underline-offset-2">
           {t("openDispute")}

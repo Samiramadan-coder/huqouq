@@ -49,14 +49,14 @@ export default function ApproveDelivery({ serviceId }: { serviceId: number }) {
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="h-10.5 inline-flex items-center gap-2 bg-emerald-600 text-white font-sans text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-emerald-700 transition-colors duration-200"
+          className="h-10.5 inline-flex items-center gap-2 bg-emerald-600 text-white font-sans text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-emerald-700 hover:text-white transition-colors duration-200"
         >
           <CircleCheck className="size-4 shrink-0" aria-hidden="true" />
           {t("approve")}
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="sm:max-w-sm ring-0! rounded-sm">
         <DialogHeader>
           <DialogTitle>{t("approve")}</DialogTitle>
           <DialogDescription className="mt-3">

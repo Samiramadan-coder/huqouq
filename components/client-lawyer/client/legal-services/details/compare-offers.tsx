@@ -24,13 +24,13 @@ import {
 } from "@/components/ui/avatar";
 
 import { cn } from "@/lib/utils";
-// import AcceptOffer from "./accept-offer";
+import AcceptOffer from "./accept-offer";
+import Proposal from "./proposal-message";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChartNoAxesColumn, ShieldCheck, Star } from "lucide-react";
-import { getLocale, getTranslations } from "next-intl/server";
 import { Offer } from "@/types/client/legal-services";
-import Proposal from "./proposal-message";
+import { getLocale, getTranslations } from "next-intl/server";
+import { ChartNoAxesColumn, ShieldCheck, Star } from "lucide-react";
 
 export default async function CompareOffers({
   serviceId,
@@ -225,11 +225,11 @@ export default async function CompareOffers({
 
                 {offers.map((offer) => (
                   <TableCell key={offer.id} className="py-4">
-                    {/* <AcceptOffer
-                      caseId={caseId}
+                    <AcceptOffer
                       offer={offer}
+                      serviceId={serviceId}
                       btnClassName="bg-accent text-primary hover:bg-accent/90"
-                    /> */}
+                    />
                   </TableCell>
                 ))}
               </TableRow>

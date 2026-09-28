@@ -96,9 +96,9 @@ export default function AcceptOffer({
           {t("acceptOffer")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md ring-0!">
+      <DialogContent className="sm:max-w-md rounded-sm ring-0!">
         <DialogHeader>
-          <DialogTitle className={cn("font-bold", fontClass)}>
+          <DialogTitle className={cn("font-bold text-lg", fontClass)}>
             {t("ConfirmHire")}
           </DialogTitle>
         </DialogHeader>
