@@ -17,6 +17,10 @@
     "MenuDescription": "روابط التنقل داخل الموقع",
     "SignIn": "تسجيل الدخول",
     "GetStarted": "ابدأ الآن",
+    "Profile": "ملفي الشخصي",
+    "Settings": "الإعدادات",
+    "Logout": "تسجيل الخروج",
+    "GoToDashboard": "الذهاب إلى لوحة التحكم",
     "Navigation": {
       "Home": "الرئيسية",
       "HowItWorks": "كيف يعمل",
@@ -1292,6 +1296,141 @@
       "SelectCase": "يرجى تحديد قضية لعرض الرسائل.",
       "AcceptedYourCase": "قام {lawyerName} بقبول قضيتك",
       "You": "أنت"
+    },
+    "LegalServices": {
+      "create": "طلب خدمة قانونية",
+      "edit": "تعديل الخدمة القانونية",
+      "createServiceHint": "صف ما تحتاجه — سيقدم المحامون رسومهم المقترحة وجدول التسليم.",
+      "editServiceHint": "قم بتحديث تفاصيل طلب الخدمة القانونية حسب الحاجة.",
+      "offers": "العروض",
+      "title": "خدماتي القانونية",
+      "hint": "تتبع طلبات الخدمة الخاصة بك، وراجع العروض، وأدر التسليمات.",
+      "noLegalServices": "لم يتم العثور على خدمات قانونية.",
+      "view": "عرض",
+      "backToLegal": "العودة إلى الخدمات القانونية",
+      "legalStatusTimeLine": "تقدم الخدمة",
+      "current": "الحالي",
+      "postedOn": "تم النشر في {date}",
+      "Submitted": "تم الإرسال",
+      "lawyersOffers": "عروض المحامين",
+      "reviewedOn": "تمت المراجعة في {date}",
+      "reviewedOnPending": "تمت المراجعة في الانتظار",
+      "rejectionReason": "سبب الرفض: {reason}",
+      "readLess": "اقرأ أقل",
+      "readMore": "اقرأ المزيد",
+      "viewProfile": "عرض الملف الشخصي",
+      "compareOffers": "قارن جميع العروض",
+      "compareOffersDescription": "نزاع عقد العمل",
+      "lawyer": "المحامي",
+      "experience": "الخبرة",
+      "price": "السعر",
+      "rating": "التقييم",
+      "estTimeline": "الجدول الزمني المقدر",
+      "proposal": "الاقتراح",
+      "specializations": "التخصصات",
+      "actions": "الإجراءات",
+      "verified": "تم التحقق",
+      "acceptOffer": "قبول هذا العرض",
+      "ConfirmHire": "تأكيد اتفاقية الخدمة",
+      "continueToPayment": "المتابعة إلى الدفع",
+      "offerAcceptFailed": "فشل في قبول العرض. يرجى المحاولة مرة أخرى.",
+      "agreedFee": "الرسوم المتفق عليها",
+      "huqouqPlatformFee": "رسوم منصة حقوق",
+      "lawyerAmount": "المحامي يتلقى: {amount} (يحتفظ بها حقوق حتى توافق على التسليم)",
+      "totalYouPay": "إجمالي ما تدفعه",
+      "inProgress": "قيد التنفيذ",
+      "inProgressMessage": "{name} يعمل على مراجعة عقدك. سيتم إعلامك عند تسليم العمل.",
+      "openChat": "افتح الدردشة",
+      "offerAccepted": "تم قبول العرض {date}",
+      "paymentSecured": "تم تأمين الدفع {date}",
+      "inProgressMsg": "يعمل محاميك على خدمتك. يمكنك التواصل معهم عبر الدردشة.",
+      "editItem": "تعديل",
+      "noOffers": "لا توجد عروض بعد",
+      "reviewNow": "راجع الآن",
+      "documentsareDelivered": "تم تسليم المستندات وتنتظر موافقتك.",
+      "lawyerDeliveredFlag": "قام {lawyerName} بتسليم إشعارك القانوني. يرجى المراجعة والموافقة.",
+      "deliveredLegalNotice": "قام {lawyerName} بتسليم إشعارك القانوني. يرجى المراجعة والموافقة.",
+      "deliveredFiles": "الملفات المسلمة",
+      "download": "تحميل",
+      "noteFromLawyer": "ملاحظة من المحامي",
+      "approve": "الموافقة على التسليم",
+      "requestRevision": "طلب تعديل",
+      "openDispute": "فتح نزاع",
+      "approveDescription": "هل أنت متأكد من أنك تريد الموافقة على التسليم؟ لا يمكن التراجع عن هذا الإجراء.",
+      "cancel": "إلغاء",
+      "approveDeliveryFailed": "فشل في الموافقة على التسليم. يرجى المحاولة مرة أخرى.",
+      "serviceCompleted": "تم إكمال الخدمة",
+      "rateThisService": "قيم هذه الخدمة",
+      "paymentReleased": "تم إصدار الدفع {amount} إلى {lawyerName}",
+      "submitReview": "إرسال التقييم",
+      "skipForNow": "تخطي الآن",
+      "commentPlaceholder": "اكتب تقييمك هنا",
+      "ratingRequired": "التقييم مطلوب",
+      "errorRating": "حدث خطأ أثناء تقييم الخدمة",
+      "yourReview": "تقييمك",
+      "comment": "تعليق",
+      "noteRequired": "الملاحظة مطلوبة",
+      "requestRevisionFailed": "فشل في طلب التعديل. يرجى المحاولة مرة أخرى.",
+      "Filters": {
+        "all": "الكل",
+        "approved": "تمت الموافقة",
+        "completed": "مكتمل",
+        "delivered": "تم التسليم",
+        "has_offers": "لديه عروض",
+        "in_progress": "قيد التنفيذ",
+        "pending_review": "في انتظار المراجعة",
+        "rejected": "مرفوض"
+      },
+      "Fields": {
+        "recieveHint": "ستتلقى عروضًا من المحامين مع الرسوم والجدول الزمني المقترحين. ستدفع المبلغ الكامل بأمان إلى حقوق، التي تحتفظ به حتى يتم تسليم خدمتك والموافقة عليها.",
+        "type": {
+          "label": "نوع الخدمة",
+          "placeholder": "اختر نوع الخدمة",
+          "required": "نوع الخدمة مطلوب"
+        },
+        "description": {
+          "label": "الوصف / المتطلبات",
+          "placeholder": "صف بالضبط ما تحتاجه — على سبيل المثال: أحتاج إلى صياغة عقد إيجار تجاري لمساحة تجارية في دبي. مدة الإيجار سنتان وأحتاج العقد باللغتين العربية والإنجليزية...",
+          "required": "الوصف مطلوب",
+          "notice": "سيتم مراجعة طلبك قبل أن يكون مرئيًا للمحامين — عادةً خلال 24 ساعة.",
+          "minLength": "يجب أن يكون الوصف مكونًا من حرفين على الأقل",
+          "maxLength": "لا يمكن أن يتجاوز الوصف 2000 حرف"
+        },
+        "urgency": {
+          "label": "مستوى الاستعجال",
+          "options": {
+            "standard": {
+              "label": "عادي",
+              "description": "لا يوجد استعجال — خلال 2–5 أيام"
+            },
+            "urgent": {
+              "label": "عاجل",
+              "description": "تحتاج إلى المساعدة خلال 24–48 ساعة"
+            },
+            "very_urgent": {
+              "label": "عاجل جدًا",
+              "description": "تحتاج إلى المساعدة فورًا"
+            }
+          }
+        },
+        "location": {
+          "label": "الموقع / الإمارة",
+          "placeholder": "اختر إمارة",
+          "required": "الموقع مطلوب"
+        },
+        "documents": {
+          "label": "إرفاق المستندات",
+          "optional": "اختياري",
+          "dropText": "اسحب الملفات هنا أو",
+          "browse": "تصفح",
+          "formats": "PDF، DOCX، JPG، PNG — حتى 10 ميغابايت لكل ملف",
+          "required": "مطلوب مستند واحد على الأقل"
+        },
+        "submit": {
+          "button": "إرسال الطلب",
+          "disabledMessage": "املأ الحقول المطلوبة للإرسال."
+        }
+      }
     }
   },
   "Lawyer": {

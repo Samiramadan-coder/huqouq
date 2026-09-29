@@ -23,6 +23,7 @@ import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
+import BackBtn from "../../reusable/back-btn";
 
 const urgencyKeys = ["standard", "urgent", "very_urgent"] as const;
 
@@ -89,6 +90,10 @@ export default function Form({
 
   return (
     <div className="container max-w-3xl space-y-6 py-10">
+      <BackBtn>
+        <span>{t("backToLegal")}</span>
+      </BackBtn>
+
       <div>
         <Title>{legalServiceItem ? t("edit") : t("create")}</Title>
         <Hint>

@@ -69,7 +69,7 @@ export default async function ListOfServices({
                   >
                     <Link href={`/client/legal-services/${service.id}`}>
                       <span>{t("view")}</span>
-                      <ArrowRight className="size-3" />
+                      <ArrowRight className="size-3 rtl:rotate-180" />
                     </Link>
                   </Button>
 
@@ -81,7 +81,7 @@ export default async function ListOfServices({
                     >
                       <Link href={`/client/legal-services/edit/${service.id}`}>
                         <span>{t("editItem")}</span>
-                        <ArrowRight className="size-3" />
+                        <ArrowRight className="size-3 rtl:rotate-180" />
                       </Link>
                     </Button>
                   )}
