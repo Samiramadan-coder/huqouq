@@ -1779,6 +1779,110 @@
       "Cancel": "إلغاء",
       "MarkAsCompleteFailed": "فشل في وضع علامة على القضية كمكتملة",
       "You": "أنت"
+    },
+    "LegalServices": {
+      "title": "تصفح طلبات الخدمات القانونية",
+      "requestsAvailable": "طلبات متاحة",
+      "searchPlaceholder": "ابحث عن نوع الخدمة، كلمة مفتاحية...",
+      "filters": "الفلاتر",
+      "clearAll": "مسح الكل",
+      "serviceType": "نوع الخدمة",
+      "urgency": "الاستعجال",
+      "location": "الموقع / الإمارة",
+      "offersSubmitted": "العروض المقدمة",
+      "view": "عرض وتقديم عرض",
+      "offerStatus": "حالة العرض",
+      "noLegalServices": "لم يتم العثور على خدمات قانونية",
+      "completeProfile": "إكمال الملف الشخصي",
+      "Details": {
+        "backToServices": "العودة إلى الخدمات القانونية",
+        "requestDetails": "تفاصيل الطلب",
+        "client": "العميل",
+        "contactDetailsHidden": "يتم مشاركة تفاصيل الاتصال بعد القبول",
+        "firstNameOnly": "الاسم الأول فقط",
+        "clientDocuments": "مستندات العميل",
+        "download": "تحميل",
+        "submitOffer": "تقديم عرضك",
+        "submitOfferError": "فشل في تقديم العرض",
+        "OfferForm": {
+          "submitOffer": "تقديم العرض",
+          "fee": {
+            "label": "الرسوم المقترحة (درهم إماراتي)",
+            "placeholder": "درهم إماراتي مثل 1500",
+            "required": "الرسوم المقترحة مطلوبة"
+          },
+          "delivery_time": {
+            "label": "مدة التسليم",
+            "required": "عدد أيام التسليم مطلوب",
+            "placeholder": "مثال: 7",
+            "options": {
+              "days": "أيام",
+              "weeks": "أسابيع"
+            }
+          },
+          "message": {
+            "label": "رسالة الاقتراح",
+            "placeholder": "قدم نفسك، وصف خبرتك ذات الصلة، واشرح كيف ستتعامل مع هذه الخدمة...",
+            "required": "الرسالة مطلوبة",
+            "maxLength": "يجب أن تكون الرسالة بحد أقصى 6000 حرف",
+            "description": "{count} / 6000"
+          }
+        }
+      }
+    },
+    "ServiceOffers": {
+      "title": "عروضي على الخدمات",
+      "accepted": "مقبول",
+      "pending": "قيد الانتظار",
+      "rejected": "مرفوض",
+      "all": "الكل",
+      "totalOffers": "إجمالي العروض",
+      "view": "عرض",
+      "Table": {
+        "serviceType": "نوع الخدمة",
+        "client": "العميل",
+        "proposedFee": "الرسوم المقترحة",
+        "deliveryTime": "مدة التسليم",
+        "submitted": "تم التقديم",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "noOffers": "لم يتم العثور على عروض"
+      }
+    },
+    "ActiveServices": {
+      "title": "خدماتي النشطة",
+      "all": "الكل",
+      "completed": "مكتمل",
+      "in_progress": "قيد التنفيذ",
+      "delivered": "تم التسليم",
+      "view": "عرض",
+      "Table": {
+        "serviceType": "نوع الخدمة",
+        "client": "العميل",
+        "agreedFee": "الرسوم المتفق عليها",
+        "deadLine": "الموعد النهائي",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "noServices": "لم يتم العثور على خدمات نشطة"
+      },
+      "Details": {
+        "backToServices": "العودة إلى الخدمات النشطة",
+        "client": "العميل",
+        "daysRemaining": "يتبقى {days} يوم",
+        "statusTimeline": "جدول الحالة",
+        "serviceSummary": "ملخص الخدمة",
+        "type": "النوع",
+        "agreedFee": "الرسوم المتفق عليها",
+        "platformFee": "رسوم المنصة",
+        "yourEarnings": "أرباحك",
+        "deliverWork": "تسليم العمل",
+        "pleaseUploadAtLeastOneDocument": "يرجى تحميل مستند واحد على الأقل",
+        "note": "ملاحظة التسليم (اختياري)",
+        "notePlaceholder": "أضف ملاحظة للعميل تشرح العمل الذي تم تسليمه...",
+        "markAsDelivered": "وضع علامة تم التسليم",
+        "deliverWorkError": "فشل في تسليم العمل. يرجى المحاولة مرة أخرى.",
+        "revisions": "التعديلات"
+      }
     }
   }
 }

@@ -81,7 +81,7 @@ export default async function DataPreview({
                 >
                   <Link href={`/lawyer/services/${offer.request.id}`}>
                     <span>{t("view")}</span>
-                    <ArrowRight className="size-3" />
+                    <ArrowRight className="size-3 rtl:rotate-180" />
                   </Link>
                 </Button>
               </TableCell>
