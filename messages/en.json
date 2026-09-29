@@ -1882,7 +1882,8 @@
         "notePlaceholder": "Add a note to the client explaining the delivered work...",
         "markAsDelivered": "Mark as Delivered",
         "deliverWorkError": "Failed to deliver work. Please try again.",
-        "revisions": "Revisions"
+        "revisions": "Revisions",
+        "deliveries": "Deliveries"
       }
     }
   }

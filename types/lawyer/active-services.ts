@@ -107,9 +107,23 @@ export type Revision = {
   requested_at: string;
 };
 
+export type Delivery = {
+  delivered_at: string;
+  id: number;
+  note: null | string;
+  files: {
+    download_url: string;
+    id: number;
+    mime_type: string;
+    name: string;
+    size_bytes: number;
+    uploaded_at: string;
+  }[];
+};
+
 export type ServiceDetails = Service & {
   attachments: Attachment[];
   timeline: TimelineEntry[];
-  deliveries: [];
+  deliveries: Delivery[];
   revisions: Revision[];
 };

@@ -4,12 +4,16 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { ServiceDetails } from "@/types/lawyer/active-services";
 import DeliverWork from "./deliver-work";
 import Revisions from "./revisions";
+import Deliveries from "./deliveries";
+import { cookies } from "next/headers";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const locale = await getLocale();
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("token")?.value;
   const tCommon = await getTranslations("Common");
-  const t = await getTranslations("Lawyer.ActiveServices.Details");
   const fontClass = locale === "en" ? "font-lora" : "";
+  const t = await getTranslations("Lawyer.ActiveServices.Details");
 
   return (
     <div className="flex gap-6 items-start">
@@ -99,9 +103,13 @@ export default async function Index({ service }: { service: ServiceDetails }) {
           </div>
         </div>
 
-        {service.revisions.length && (
+        {service.revisions.length ? (
           <Revisions revisions={service.revisions} />
-        )}
+        ) : null}
+
+        {service.deliveries.length && token ? (
+          <Deliveries deliveries={service.deliveries} token={token} />
+        ) : null}
 
         <DeliverWork serviceId={service.id} />
       </div>
