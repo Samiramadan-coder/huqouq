@@ -14,6 +14,7 @@ import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { LegalServiceDetails } from "@/types/client/legal-services";
 import { MapPin, Calendar, Clock, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ChatRoom from "./chat-room";
 
 export default async function Index({
   legalService,
@@ -132,6 +133,13 @@ export default async function Index({
             </div>
           </CardContent>
         </Card>
+
+        {legalService.can.open_chat && (
+          <ChatRoom
+            serviceId={`service-${legalService.id}`}
+            lawyerName={legalService.hired_lawyer?.name || ""}
+          />
+        )}
       </div>
 
       <div className="md:col-span-1 space-y-4">

@@ -1431,6 +1431,11 @@
           "button": "Submit Request",
           "disabledMessage": "Fill in the required fields to submit."
         }
+      },
+      "Messages": {
+        "startYourChat": "Start your chat with the lawyer to discuss the service details and any questions you may have.",
+        "chatWith": "Chat with {name}",
+        "you": "You"
       }
     }
   },

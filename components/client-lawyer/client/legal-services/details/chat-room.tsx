@@ -31,12 +31,12 @@ import { subscribeToMessages } from "@/features/chat";
 import { useDirection } from "@/components/ui/direction";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
-export default function Messages({
+export default function ChatRoom({
   serviceId,
-  clientName,
+  lawyerName,
 }: {
   serviceId: string;
-  clientName: string;
+  lawyerName: string;
 }) {
   const { user } = useUser();
   const t = useTranslations("Client.LegalServices.Messages");
@@ -72,7 +72,7 @@ export default function Messages({
       <div className="flex shrink-0 items-center gap-3 border-b border-secondary bg-white px-5 py-3.5">
         <p className="text-sm font-semibold text-primary flex items-center gap-2">
           <MessageSquare className="size-4" />
-          {t("chatWith", { name: clientName })}
+          {t("chatWith", { name: lawyerName })}
         </p>
       </div>
 
@@ -118,7 +118,7 @@ export default function Messages({
                       </div>
                     ) : (
                       <div className="text-[10px] text-gray-400 mb-1 text-left flex justify-start">
-                        {clientName}
+                        {lawyerName}
                       </div>
                     )}
 
