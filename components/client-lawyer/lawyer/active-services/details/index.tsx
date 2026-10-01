@@ -6,6 +6,7 @@ import DeliverWork from "./deliver-work";
 import Revisions from "./revisions";
 import Deliveries from "./deliveries";
 import { cookies } from "next/headers";
+import ChatRoom from "./chat-room";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const locale = await getLocale();
@@ -112,6 +113,11 @@ export default async function Index({ service }: { service: ServiceDetails }) {
         ) : null}
 
         <DeliverWork serviceId={service.id} />
+
+        <ChatRoom
+          serviceId={`service-${service.id}`}
+          clientName={service.client.name}
+        />
       </div>
 
       <div className="w-70 shrink-0 sticky top-6 flex flex-col gap-4">

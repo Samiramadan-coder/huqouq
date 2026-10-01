@@ -1884,6 +1884,11 @@
         "deliverWorkError": "Failed to deliver work. Please try again.",
         "revisions": "Revisions",
         "deliveries": "Deliveries"
+      },
+      "Messages": {
+        "startYourChat": "Start your chat with the client to discuss the service details and any questions you may have.",
+        "chatWith": "Chat with {name}",
+        "you": "You"
       }
     }
   }
