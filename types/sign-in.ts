@@ -1,10 +1,10 @@
 import z from "zod";
-import { T } from "./shared";
+import { emailSchema, T, uaePhoneSchema } from "./shared";
 
 // Sign In With Email Schema
 export const signInWithEmailSchema = (t: T) =>
   z.object({
-    login: z.email(t("fields.email.invalid")),
+    login: emailSchema(t("fields.email.invalid")),
     password: z
       .string()
       .min(1, t("fields.password.required"))
@@ -19,10 +19,7 @@ export type SignInWithEmailFormValues = z.infer<
 // Sign In With Phone Schema
 export const signInWithPhoneSchema = (t: T) =>
   z.object({
-    phone: z
-      .string()
-      .trim()
-      .regex(/^5[024568]\d{7}$/, t("fields.phone.invalid")),
+    phone: uaePhoneSchema(t("fields.phone.invalid")),
   });
 
 export type SignInWithPhoneFormValues = z.infer<

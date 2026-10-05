@@ -29,7 +29,7 @@ export function ForgotPasswordForm() {
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema(t)),
     defaultValues: {
-      email: "",
+      phone: "",
     },
   });
 
@@ -37,14 +37,18 @@ export function ForgotPasswordForm() {
     const result = await forgotPassword(data);
 
     if (result.success) {
-      toast.success(result.message);
-      router.push("/reset-password");
+      toast.success(t("successMessage"));
+      router.push({ pathname: "/reset-password", query: { phone: data.phone } });
       return;
     }
 
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    if (fieldErrors.length) {
+      fieldErrors.forEach(([field, message]) => {
+        toast.error(message);
         setError(field as keyof ForgotPasswordFormValues, {
           type: "server",
           message,
@@ -54,11 +58,11 @@ export function ForgotPasswordForm() {
       return;
     }
 
-    toast.error(t("errorMessage"));
+    toast.error(result.message ?? t("errorMessage"));
   };
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="flex flex-col items-center gap-3 text-center">
         <AuthLogo />
 
@@ -77,10 +81,15 @@ export function ForgotPasswordForm() {
       </div>
 
       <FormInput
-        name="email"
-        placeholder={t("fields.email.placeholder")}
-        label={t("fields.email.label")}
+        name="phone"
+        type="tel"
+        inputMode="numeric"
+        autoComplete="tel-national"
+        dir="ltr"
+        placeholder={t("fields.phone.placeholder")}
+        label={t("fields.phone.label")}
         className="sm:col-span-2"
+        prefix="+971"
         register={register}
         required
         errors={errors}
@@ -90,8 +99,8 @@ export function ForgotPasswordForm() {
         <SubmitBtn label={t("submit")} loading={isSubmitting} />
 
         <Button
+          asChild
           variant="ghost"
-          type="button"
           className="w-full hover:bg-transparent text-accent"
         >
           <Link href="/sign-in">{t("backToSignIn")}</Link>

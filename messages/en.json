@@ -160,7 +160,12 @@
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign In",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "passwordStrength": {
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong"
+    }
   },
   "SignIn": {
     "welcomeBack": "Welcome Back",
@@ -190,33 +195,40 @@
         "placeholder": "50 123 4567",
         "invalid": "Please enter a valid phone number"
       }
-    }
+    },
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "ForgotPassword": {
     "title": "Forgot Your Password?",
-    "description": "Enter your email address below and we'll send you a link to reset your password.",
-    "submit": "Send Reset Link",
+    "description": "Enter your phone number below and we'll send you a code to reset your password.",
+    "submit": "Send Reset Code",
     "backToSignIn": "Back to Sign In",
-    "successMessage": "If an account with that email exists, an OTP has been sent to your email.",
-    "errorMessage": "An error occurred while sending the reset OTP. Please try again.",
+    "successMessage": "If that phone number is registered, a reset code has been sent.",
+    "errorMessage": "An error occurred while sending the reset code. Please try again.",
     "fields": {
-      "email": {
-        "label": "Email Address",
-        "placeholder": "your@example.com",
-        "invalid": "Please enter a valid email address"
+      "phone": {
+        "label": "Phone",
+        "placeholder": "50 123 4567",
+        "invalid": "Please enter a valid phone number"
       }
     }
   },
   "ResetPassword": {
     "title": "Reset Your Password",
-    "description": "Enter your new password below to reset your account password.",
+    "description": "Enter the code we sent to your phone and choose a new password.",
     "submit": "Reset Password",
     "backToSignIn": "Back to Sign In",
     "fields": {
-      "email": {
-        "label": "Email Address",
-        "placeholder": "your@example.com",
-        "invalid": "Please enter a valid email address"
+      "phone": {
+        "label": "Phone",
+        "placeholder": "50 123 4567",
+        "invalid": "Please enter a valid phone number"
+      },
+      "code": {
+        "label": "Reset Code",
+        "placeholder": "6-digit code",
+        "invalid": "Reset code must be 6 digits"
       },
       "newPassword": {
         "label": "New Password",
@@ -235,6 +247,17 @@
         "min": "Confirm new password must be at least 8 characters",
         "match": "Passwords must match"
       }
+    },
+    "successMessage": "Your password has been reset. You can now sign in.",
+    "errorMessage": "An error occurred while resetting your password. Please try again.",
+    "noCode": "Didn't receive a code?",
+    "requestNewCode": "Request a new one",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "passwordStrength": {
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong"
     }
   },
   "OTP": {
@@ -246,7 +269,8 @@
     "ResendSuccess": "OTP has been resent successfully",
     "ResendError": "An error occurred while resending the OTP. Please try again.",
     "LoginSuccess": "OTP verified successfully. You are now logged in.",
-    "OtpError": "Invalid OTP. Please check and try again."
+    "OtpError": "Invalid OTP. Please check and try again.",
+    "phone": "phone"
   },
   "Home": {
     "Hero": {

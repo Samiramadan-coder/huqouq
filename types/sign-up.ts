@@ -1,22 +1,21 @@
 import z from "zod";
-import { T } from "./shared";
+import { emailSchema, T, uaePhoneSchema } from "./shared";
 
 export const signUpSchema = (t: T) =>
   z
     .object({
       first_name: z
         .string()
+        .trim()
         .min(1, t("fields.firstName.required"))
         .min(2, t("fields.firstName.min")),
       last_name: z
         .string()
+        .trim()
         .min(1, t("fields.lastName.required"))
         .min(2, t("fields.lastName.min")),
-      phone: z
-        .string()
-        .trim()
-        .regex(/^5[024568]\d{7}$/, t("fields.phone.invalid")),
-      email: z.email(t("fields.email.invalid")),
+      phone: uaePhoneSchema(t("fields.phone.invalid")),
+      email: emailSchema(t("fields.email.invalid")),
       password: z
         .string()
         .min(1, t("fields.password.required"))

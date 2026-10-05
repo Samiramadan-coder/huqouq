@@ -35,6 +35,10 @@ type FormInputProps<T extends FieldValues> = {
   suffix?: ReactNode;
   description?: ReactNode;
   labelClassName?: string;
+  autoComplete?: React.HTMLInputAutoCompleteAttribute;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  maxLength?: number;
+  dir?: "ltr" | "rtl";
 };
 
 export default function FormInput<T extends FieldValues>({
@@ -52,8 +56,13 @@ export default function FormInput<T extends FieldValues>({
   suffix,
   description,
   labelClassName,
+  autoComplete,
+  inputMode,
+  maxLength,
+  dir,
 }: FormInputProps<T>) {
   const error = get(errors, name);
+  const errorId = `${name}-error`;
 
   const inputRegister =
     type === "number"
@@ -86,6 +95,7 @@ export default function FormInput<T extends FieldValues>({
         <div className="space-y-1.5">
           {hasAddon ? (
             <div
+              dir={dir}
               className={cn(
                 "flex h-11 overflow-hidden rounded-none",
                 "border-0 border-b border-border",
@@ -108,6 +118,11 @@ export default function FormInput<T extends FieldValues>({
                 type={type}
                 placeholder={placeholder}
                 aria-invalid={!!error}
+                aria-describedby={error ? errorId : undefined}
+                aria-required={required}
+                autoComplete={autoComplete}
+                inputMode={inputMode}
+                maxLength={maxLength}
                 disabled={disabled}
                 className={cn(
                   "h-full min-w-0 flex-1 rounded-none bg-transparent px-0 shadow-none",
@@ -129,9 +144,15 @@ export default function FormInput<T extends FieldValues>({
             <Input
               {...inputRegister}
               id={name}
+              dir={dir}
               type={type}
               placeholder={placeholder}
               aria-invalid={!!error}
+              aria-describedby={error ? errorId : undefined}
+              aria-required={required}
+              autoComplete={autoComplete}
+              inputMode={inputMode}
+              maxLength={maxLength}
               disabled={disabled}
               className={cn(
                 "h-11 rounded-none border-0 border-b border-border bg-transparent shadow-none",
@@ -152,7 +173,7 @@ export default function FormInput<T extends FieldValues>({
             />
           )}
 
-          <FieldError errors={[error]} />
+          <FieldError id={errorId} errors={[error]} />
           {description && (
             <FieldDescription className="text-[11px] text-primary/50">
               {description}

@@ -11,19 +11,19 @@ import { loginWithPhone } from "@/lib/auth";
 import { Dialog } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import OtpPhoneDialog from "../shared/otp-phone-dialog";
-import { useForm, SubmitHandler, useWatch } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 
 export function SignInWithPhone() {
   const t = useTranslations("SignIn");
+  const [phone, setPhone] = useState("");
   const [isOtpDialogOpen, setIsOtpDialogOpen] = useState(false);
 
   const {
     register,
     handleSubmit,
     setError,
-    control,
     formState: { errors, isSubmitting },
   } = useForm<SignInWithPhoneFormValues>({
     resolver: zodResolver(signInWithPhoneSchema(t)),
@@ -32,20 +32,22 @@ export function SignInWithPhone() {
     },
   });
 
-  const phone = useWatch({ control, name: "phone" });
-
   const onSubmit: SubmitHandler<SignInWithPhoneFormValues> = async (data) => {
     const result = await loginWithPhone(data);
 
     if (result.success) {
       toast.success(result.message);
+      setPhone(data.phone);
       setIsOtpDialogOpen(true);
       return;
     }
 
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    if (fieldErrors.length) {
+      fieldErrors.forEach(([field, message]) => {
         toast.error(message);
         setError(field as keyof SignInWithPhoneFormValues, {
           type: "server",
@@ -55,14 +57,18 @@ export function SignInWithPhone() {
       return;
     }
 
-    toast.error(t("signInError"));
+    toast.error(result.message ?? t("signInError"));
   };
 
   return (
     <>
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
         <FormInput
           name="phone"
+          type="tel"
+          inputMode="numeric"
+          autoComplete="tel-national"
+          dir="ltr"
           placeholder={t("fields.phone.placeholder")}
           label={t("fields.phone.label")}
           className="sm:col-span-2"

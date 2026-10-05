@@ -58,9 +58,12 @@ export default function OtpDialog({
       return;
     }
 
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    if (fieldErrors.length) {
+      fieldErrors.forEach(([field, message]) => {
         toast.error(message);
         setError(field as keyof OtpFormValues, {
           type: "server",
@@ -70,7 +73,7 @@ export default function OtpDialog({
       return;
     }
 
-    toast.error(t("OtpError"));
+    toast.error(result.message ?? t("OtpError"));
   };
 
   return (
@@ -82,7 +85,7 @@ export default function OtpDialog({
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            {t("description", { place: "phone" })}
+            {t("description", { place: t("phone") })}
           </DialogDescription>
         </DialogHeader>
 
@@ -117,9 +120,10 @@ export default function OtpDialog({
 
         <FieldError errors={[errors.code]} />
 
-        <div className="space-x-2">
+        <div className="flex justify-center gap-2">
           <Button
             type="submit"
+            disabled={isSubmitting}
             className="text-sm rounded-sm h-9 min-w-20"
             variant="default"
           >

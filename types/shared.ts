@@ -1,3 +1,4 @@
+import z from "zod";
 import {
   Education,
   Experience,
@@ -8,6 +9,17 @@ import {
 import { Service, Specialization } from "./reference-data";
 
 export type T = (key: string) => string;
+
+// UAE mobile number without the +971 prefix; spaces are ignored
+export const uaePhoneSchema = (message: string) =>
+  z
+    .string()
+    .transform((value) => value.replace(/\s+/g, ""))
+    .pipe(z.string().regex(/^5[024568]\d{7}$/, message));
+
+// Email with surrounding whitespace removed
+export const emailSchema = (message: string) =>
+  z.string().trim().pipe(z.email(message));
 
 export type GuestType = "client" | "lawyer";
 

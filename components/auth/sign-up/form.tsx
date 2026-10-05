@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { signUp } from "@/lib/auth";
 import { Link } from "@/i18n/navigation";
-import { Eye, EyeOff } from "lucide-react";
 import OtpDialog from "../shared/otp-dialog";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,9 @@ import AuthLogo from "@/components/icons/auth-logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { GuestType, User } from "@/types/shared";
 import { useLocale, useTranslations } from "next-intl";
-import { checkPasswordStrength, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import PasswordToggle from "../shared/password-toggle";
+import PasswordStrength from "../shared/password-strength";
 import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
@@ -64,9 +65,12 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       return setIsOtpDialogOpen(true);
     }
 
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    if (fieldErrors.length) {
+      fieldErrors.forEach(([field, message]) => {
         toast.error(message);
         setError(field as keyof SignUpFormValues, {
           type: "server",
@@ -76,14 +80,24 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
       return;
     }
 
-    toast.error(t("signUpError"));
+    toast.error(result.message ?? t("signUpError"));
   };
+
+  const passwordToggle = (
+    <PasswordToggle
+      visible={showPassword}
+      onToggle={() => setShowPassword((visible) => !visible)}
+      showLabel={t("showPassword")}
+      hideLabel={t("hidePassword")}
+    />
+  );
 
   return (
     <>
       <form
         className="grid grid-cols-1 gap-6 sm:grid-cols-2"
         onSubmit={handleSubmit(onSubmit)}
+        noValidate
       >
         <div className="flex flex-col items-center gap-3 sm:col-span-2">
           <AuthLogo />
@@ -108,6 +122,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
         <FormInput
           name="first_name"
+          autoComplete="given-name"
           placeholder={t("fields.firstName.placeholder")}
           label={t("fields.firstName.label")}
           register={register}
@@ -117,6 +132,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
         <FormInput
           name="last_name"
+          autoComplete="family-name"
           placeholder={t("fields.lastName.placeholder")}
           label={t("fields.lastName.label")}
           register={register}
@@ -126,6 +142,10 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
         <FormInput
           name="phone"
+          type="tel"
+          inputMode="numeric"
+          autoComplete="tel-national"
+          dir="ltr"
           placeholder={t("fields.phone.placeholder")}
           label={t("fields.phone.label")}
           className="sm:col-span-2"
@@ -137,6 +157,8 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
         <FormInput
           name="email"
+          type="email"
+          autoComplete="email"
           placeholder={t("fields.email.placeholder")}
           label={t("fields.email.label")}
           className="sm:col-span-2"
@@ -148,79 +170,28 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
         <div className="sm:col-span-2">
           <FormInput
             name="password"
+            autoComplete="new-password"
             placeholder={t("fields.password.placeholder")}
             label={t("fields.password.label")}
             type={showPassword ? "text" : "password"}
             register={register}
             required
             errors={errors}
-            suffix={
-              showPassword ? (
-                <Eye
-                  role="button"
-                  tabIndex={0}
-                  aria-label={t("hidePassword")}
-                  className="size-5 cursor-pointer"
-                  onClick={() => setShowPassword(false)}
-                />
-              ) : (
-                <EyeOff
-                  role="button"
-                  tabIndex={0}
-                  aria-label={t("showPassword")}
-                  className="size-5 cursor-pointer"
-                  onClick={() => setShowPassword(true)}
-                />
-              )
-            }
+            suffix={passwordToggle}
           />
-          {password &&
-            (() => {
-              const strength = checkPasswordStrength(password || "");
-
-              return (
-                <div className="relative mt-1 flex items-center gap-4">
-                  <div className="flex w-full gap-1 relative">
-                    {Array.from({ length: 4 }).map((_, index) => {
-                      const segmentFill = Math.min(
-                        Math.max(strength.score - index * 25, 0),
-                        25,
-                      );
-
-                      return (
-                        <div
-                          key={index}
-                          className="h-0.5 flex-1 overflow-hidden rounded-full bg-gray-200"
-                        >
-                          <div
-                            className="h-full transition-all duration-300 ease-out"
-                            style={{
-                              width: `${(segmentFill / 25) * 100}%`,
-                              backgroundColor: strength.color,
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="mb-1 flex items-center justify-between">
-                    <div className="flex-1" />
-
-                    <p
-                      className="text-[11px] font-medium"
-                      style={{ color: strength.color }}
-                    >
-                      {strength.label}
-                    </p>
-                  </div>
-                </div>
-              );
-            })()}
+          <PasswordStrength
+            password={password}
+            labels={{
+              weak: t("passwordStrength.weak"),
+              medium: t("passwordStrength.medium"),
+              strong: t("passwordStrength.strong"),
+            }}
+          />
         </div>
 
         <FormInput
           name="password_confirmation"
+          autoComplete="new-password"
           placeholder={t("fields.confirmPassword.placeholder")}
           label={t("fields.confirmPassword.label")}
           type={showPassword ? "text" : "password"}
@@ -228,25 +199,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
           register={register}
           required
           errors={errors}
-          suffix={
-            showPassword ? (
-              <Eye
-                role="button"
-                tabIndex={0}
-                aria-label={t("hidePassword")}
-                className="size-5 cursor-pointer"
-                onClick={() => setShowPassword(false)}
-              />
-            ) : (
-              <EyeOff
-                role="button"
-                tabIndex={0}
-                aria-label={t("showPassword")}
-                className="size-5 cursor-pointer"
-                onClick={() => setShowPassword(true)}
-              />
-            )
-          }
+          suffix={passwordToggle}
         />
 
         <FormSelect
@@ -297,6 +250,10 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                 <div className="flex items-start gap-1">
                   <Checkbox
                     id="terms"
+                    aria-invalid={!!errors.terms_accepted}
+                    aria-describedby={
+                      errors.terms_accepted ? "terms-error" : undefined
+                    }
                     checked={field.value}
                     onCheckedChange={(checked) => {
                       field.onChange(checked === true);
@@ -329,7 +286,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                   </Label>
                 </div>
 
-                <FieldError errors={[errors.terms_accepted]} />
+                <FieldError id="terms-error" errors={[errors.terms_accepted]} />
               </>
             )}
           />
@@ -347,6 +304,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
 
         <div className="flex gap-3 items-center sm:col-span-2">
           <Button
+            type="button"
             variant="outline"
             className="flex-1 bg-transparent h-10 rounded-sm border-[#c8c0b0] font-normal text-[13px]"
           >
@@ -371,6 +329,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
             Google
           </Button>
           <Button
+            type="button"
             variant="outline"
             className="flex-1 bg-transparent h-10 rounded-sm border-[#c8c0b0] font-normal text-[13px]"
           >

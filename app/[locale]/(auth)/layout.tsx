@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: true },
+};
 
 export default async function RootLayout({
   children,
@@ -10,7 +16,7 @@ export default async function RootLayout({
   const token = cookieStore.get("token")?.value;
 
   if (token) {
-    return redirect("/");
+    return redirect({ href: "/", locale: await getLocale() });
   }
   return (
     <main className="min-h-screen py-5 flex items-center justify-center">

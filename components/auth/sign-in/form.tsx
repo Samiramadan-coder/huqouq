@@ -35,6 +35,7 @@ export default function SignInForm() {
             "bg-white text-primary": liveRegion === "email",
           })}
           variant="ghost"
+          aria-pressed={liveRegion === "email"}
           onClick={() => setLiveRegion("email")}
         >
           {t("fields.email.label")}
@@ -44,6 +45,7 @@ export default function SignInForm() {
             "bg-white text-primary": liveRegion === "phone",
           })}
           variant="ghost"
+          aria-pressed={liveRegion === "phone"}
           onClick={() => setLiveRegion("phone")}
         >
           {t("fields.phone.label")}

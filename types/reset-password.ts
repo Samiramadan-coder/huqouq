@@ -1,12 +1,12 @@
 import z from "zod";
-import { T } from "./shared";
+import { T, uaePhoneSchema } from "./shared";
 
 export const resetPasswordSchema = (t: T) =>
   z
     .object({
-      token: z.string(),
+      phone: uaePhoneSchema(t("fields.phone.invalid")),
 
-      email: z.email(t("fields.email.invalid")),
+      code: z.string().trim().length(6, t("fields.code.invalid")),
 
       password: z
         .string()

@@ -6,7 +6,6 @@ import {
 } from "@/types/sign-in";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import OtpDialog from "../shared/otp-dialog";
 import { Dialog } from "@/components/ui/dialog";
@@ -16,14 +15,17 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { login, resendOtp } from "@/lib/auth";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
+import PasswordToggle from "../shared/password-toggle";
+import { useUser } from "@/providers/user-provider";
 import { saveToken } from "@/lib/cookies";
 import { User } from "@/types/shared";
 
 export function SignInWithEmail() {
   const router = useRouter();
+  const { setUser } = useUser();
   const t = useTranslations("SignIn");
   const [token, setToken] = useState<string>("");
-  const [user, setUser] = useState<User | null>(null);
+  const [pendingUser, setPendingUser] = useState<User | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isOtpDialogOpen, setIsOtpDialogOpen] = useState(false);
 
@@ -45,24 +47,32 @@ export function SignInWithEmail() {
     const result = await login(data);
 
     if (result.success) {
-      if (result.user?.phone_verified === false) {
-        await resendOtp(result.token || "");
-        setToken(result.token || "");
-        setUser(result.user || null);
+      if (!result.token || !result.user) {
+        toast.error(t("signInError"));
+        return;
+      }
+
+      if (result.user.phone_verified === false) {
+        await resendOtp(result.token);
+        setToken(result.token);
+        setPendingUser(result.user);
         setIsOtpDialogOpen(true);
         return;
       }
 
-      await saveToken(result.token || "");
-      if (result.user) setUser(result.user);
+      setUser(result.user);
+      await saveToken(result.token);
       toast.success(t("LoginSuccess"));
-      router.push(`/${result?.user?.role}/dashboard`);
+      router.push(`/${result.user.role}/dashboard`);
       return;
     }
 
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    if (fieldErrors.length) {
+      fieldErrors.forEach(([field, message]) => {
         toast.error(message);
         setError(field as keyof SignInWithEmailFormValues, {
           type: "server",
@@ -73,14 +83,16 @@ export function SignInWithEmail() {
       return;
     }
 
-    toast.error(t("signInError"));
+    toast.error(result.message ?? t("signInError"));
   };
 
   return (
     <>
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
         <FormInput
           name="login"
+          type="email"
+          autoComplete="email"
           placeholder={t("fields.email.placeholder")}
           label={t("fields.email.label")}
           className="sm:col-span-2"
@@ -92,6 +104,7 @@ export function SignInWithEmail() {
         <div className="space-y-2">
           <FormInput
             name="password"
+            autoComplete="current-password"
             placeholder={t("fields.password.placeholder")}
             label={t("fields.password.label")}
             type={showPassword ? "text" : "password"}
@@ -100,27 +113,19 @@ export function SignInWithEmail() {
             required
             errors={errors}
             suffix={
-              showPassword ? (
-                <Eye
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Hide password"
-                  className="size-5 cursor-pointer"
-                  onClick={() => setShowPassword(false)}
-                />
-              ) : (
-                <EyeOff
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Show password"
-                  className="size-5 cursor-pointer"
-                  onClick={() => setShowPassword(true)}
-                />
-              )
+              <PasswordToggle
+                visible={showPassword}
+                onToggle={() => setShowPassword((visible) => !visible)}
+                showLabel={t("showPassword")}
+                hideLabel={t("hidePassword")}
+              />
             }
           />
           <div className="flex justify-end">
-            <Link href="/forgot-password" className="text-accent text-xs">
+            <Link
+              href="/forgot-password"
+              className="text-accent text-xs hover:underline"
+            >
               {t("forgotPassword")}
             </Link>
           </div>
@@ -130,7 +135,7 @@ export function SignInWithEmail() {
       </form>
 
       <Dialog open={isOtpDialogOpen} onOpenChange={setIsOtpDialogOpen}>
-        <OtpDialog token={token} user={user!} />
+        <OtpDialog token={token} user={pendingUser} />
       </Dialog>
     </>
   );

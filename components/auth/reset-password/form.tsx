@@ -1,7 +1,7 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
@@ -11,13 +11,20 @@ import {
   ResetPasswordFormValues,
   resetPasswordSchema,
 } from "@/types/reset-password";
-import { checkPasswordStrength, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import AuthLogo from "@/components/icons/auth-logo";
 import { resetPassword } from "@/lib/auth";
+import PasswordToggle from "../shared/password-toggle";
+import PasswordStrength from "../shared/password-strength";
 
-export default function ResetPasswordForm() {
+export default function ResetPasswordForm({
+  defaultPhone = "",
+}: {
+  defaultPhone?: string;
+}) {
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("ResetPassword");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,12 +32,14 @@ export default function ResetPasswordForm() {
   const {
     register,
     handleSubmit,
+    setError,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema(t)),
     defaultValues: {
-      email: "",
+      phone: defaultPhone,
+      code: "",
       password: "",
       password_confirmation: "",
     },
@@ -42,12 +51,41 @@ export default function ResetPasswordForm() {
     const result = await resetPassword(data);
 
     if (result.success) {
+      toast.success(t("successMessage"));
+      router.push("/sign-in");
       return;
     }
+
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    if (fieldErrors.length) {
+      fieldErrors.forEach(([field, message]) => {
+        toast.error(message);
+        setError(field as keyof ResetPasswordFormValues, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
+
+    toast.error(result.message ?? t("errorMessage"));
   };
 
+  const passwordToggle = (
+    <PasswordToggle
+      visible={showPassword}
+      onToggle={() => setShowPassword((visible) => !visible)}
+      showLabel={t("showPassword")}
+      hideLabel={t("hidePassword")}
+    />
+  );
+
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="flex flex-col items-center gap-3 text-center">
         <AuthLogo />
 
@@ -66,122 +104,79 @@ export default function ResetPasswordForm() {
       </div>
 
       <FormInput
-        name="email"
-        placeholder={t("fields.email.placeholder")}
-        label={t("fields.email.label")}
+        name="phone"
+        type="tel"
+        inputMode="numeric"
+        autoComplete="tel-national"
+        dir="ltr"
+        placeholder={t("fields.phone.placeholder")}
+        label={t("fields.phone.label")}
+        prefix="+971"
         register={register}
         required
         errors={errors}
       />
 
+      <div className="space-y-2">
+        <FormInput
+          name="code"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          maxLength={6}
+          dir="ltr"
+          placeholder={t("fields.code.placeholder")}
+          label={t("fields.code.label")}
+          register={register}
+          required
+          errors={errors}
+        />
+        <p className="text-xs text-primary/80">
+          {t("noCode")}{" "}
+          <Link href="/forgot-password" className="text-accent hover:underline">
+            {t("requestNewCode")}
+          </Link>
+        </p>
+      </div>
+
       <div>
         <FormInput
           name="password"
+          autoComplete="new-password"
           placeholder={t("fields.newPassword.placeholder")}
           label={t("fields.newPassword.label")}
           type={showPassword ? "text" : "password"}
           register={register}
           required
           errors={errors}
-          suffix={
-            showPassword ? (
-              <Eye
-                role="button"
-                tabIndex={0}
-                aria-label={"hidePassword"}
-                className="size-5 cursor-pointer"
-                onClick={() => setShowPassword(false)}
-              />
-            ) : (
-              <EyeOff
-                role="button"
-                tabIndex={0}
-                aria-label={"showPassword"}
-                className="size-5 cursor-pointer"
-                onClick={() => setShowPassword(true)}
-              />
-            )
-          }
+          suffix={passwordToggle}
         />
-        {password &&
-          (() => {
-            const strength = checkPasswordStrength(password || "");
-
-            return (
-              <div className="relative mt-1 flex items-center gap-4">
-                <div className="flex w-full gap-1 relative">
-                  {Array.from({ length: 4 }).map((_, index) => {
-                    const segmentFill = Math.min(
-                      Math.max(strength.score - index * 25, 0),
-                      25,
-                    );
-
-                    return (
-                      <div
-                        key={index}
-                        className="h-0.5 flex-1 overflow-hidden rounded-full bg-gray-200"
-                      >
-                        <div
-                          className="h-full transition-all duration-300 ease-out"
-                          style={{
-                            width: `${(segmentFill / 25) * 100}%`,
-                            backgroundColor: strength.color,
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="mb-1 flex items-center justify-between">
-                  <div className="flex-1" />
-
-                  <p
-                    className="text-[11px] font-medium"
-                    style={{ color: strength.color }}
-                  >
-                    {strength.label}
-                  </p>
-                </div>
-              </div>
-            );
-          })()}
+        <PasswordStrength
+          password={password}
+          labels={{
+            weak: t("passwordStrength.weak"),
+            medium: t("passwordStrength.medium"),
+            strong: t("passwordStrength.strong"),
+          }}
+        />
       </div>
 
       <FormInput
         name="password_confirmation"
+        autoComplete="new-password"
         placeholder={t("fields.confirmNewPassword.placeholder")}
         label={t("fields.confirmNewPassword.label")}
         type={showPassword ? "text" : "password"}
         register={register}
         required
         errors={errors}
-        suffix={
-          showPassword ? (
-            <Eye
-              role="button"
-              tabIndex={0}
-              aria-label={"hidePassword"}
-              className="size-5 cursor-pointer"
-              onClick={() => setShowPassword(false)}
-            />
-          ) : (
-            <EyeOff
-              role="button"
-              tabIndex={0}
-              aria-label={"showPassword"}
-              className="size-5 cursor-pointer"
-              onClick={() => setShowPassword(true)}
-            />
-          )
-        }
+        suffix={passwordToggle}
       />
 
-      <SubmitBtn label={t("submit")} loading={false} />
+      <SubmitBtn label={t("submit")} loading={isSubmitting} />
 
       <Button
+        asChild
         variant="ghost"
-        type="button"
         className="w-full hover:bg-transparent text-accent"
       >
         <Link href="/sign-in">{t("backToSignIn")}</Link>

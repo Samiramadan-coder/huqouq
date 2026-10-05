@@ -11,6 +11,28 @@ import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
 import { AuthFormActionsResponse, GuestType, User } from "@/types/shared";
 
+// Convert a failed request into a form response. Validation errors (422) are
+// expected and returned to the form; anything else is logged.
+function toFailure<T>(
+  error: unknown,
+  context: string,
+): Extract<AuthFormActionsResponse<T>, { success: false }> {
+  if (error instanceof ValidationError) {
+    const errors = Object.fromEntries(
+      Object.entries(error.errors).map(([field, messages]) => [
+        field,
+        messages[0] ?? "Invalid value",
+      ]),
+    ) as Partial<Record<keyof T, string>>;
+
+    return { success: false, errors, message: error.responseMessage };
+  }
+
+  console.error(context, error);
+
+  return { success: false };
+}
+
 // Sign up
 type SignUpResponse = AuthFormActionsResponse<SignUpFormValues>;
 
@@ -30,19 +52,7 @@ export async function signUp(
       user: data.user,
     };
   } catch (error) {
-    console.error("Error signing up with email and password:", error);
-
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof SignUpFormValues, string>>;
-      return { success: false, errors };
-    }
-
-    return { success: false };
+    return toFailure(error, "Error signing up with email and password:");
   }
 }
 
@@ -64,20 +74,7 @@ export async function login(
       user: data.user,
     };
   } catch (error) {
-    console.error("Error logging in with email and password:", error);
-
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof SignInWithEmailFormValues, string>>;
-
-      return { success: false, errors };
-    }
-
-    return { success: false };
+    return toFailure(error, "Error logging in with email and password:");
   }
 }
 
@@ -98,20 +95,7 @@ export async function loginWithPhone(
       message: data.message,
     };
   } catch (error) {
-    console.error("Error logging in with email and password:", error);
-
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof SignInWithPhoneFormValues, string>>;
-
-      return { success: false, errors };
-    }
-
-    return { success: false };
+    return toFailure(error, "Error requesting phone sign-in code:");
   }
 }
 
@@ -133,17 +117,7 @@ export async function verifyPhoneOtp(
     });
     return { success: true, token: data.token, user: data.user };
   } catch (error) {
-    console.error("Error verifying OTP:", error);
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof OtpFormValues, string>>;
-      return { success: false, errors, message: error.message };
-    }
-    return { success: false };
+    return toFailure(error, "Error verifying OTP:");
   }
 }
 
@@ -161,20 +135,7 @@ export async function forgotPassword(
 
     return { success: true, message: data.message };
   } catch (error) {
-    console.error("Error sending forgot password request:", error);
-
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof ForgotPasswordFormValues, string>>;
-
-      return { success: false, errors };
-    }
-
-    return { success: false };
+    return toFailure(error, "Error sending forgot password request:");
   }
 }
 
@@ -189,19 +150,7 @@ export async function resetPassword(
 
     return { success: true };
   } catch (error) {
-    console.error("Error resetting password:", error);
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof ResetPasswordFormValues, string>>;
-
-      return { success: false, errors };
-    }
-
-    return { success: false };
+    return toFailure(error, "Error resetting password:");
   }
 }
 
@@ -233,18 +182,7 @@ export async function verifyOtp(
     });
     return { success: true };
   } catch (error) {
-    console.error("Error verifying OTP:", error);
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof OtpFormValues, string>>;
-
-      return { success: false, errors };
-    }
-    return { success: false };
+    return toFailure(error, "Error verifying OTP:");
   }
 }
 

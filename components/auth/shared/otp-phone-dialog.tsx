@@ -51,13 +51,12 @@ export default function OtpPhoneDialog({ phone }: { phone: string }) {
       return;
     }
 
-    if (result.success === false && result.message) {
-      toast.error(result.message);
-    }
+    const fieldErrors = Object.entries(
+      (result.success === false && result.errors) || {},
+    ).filter(([, message]) => message);
 
-    if (result.success === false && result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
+    if (fieldErrors.length) {
+      fieldErrors.forEach(([field, message]) => {
         toast.error(message);
         setError(field as keyof OtpFormValues, {
           type: "server",
@@ -67,7 +66,7 @@ export default function OtpPhoneDialog({ phone }: { phone: string }) {
       return;
     }
 
-    toast.error(t("OtpError"));
+    toast.error(result.message ?? t("OtpError"));
   };
 
   return (
@@ -79,7 +78,7 @@ export default function OtpPhoneDialog({ phone }: { phone: string }) {
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            {t("description", { place: "phone" })}
+            {t("description", { place: t("phone") })}
           </DialogDescription>
         </DialogHeader>
 
@@ -114,9 +113,10 @@ export default function OtpPhoneDialog({ phone }: { phone: string }) {
 
         <FieldError errors={[errors.code]} />
 
-        <div className="space-x-2">
+        <div className="flex justify-center gap-2">
           <Button
             type="submit"
+            disabled={isSubmitting}
             className="text-sm rounded-sm h-9 min-w-20"
             variant="default"
           >
