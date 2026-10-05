@@ -5,6 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Checks the strength of a given password and returns a score, label, and color.
+ */
 type ScoreOutput = {
   score: number;
   label: string;
@@ -72,6 +75,9 @@ export function buildQueryString(params?: Record<string, unknown>) {
   return searchParams.toString();
 }
 
+/**
+ * Formats a date for chat messages, returning a human-readable string like "just now", "5m ago", "Today", or "Jan 01, 2024".
+ */
 export const formatChatDate = (date: Date | null) => {
   if (!date) return "";
 
@@ -116,3 +122,10 @@ export const formatChatDate = (date: Date | null) => {
     ...(isSameYear && { year: "numeric" }),
   });
 };
+
+/**
+ * Returns the application URL based on the provided request URL or the environment variable APP_URL.
+ */
+export async function getAppUrl(requestUrl: string) {
+  return process.env.APP_URL || new URL(requestUrl).origin;
+}
