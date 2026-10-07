@@ -9,7 +9,10 @@ import { db, storage } from "@/lib/firebase";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { useUser } from "@/providers/user-provider";
-import { ArrowUp, CheckCheck, Paperclip } from "lucide-react";
+import { toast } from "sonner";
+import { ArrowUp, CheckCheck, Mic, Paperclip } from "lucide-react";
+import { useVoiceRecorder } from "@/hook/use-voice-recorder";
+import VoiceRecordingBar from "@/components/client-lawyer/reusable/voice-recording-bar";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ensureFirebaseAuth, sendTextMessage } from "@/features/chat";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
@@ -29,6 +32,7 @@ export default function SendMessage({
   const [sending, setSending] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const recorder = useVoiceRecorder();
 
   const canSend =
     (!!message.trim() || !!selectedFile) && !sending && !!caseId && !!user?.id;
@@ -67,6 +71,39 @@ export default function SendMessage({
 
   const handleRemoveFile = () => {
     setSelectedFile(null);
+  };
+
+  const handleStartRecording = async () => {
+    if (sending || !caseId || !user?.id) return;
+
+    const result = await recorder.start();
+
+    if (result === "denied") toast.error(t("MicrophoneDenied"));
+    if (result === "unsupported") toast.error(t("MicrophoneUnsupported"));
+  };
+
+  // Stops the recording and sends it as an audio attachment
+  const handleSendRecording = async () => {
+    if (sending) return;
+
+    try {
+      setSending(true);
+
+      const file = await recorder.stop();
+
+      if (!file) return;
+
+      await sendFileMessage({
+        caseId: String(caseId),
+        userId: String(user?.id),
+        file,
+      });
+    } catch (error) {
+      console.error("Send voice message error:", error);
+      toast.error(t("VoiceMessageFailed"));
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleSend = async () => {
@@ -144,66 +181,97 @@ export default function SendMessage({
       {!activeCase?.can_close &&
         activeCase?.display_status !== "pending_closure" &&
         activeCase?.display_status !== "closed" && (
-          <InputGroup className="h-12 rounded-xs border-secondary bg-white">
-            <InputGroupInput
-              value={message}
-              disabled={sending}
-              onChange={(event) => {
-                setMessage(event.target.value);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" && !event.shiftKey) {
-                  event.preventDefault();
-
-                  handleSend();
-                }
-              }}
-              placeholder={sending ? "Sending..." : t("WriteAMessage")}
-              className="text-sm placeholder:text-xs placeholder:text-primary/50"
-            />
-
-            <InputGroupAddon align="inline-end">
-              <input
-                ref={fileInputRef}
-                type="file"
-                hidden
-                accept={[
-                  "image/jpeg",
-                  "image/png",
-                  "image/webp",
-                  "image/gif",
-                  ".pdf",
-                  ".doc",
-                  ".docx",
-                ].join(",")}
-                onChange={handleFileChange}
+          <>
+            {recorder.isRecording ? (
+              <VoiceRecordingBar
+                seconds={recorder.seconds}
+                maxSeconds={recorder.maxSeconds}
+                sending={sending}
+                onCancel={recorder.cancel}
+                onSend={handleSendRecording}
+                labels={{
+                  recording: t("Recording"),
+                  cancel: t("CancelRecording"),
+                  send: t("SendVoiceMessage"),
+                }}
               />
+            ) : (
+              <InputGroup className="h-12 rounded-xs border-secondary bg-white">
+                <InputGroupInput
+                  value={message}
+                  disabled={sending}
+                  onChange={(event) => {
+                    setMessage(event.target.value);
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" && !event.shiftKey) {
+                      event.preventDefault();
 
-              <InputGroupButton
-                type="button"
-                size="icon-xs"
-                disabled={sending}
-                onClick={handleOpenFiles}
-              >
-                <Paperclip
-                  className={selectedFile ? "text-accent" : "text-primary/50"}
+                      handleSend();
+                    }
+                  }}
+                  placeholder={sending ? "Sending..." : t("WriteAMessage")}
+                  className="text-sm placeholder:text-xs placeholder:text-primary/50"
                 />
-              </InputGroupButton>
 
-              <InputGroupButton
-                type="button"
-                size="icon-sm"
-                disabled={!canSend}
-                onClick={handleSend}
-                className={[
-                  "size-7 rounded-full text-white disabled:opacity-100",
-                  canSend ? "bg-primary hover:bg-primary/90" : "bg-primary/40",
-                ].join(" ")}
-              >
-                <ArrowUp />
-              </InputGroupButton>
-            </InputGroupAddon>
-          </InputGroup>
+                <InputGroupAddon align="inline-end">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    hidden
+                    accept={[
+                      "image/jpeg",
+                      "image/png",
+                      "image/webp",
+                      "image/gif",
+                      ".pdf",
+                      ".doc",
+                      ".docx",
+                    ].join(",")}
+                    onChange={handleFileChange}
+                  />
+
+                  <InputGroupButton
+                    type="button"
+                    size="icon-xs"
+                    disabled={sending}
+                    onClick={handleOpenFiles}
+                  >
+                    <Paperclip
+                      className={
+                        selectedFile ? "text-accent" : "text-primary/50"
+                      }
+                    />
+                  </InputGroupButton>
+
+                  <InputGroupButton
+                    type="button"
+                    size="icon-xs"
+                    aria-label={t("RecordVoiceMessage")}
+                    disabled={sending || !caseId || !user?.id}
+                    onClick={handleStartRecording}
+                  >
+                    <Mic className="text-primary/50" />
+                  </InputGroupButton>
+
+                  <InputGroupButton
+                    type="button"
+                    size="icon-sm"
+                    disabled={!canSend}
+                    onClick={handleSend}
+                    className={[
+                      "size-7 rounded-full text-white disabled:opacity-100",
+                      canSend
+                        ? "bg-primary hover:bg-primary/90"
+                        : "bg-primary/40",
+                    ].join(" ")}
+                  >
+                    <ArrowUp />
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+            )}
+          </>
         )}
     </div>
   );
@@ -269,7 +337,12 @@ async function sendFileMessage({
       caseTitle: caseTitle ?? null,
 
       lastMessage:
-        cleanText || (file.type.startsWith("image/") ? "Photo" : "File"),
+        cleanText ||
+        (file.type.startsWith("image/")
+          ? "Photo"
+          : file.type.startsWith("audio/")
+            ? "Voice message"
+            : "File"),
 
       lastMessageAt: serverTimestamp(),
 

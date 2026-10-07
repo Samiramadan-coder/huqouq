@@ -1339,7 +1339,14 @@
       "WriteAMessage": "اكتب رسالة",
       "SelectCase": "يرجى تحديد قضية لعرض الرسائل.",
       "AcceptedYourCase": "قام {lawyerName} بقبول قضيتك",
-      "You": "أنت"
+      "You": "أنت",
+      "RecordVoiceMessage": "تسجيل رسالة صوتية",
+      "Recording": "جارٍ التسجيل",
+      "CancelRecording": "إلغاء التسجيل",
+      "SendVoiceMessage": "إرسال الرسالة الصوتية",
+      "MicrophoneDenied": "تم رفض الوصول إلى الميكروفون. اسمح به من إعدادات المتصفح لتسجيل رسالة صوتية.",
+      "MicrophoneUnsupported": "تسجيل الصوت غير مدعوم في هذا المتصفح.",
+      "VoiceMessageFailed": "فشل إرسال الرسالة الصوتية. يرجى المحاولة مرة أخرى."
     },
     "LegalServices": {
       "create": "طلب خدمة قانونية",

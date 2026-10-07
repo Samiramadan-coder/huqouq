@@ -1339,7 +1339,14 @@
       "WriteAMessage": "Write a message",
       "SelectCase": "Please select a case to view messages.",
       "AcceptedYourCase": "{lawyerName} accepted your case",
-      "You": "You"
+      "You": "You",
+      "RecordVoiceMessage": "Record a voice message",
+      "Recording": "Recording",
+      "CancelRecording": "Cancel recording",
+      "SendVoiceMessage": "Send voice message",
+      "MicrophoneDenied": "Microphone access was denied. Allow it in your browser settings to record a voice message.",
+      "MicrophoneUnsupported": "Voice recording isn't supported in this browser.",
+      "VoiceMessageFailed": "Failed to send the voice message. Please try again."
     },
     "LegalServices": {
       "create": "Request a Legal Service",
