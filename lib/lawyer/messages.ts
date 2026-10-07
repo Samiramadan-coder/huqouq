@@ -1,3 +1,6 @@
+"use server";
+
+import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 
 // Mark Case as Complete
@@ -13,6 +16,7 @@ export async function markCaseAsComplete(
       `/api/lawyer/my-cases/${caseId}/request-closure`,
     );
 
+    updateTag("lawyer-my-cases");
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error marking case as complete:", error);

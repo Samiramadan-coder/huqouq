@@ -13,13 +13,13 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 
-import { cn, formatChatDate } from "@/lib/utils";
 import { db } from "@/lib/firebase";
 import { useLocale } from "next-intl";
 import { useTranslations } from "use-intl";
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Case } from "@/types/client/my-cases";
+import { cn, formatChatDate } from "@/lib/utils";
 import { Search, ShieldCheck } from "lucide-react";
 import { useUser } from "@/providers/user-provider";
 import { doc, onSnapshot } from "firebase/firestore";

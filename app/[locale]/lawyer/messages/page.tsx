@@ -16,7 +16,11 @@ export default async function Page({
 
   const { data, ok } = await http.get<{
     data: CaseDetails[];
-  }>("/api/lawyer/my-cases");
+  }>("/api/lawyer/my-cases", {
+    next: {
+      tags: ["lawyer-my-cases"],
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch cases");
