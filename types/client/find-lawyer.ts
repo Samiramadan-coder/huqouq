@@ -8,7 +8,7 @@ export type Lawyer = {
   name: string;
   office_name: string | null;
   photo_url: string | null;
-  rating: number;
+  rating: number | null;
   reviews_count: number;
   verified: boolean;
   years_of_experience: number;
@@ -27,11 +27,11 @@ export type LawyerDetails = {
   account_type_label: string;
   office_name: string | null;
   years_of_experience: number;
-  rating: number;
+  rating: number | null;
   reviews_count: number;
-  bio: string;
+  bio: string | null;
   languages: string[];
-  website_url: string;
+  website_url: string | null;
   specializations: {
     id: number;
     name: string;
@@ -84,7 +84,7 @@ export type Filters = {
     label: string;
   }[];
   ratings: {
-    value: string;
+    value: number;
     label: string;
   }[];
   availability: {

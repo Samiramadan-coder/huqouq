@@ -1,6 +1,8 @@
-import Image from "next/image";
+import { Meta } from "@/types/shared";
 import { formatDate } from "@/lib/utils";
+import PaginationTemplate from "../../reusable/pagination-template";
 import { ExternalLink, Star } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getLocale, getTranslations } from "next-intl/server";
 import { LawyerDetails, Review } from "@/types/client/find-lawyer";
 
@@ -8,14 +10,21 @@ export default async function Details({
   lawyer,
   ratingBreakdown,
   reviews,
+  reviewsPagination,
 }: {
   lawyer: LawyerDetails;
   ratingBreakdown: Record<string, number>;
   reviews: Review[];
+  reviewsPagination?: Meta;
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
   const fontClass = locale === "en" ? "font-lora" : "";
+  // Only link out to real web addresses
+  const websiteUrl =
+    lawyer.website_url && /^https?:\/\//i.test(lawyer.website_url)
+      ? lawyer.website_url
+      : null;
 
   return (
     <div className="space-y-14">
@@ -29,19 +38,19 @@ export default async function Details({
           <div className="mt-3 h-px w-10 bg-accent" />
         </div>
 
-        <div className="space-y-4 text-[15px] leading-6 text-primary/75">
+        <p className="text-[15px] leading-6 text-primary/75 whitespace-pre-line wrap-break-word">
           {lawyer.bio}
-        </div>
+        </p>
 
-        {lawyer.website_url && (
+        {websiteUrl && (
           <div className="mt-5 flex items-center gap-5 text-[13px] text-primary/50">
             <a
-              href={lawyer.website_url}
+              href={websiteUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 transition-colors hover:text-primary"
             >
-              <ExternalLink className="size-3" />
+              <ExternalLink className="size-3" aria-hidden="true" />
 
               {t("website")}
             </a>
@@ -143,8 +152,12 @@ export default async function Details({
                     </p>
 
                     <p className="mt-0.5 text-xs text-accent">
-                      {item.start_year} –{" "}
-                      {item.is_current ? t("present") : `${item.end_year}`}
+                      {item.start_year}
+                      {item.is_current
+                        ? ` – ${t("present")}`
+                        : item.end_year
+                          ? ` – ${item.end_year}`
+                          : ""}
                     </p>
                   </div>
                 </div>
@@ -192,18 +205,25 @@ export default async function Details({
               <div className="mt-3 h-px w-10 bg-accent" />
             </div>
 
-            <div className="flex items-center gap-9">
+            <div className="flex flex-wrap items-center gap-x-9 gap-y-4">
               <div className="shrink-0">
                 <div
                   className={`text-[50px] leading-none font-semibold text-primary ${fontClass}`}
                 >
-                  {lawyer.rating.toFixed(1)}
+                  {(lawyer.rating ?? 0).toFixed(1)}
                 </div>
-                <div className="mt-2 flex items-center gap-0.5">
+                <div
+                  className="mt-2 flex items-center gap-0.5"
+                  aria-hidden="true"
+                >
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star
                       key={index}
-                      className="size-4 fill-accent text-accent"
+                      className={`size-4 ${
+                        index < (lawyer.rating ?? 0)
+                          ? "fill-accent text-accent"
+                          : "fill-transparent text-accent/35"
+                      }`}
                     />
                   ))}
                 </div>
@@ -212,7 +232,7 @@ export default async function Details({
                 </p>
               </div>
 
-              <div className="flex-1 space-y-2">
+              <div className="flex-1 min-w-40 space-y-2">
                 {[5, 4, 3, 2, 1].map((rating) => {
                   const count = ratingBreakdown?.[String(rating)] ?? 0;
                   const percentage =
@@ -246,39 +266,38 @@ export default async function Details({
           <div className="space-y-12">
             {reviews.map((review) => {
               const reviewerInitial =
-                review.reviewer.name?.charAt(0).toUpperCase() || "?";
+                review.reviewer?.name?.charAt(0).toUpperCase() || "?";
 
               return (
                 <div key={review.id} className="flex gap-5">
                   <div className="shrink-0 pt-1">
-                    {review.reviewer.photo_url ? (
-                      <div className="relative size-8 overflow-hidden rounded-full">
-                        <Image
-                          src={review.reviewer.photo_url}
-                          alt={review.reviewer.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="flex size-8 items-center justify-center rounded-full text-xs font-medium text-primary/70">
+                    <Avatar>
+                      <AvatarImage
+                        src={review.reviewer?.photo_url ?? undefined}
+                        alt=""
+                      />
+                      <AvatarFallback className="text-xs font-medium text-primary/70">
                         {reviewerInitial}
-                      </div>
-                    )}
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <h3 className="text-[14px] font-semibold text-primary">
-                          {review.reviewer.name}
+                          {review.reviewer?.name}
                         </h3>
                         <p className="text-xs text-primary/40">
                           {formatDate(review.created_at)}
                         </p>
                       </div>
 
-                      <div className="flex shrink-0 items-center gap-0.5">
+                      <div
+                        className="flex shrink-0 items-center gap-0.5"
+                        role="img"
+                        aria-label={`${review.rating} / 5`}
+                      >
                         {Array.from({ length: 5 }).map((_, index) => {
                           const isActive = index < review.rating;
 
@@ -296,7 +315,7 @@ export default async function Details({
                       </div>
                     </div>
 
-                    <p className="mt-4 text-[15px] leading-6 text-primary/70">
+                    <p className="mt-4 text-[15px] leading-6 text-primary/70 whitespace-pre-line wrap-break-word">
                       {review.comment}
                     </p>
 
@@ -316,6 +335,13 @@ export default async function Details({
                 </div>
               );
             })}
+
+            {reviewsPagination && reviewsPagination.last_page > 1 && (
+              <PaginationTemplate
+                currentPage={reviewsPagination.current_page}
+                totalPages={reviewsPagination.last_page}
+              />
+            )}
           </div>
         </>
       )}

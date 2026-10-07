@@ -28,6 +28,9 @@ async function GetListOfCases({
     params: {
       page: page || "1",
     },
+    next: {
+      tags: ["lawyer-hire-requests"],
+    },
   });
 
   if (!ok) {

@@ -1319,7 +1319,14 @@
       "lawyersFound": "Lawyers found",
       "languages": "Languages",
       "ratings": "Ratings",
-      "availability": "Availability"
+      "availability": "Availability",
+      "sortBy": "Sort by",
+      "verified": "Verified lawyer",
+      "noLawyersFound": "No lawyers found matching your search.",
+      "loadError": "We couldn't load this page. Please try again.",
+      "retry": "Try again",
+      "lawyerNotFound": "Lawyer not found",
+      "lawyerNotFoundDescription": "This lawyer profile doesn't exist or is no longer available."
     },
     "Messages": {
       "Title": "Messages",

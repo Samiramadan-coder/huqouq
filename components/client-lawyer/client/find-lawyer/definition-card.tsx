@@ -33,33 +33,50 @@ export default async function DefinitionCard({
                 src={lawyer.photo_url || "/avatar.png"}
                 alt={lawyer.name}
                 fill
+                sizes="128px"
                 className="object-cover"
-                priority
+                loading="eager"
               />
             </div>
 
-            <div className="absolute bottom-0 right-0 flex size-10 items-center justify-center rounded-full border-2 border-accent bg-primary">
-              <ShieldCheck className="size-5 text-accent" />
-            </div>
+            {lawyer.verified && (
+              <div
+                role="img"
+                aria-label={t("verified")}
+                className="absolute bottom-0 end-0 flex size-10 items-center justify-center rounded-full border-2 border-accent bg-primary"
+              >
+                <ShieldCheck
+                  className="size-5 text-accent"
+                  aria-hidden="true"
+                />
+              </div>
+            )}
           </div>
 
-          <h3
-            className={`${fontClass} mt-5 text-[1.25rem] font-semibold leading-none text-primary mb-1`}
+          <h1
+            className={`${fontClass} mt-5 text-[1.25rem] font-semibold leading-tight text-primary mb-1 wrap-break-word`}
           >
             {lawyer.name}
-          </h3>
+          </h1>
 
           <p className="text-xs text-primary/50 text-center tracking-wide">
-            {t("independentPractice")} · {lawyer.years_of_experience}{" "}
-            {t("years")}
+            {lawyer.account_type_label || t("independentPractice")} ·{" "}
+            {lawyer.years_of_experience} {t("years")}
             <br />
             {t("experience")}
           </p>
 
           <div className="mt-6 flex items-center justify-center gap-2">
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-0.5" aria-hidden="true">
               {Array.from({ length: 5 }).map((_, index) => (
-                <Star key={index} className="size-4 fill-accent text-accent" />
+                <Star
+                  key={index}
+                  className={`size-4 ${
+                    index < (lawyer.rating ?? 0)
+                      ? "fill-accent text-accent"
+                      : "fill-primary/20 text-primary/20"
+                  }`}
+                />
               ))}
             </div>
 
@@ -69,14 +86,14 @@ export default async function DefinitionCard({
           </div>
 
           <div className="mt-3 flex items-center gap-1.5 text-xs text-primary/50">
-            <Clock3 className="size-3.5" />
+            <Clock3 className="size-3.5" aria-hidden="true" />
             <span>{t("usuallyRespondsWithinAnHour")}</span>
           </div>
 
           <div className="mt-5 flex max-w-52.5 flex-wrap justify-center gap-2">
-            {lawyer.specializations.map((specialization, index) => (
+            {lawyer.specializations.map((specialization) => (
               <Badge
-                key={index}
+                key={specialization.id}
                 variant="outline"
                 className="rounded border-secondary px-3 py-2 text-[11px] font-normal text-primary/50"
               >
@@ -86,7 +103,7 @@ export default async function DefinitionCard({
           </div>
 
           <p className="mt-4 text-xs text-primary/45">
-            {lawyer.languages.join(" · ")}
+            {(lawyer.languages ?? []).join(" · ")}
           </p>
         </div>
 
@@ -111,7 +128,9 @@ export default async function DefinitionCard({
             </Link>
           </Button>
 
-          {caseId && <AssignToLawyer caseId={+caseId} lawyerId={lawyer.id} />}
+          {caseId && /^\d+$/.test(caseId) && (
+            <AssignToLawyer caseId={+caseId} lawyerId={lawyer.id} />
+          )}
 
           <Button
             variant="outline"
@@ -130,7 +149,7 @@ export default async function DefinitionCard({
           type="button"
           className="mt-4 flex w-full items-center justify-center gap-1.5 py-2 text-xs text-slate-400 transition-colors hover:text-primary"
         >
-          <Heart className="size-3.5" />
+          <Heart className="size-3.5" aria-hidden="true" />
           {t("saveToFavourites")}
         </button>
       </CardContent>

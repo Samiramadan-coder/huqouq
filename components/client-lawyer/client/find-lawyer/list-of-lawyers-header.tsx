@@ -5,18 +5,21 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  // SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Filters } from "@/types/client/find-lawyer";
 import { useTranslations } from "next-intl";
 import FiltersControl from "./filters-control";
 import { Button } from "@/components/ui/button";
 import { ListFilterPlus } from "lucide-react";
 import { useFindLawyerFilters } from "@/providers/find-lawyer-filters";
-// import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
 
 export default function ListOfLawyersHeader({
   total,
@@ -34,12 +37,13 @@ export default function ListOfLawyersHeader({
         <div className="block lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <ListFilterPlus />
+              <Button variant="ghost" size="icon" aria-label={t("filters")}>
+                <ListFilterPlus aria-hidden="true" />
               </Button>
             </SheetTrigger>
-            <SheetContent>
-              <div className="mt-14 px-2">
+            <SheetContent aria-describedby={undefined}>
+              <SheetTitle className="sr-only">{t("filters")}</SheetTitle>
+              <div className="mt-14 px-2 pb-4 overflow-y-auto">
                 <FiltersControl filters={filters} />
               </div>
             </SheetContent>
@@ -53,7 +57,10 @@ export default function ListOfLawyersHeader({
         value={lawyerFilters.sort}
         onValueChange={(value) => setLawyerFilters({ sort: value, page: "1" })}
       >
-        <SelectTrigger className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs">
+        <SelectTrigger
+          aria-label={t("sortBy")}
+          className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs"
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

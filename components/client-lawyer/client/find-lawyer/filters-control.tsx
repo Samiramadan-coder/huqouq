@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -13,12 +14,17 @@ import { useFindLawyerFilters } from "@/providers/find-lawyer-filters";
 export default function FiltersControl({ filters }: { filters: Filters }) {
   const t = useTranslations("Client.FindLawyer");
   const { lawyerFilters, setLawyerFilters } = useFindLawyerFilters();
+  // Rendered in both the sidebar and the mobile sheet, so ids must be unique
+  const idPrefix = useId();
 
   return (
     <Card className="rounded-sm ring-0! border border-secondary p-0 gap-0">
       <div className="px-4 py-3 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="text-primary/50 size-4" />
+          <SlidersHorizontal
+            className="text-primary/50 size-4"
+            aria-hidden="true"
+          />
           <span className="text-primary text-xs font-semibold">
             {t("filters")}
           </span>
@@ -35,8 +41,9 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
               language: [],
               min_rating: [],
               availability: [],
-              sort: "",
-              q: "",
+              // null restores the default sort and an empty search
+              sort: null,
+              q: null,
             })
           }
         >
@@ -55,7 +62,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={spec.id} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`specialization-${spec.id}`}
+                id={`${idPrefix}-specialization-${spec.id}`}
                 name={`specialization-${spec.id}`}
                 checked={lawyerFilters.specialization_id.includes(spec.id)}
                 onCheckedChange={(e) => {
@@ -79,7 +86,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 }}
               />
               <FieldLabel
-                htmlFor={`specialization-${spec.id}`}
+                htmlFor={`${idPrefix}-specialization-${spec.id}`}
                 className="text-xs text-primary font-medium"
               >
                 {spec.name}
@@ -100,7 +107,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={emirate} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`emirate-${emirate}`}
+                id={`${idPrefix}-emirate-${emirate}`}
                 name={`emirate-${emirate}`}
                 checked={lawyerFilters.emirate.includes(emirate)}
                 onCheckedChange={(e) => {
@@ -119,7 +126,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 }}
               />
               <FieldLabel
-                htmlFor={`emirate-${emirate}`}
+                htmlFor={`${idPrefix}-emirate-${emirate}`}
                 className="text-xs text-primary font-medium"
               >
                 {emirate}
@@ -140,7 +147,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={language} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`language-${language}`}
+                id={`${idPrefix}-language-${language}`}
                 name={`language-${language}`}
                 checked={lawyerFilters.language.includes(language)}
                 onCheckedChange={(e) => {
@@ -161,7 +168,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 }}
               />
               <FieldLabel
-                htmlFor={`language-${language}`}
+                htmlFor={`${idPrefix}-language-${language}`}
                 className="text-xs text-primary font-medium"
               >
                 {language}
@@ -182,7 +189,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={rating.value} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`rating-${rating.value}`}
+                id={`${idPrefix}-rating-${rating.value}`}
                 name={`rating-${rating.value}`}
                 checked={lawyerFilters.min_rating.includes(
                   rating.value.toString(),
@@ -208,7 +215,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 }}
               />
               <FieldLabel
-                htmlFor={`rating-${rating.value}`}
+                htmlFor={`${idPrefix}-rating-${rating.value}`}
                 className="text-xs text-primary font-medium"
               >
                 {rating.label}
@@ -229,30 +236,22 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={availability.value} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`availability-${availability.value}`}
+                id={`${idPrefix}-availability-${availability.value}`}
                 name={`availability-${availability.value}`}
                 checked={lawyerFilters.availability.includes(
                   availability.value,
                 )}
                 onCheckedChange={(e) => {
                   const value = availability.value;
-                  if (e) {
-                    setLawyerFilters({
-                      page: "1",
-                      availability: [...lawyerFilters.availability, value],
-                    });
-                  } else {
-                    setLawyerFilters({
-                      page: "1",
-                      availability: lawyerFilters.availability.filter(
-                        (v) => v !== value,
-                      ),
-                    });
-                  }
+                  // The API accepts one availability value at a time
+                  setLawyerFilters({
+                    page: "1",
+                    availability: e ? [value] : [],
+                  });
                 }}
               />
               <FieldLabel
-                htmlFor={`availability-${availability.value}`}
+                htmlFor={`${idPrefix}-availability-${availability.value}`}
                 className="text-xs text-primary font-medium"
               >
                 {availability.label}

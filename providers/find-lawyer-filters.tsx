@@ -6,7 +6,7 @@ import {
   parseAsInteger,
   useQueryStates,
 } from "nuqs";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useTransition } from "react";
 
 const filtersParsers = () => ({
   specialization_id: parseAsArrayOf(parseAsInteger)
@@ -19,7 +19,7 @@ const filtersParsers = () => ({
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
   sort: parseAsString
-    .withDefault("newest")
+    .withDefault("top_rated")
     .withOptions({ history: "push", shallow: false }),
   page: parseAsString
     .withDefault("1")
@@ -42,6 +42,7 @@ type FindLawyerFiltersContextType = {
   setLawyerFilters: ReturnType<
     typeof useQueryStates<ReturnType<typeof filtersParsers>>
   >[1];
+  isPending: boolean;
 };
 
 const FindLawyerFiltersContext =
@@ -52,11 +53,14 @@ export function FindLawyerFiltersProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [lawyerFilters, setLawyerFilters] = useQueryStates(filtersParsers());
+  const [isPending, startTransition] = useTransition();
+  const [lawyerFilters, setLawyerFilters] = useQueryStates(filtersParsers(), {
+    startTransition,
+  });
 
   return (
     <FindLawyerFiltersContext.Provider
-      value={{ lawyerFilters, setLawyerFilters }}
+      value={{ lawyerFilters, setLawyerFilters, isPending }}
     >
       {children}
     </FindLawyerFiltersContext.Provider>

@@ -1,7 +1,9 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
+import type { Metadata } from "next";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Filters, Lawyer } from "@/types/client/find-lawyer";
 import { FindLawyerFiltersProvider } from "@/providers/find-lawyer-filters";
 import ListOfLawyers from "@/components/client-lawyer/client/find-lawyer/list-of-lawyers";
@@ -20,6 +22,16 @@ type SerachParams = {
   q?: string;
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Client.FindLawyer");
+
+  return {
+    title: `${t("findLawyer")} | Huqouq`,
+    description: t("findLawyerDescription"),
+    robots: { index: false, follow: false },
+  };
+}
+
 async function GetListOfLawyers({
   searchParams,
 }: {
@@ -37,7 +49,7 @@ async function GetListOfLawyers({
     q,
   } = await searchParams;
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     data: Lawyer[];
     filters: Filters;
     meta: Meta;
@@ -54,17 +66,13 @@ async function GetListOfLawyers({
     },
   });
 
-  if (!ok) {
-    throw new Error("Failed to fetch lawyers");
-  }
-
   return (
     <div className="flex items-start gap-5">
       <div className="w-60 shrink-0 sticky top-20 hidden lg:block">
         <FiltersControl filters={data.filters} />
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <ListOfLawyers
           lawyers={data.data}
           pagination={data.meta}
@@ -87,7 +95,14 @@ export default async function Page({
         <QuerySearchAndTitle />
 
         <Suspense
-          fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+          fallback={
+            <div role="status" aria-label="Loading">
+              <LoaderPinwheelIcon
+                className="animate-spin text-accent"
+                aria-hidden="true"
+              />
+            </div>
+          }
         >
           <GetListOfLawyers searchParams={searchParams} />
         </Suspense>

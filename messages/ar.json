@@ -1290,7 +1290,7 @@
       "lawyer": "محامٍ",
       "yearsExperience": "سنوات الخبرة",
       "usuallyRespondsWithinAnHour": "عادةً ما يرد خلال ساعة",
-      "viewProfile": "عرض الملف الشخصي →",
+      "viewProfile": "عرض الملف الشخصي ←",
       "filters": "الفلاتر",
       "clearAll": "مسح الكل",
       "specialization": "التخصص",
@@ -1319,7 +1319,14 @@
       "lawyersFound": "تم العثور على محامين",
       "languages": "اللغات",
       "ratings": "التقييمات",
-      "availability": "التوافر"
+      "availability": "التوافر",
+      "sortBy": "ترتيب حسب",
+      "verified": "محامٍ موثّق",
+      "noLawyersFound": "لم يتم العثور على محامين مطابقين لبحثك.",
+      "loadError": "تعذر تحميل هذه الصفحة. يرجى المحاولة مرة أخرى.",
+      "retry": "إعادة المحاولة",
+      "lawyerNotFound": "المحامي غير موجود",
+      "lawyerNotFoundDescription": "هذا الملف الشخصي غير موجود أو لم يعد متاحًا."
     },
     "Messages": {
       "Title": "الرسائل",

@@ -1,3 +1,6 @@
+"use server";
+
+import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { OfferFormData } from "@/types/lawyer/browse-cases";
 
@@ -60,6 +63,8 @@ export async function declineOffer(
     const { data } = await http.post<{ message: string }>(
       `/api/lawyer/hire-requests/${caseId}/decline`,
     );
+
+    updateTag("lawyer-hire-requests");
     return { success: true, message: data.message };
   } catch (error) {
     if (error instanceof ValidationError) {

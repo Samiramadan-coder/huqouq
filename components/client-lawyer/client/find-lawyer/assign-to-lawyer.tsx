@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { sendToLawyer } from "@/lib/client/find-lawyer";
@@ -24,6 +25,8 @@ export default function AssignToLawyer({
   caseId: number;
   lawyerId: number;
 }) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const t = useTranslations("Client.FindLawyer");
 
@@ -34,6 +37,8 @@ export default function AssignToLawyer({
 
     if (result.success) {
       toast.success(result.message);
+      router.push("/client/my-cases");
+      setOpen(false);
       return;
     }
 
@@ -46,7 +51,7 @@ export default function AssignToLawyer({
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
@@ -66,6 +71,7 @@ export default function AssignToLawyer({
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={handleAssignToLawyer}
+            disabled={loading}
             className="bg-emerald-700 text-white border-secondary hover:bg-emerald-700/90 rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}
