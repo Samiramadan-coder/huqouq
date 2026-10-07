@@ -1,5 +1,5 @@
-import { OfferFormData } from "@/types/lawyer/browse-cases";
 import { http, ValidationError } from "../http";
+import { OfferFormData } from "@/types/lawyer/browse-cases";
 
 // Submit offer response type
 type SubmitOfferResponse =
@@ -27,7 +27,6 @@ export async function submitOffer(
     );
     return { success: true, message: data.message };
   } catch (error) {
-    console.error("Error submitting offer:", error);
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(error.errors).map(([field, messages]) => [
@@ -38,6 +37,7 @@ export async function submitOffer(
 
       return { success: false, errors, message: error.responseMessage };
     }
+    console.error("Error submitting offer:", error);
     return { success: false };
   }
 }
@@ -62,7 +62,10 @@ export async function declineOffer(
     );
     return { success: true, message: data.message };
   } catch (error) {
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
     console.error("Error declining offer:", error);
-    return { success: false, message: "Failed to decline offer" };
+    return { success: false };
   }
 }

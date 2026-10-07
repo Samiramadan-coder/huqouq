@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -14,12 +15,21 @@ import UrgencyBadge from "../../reusable/urgency-label";
 export default function FiltersControl({ filters }: { filters: Filters }) {
   const t = useTranslations("Lawyer.BrowseCases");
   const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
+  // Rendered in both the sidebar and the mobile sheet, so ids must be unique
+  const idPrefix = useId();
+  const hasActiveFilters =
+    lawyerFilters.specialization_id.length > 0 ||
+    lawyerFilters.urgency.length > 0 ||
+    lawyerFilters.emirate.length > 0;
 
   return (
     <Card className="rounded-sm ring-0! border border-secondary p-0 gap-0">
       <div className="px-4 py-3 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="text-primary/50 size-4" />
+          <SlidersHorizontal
+            className="text-primary/50 size-4"
+            aria-hidden="true"
+          />
           <span className="text-primary text-xs font-semibold">
             {t("Filters")}
           </span>
@@ -27,7 +37,16 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
 
         <Button
           variant="ghost"
+          disabled={!hasActiveFilters}
           className="p-0 text-xs font-semibold hover:text-accent hover:bg-transparent text-accent"
+          onClick={() =>
+            setLawyerFilters({
+              page: "1",
+              specialization_id: [],
+              urgency: [],
+              emirate: [],
+            })
+          }
         >
           {t("ClearAll")}
         </Button>
@@ -44,7 +63,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={spec.id} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`specialization-${spec.id}`}
+                id={`${idPrefix}-specialization-${spec.id}`}
                 name={`specialization-${spec.id}`}
                 checked={lawyerFilters.specialization_id.includes(spec.id)}
                 onCheckedChange={(e) => {
@@ -68,7 +87,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 }}
               />
               <FieldLabel
-                htmlFor={`specialization-${spec.id}`}
+                htmlFor={`${idPrefix}-specialization-${spec.id}`}
                 className="text-xs text-primary font-medium"
               >
                 {spec.name}{" "}
@@ -94,7 +113,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={urgency.value} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`urgency-${urgency.value}`}
+                id={`${idPrefix}-urgency-${urgency.value}`}
                 name={`urgency-${urgency.value}`}
                 checked={lawyerFilters.urgency.includes(urgency.value)}
                 onCheckedChange={(e) => {
@@ -113,7 +132,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 }}
               />
               <FieldLabel
-                htmlFor={`urgency-${urgency.value}`}
+                htmlFor={`${idPrefix}-urgency-${urgency.value}`}
                 className="text-xs text-primary font-medium"
               >
                 <UrgencyBadge
@@ -137,7 +156,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
             <Field key={emirate} orientation="horizontal">
               <Checkbox
                 className="rounded-xs"
-                id={`emirate-${emirate}`}
+                id={`${idPrefix}-emirate-${emirate}`}
                 name={`emirate-${emirate}`}
                 checked={lawyerFilters.emirate.includes(emirate)}
                 onCheckedChange={(e) => {
@@ -156,7 +175,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
                 }}
               />
               <FieldLabel
-                htmlFor={`emirate-${emirate}`}
+                htmlFor={`${idPrefix}-emirate-${emirate}`}
                 className="text-xs text-primary font-medium"
               >
                 {emirate}

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
@@ -16,9 +17,18 @@ type SearchParams = {
   specialization_id?: string;
   emirate?: string;
   urgency?: string;
-  sorts?: string;
+  sort?: string;
   q?: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Lawyer.BrowseCases");
+
+  return {
+    title: `${t("Title")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
 
 async function GetListOfCases({
   searchParams,
@@ -26,30 +36,28 @@ async function GetListOfCases({
   searchParams: Promise<SearchParams>;
 }) {
   const t = await getTranslations("Lawyer.BrowseCases");
-  const { page, specialization_id, emirate, urgency, sorts, q } =
+  const { page, specialization_id, emirate, urgency, sort, q } =
     await searchParams;
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     data: Case[];
     filters: Filters;
     meta: Meta;
     can_submit_offer: boolean;
     profile_status: string;
-    submit_offer_blocked_reason: string;
+    submit_offer_blocked_reason: string | null;
   }>("/api/lawyer/cases", {
     params: {
       page: page || "1",
       specialization_id: specialization_id || "",
       emirate: emirate || "",
       urgency: urgency || "",
-      sorts: sorts || "",
+      sort: sort || "",
+      // The API reads the sort order from `sort`
+      // ...(sort ? { sort: sort } : {}),
       q: q || "",
     },
   });
-
-  if (!ok) {
-    throw new Error("Failed to fetch lawyer cases");
-  }
 
   return (
     <LawyerBrowseCasesFiltersProvider>
@@ -57,9 +65,15 @@ async function GetListOfCases({
         <QuerySearchAndTitle />
 
         {data.can_submit_offer === false && (
-          <div className="flex items-center justify-between gap-4 flex-wrap text-[13px] px-4 py-3 border border-amber-200 bg-amber-50 text-amber-700">
+          <div
+            role="status"
+            className="flex items-center justify-between gap-4 flex-wrap text-[13px] px-4 py-3 border border-amber-200 bg-amber-50 text-amber-700"
+          >
             <div className="flex items-center gap-2">
-              <TriangleAlert className="text-amber-700 size-4" />
+              <TriangleAlert
+                className="text-amber-700 size-4 shrink-0"
+                aria-hidden="true"
+              />
               {data.submit_offer_blocked_reason}
             </div>
 
@@ -70,7 +84,10 @@ async function GetListOfCases({
             >
               <Link href="/lawyer/profile" className="flex items-center gap-2">
                 {t("CompleteProfile")}
-                <MoveRight className="size-4 rtl:rotate-180" />
+                <MoveRight
+                  className="size-4 rtl:rotate-180"
+                  aria-hidden="true"
+                />
               </Link>
             </Button>
           </div>
@@ -81,7 +98,7 @@ async function GetListOfCases({
             <FiltersControl filters={data.filters} />
           </div>
 
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <ListOfCases
               cases={data.data}
               pagination={data.meta}
@@ -103,8 +120,11 @@ export default async function Page({
   return (
     <Suspense
       fallback={
-        <div className="p-4 sm:p-6">
-          <LoaderPinwheelIcon className="animate-spin text-accent" />
+        <div className="p-4 sm:p-6" role="status" aria-label="Loading">
+          <LoaderPinwheelIcon
+            className="animate-spin text-accent"
+            aria-hidden="true"
+          />
         </div>
       }
     >

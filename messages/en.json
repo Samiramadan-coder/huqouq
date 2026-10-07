@@ -1749,21 +1749,29 @@
         "EstimatedTimeline": {
           "Label": "Estimated Timeline (days)",
           "Placeholder": "e.g., 7",
-          "Required": "Estimated timeline is required"
+          "Required": "Estimated timeline is required",
+          "Integer": "Estimated timeline must be a whole number of days"
         },
         "ProposedPrice": {
           "Label": "Proposed Price (AED)",
           "Placeholder": "e.g., 5000",
-          "Required": "Proposed price is required"
+          "Required": "Proposed price is required",
+          "Integer": "Proposed price must be a whole number"
         },
         "Message": {
           "Label": "Message to Client",
           "Placeholder": "Write a personalised message to the client",
           "Required": "Message is required",
           "Min": "Message must be at least 20 characters",
-          "Description": "Minimum 20 characters · 0 typed"
+          "Description": "Minimum 20 characters · {count} typed"
         }
-      }
+      },
+      "SortBy": "Sort by",
+      "LoadError": "We couldn't load this page. Please try again.",
+      "Retry": "Try again",
+      "CaseNotFound": "Case not found",
+      "CaseNotFoundDescription": "This case doesn't exist or is no longer available.",
+      "offerDeclineFailed": "Failed to decline the offer. Please try again."
     },
     "MyOffers": {
       "Title": "My Offers",

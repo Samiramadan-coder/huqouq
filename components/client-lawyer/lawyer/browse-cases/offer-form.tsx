@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { submitOffer } from "@/lib/lawyer/browse-cases";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
@@ -25,6 +25,7 @@ export default function OfferForm({
 
   const {
     register,
+    control,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -35,6 +36,8 @@ export default function OfferForm({
       message: "",
     },
   });
+
+  const message = useWatch({ control, name: "message" });
 
   const onSubmit: SubmitHandler<OfferFormData> = async (data) => {
     const result = await submitOffer(
@@ -49,29 +52,22 @@ export default function OfferForm({
       return;
     }
 
-    if (result.message) {
-      toast.error(result.message);
-    }
-
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
-        setError(field as keyof OfferFormData, {
-          type: "server",
-          message,
-        });
+    Object.entries(result.errors ?? {}).forEach(([field, message]) => {
+      if (!message) return;
+      setError(field as keyof OfferFormData, {
+        type: "server",
+        message,
       });
+    });
 
-      return;
-    }
-
-    toast.error(t("SubmitOfferError"));
+    toast.error(result.message ?? t("SubmitOfferError"));
   };
 
   return (
     <form
       className="grid grid-cols-1 sm:grid-cols-2 gap-4"
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
       <FormInput
         required
@@ -79,6 +75,7 @@ export default function OfferForm({
         register={register}
         name="amount"
         type="number"
+        inputMode="numeric"
         label={tFields("ProposedPrice.Label")}
         placeholder={tFields("ProposedPrice.Placeholder")}
         inputClassName="bg-background border border-accent/20!"
@@ -90,6 +87,7 @@ export default function OfferForm({
         register={register}
         name="expected_days"
         type="number"
+        inputMode="numeric"
         label={tFields("EstimatedTimeline.Label")}
         placeholder={tFields("EstimatedTimeline.Placeholder")}
         inputClassName="bg-background border border-accent/20!"
@@ -104,10 +102,12 @@ export default function OfferForm({
         placeholder={tFields("Message.Placeholder")}
         className="sm:col-span-2"
         textareaClassName="bg-background border border-accent/20!"
-        description={tFields("Message.Description")}
+        description={tFields("Message.Description", {
+          count: message.trim().length,
+        })}
       />
 
-      <div className="sm:col-span-2 flex gap-2 justify-end">
+      <div className="sm:col-span-2 flex flex-wrap gap-2 justify-end">
         {hire && <DeclineOffer caseId={caseId} />}
 
         <SubmitBtn

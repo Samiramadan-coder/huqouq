@@ -1,5 +1,7 @@
-import { Suspense } from "react";
-import { http } from "@/lib/http";
+import type { Metadata } from "next";
+import { cache, Suspense } from "react";
+import { notFound } from "next/navigation";
+import { http, HttpError } from "@/lib/http";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/lawyer/browse-cases";
@@ -14,6 +16,46 @@ type SearchParams = {
   hire?: string;
 };
 
+type CaseDetailsResponse = {
+  can_submit_offer: boolean;
+  data: CaseDetails;
+  profile_status: string;
+  submit_offer_blocked_reason: string | null;
+};
+
+// Shared between generateMetadata and the page so the case is fetched once.
+// Returns null when the case does not exist.
+const getCaseDetails = cache(async (id: string) => {
+  if (!/^\d+$/.test(id)) return null;
+
+  try {
+    const { data } = await http.get<CaseDetailsResponse>(
+      `/api/lawyer/cases/${id}`,
+    );
+
+    return data;
+  } catch (error) {
+    if (error instanceof HttpError && error.status === 404) return null;
+
+    throw error;
+  }
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const t = await getTranslations("Lawyer.BrowseCases");
+  const caseDetails = await getCaseDetails(id);
+
+  return {
+    title: `${caseDetails?.data.title ?? t("CaseNotFound")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
+
 async function GetCaseDetails({
   params,
   searchParams,
@@ -23,19 +65,20 @@ async function GetCaseDetails({
 }) {
   const { id } = await params;
   const { hire } = await searchParams;
+  const data = await getCaseDetails(id);
 
-  const { data, ok } = await http.get<{
-    can_submit_offer: boolean;
-    data: CaseDetails;
-    profile_status: string;
-    submit_offer_blocked_reason: string;
-  }>(`/api/lawyer/cases/${id}`);
-
-  if (!ok) {
-    throw new Error("Failed to fetch case details");
+  if (!data) {
+    notFound();
   }
 
-  return <Details caseDetails={data.data} hire={!!hire} />;
+  return (
+    <Details
+      caseDetails={data.data}
+      hire={!!hire}
+      canSubmitOffer={data.can_submit_offer}
+      submitOfferBlockedReason={data.submit_offer_blocked_reason}
+    />
+  );
 }
 
 export default async function Page({
@@ -54,7 +97,14 @@ export default async function Page({
       </BackBtn>
 
       <Suspense
-        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+        fallback={
+          <div role="status" aria-label="Loading">
+            <LoaderPinwheelIcon
+              className="animate-spin text-accent"
+              aria-hidden="true"
+            />
+          </div>
+        }
       >
         <GetCaseDetails params={params} searchParams={searchParams} />
       </Suspense>

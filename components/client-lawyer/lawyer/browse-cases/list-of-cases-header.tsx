@@ -8,7 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Filters } from "@/types/lawyer/browse-cases";
 import { useTranslations } from "next-intl";
 import FiltersControl from "./filters-control";
@@ -32,12 +37,13 @@ export default function ListOfCasesHeader({
         <div className="block lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <ListFilterPlus />
+              <Button variant="ghost" size="icon" aria-label={t("Filters")}>
+                <ListFilterPlus aria-hidden="true" />
               </Button>
             </SheetTrigger>
-            <SheetContent>
-              <div className="mt-14 px-2">
+            <SheetContent aria-describedby={undefined}>
+              <SheetTitle className="sr-only">{t("Filters")}</SheetTitle>
+              <div className="mt-14 px-2 overflow-y-auto">
                 <FiltersControl filters={filters} />
               </div>
             </SheetContent>
@@ -48,10 +54,13 @@ export default function ListOfCasesHeader({
       </div>
 
       <Select
-        value={lawyerFilters.sorts}
-        onValueChange={(value) => setLawyerFilters({ sorts: value, page: "1" })}
+        value={lawyerFilters.sort}
+        onValueChange={(value) => setLawyerFilters({ sort: value, page: "1" })}
       >
-        <SelectTrigger className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs">
+        <SelectTrigger
+          aria-label={t("SortBy")}
+          className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs"
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

@@ -65,9 +65,9 @@ export default async function LawyerLayout({
 
       <SidebarInset className="flex-1 min-w-0 min-h-screen">
         <LayoutHeader />
-        <main className="min-w-0 w-full overflow-x-clip">
+        <div className="min-w-0 w-full overflow-x-clip">
           <div className="min-w-0 w-full">{children}</div>
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

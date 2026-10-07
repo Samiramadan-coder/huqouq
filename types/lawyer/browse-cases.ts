@@ -3,8 +3,8 @@ import { T } from "../shared";
 
 export type Case = {
   budget_disclosed: boolean;
-  budget_max: number;
-  budget_min: number;
+  budget_max: number | null;
+  budget_min: number | null;
   city: string;
   description: string;
   documents_count: number;
@@ -18,16 +18,14 @@ export type Case = {
 };
 
 export type CaseDetails = Case & {
+  // Contact fields are only returned once contact_visible is true
   client: {
-    city: string;
     contact_visible: boolean;
-    email: string;
     first_name: string;
-    id: number;
-    last_name: string;
-    name: string;
-    phone: string;
-    photo_url: string;
+    photo_url: string | null;
+    city?: string;
+    email?: string;
+    phone?: string;
   };
   documents: {
     id: number;
@@ -47,9 +45,19 @@ export type Filters = {
 
 export const offerFormSchema = (t: T) =>
   z.object({
-    expected_days: z.number(),
-    amount: z.number().min(1, t("ProposedPrice.Required")),
-    message: z.string().min(1, t("Message.Required")).min(20, t("Message.Min")),
+    expected_days: z
+      .number(t("EstimatedTimeline.Required"))
+      .int(t("EstimatedTimeline.Integer"))
+      .min(1, t("EstimatedTimeline.Required")),
+    amount: z
+      .number(t("ProposedPrice.Required"))
+      .int(t("ProposedPrice.Integer"))
+      .min(1, t("ProposedPrice.Required")),
+    message: z
+      .string()
+      .trim()
+      .min(1, t("Message.Required"))
+      .min(20, t("Message.Min")),
   });
 
 export type OfferFormData = z.infer<ReturnType<typeof offerFormSchema>>;

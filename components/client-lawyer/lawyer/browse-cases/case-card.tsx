@@ -33,31 +33,33 @@ export default async function CaseCard({
           />
         </div>
 
-        <h3 className="font-semibold text-[15px] text-primary mb-2">
+        <h2 className="font-semibold text-[15px] text-primary mb-2 wrap-break-word">
           {caseItem.title}
-        </h3>
+        </h2>
 
-        <p className="text-sm mb-2 text-primary/55">{caseItem.description}</p>
+        <p className="text-sm mb-2 text-primary/55 line-clamp-3 wrap-break-word">
+          {caseItem.description}
+        </p>
 
         <div className="flex items-center flex-wrap gap-4 mb-4">
-          {caseItem.budget_min && caseItem.budget_max && (
+          {caseItem.budget_min != null && caseItem.budget_max != null && (
             <p className="text-sm font-semibold text-accent">
               {tCommon("AED")} {caseItem.budget_min} - {caseItem.budget_max}
             </p>
           )}
 
           <div className="flex items-center gap-1 text-xs text-primary/50">
-            <MapPin className="size-3" />
+            <MapPin className="size-3" aria-hidden="true" />
             {caseItem.city}
           </div>
 
           <div className="flex items-center gap-1 text-xs text-primary/50">
-            <Clock className="size-3" />
+            <Clock className="size-3" aria-hidden="true" />
             {formatDate(caseItem.posted_at)}
           </div>
         </div>
 
-        <div className="border-t border-secondary pt-4 flex items-center justify-between">
+        <div className="border-t border-secondary pt-4 flex items-center justify-between gap-3 flex-wrap">
           <p className="text-xs text-primary/40">
             {caseItem.offers_count} {t("lawyersHaveOffers")}
           </p>
@@ -72,7 +74,7 @@ export default async function CaseCard({
                 href={`/lawyer/browse-cases/${caseItem.id}${isHireCase ? "?hire=true" : ""}`}
               >
                 {t("ViewDetails")}
-                <ChevronRight />
+                <ChevronRight className="rtl:rotate-180" aria-hidden="true" />
               </Link>
             </Button>
           )}

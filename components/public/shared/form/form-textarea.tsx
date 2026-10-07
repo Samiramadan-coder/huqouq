@@ -52,6 +52,7 @@ export default function FormTextarea<T extends FieldValues>({
   labelClassName,
 }: FormTextareaProps<T>) {
   const error = get(errors, name);
+  const errorId = `${name}-error`;
 
   return (
     <Field className={className} data-invalid={!!error}>
@@ -78,6 +79,8 @@ export default function FormTextarea<T extends FieldValues>({
             rows={rows}
             placeholder={placeholder}
             aria-invalid={!!error}
+            aria-describedby={error ? errorId : undefined}
+            aria-required={required}
             disabled={disabled}
             className={cn(
               "min-h-28 resize-y rounded-none border-0 border-b border-border bg-transparent shadow-none",
@@ -94,7 +97,7 @@ export default function FormTextarea<T extends FieldValues>({
             )}
           />
 
-          <FieldError errors={[error]} />
+          <FieldError id={errorId} errors={[error]} />
 
           {description && (
             <FieldDescription className="text-[11px] text-primary/50">
