@@ -13,10 +13,10 @@ type Specialization = {
 };
 
 export type CaseDetails = {
-  accepted_offer: CaseOffer;
+  accepted_offer: CaseOffer | null;
   budget_disclosed: boolean;
-  budget_max: number;
-  budget_min: number;
+  budget_max: number | null;
+  budget_min: number | null;
   can_close: boolean;
   can_edit: boolean;
   chat_unlocked: boolean;

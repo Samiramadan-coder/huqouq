@@ -8,7 +8,7 @@ export default async function Stats({ counts }: { counts: Counts }) {
 
   return (
     <Card
-      className="rounded-sm border border-secondary px-4 flex-row flex-wrap"
+      className="rounded-sm border border-secondary px-4 flex-row flex-wrap gap-x-4 gap-y-2"
       style={{ boxShadow: "none" }}
     >
       <StatItem count={counts.all} label={t("TotalOffers")} />
@@ -32,7 +32,7 @@ export default async function Stats({ counts }: { counts: Counts }) {
       <StatItem count={counts.accepted} label={t("accepted")} />
       <Separator orientation="vertical" className="bg-secondary" />
 
-      <StatItem count={counts.accepted} label={t("accepted")} />
+      <StatItem count={counts.pending_closure} label={t("pending_closure")} />
       <Separator orientation="vertical" className="bg-secondary" />
 
       <StatItem count={counts.declined} label={t("declined")} />

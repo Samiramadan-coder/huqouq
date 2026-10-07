@@ -8,7 +8,9 @@
     "EditFailed": "Editing failed",
     "Next": "Next",
     "Previous": "Previous",
-    "RemoveFile": "Remove file"
+    "RemoveFile": "Remove file",
+    "LoadError": "We couldn't load this page. Please try again.",
+    "Retry": "Try again"
   },
   "Header": {
     "Title": "HUQOUQ",

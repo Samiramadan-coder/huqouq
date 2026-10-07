@@ -22,12 +22,12 @@ export type Offer = {
   message: string;
   status: OfferStatus;
   status_label: string;
-  expected_days: number;
-  expected_timeline: string;
+  expected_days: number | null;
+  expected_timeline: string | null;
   case: {
     budget_disclosed: boolean;
-    budget_max: number;
-    budget_min: number;
+    budget_max: number | null;
+    budget_min: number | null;
     id: number;
     specialization: string;
     status: string;

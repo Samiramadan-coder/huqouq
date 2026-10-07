@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
@@ -13,6 +14,15 @@ type SearchParams = {
   page?: string;
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Lawyer.BrowseCases");
+
+  return {
+    title: `${t("hireCases")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
+
 async function GetListOfCases({
   searchParams,
 }: {
@@ -21,7 +31,7 @@ async function GetListOfCases({
   const t = await getTranslations("Lawyer.BrowseCases");
   const { page } = await searchParams;
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     meta: Meta;
     data: Case[];
   }>("/api/lawyer/hire-requests", {
@@ -33,30 +43,26 @@ async function GetListOfCases({
     },
   });
 
-  if (!ok) {
-    throw new Error("Failed to fetch lawyer cases");
-  }
-
   return (
-    <div>
+    <div className="space-y-4">
       {data.data.length > 0 ? (
-        <div className="space-y-4">
-          {data.data.map((caseItem) => (
-            <CaseCard
-              key={caseItem.id}
-              caseItem={caseItem}
-              can_submit_offer={true}
-              isHireCase={true}
-            />
-          ))}
-
-          <PaginationTemplate
-            currentPage={data.meta.current_page}
-            totalPages={data.meta.last_page}
+        data.data.map((caseItem) => (
+          <CaseCard
+            key={caseItem.id}
+            caseItem={caseItem}
+            can_submit_offer={true}
+            isHireCase={true}
           />
-        </div>
+        ))
       ) : (
         <p className="text-sm text-primary/50">{t("NoHireCasesFound")}</p>
+      )}
+
+      {data.meta.last_page > 1 && (
+        <PaginationTemplate
+          currentPage={data.meta.current_page}
+          totalPages={data.meta.last_page}
+        />
       )}
     </div>
   );
@@ -77,7 +83,14 @@ export default async function Page({
       </div>
 
       <Suspense
-        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+        fallback={
+          <div role="status" aria-label="Loading">
+            <LoaderPinwheelIcon
+              className="animate-spin text-accent"
+              aria-hidden="true"
+            />
+          </div>
+        }
       >
         <GetListOfCases searchParams={searchParams} />
       </Suspense>
