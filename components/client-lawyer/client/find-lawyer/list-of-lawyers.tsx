@@ -55,7 +55,7 @@ export default async function ListOfLawyers({
                     variant="secondary"
                     size="icon"
                     aria-label={`${t("saveToFavourites")}: ${lawyer.name}`}
-                    className="absolute end-3 top-3 size-9 rounded-full bg-white text-slate-400 shadow-sm hover:bg-white hover:text-rose-500"
+                    className="absolute inset-e-3 top-3 size-9 rounded-full bg-white text-slate-400 shadow-sm hover:bg-white hover:text-rose-500"
                   >
                     <Heart className="size-4" aria-hidden="true" />
                   </Button>
@@ -64,7 +64,7 @@ export default async function ListOfLawyers({
                     <div
                       role="img"
                       aria-label={t("verified")}
-                      className="absolute bottom-3 end-3 flex size-9 items-center justify-center rounded-full bg-[#d0a441]"
+                      className="absolute bottom-3 inset-e-3 flex size-9 items-center justify-center rounded-full bg-[#d0a441]"
                     >
                       <Shield
                         className="size-4 fill-primary text-primary"

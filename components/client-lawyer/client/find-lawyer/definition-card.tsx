@@ -43,7 +43,7 @@ export default async function DefinitionCard({
               <div
                 role="img"
                 aria-label={t("verified")}
-                className="absolute bottom-0 end-0 flex size-10 items-center justify-center rounded-full border-2 border-accent bg-primary"
+                className="absolute bottom-0 inset-e-0 flex size-10 items-center justify-center rounded-full border-2 border-accent bg-primary"
               >
                 <ShieldCheck
                   className="size-5 text-accent"
