@@ -71,13 +71,14 @@ export default function AcceptOffer({
             {t("ConfirmHire")}
           </DialogTitle>
           <DialogDescription className="mt-3">
-            {t("ConfirmHireDescription")}
+            {t("ConfirmHireDescription", { name: offer.lawyer.name })}
           </DialogDescription>
         </DialogHeader>
 
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={handleAcceptOffer}
+            disabled={loading}
             className="bg-accent text-primary border-secondary hover:bg-accent rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}

@@ -7,7 +7,8 @@
     "EditSuccessfully": "Edited successfully",
     "EditFailed": "Editing failed",
     "Next": "Next",
-    "Previous": "Previous"
+    "Previous": "Previous",
+    "RemoveFile": "Remove file"
   },
   "Header": {
     "Title": "HUQOUQ",
@@ -1121,7 +1122,7 @@
       "PostedOn": "Posted on {date}",
       "ReviewedOn": "Reviewed on {date}",
       "ConfirmHire": "Confirm Hire",
-      "ConfirmHireDescription": "By confirming, this case will move to Hired status and Ahmad will be notified. All other offers will be automatically declined.",
+      "ConfirmHireDescription": "By confirming, this case will move to Hired status and {name} will be notified. All other offers will be automatically declined.",
       "YesHire": "Yes, Hire {name}",
       "Cancel": "Cancel",
       "offerAccepted": "Offer Accepted",
@@ -1231,7 +1232,9 @@
           "to": "To",
           "budgetMinMax": "BudgetMin must be less than BudgetMax",
           "Min": "Min",
-          "Max": "Max"
+          "Max": "Max",
+          "integer": "Budget must be a whole number",
+          "negative": "Budget cannot be negative"
         },
         "location": {
           "label": "Location / Emirate",
@@ -1243,8 +1246,10 @@
           "optional": "optional",
           "dropText": "Drag files here or",
           "browse": "browse",
-          "formats": "PDF, DOCX, JPG, PNG — up to 10 MB each",
-          "required": "At least one document is required"
+          "formats": "PDF, JPG, PNG, WEBP — up to 5 MB each",
+          "required": "At least one document is required",
+          "invalidType": "Only PDF, JPG, PNG and WEBP files are allowed",
+          "tooLarge": "Each file must be 5 MB or smaller"
         },
         "submit": {
           "button": "Submit Case",
@@ -1271,7 +1276,12 @@
         "PendingClosureOn": "Case nearing resolution. Final review pending before closure.",
         "ClosedCase": "Case is being closed.",
         "ReviewedOn": "Reviewed on {date}"
-      }
+      },
+      "reviews": "reviews",
+      "loadError": "We couldn't load this page. Please try again.",
+      "retry": "Try again",
+      "caseNotFound": "Case not found",
+      "caseNotFoundDescription": "This case doesn't exist or you don't have access to it."
     },
     "FindLawyer": {
       "findLawyer": "Find Lawyer",

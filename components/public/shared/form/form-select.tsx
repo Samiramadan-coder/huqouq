@@ -90,7 +90,7 @@ export default function FormSelect<T extends FieldValues>({
                     field.value == null ||
                     field.value === "" ||
                     field.value === 0
-                      ? undefined
+                      ? ""
                       : String(field.value)
                   }
                   onValueChange={handleValueChange}
@@ -98,6 +98,10 @@ export default function FormSelect<T extends FieldValues>({
                   <SelectTrigger
                     id={name}
                     aria-invalid={fieldState.invalid}
+                    aria-required={required}
+                    aria-describedby={
+                      fieldState.error ? `${name}-error` : undefined
+                    }
                     className={cn(
                       "h-11 min-h-11 w-full rounded-none bg-transparent shadow-none",
                       "border-0 border-b border-border",
@@ -133,7 +137,7 @@ export default function FormSelect<T extends FieldValues>({
                   </SelectContent>
                 </Select>
 
-                <FieldError errors={[fieldState.error]} />
+                <FieldError id={`${name}-error`} errors={[fieldState.error]} />
               </div>
             </FieldContent>
           </Field>

@@ -50,8 +50,8 @@ export async function CasesTable({
             </TableCell>
           </TableRow>
         ) : (
-          cases.map((caseItem, index) => (
-            <TableRow key={index} className="border-secondary">
+          cases.map((caseItem) => (
+            <TableRow key={caseItem.id} className="border-secondary">
               <TableCell className="px-5 py-3">
                 <span className="font-medium">{caseItem.title}</span>
               </TableCell>
@@ -74,58 +74,71 @@ export async function CasesTable({
                   {formatDate(caseItem.created_at)}
                 </span>
               </TableCell>
-              <TableCell className="px-5 py-3 space-x-4">
-                {caseItem.display_status === "closed" &&
-                  caseItem.is_reviewed === false && (
-                    <RateLawyer caseItem={caseItem} />
-                  )}
+              <TableCell className="px-5 py-3">
+                <div className="flex items-center gap-4">
+                  {caseItem.display_status === "closed" &&
+                    caseItem.is_reviewed === false && (
+                      <RateLawyer caseItem={caseItem} />
+                    )}
 
-                <Button
-                  variant="ghost"
-                  className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
-                  asChild
-                >
-                  <Link href={`/client/my-cases/${caseItem.id}`}>
-                    <span>{t("view")}</span>
-                    <ArrowRight className="size-3" />
-                  </Link>
-                </Button>
-
-                {caseItem.can_edit && (
                   <Button
                     variant="ghost"
-                    className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
+                    className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
                     asChild
                   >
-                    <Link href={`/client/my-cases/edit/${caseItem.id}`}>
-                      <span>{t("editCase")}</span>
-                      <ArrowRight className="size-3" />
+                    <Link href={`/client/my-cases/${caseItem.id}`}>
+                      <span>{t("view")}</span>
+                      <ArrowRight
+                        className="size-3 rtl:rotate-180"
+                        aria-hidden="true"
+                      />
                     </Link>
                   </Button>
-                )}
 
-                {caseItem.display_status === "request_declined" && (
-                  <>
-                    <PublishCase caseId={caseItem.id} />
+                  {caseItem.can_edit && (
                     <Button
                       variant="ghost"
-                      className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                      className="px-0 text-primary text-xs hover:bg-transparent hover:text-accent"
                       asChild
                     >
-                      <Link href={`/client/find-lawyers?caseId=${caseItem.id}`}>
-                        <span>{t("assignToLawyer")}</span>
-                        <ArrowRight className="size-3" />
+                      <Link href={`/client/my-cases/edit/${caseItem.id}`}>
+                        <span>{t("editCase")}</span>
+                        <ArrowRight
+                          className="size-3 rtl:rotate-180"
+                          aria-hidden="true"
+                        />
                       </Link>
                     </Button>
-                  </>
-                )}
+                  )}
+
+                  {caseItem.display_status === "request_declined" && (
+                    <>
+                      <PublishCase caseId={caseItem.id} />
+                      <Button
+                        variant="ghost"
+                        className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
+                        asChild
+                      >
+                        <Link
+                          href={`/client/find-lawyers?caseId=${caseItem.id}`}
+                        >
+                          <span>{t("assignToLawyer")}</span>
+                          <ArrowRight
+                            className="size-3 rtl:rotate-180"
+                            aria-hidden="true"
+                          />
+                        </Link>
+                      </Button>
+                    </>
+                  )}
+                </div>
               </TableCell>
             </TableRow>
           ))
         )}
       </DataTable>
 
-      {pagination && (
+      {pagination && pagination.last_page > 1 && (
         <PaginationTemplate
           currentPage={pagination?.current_page}
           totalPages={pagination?.last_page}

@@ -50,6 +50,8 @@ export default async function Index({
   const tCommon = await getTranslations("Common");
   const fontClass = locale === "en" ? "font-lora" : "";
 
+  const visibleSteps = timeline.filter((step) => step.state !== "skipped");
+
   function getStepDescription(step: Step) {
     switch (step.key) {
       case "posted":
@@ -105,27 +107,28 @@ export default async function Index({
   return (
     <>
       <div>
-        <div className="flex items-center justify-between gap-4">
-          <Title>{caseDetails.title}</Title>
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          <div className="min-w-0 wrap-break-word">
+            <Title>{caseDetails.title}</Title>
+          </div>
 
-          <div className="space-x-2">
-            {caseDetails.status === "pending_review" ||
-              (caseDetails.can_edit && (
-                <Button
-                  variant="outline"
-                  className="rounded-sm border-secondary font-normal text-xs text-primary/55"
-                  asChild
-                >
-                  <Link href={`/client/cases/edit/${caseDetails.id}`}>
-                    {t("editCase")}
-                  </Link>
-                </Button>
-              ))}
+          <div className="flex items-center gap-2">
+            {caseDetails.can_edit && (
+              <Button
+                variant="outline"
+                className="rounded-sm border-secondary font-normal text-xs text-primary/55"
+                asChild
+              >
+                <Link href={`/client/my-cases/edit/${caseDetails.id}`}>
+                  {t("editCase")}
+                </Link>
+              </Button>
+            )}
             {caseDetails.can_close && <CloseCase caseId={caseDetails.id} />}
           </div>
         </div>
 
-        <div className="mt-2 flex items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-2">
           <CaseStatusLabel
             status={caseDetails.display_status}
             statusLabel={caseDetails.display_status_label}
@@ -153,74 +156,72 @@ export default async function Index({
               ]}
               className="w-full"
             >
-              {timeline
-                .filter((item) => item.state !== "skipped")
-                .map((item, index) => {
-                  const isCompleted = item.state === "done";
-                  const isCurrent = item.state === "current";
-                  const isPending = item.state === "upcoming";
-                  const isEnabled = item.state !== "upcoming";
-                  const isLast = index === timeline.length - 1;
+              {visibleSteps.map((item, index) => {
+                const isCompleted = item.state === "done";
+                const isCurrent = item.state === "current";
+                const isPending = item.state === "upcoming";
+                const isEnabled = item.state !== "upcoming";
+                const isLast = index === visibleSteps.length - 1;
 
-                  return (
-                    <div
-                      key={item.key}
-                      className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
+                return (
+                  <div
+                    key={item.key}
+                    className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
+                  >
+                    <TimelineRail
+                      completed={isCompleted}
+                      current={isCurrent}
+                      last={isLast}
+                    />
+
+                    <AccordionItem
+                      value={item.key}
+                      disabled={!isEnabled}
+                      className="border-none"
                     >
-                      <TimelineRail
-                        completed={isCompleted}
-                        current={isCurrent}
-                        last={isLast}
-                      />
-
-                      <AccordionItem
-                        value={item.key}
-                        disabled={!isEnabled}
-                        className="border-none"
+                      <AccordionTrigger
+                        className={cn(
+                          "min-h-12 py-0 hover:no-underline",
+                          "[&>svg]:size-4 [&>svg]:shrink-0",
+                          "[&>svg]:text-accent/70!",
+                          isPending &&
+                            "cursor-default text-muted-foreground/35 [&>svg]:hidden",
+                        )}
                       >
-                        <AccordionTrigger
-                          className={cn(
-                            "min-h-12 py-0 hover:no-underline",
-                            "[&>svg]:size-4 [&>svg]:shrink-0",
-                            "[&>svg]:text-accent/70!",
-                            isPending &&
-                              "cursor-default text-muted-foreground/35 [&>svg]:hidden",
-                          )}
-                        >
-                          <div className="flex min-w-0 items-center gap-2">
-                            <span
-                              className={cn(
-                                "text-sm",
-                                isCompleted && "font-normal text-primary/70",
-                                isCurrent && "font-medium",
-                                isPending && "font-normal text-primary/25",
-                              )}
-                            >
-                              {item.label}
-                            </span>
-
-                            {isCurrent && (
-                              <Badge className="h-5 rounded-full px-2 text-[10px] font-normal">
-                                {t("Timeline.Current")}
-                              </Badge>
+                        <div className="flex min-w-0 items-center gap-2">
+                          <span
+                            className={cn(
+                              "text-sm",
+                              isCompleted && "font-normal text-primary/70",
+                              isCurrent && "font-medium",
+                              isPending && "font-normal text-primary/25",
                             )}
-                          </div>
-                        </AccordionTrigger>
+                          >
+                            {item.label}
+                          </span>
 
-                        <AccordionContent className="pb-4">
-                          <div className="rounded-sm border-s-2 border-accent/70 bg-background px-4 py-3 text-xs leading-5 text-primary/70">
-                            {getStepDescription(item)}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </div>
-                  );
-                })}
+                          {isCurrent && (
+                            <Badge className="h-5 rounded-full px-2 text-[10px] font-normal">
+                              {t("Timeline.Current")}
+                            </Badge>
+                          )}
+                        </div>
+                      </AccordionTrigger>
+
+                      <AccordionContent className="pb-4">
+                        <div className="rounded-sm border-s-2 border-accent/70 bg-background px-4 py-3 text-xs leading-5 text-primary/70">
+                          {getStepDescription(item)}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </div>
+                );
+              })}
             </Accordion>
           </CardContent>
         </Card>
 
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 min-w-0">
           <Card className="rounded-xs ring-0! border border-secondary">
             <CardHeader className="pb-3">
               <CardTitle
@@ -229,12 +230,15 @@ export default async function Index({
                   fontClass,
                 )}
               >
-                <FileText className="text-primary/40 size-3.5" />
+                <FileText
+                  className="text-primary/40 size-3.5"
+                  aria-hidden="true"
+                />
                 {t("Fields.description.label")}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-primary/65 leading-relaxed whitespace-pre-line">
+              <p className="text-sm text-primary/65 leading-relaxed whitespace-pre-line wrap-break-word">
                 {caseDetails.description}
               </p>
             </CardContent>
@@ -246,7 +250,7 @@ export default async function Index({
             </div>
           ) : (
             <div className="space-y-6 mt-4">
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   <p className={cn("font-semibold", fontClass)}>
                     {t("lawyersOffers")}
@@ -257,7 +261,11 @@ export default async function Index({
                 </div>
 
                 {offers.length ? (
-                  <CompareOffers caseId={caseDetails.id} offers={offers} />
+                  <CompareOffers
+                    caseId={caseDetails.id}
+                    caseTitle={caseDetails.title}
+                    offers={offers}
+                  />
                 ) : null}
               </div>
 
@@ -272,10 +280,12 @@ export default async function Index({
                       />
                     ))}
 
-                    <PaginationTemplate
-                      currentPage={pagination.current_page}
-                      totalPages={pagination.last_page}
-                    />
+                    {pagination.last_page > 1 && (
+                      <PaginationTemplate
+                        currentPage={pagination.current_page}
+                        totalPages={pagination.last_page}
+                      />
+                    )}
                   </>
                 ) : (
                   <p className="text-sm text-primary/65">{t("noOffers")}</p>
@@ -302,13 +312,14 @@ export default async function Index({
               label={t("posted")}
               value={formatDate(caseDetails.created_at)}
             />
-            {caseDetails.budget_min && caseDetails.budget_max && (
-              <InfoRow
-                icon={TriangleAlert}
-                label={t("Fields.budget.label")}
-                value={`${caseDetails.budget_min} - ${caseDetails.budget_max} ${tCommon("AED")}`}
-              />
-            )}
+            {caseDetails.budget_min != null &&
+              caseDetails.budget_max != null && (
+                <InfoRow
+                  icon={TriangleAlert}
+                  label={t("Fields.budget.label")}
+                  value={`${caseDetails.budget_min} - ${caseDetails.budget_max} ${tCommon("AED")}`}
+                />
+              )}
             <Separator className="bg-secondary" />
             <BackBtn>
               <span className="text-xs">{t("backToCases")}</span>

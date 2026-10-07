@@ -64,6 +64,7 @@ export default function DeclineOffer({
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={handleDeclineOffer}
+            disabled={loading}
             className="bg-destructive text-white border-secondary hover:bg-destructive/90 rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}

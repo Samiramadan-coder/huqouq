@@ -44,7 +44,7 @@ export default async function AcceptedOffer({
           {t("yourHiredLawyer")}
         </p>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex gap-2 mt-4">
             <div className="relative shrink-0">
               <Avatar className="size-12">
@@ -74,7 +74,7 @@ export default async function AcceptedOffer({
           </div>
 
           <div>
-            <div className="shrink-0 text-right">
+            <div className="shrink-0 text-end">
               <p className="text-xs mb-1 text-primary/40 uppercase">
                 {t("agreedAmount")}
               </p>
@@ -131,19 +131,25 @@ export default async function AcceptedOffer({
             </>
           )}
 
-        <Link href={`/client/messages?caseId=${caseDetails.id}`}>
+        {caseDetails.chat_unlocked ? (
           <Button
-            disabled={!caseDetails.chat_unlocked}
+            asChild
             className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"
           >
-            {caseDetails.chat_unlocked ? (
-              <MessageSquare className="size-4 rtl:rotate-180" />
-            ) : (
-              <Lock className="size-4 rtl:rotate-180" />
-            )}
-            {caseDetails.chat_unlocked ? t("message") : t("chatUnlock")}
+            <Link href={`/client/messages?caseId=${caseDetails.id}`}>
+              <MessageSquare className="size-4" aria-hidden="true" />
+              {t("message")}
+            </Link>
           </Button>
-        </Link>
+        ) : (
+          <Button
+            disabled
+            className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"
+          >
+            <Lock className="size-4" aria-hidden="true" />
+            {t("chatUnlock")}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

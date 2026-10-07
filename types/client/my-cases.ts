@@ -1,31 +1,67 @@
 import z from "zod";
 import { T } from "@/types/shared";
 
+// Upload rules enforced by the API for case documents
+export const CASE_DOCUMENT_EXTENSIONS = ["pdf", "jpg", "jpeg", "png", "webp"];
+export const CASE_DOCUMENT_MAX_BYTES = 5 * 1024 * 1024;
+
 export const postCaseShema = (t: T) =>
   z
     .object({
       title: z
         .string()
+        .trim()
         .min(1, t("caseTitle.required"))
         .min(2, t("caseTitle.minLength")),
-      specialization_id: z.number().min(1, t("category.required")),
+      specialization_id: z
+        .number(t("category.required"))
+        .min(1, t("category.required")),
       description: z
         .string()
+        .trim()
         .min(1, t("description.required"))
         .min(2, t("description.minLength"))
         .max(2000, t("description.maxLength")),
       urgency: z.string(),
-      budget_min: z.number().optional(),
-      budget_max: z.number().optional(),
+      budget_min: z
+        .number()
+        .int(t("budget.integer"))
+        .min(0, t("budget.negative"))
+        .optional(),
+      budget_max: z
+        .number()
+        .int(t("budget.integer"))
+        .min(0, t("budget.negative"))
+        .optional(),
       city: z.string().min(1, t("location.required")),
+      // Existing documents are URLs; only newly picked files are checked
       documents: z
         .array(z.instanceof(File).or(z.string()))
-        .min(1, t("documents.required")),
+        .min(1, t("documents.required"))
+        .refine(
+          (items) =>
+            items.every(
+              (item) =>
+                !(item instanceof File) ||
+                CASE_DOCUMENT_EXTENSIONS.includes(
+                  item.name.split(".").pop()?.toLowerCase() ?? "",
+                ),
+            ),
+          t("documents.invalidType"),
+        )
+        .refine(
+          (items) =>
+            items.every(
+              (item) =>
+                !(item instanceof File) || item.size <= CASE_DOCUMENT_MAX_BYTES,
+            ),
+          t("documents.tooLarge"),
+        ),
     })
     .superRefine((data, ctx) => {
       if (
-        data.budget_min &&
-        data.budget_max &&
+        data.budget_min != null &&
+        data.budget_max != null &&
         data.budget_min > data.budget_max
       ) {
         ctx.addIssue({
@@ -57,8 +93,8 @@ export type CaseStatus = keyof Counts;
 
 export type Case = {
   budget_disclosed: boolean;
-  budget_max: number;
-  budget_min: number;
+  budget_max: number | null;
+  budget_min: number | null;
   can_close: boolean;
   can_edit: boolean;
   chat_unlocked: boolean;
@@ -133,12 +169,7 @@ export type CaseDetails = Case & {
 };
 
 type OfferStatus =
-  | "all"
-  | "pending"
-  | "accepted"
-  | "cancelled"
-  | "declined"
-  | "withdrawn";
+  "all" | "pending" | "accepted" | "cancelled" | "declined" | "withdrawn";
 
 export type CaseOffer = {
   amount: number;

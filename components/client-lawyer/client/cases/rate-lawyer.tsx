@@ -89,11 +89,11 @@ export default function RateLawyer({ caseItem }: { caseItem: Case }) {
             <div className="flex items-center gap-2">
               <Avatar className="size-10">
                 <AvatarImage
-                  src={caseItem.hired_lawyer?.photo_url}
+                  src={caseItem.hired_lawyer?.photo_url ?? undefined}
                   alt={caseItem.hired_lawyer?.name}
                 />
                 <AvatarFallback>
-                  {caseItem.hired_lawyer?.name[0]}
+                  {caseItem.hired_lawyer?.name?.[0]}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -184,7 +184,11 @@ export default function RateLawyer({ caseItem }: { caseItem: Case }) {
           />
 
           <div>
-            <Button className="w-full bg-accent rounded-sm h-12" type="submit">
+            <Button
+              className="w-full bg-accent rounded-sm h-12"
+              type="submit"
+              disabled={isSubmitting}
+            >
               {isSubmitting && <Spinner />}
               {t("SubmitReview")}
             </Button>

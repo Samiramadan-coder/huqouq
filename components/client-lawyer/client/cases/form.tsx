@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  CASE_DOCUMENT_EXTENSIONS,
   CaseDetails,
   PostCaseFormData,
   postCaseShema,
@@ -75,34 +76,45 @@ export default function Form({
 
   // Handle form submission
   const onSubmit: SubmitHandler<PostCaseFormData> = async (data) => {
-    const result = await postCase(
-      data,
-      caseItem?.id,
-      lawyerId ? `/api/lawyers/${lawyerId}/hire-request` : undefined,
-    );
+    const failedMessage = caseItem
+      ? tCommon("EditFailed")
+      : tCommon("CreationFailed");
+
+    // Existing documents the user removed from the list
+    const removeDocumentIds = (caseItem?.documents ?? [])
+      .filter((doc) => !data.documents.includes(doc.url))
+      .map((doc) => doc.id);
+
+    let result: Awaited<ReturnType<typeof postCase>>;
+
+    try {
+      result = await postCase(
+        data,
+        caseItem?.id,
+        lawyerId ? `/api/lawyers/${lawyerId}/hire-request` : undefined,
+        removeDocumentIds,
+      );
+    } catch {
+      // The request itself failed (network, upload too large, ...)
+      toast.error(failedMessage);
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
-      router.back();
+      router.push("/client/my-cases");
       return;
     }
 
-    if (result.message) {
-      toast.error(result.message);
-    }
-
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        setError(field as keyof PostCaseFormData, {
-          type: "manual",
-          message: message as string,
-        });
+    Object.entries(result.errors ?? {}).forEach(([field, message]) => {
+      if (!message) return;
+      setError(field as keyof PostCaseFormData, {
+        type: "manual",
+        message,
       });
+    });
 
-      return;
-    }
-
-    toast.error(caseItem ? tCommon("EditFailed") : tCommon("CreationFailed"));
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
@@ -112,7 +124,7 @@ export default function Form({
         <Hint>{caseItem ? t("editCaseHint") : t("createNewHint")}</Hint>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
         <FormInput
           required
           register={register}
@@ -148,7 +160,10 @@ export default function Form({
           textareaClassName="bg-white border border-accent/20! h-40"
           labelDescription={
             <div className="p-3 border border-secondary flex items-center gap-2">
-              <CircleCheck className="size-3.5 text-accent" />
+              <CircleCheck
+                className="size-3.5 shrink-0 text-accent"
+                aria-hidden="true"
+              />
               <p className="text-xs text-primary/55">
                 {tFields("description.notice")}
               </p>
@@ -162,7 +177,10 @@ export default function Form({
         />
 
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary/50 mb-2">
+          <p
+            id="urgency-label"
+            className="text-xs font-semibold uppercase tracking-widest text-primary/50 mb-2"
+          >
             {tFields("urgency.label")}
           </p>
           <Controller
@@ -172,14 +190,19 @@ export default function Form({
               const { value, onChange } = field;
 
               return (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div
+                  role="group"
+                  aria-labelledby="urgency-label"
+                  className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+                >
                   {urgencyKeys.map((key) => (
                     <Button
                       key={key}
                       variant="outline"
                       type="button"
+                      aria-pressed={value === key}
                       className={cn(
-                        "group py-4 px-2 border-secondary rounded-sm flex flex-col min-h-14.5 hover:bg-primary hover:text-white",
+                        "group py-4 px-2 border-secondary rounded-sm flex flex-col min-h-14.5 h-auto whitespace-normal hover:bg-primary hover:text-white",
                         value === key && "bg-primary text-white",
                       )}
                       onClick={() => onChange(key)}
@@ -213,6 +236,8 @@ export default function Form({
               errors={errors}
               name="budget_min"
               type="number"
+              inputMode="numeric"
+              ariaLabel={`${tFields("budget.label")} — ${tFields("budget.Min")}`}
               inputClassName="bg-white border border-accent/20!"
               prefix={tCommon("AED")}
               placeholder={tFields("budget.Min")}
@@ -225,6 +250,8 @@ export default function Form({
               errors={errors}
               name="budget_max"
               type="number"
+              inputMode="numeric"
+              ariaLabel={`${tFields("budget.label")} — ${tFields("budget.Max")}`}
               inputClassName="bg-white border border-accent/20!"
               prefix={tCommon("AED")}
               placeholder={tFields("budget.Max")}
@@ -253,6 +280,12 @@ export default function Form({
           control={control}
           name="documents"
           multiple
+          required
+          accept={CASE_DOCUMENT_EXTENSIONS.map((ext) => `.${ext}`).join(",")}
+          description={tFields("documents.formats")}
+          getFileLabel={(url) =>
+            caseItem?.documents.find((doc) => doc.url === url)?.name ?? url
+          }
           label={tFields("documents.label")}
           uploadButtonClassName="bg-white"
           previewBlockClassName="bg-white"

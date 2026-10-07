@@ -48,7 +48,7 @@ export default function PublishCase({ caseId }: { caseId: number }) {
           className="px-0 text-emerald-700 text-xs hover:bg-transparent hover:text-emerald-700"
         >
           {t("publishCase")}
-          <ArrowRight className="size-3" />
+          <ArrowRight className="size-3 rtl:rotate-180" aria-hidden="true" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
@@ -62,6 +62,7 @@ export default function PublishCase({ caseId }: { caseId: number }) {
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={handlePublishCase}
+            disabled={loading}
             className="bg-emerald-700 text-white border-secondary hover:bg-emerald-700/90 rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}

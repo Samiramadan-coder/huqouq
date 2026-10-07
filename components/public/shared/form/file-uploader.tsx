@@ -35,6 +35,8 @@ type SingleFormFileUploaderProps<T extends FieldValues> = {
   uploadButtonClassName?: string;
   previewBlockClassName?: string;
   multiple?: boolean;
+  // Display name for already-uploaded files, which are stored as URLs
+  getFileLabel?: (url: string) => string;
 };
 
 export default function SingleFormFileUploader<T extends FieldValues>({
@@ -48,9 +50,12 @@ export default function SingleFormFileUploader<T extends FieldValues>({
   uploadButtonClassName,
   previewBlockClassName,
   multiple = false,
+  getFileLabel,
 }: SingleFormFileUploaderProps<T>) {
   const t = useTranslations("Common");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const labelId = React.useId();
+  const errorId = React.useId();
 
   return (
     <Controller
@@ -112,6 +117,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
           <Field className={className} data-invalid={fieldState.invalid}>
             {label && (
               <FieldLabel
+                id={labelId}
                 className={cn(
                   "text-xs text-primary/50 uppercase tracking-widest font-semibold",
                   required &&
@@ -128,7 +134,7 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                   const fileName =
                     displayValue instanceof File
                       ? displayValue.name
-                      : displayValue;
+                      : (getFileLabel?.(displayValue) ?? displayValue);
 
                   return (
                     <div
@@ -138,7 +144,10 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                         previewBlockClassName,
                       )}
                     >
-                      <FileIcon className="size-4 shrink-0 text-muted-foreground" />
+                      <FileIcon
+                        className="size-4 shrink-0 text-muted-foreground"
+                        aria-hidden="true"
+                      />
 
                       <span
                         className="min-w-0 flex-1 truncate text-sm"
@@ -152,9 +161,10 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                         variant="ghost"
                         size="icon"
                         className="size-8 shrink-0"
+                        aria-label={`${t("RemoveFile")}: ${fileName}`}
                         onClick={() => handleRemove(index)}
                       >
-                        <X className="size-4" />
+                        <X className="size-4" aria-hidden="true" />
                       </Button>
                     </div>
                   );
@@ -165,12 +175,18 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                   type="button"
                   variant="outline"
                   onClick={() => fileInputRef.current?.click()}
+                  aria-describedby={
+                    [label ? labelId : "", fieldState.error ? errorId : ""]
+                      .filter(Boolean)
+                      .join(" ") || undefined
+                  }
+                  aria-invalid={fieldState.invalid}
                   className={cn(
                     "rounded-none min-h-25 w-full gap-2 border-2 border-dashed border-accent/30 hover:bg-background px-3 text-sm text-primary/50",
                     uploadButtonClassName,
                   )}
                 >
-                  <Plus className="size-4" />
+                  <Plus className="size-4" aria-hidden="true" />
                   {t("UploadFile")}
                 </Button>
 
@@ -179,11 +195,13 @@ export default function SingleFormFileUploader<T extends FieldValues>({
                   type="file"
                   accept={accept}
                   className="hidden"
+                  tabIndex={-1}
+                  aria-hidden="true"
                   multiple={multiple}
                   onChange={handleFileChange}
                 />
 
-                <FieldError errors={[fieldState.error]} />
+                <FieldError id={errorId} errors={[fieldState.error]} />
               </div>
             </FieldContent>
 

@@ -10,11 +10,14 @@ export default function AddNew({
   href: string;
 }) {
   return (
-    <Link href={href}>
-      <Button className="h-10 px-4 rounded-sm font-normal bg-accent hover:bg-accent/80">
-        <Plus />
+    <Button
+      asChild
+      className="h-10 px-4 rounded-sm font-normal bg-accent hover:bg-accent/80"
+    >
+      <Link href={href}>
+        <Plus aria-hidden="true" />
         {children}
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   );
 }

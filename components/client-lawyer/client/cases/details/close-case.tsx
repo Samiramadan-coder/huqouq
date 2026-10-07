@@ -65,6 +65,7 @@ export default function CloseCase({ caseId }: { caseId: number }) {
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={handleCloseCase}
+            disabled={loading}
             className="bg-destructive text-white border-secondary hover:bg-destructive/20 hover:text-destructive rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}

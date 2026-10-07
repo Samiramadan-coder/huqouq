@@ -39,6 +39,7 @@ type FormInputProps<T extends FieldValues> = {
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   maxLength?: number;
   dir?: "ltr" | "rtl";
+  ariaLabel?: string;
 };
 
 export default function FormInput<T extends FieldValues>({
@@ -60,6 +61,7 @@ export default function FormInput<T extends FieldValues>({
   inputMode,
   maxLength,
   dir,
+  ariaLabel,
 }: FormInputProps<T>) {
   const error = get(errors, name);
   const errorId = `${name}-error`;
@@ -118,6 +120,7 @@ export default function FormInput<T extends FieldValues>({
                 type={type}
                 placeholder={placeholder}
                 aria-invalid={!!error}
+                aria-label={ariaLabel}
                 aria-describedby={error ? errorId : undefined}
                 aria-required={required}
                 autoComplete={autoComplete}
@@ -148,6 +151,7 @@ export default function FormInput<T extends FieldValues>({
               type={type}
               placeholder={placeholder}
               aria-invalid={!!error}
+              aria-label={ariaLabel}
               aria-describedby={error ? errorId : undefined}
               aria-required={required}
               autoComplete={autoComplete}

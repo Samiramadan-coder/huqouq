@@ -34,10 +34,12 @@ import Proposal from "./proposal-message";
 
 export default async function CompareOffers({
   caseId,
+  caseTitle,
   offers,
 }: {
   offers: CaseOffer[];
   caseId: number;
+  caseTitle: string;
 }) {
   const locale = await getLocale();
   const tCommon = await getTranslations("Common");
@@ -61,7 +63,7 @@ export default async function CompareOffers({
             {t("compareOffers")}
           </DialogTitle>
           <DialogDescription className="text-xs text-primary/40">
-            {t("compareOffersDescription")}
+            {caseTitle}
           </DialogDescription>
         </DialogHeader>
 

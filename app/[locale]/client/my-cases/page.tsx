@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
+import type { Metadata } from "next";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -14,6 +15,15 @@ type SearchParams = {
   page?: string;
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Client.Cases");
+
+  return {
+    title: `${t("myCases")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
+
 async function ListData({
   searchParams,
 }: {
@@ -22,7 +32,7 @@ async function ListData({
   const { tab, page } = await searchParams;
   const t = await getTranslations("Client.Cases");
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     data: Case[];
     counts: Counts;
     meta: Meta;
@@ -35,10 +45,6 @@ async function ListData({
       tags: ["cases"],
     },
   });
-
-  if (!ok) {
-    throw new Error("Failed to fetch cases");
-  }
 
   return (
     <div className="space-y-4">
@@ -67,7 +73,14 @@ export default async function Page({
       <Title>{t("myCases")}</Title>
 
       <Suspense
-        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+        fallback={
+          <div role="status" aria-label="Loading">
+            <LoaderPinwheelIcon
+              className="animate-spin text-accent"
+              aria-hidden="true"
+            />
+          </div>
+        }
       >
         <ListData searchParams={searchParams} />
       </Suspense>

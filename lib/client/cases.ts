@@ -20,6 +20,7 @@ export async function postCase(
   caseData: PostCaseFormData,
   caseId?: number,
   hireUrl?: string,
+  removeDocumentIds: number[] = [],
 ): Promise<CaseResponse> {
   try {
     const url = caseId ? `/api/cases/${caseId}` : "/api/cases";
@@ -27,12 +28,23 @@ export async function postCase(
 
     Object.entries(caseData).forEach(([key, value]) => {
       if (key === "documents" && Array.isArray(value)) {
+        // Existing documents (URLs) are already stored; only upload new files
         value.forEach((file) => {
-          formData.append("documents[]", file);
+          if (file instanceof File) formData.append("documents[]", file);
         });
-      } else {
-        formData.append(key, value as string);
+      } else if (value != null) {
+        formData.append(key, String(value));
       }
+    });
+
+    // An empty budget never reaches this action as a key, so send it
+    // explicitly as "" to let the API clear a previously saved value
+    (["budget_min", "budget_max"] as const).forEach((key) => {
+      if (caseData[key] == null) formData.set(key, "");
+    });
+
+    removeDocumentIds.forEach((id) => {
+      formData.append("remove_document_ids[]", String(id));
     });
 
     const { data } = await http.post<{
@@ -40,19 +52,23 @@ export async function postCase(
     }>(hireUrl ?? url, formData);
 
     updateTag("cases");
+    if (caseId) updateTag(`case-${caseId}`);
     return { success: true, message: data.message };
   } catch (error) {
-    console.error("Error posting case:", error);
-
     if (error instanceof ValidationError) {
+      // Per-file errors arrive as "documents.0"; show them on the documents field
       const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
+        Object.entries(error.errors)
+          .reverse()
+          .map(([field, messages]) => [
+            field.startsWith("documents.") ? "documents" : field,
+            messages[0] ?? "Invalid value",
+          ]),
       ) as Partial<Record<keyof PostCaseFormData, string>>;
       return { success: false, errors, message: error.responseMessage };
     }
+
+    console.error("Error posting case:", error);
 
     return { success: false };
   }
@@ -60,8 +76,7 @@ export async function postCase(
 
 // Accept Case Offer
 type AcceptOfferResponse =
-  | { success: true }
-  | { success: false; message?: string };
+  { success: true } | { success: false; message?: string };
 
 export async function acceptCaseOffer({
   caseId,
@@ -85,8 +100,7 @@ export async function acceptCaseOffer({
 
 // Decline Case Offer
 type DeclineOfferResponse =
-  | { success: true }
-  | { success: false; message?: string };
+  { success: true } | { success: false; message?: string };
 
 export async function declineCaseOffer({
   caseId,
@@ -127,8 +141,7 @@ export async function payCase(caseId: number): Promise<PayCaseResponse> {
 
 // Publish Case
 type PublishCaseResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function publishCase(
   caseId: number,
@@ -151,8 +164,7 @@ export async function publishCase(
 
 // Close Case
 type CloseCaseResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function closeCase(caseId: number): Promise<CloseCaseResponse> {
   try {
@@ -173,8 +185,7 @@ export async function closeCase(caseId: number): Promise<CloseCaseResponse> {
 
 // Rate Lawyer
 type RateLawyerResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function rateLawyer({
   caseId,
