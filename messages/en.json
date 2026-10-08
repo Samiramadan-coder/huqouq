@@ -1963,7 +1963,12 @@
         "markAsDelivered": "Mark as Delivered",
         "deliverWorkError": "Failed to deliver work. Please try again.",
         "revisions": "Revisions",
-        "deliveries": "Deliveries"
+        "deliveries": "Deliveries",
+        "overdue": "Overdue by {days} days",
+        "requestDetails": "Request Details",
+        "clientDocuments": "Client Documents",
+        "notFound": "Active service not found",
+        "notFoundDescription": "This service doesn't exist or isn't assigned to you."
       },
       "Messages": {
         "startYourChat": "Start your chat with the client to discuss the service details and any questions you may have.",

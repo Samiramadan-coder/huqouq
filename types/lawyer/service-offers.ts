@@ -23,6 +23,6 @@ export type Offer = {
     service_type: string;
     service_type_label: string;
     status: string;
-    client_first_name: string;
+    client_first_name: string | null;
   };
 };

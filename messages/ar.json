@@ -1963,7 +1963,12 @@
         "markAsDelivered": "وضع علامة تم التسليم",
         "deliverWorkError": "فشل في تسليم العمل. يرجى المحاولة مرة أخرى.",
         "revisions": "التعديلات",
-        "deliveries": "التسليمات"
+        "deliveries": "التسليمات",
+        "overdue": "متأخر {days} يومًا",
+        "requestDetails": "تفاصيل الطلب",
+        "clientDocuments": "مستندات العميل",
+        "notFound": "الخدمة النشطة غير موجودة",
+        "notFoundDescription": "هذه الخدمة غير موجودة أو غير مسندة إليك."
       },
       "Messages": {
         "startYourChat": "ابدأ محادثتك مع العميل لمناقشة تفاصيل الخدمة وأي أسئلة قد تكون لديك.",

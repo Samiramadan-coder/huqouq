@@ -34,13 +34,13 @@ export default async function DataPreview({
       >
         {services.length === 0 ? (
           <TableRow>
-            <TableCell className="px-5 py-3" colSpan={7}>
+            <TableCell className="px-5 py-3" colSpan={6}>
               <span className="text-primary/55">{t("Table.noServices")}</span>
             </TableCell>
           </TableRow>
         ) : (
-          services.map((service, index) => (
-            <TableRow key={index} className="border-secondary">
+          services.map((service) => (
+            <TableRow key={service.id} className="border-secondary">
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary font-medium">
                   {service.service_type_label}
@@ -48,7 +48,7 @@ export default async function DataPreview({
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary/70 font-medium">
-                  {service.client.first_name}
+                  {service.client?.first_name}
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3">
@@ -58,7 +58,7 @@ export default async function DataPreview({
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary/70 font-medium">
-                  {formatDate(service.deadline)}
+                  {service.deadline ? formatDate(service.deadline) : "—"}
                 </span>
               </TableCell>
 
@@ -68,7 +68,7 @@ export default async function DataPreview({
                   statusLabel={service.status_label}
                 />
               </TableCell>
-              <TableCell className="px-5 py-3 space-x-4">
+              <TableCell className="px-5 py-3">
                 <Button
                   variant="ghost"
                   className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
@@ -76,7 +76,10 @@ export default async function DataPreview({
                 >
                   <Link href={`/lawyer/active-services/${service.id}`}>
                     <span>{t("view")}</span>
-                    <ArrowRight className="size-3 rtl:rotate-180" />
+                    <ArrowRight
+                      className="size-3 rtl:rotate-180"
+                      aria-hidden="true"
+                    />
                   </Link>
                 </Button>
               </TableCell>
@@ -85,7 +88,7 @@ export default async function DataPreview({
         )}
       </DataTable>
 
-      {pagination && (
+      {pagination && pagination.last_page > 1 && (
         <PaginationTemplate
           currentPage={pagination?.current_page}
           totalPages={pagination?.last_page}

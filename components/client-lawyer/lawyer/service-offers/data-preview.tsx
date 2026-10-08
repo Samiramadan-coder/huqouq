@@ -40,8 +40,8 @@ export default async function DataPreview({
             </TableCell>
           </TableRow>
         ) : (
-          offers.map((offer, index) => (
-            <TableRow key={index} className="border-secondary">
+          offers.map((offer) => (
+            <TableRow key={offer.id} className="border-secondary">
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary font-medium">
                   {offer.request.service_type_label}
@@ -49,7 +49,7 @@ export default async function DataPreview({
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary/70 font-medium">
-                  {offer.request.client_first_name}
+                  {offer.request.client_first_name ?? "—"}
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3">
@@ -73,15 +73,25 @@ export default async function DataPreview({
                   statusLabel={offer.status_label}
                 />
               </TableCell>
-              <TableCell className="px-5 py-3 space-x-4">
+              <TableCell className="px-5 py-3">
                 <Button
                   variant="ghost"
                   className="px-0 text-accent text-xs hover:bg-transparent hover:text-accent"
                   asChild
                 >
-                  <Link href={`/lawyer/services/${offer.request.id}`}>
+                  <Link
+                    // An accepted offer is an active service; others are still requests
+                    href={
+                      offer.status === "accepted"
+                        ? `/lawyer/active-services/${offer.request.id}`
+                        : `/lawyer/services/${offer.request.id}`
+                    }
+                  >
                     <span>{t("view")}</span>
-                    <ArrowRight className="size-3 rtl:rotate-180" />
+                    <ArrowRight
+                      className="size-3 rtl:rotate-180"
+                      aria-hidden="true"
+                    />
                   </Link>
                 </Button>
               </TableCell>
@@ -90,7 +100,7 @@ export default async function DataPreview({
         )}
       </DataTable>
 
-      {pagination && (
+      {pagination && pagination.last_page > 1 && (
         <PaginationTemplate
           currentPage={pagination?.current_page}
           totalPages={pagination?.last_page}

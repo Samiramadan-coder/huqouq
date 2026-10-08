@@ -8,6 +8,7 @@ export type Counts = {
 type Can = {
   add_files: boolean;
   deliver: boolean;
+  download_files: boolean;
   edit_offer: boolean;
   open_chat: boolean;
   submit_offer: boolean;
@@ -18,12 +19,12 @@ type Client = {
   // name: string;
   // photo_url: string;
   contact_visible: boolean;
-  email: string;
+  email: string | null;
   first_name: string;
   last_name: string;
   name: string;
-  phone: string;
-  photo_url: string;
+  phone: string | null;
+  photo_url: string | null;
 };
 
 type Earnings = {
@@ -75,8 +76,8 @@ type TimelineEntry = {
 };
 
 export type Service = {
-  days_remaining: number;
-  deadline: string;
+  days_remaining: number | null;
+  deadline: string | null;
   description: string;
   display_status_label: string;
   documents_count: number;

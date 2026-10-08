@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
@@ -13,6 +14,15 @@ type SearchParams = {
   status?: string;
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Lawyer.ServiceOffers");
+
+  return {
+    title: `${t("title")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
+
 async function ListOfServiceOffers({
   searchParams,
 }: {
@@ -21,7 +31,7 @@ async function ListOfServiceOffers({
   const { page, status } = await searchParams;
   const t = await getTranslations("Lawyer.ServiceOffers");
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     counts: Counts;
     data: Offer[];
     meta: Meta;
@@ -31,10 +41,6 @@ async function ListOfServiceOffers({
       status: status || "",
     },
   });
-
-  if (!ok) {
-    throw new Error("Failed to fetch service offers");
-  }
 
   return (
     <div className="space-y-6">
@@ -73,8 +79,11 @@ export default async function Page({
 
       <Suspense
         fallback={
-          <div className="p-4 sm:p-6">
-            <LoaderPinwheelIcon className="animate-spin text-accent" />
+          <div className="p-4 sm:p-6" role="status" aria-label="Loading">
+            <LoaderPinwheelIcon
+              className="animate-spin text-accent"
+              aria-hidden="true"
+            />
           </div>
         }
       >

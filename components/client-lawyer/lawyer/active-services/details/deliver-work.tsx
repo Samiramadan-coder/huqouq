@@ -31,7 +31,8 @@ export default function DeliverWork({ serviceId }: { serviceId: number }) {
     handleSubmit,
     register,
     setError,
-    formState: { isSubmitting },
+    reset,
+    formState: { isSubmitting, errors },
   } = useForm<DeliverWorkFormValues>({
     resolver: zodResolver(deliverWorkSchema(t)),
     defaultValues: {
@@ -41,42 +42,50 @@ export default function DeliverWork({ serviceId }: { serviceId: number }) {
   });
 
   const onSubmit: SubmitHandler<DeliverWorkFormValues> = async (data) => {
-    const result = await deliverWork(data, serviceId);
+    let result: Awaited<ReturnType<typeof deliverWork>>;
+
+    try {
+      result = await deliverWork(data, serviceId);
+    } catch {
+      // The request itself failed (network, upload too large, ...)
+      toast.error(t("deliverWorkError"));
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
+      // Clear the form so the same files can't be delivered twice
+      reset();
       return;
     }
 
-    if (result.message) {
-      toast.error(result.message);
-    }
-
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
-        setError(field as keyof DeliverWorkFormValues, {
-          type: "server",
-          message,
-        });
+    Object.entries(result.errors ?? {}).forEach(([field, message]) => {
+      if (!message) return;
+      setError(field as keyof DeliverWorkFormValues, {
+        type: "server",
+        message,
       });
+    });
 
-      return;
-    }
-
-    toast.error(t("deliverWorkError"));
+    toast.error(result.message ?? t("deliverWorkError"));
   };
 
   return (
     <div className="bg-white border border-secondary rounded-sm p-5">
-      <p className="font-sans text-[10px] font-semibold uppercase text-primary/35 mb-4">
+      <h2 className="font-sans text-[10px] font-semibold uppercase text-primary/35 mb-4">
         {t("deliverWork")}
-      </p>
+      </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+        noValidate
+      >
         <SingleFormFileUploader
           control={control}
           name="files"
+          label={t("deliveries")}
+          required
           multiple
           uploadButtonClassName="bg-white"
           previewBlockClassName="bg-white"
@@ -84,6 +93,7 @@ export default function DeliverWork({ serviceId }: { serviceId: number }) {
 
         <FormTextarea
           register={register}
+          errors={errors}
           name="note"
           label={t("note")}
           placeholder={t("notePlaceholder")}

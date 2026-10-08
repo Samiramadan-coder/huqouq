@@ -45,6 +45,7 @@ export async function submitOffer(
 
       return { success: false, errors, message: error.responseMessage };
     }
+    console.error("Error in legal service action:", error);
     return { success: false };
   }
 }
@@ -73,23 +74,29 @@ export async function deliverWork(
     formData.append("files[]", file);
   });
 
+  const note = values.note?.trim();
+  if (note) formData.append("note", note);
+
   try {
     const { data } = await http.post<{ message: string }>(url, formData);
 
     updateTag(`lawyer-legal-service-${id}`);
     return { success: true, message: data.message };
   } catch (error) {
-    console.error("Error delivering work:", error);
     if (error instanceof ValidationError) {
+      // Per-file errors arrive as "files.0"; show them on the files field
       const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
+        Object.entries(error.errors)
+          .reverse()
+          .map(([field, messages]) => [
+            field.startsWith("files.") ? "files" : field,
+            messages[0] ?? "Invalid value",
+          ]),
       ) as Partial<Record<keyof DeliverWorkFormValues, string>>;
 
       return { success: false, errors, message: error.responseMessage };
     }
+    console.error("Error in legal service action:", error);
     return { success: false };
   }
 }
