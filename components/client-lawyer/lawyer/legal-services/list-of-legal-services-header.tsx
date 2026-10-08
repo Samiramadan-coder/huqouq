@@ -54,8 +54,8 @@ export default function ListOfLegalServicesHeader({
       </div>
 
       <Select
-        value={lawyerFilters.sorts}
-        onValueChange={(value) => setLawyerFilters({ sorts: value, page: "1" })}
+        value={lawyerFilters.sort}
+        onValueChange={(value) => setLawyerFilters({ sort: value, page: "1" })}
       >
         <SelectTrigger
           aria-label={t("sortBy")}

@@ -13,7 +13,7 @@ const filtersParsers = () => ({
   emirates: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ history: "push", shallow: false }),
-  sorts: parseAsString
+  sort: parseAsString
     .withDefault("most_recent")
     .withOptions({ history: "push", shallow: false }),
   page: parseAsString

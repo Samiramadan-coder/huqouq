@@ -1,9 +1,9 @@
 "use server";
 
+import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { OfferFormData } from "@/types/lawyer/legal-services";
 import { DeliverWorkFormValues } from "@/components/client-lawyer/lawyer/active-services/details/deliver-work";
-import { updateTag } from "next/cache";
 
 // Submit offer response type
 type SubmitOfferResponse =
@@ -29,6 +29,7 @@ export async function submitOffer(
     const { data } = isUpdate
       ? await http.patch<{ message: string }>(url, formData)
       : await http.post<{ message: string }>(url, formData);
+
     updateTag(`lawyer-legal-service-${id}`);
     return { success: true, message: data.message };
   } catch (error) {

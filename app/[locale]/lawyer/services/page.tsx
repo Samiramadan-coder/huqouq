@@ -18,7 +18,7 @@ type SearchParams = {
   urgencies?: string;
   emirates?: string;
   q?: string;
-  sorts?: string;
+  sort?: string;
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -36,7 +36,7 @@ async function GetListOfLegalServices({
   searchParams: Promise<SearchParams>;
 }) {
   const t = await getTranslations("Lawyer.LegalServices");
-  const { page, service_type, urgencies, emirates, q, sorts } =
+  const { page, service_type, urgencies, emirates, q, sort } =
     await searchParams;
 
   const { data } = await http.get<{
@@ -52,8 +52,9 @@ async function GetListOfLegalServices({
       urgencies: urgencies || "",
       emirates: emirates || "",
       q: q || "",
+      sort: sort || "",
       // The API reads the sort order from `sort`
-      ...(sorts ? { sort: sorts } : {}),
+      // ...(sort ? { sort: sort } : {}),
     },
   });
 

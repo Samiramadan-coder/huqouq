@@ -1,6 +1,6 @@
 import OfferForm from "./offer-form";
 import { cookies } from "next/headers";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import DownloadFile from "../../reusable/download-file";
 import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../../reusable/urgency-label";
@@ -24,7 +24,15 @@ export default async function Details({
   return (
     <>
       {service.my_offer && (
-        <div className="bg-white border border-secondary rounded-sm p-5 mb-5 space-y-3">
+        <div
+          className={cn(
+            "bg-white border border-secondary rounded-sm p-5 mb-5 space-y-3",
+            service.my_offer.status === "rejected" &&
+              "bg-red-50 border-red-200",
+            service.my_offer.status === "pending" &&
+              "bg-amber-50 border-amber-200",
+          )}
+        >
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-[10px] font-semibold tracking-widest uppercase text-primary/35">
               {t("offerStatus")}
