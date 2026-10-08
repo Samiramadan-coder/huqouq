@@ -39,7 +39,7 @@ export default function Filters({ counts }: { counts: Counts }) {
           {statusKeys.map((key) => (
             <TabsTrigger key={key} value={key} className="h-9">
               {t(key)}
-              <span className="ml-1 size-4 bg-secondary rounded-full text-primary/40 text-[10px]">
+              <span className="ms-1 h-4 min-w-4 px-1 bg-secondary rounded-full text-primary/40 text-[10px]">
                 {counts[key]}
               </span>
             </TabsTrigger>

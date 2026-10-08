@@ -67,6 +67,7 @@ export default function ApproveDelivery({ serviceId }: { serviceId: number }) {
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={handleApproveDelivery}
+            disabled={loading}
             className="bg-emerald-600 text-white border-secondary hover:bg-emerald-700 rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}

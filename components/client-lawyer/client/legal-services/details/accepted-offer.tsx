@@ -7,9 +7,13 @@ import { Button } from "@/components/ui/button";
 export default async function OfferAccepted({
   offer,
   hiredLawyer,
+  serviceLabel,
+  canOpenChat,
 }: {
   offer: AcceptedOffer;
   hiredLawyer: HiredLawyer;
+  serviceLabel: string;
+  canOpenChat: boolean;
 }) {
   const t = await getTranslations("Client.LegalServices");
   const tCommon = await getTranslations("Common");
@@ -17,7 +21,7 @@ export default async function OfferAccepted({
   return (
     <div className="bg-white border border-secondary rounded-sm overflow-hidden">
       <div className="bg-[#EDF2F7] border-b border-[#bee3f8] px-5 py-4 flex items-start gap-3">
-        <Clock className="w-5 h-5 text-primary shrink-0" />
+        <Clock className="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
         <div>
           <p className="text-sm font-semibold text-primary mb-0.5">
             {t("inProgress")}
@@ -25,15 +29,16 @@ export default async function OfferAccepted({
           <p className="text-xs text-primary/55 leading-relaxed">
             {t("inProgressMessage", {
               name: hiredLawyer.name,
+              service: serviceLabel,
             })}
           </p>
         </div>
       </div>
 
-      <div className="px-5 py-4 flex items-center gap-3">
+      <div className="px-5 py-4 flex flex-wrap items-center gap-3">
         <Avatar className="size-10">
           <AvatarImage src={hiredLawyer.photo_url} alt={hiredLawyer.name} />
-          <AvatarFallback>{hiredLawyer.name[0]}</AvatarFallback>
+          <AvatarFallback>{hiredLawyer.name?.[0]}</AvatarFallback>
         </Avatar>
 
         <div className="flex-1 min-w-0">
@@ -45,10 +50,17 @@ export default async function OfferAccepted({
           </p>
         </div>
 
-        <Button className="bg-accent text-primary rounded-sm hover:bg-accent/80">
-          <MessageSquare />
-          {t("openChat")}
-        </Button>
+        {canOpenChat && (
+          <Button
+            asChild
+            className="bg-accent text-primary rounded-sm hover:bg-accent/80"
+          >
+            <a href="#service-chat">
+              <MessageSquare aria-hidden="true" />
+              {t("openChat")}
+            </a>
+          </Button>
+        )}
       </div>
     </div>
   );

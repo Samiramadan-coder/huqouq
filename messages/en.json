@@ -1390,7 +1390,7 @@
       "lawyerAmount": "Lawyer receives: {amount} (held by Huqouq until you approve delivery)",
       "totalYouPay": "Total you pay",
       "inProgress": "In Progress",
-      "inProgressMessage": "{name} is working on your Contract Review. You will be notified when the work is delivered.",
+      "inProgressMessage": "{name} is working on your {service}. You will be notified when the work is delivered.",
       "openChat": "Open Chat",
       "offerAccepted": "Offer Accepted {date}",
       "paymentSecured": "Payment Secured {date}",
@@ -1399,8 +1399,8 @@
       "noOffers": "No offers yet",
       "reviewNow": "Review Now",
       "documentsareDelivered": "Documents are delivered and pending your approval.",
-      "lawyerDeliveredFlag": "{lawyerName} has delivered your Legal Notice. Please review and approve.",
-      "deliveredLegalNotice": "{lawyerName} has delivered your Legal Notice. Please review and approve.",
+      "lawyerDeliveredFlag": "{lawyerName} has delivered your {service}. Please review and approve.",
+      "deliveredLegalNotice": "{lawyerName} has delivered your {service}. Please review and approve.",
       "deliveredFiles": "Delivered Files",
       "download": "Download",
       "noteFromLawyer": "Note from Lawyer",
@@ -1474,8 +1474,10 @@
           "optional": "optional",
           "dropText": "Drag files here or",
           "browse": "browse",
-          "formats": "PDF, DOCX, JPG, PNG — up to 10 MB each",
-          "required": "At least one document is required"
+          "formats": "PDF, JPG, PNG, WEBP — up to 5 MB each",
+          "required": "At least one document is required",
+          "invalidType": "Only PDF, JPG, PNG and WEBP files are allowed",
+          "tooLarge": "Each file must be 5 MB or smaller"
         },
         "submit": {
           "button": "Submit Request",
@@ -1486,7 +1488,13 @@
         "startYourChat": "Start your chat with the lawyer to discuss the service details and any questions you may have.",
         "chatWith": "Chat with {name}",
         "you": "You"
-      }
+      },
+      "reviews": "reviews",
+      "attachments": "Attachments",
+      "revisionNote": "What needs to change?",
+      "notFound": "Legal service not found",
+      "notFoundDescription": "This request doesn't exist or you don't have access to it.",
+      "checkoutLoadFailed": "We couldn't load the payment details. Close this window and try again."
     }
   },
   "Lawyer": {

@@ -21,6 +21,7 @@ type LegalServiceResponse =
 export async function postLegalService(
   legalServiceData: PostLegalServiceFormData,
   serviceId?: number,
+  removeDocumentIds: number[] = [],
 ): Promise<LegalServiceResponse> {
   try {
     const url = serviceId
@@ -31,12 +32,17 @@ export async function postLegalService(
 
     Object.entries(legalServiceData).forEach(([key, value]) => {
       if (key === "documents" && Array.isArray(value)) {
+        // Existing documents (URLs) are already stored; only upload new files
         value.forEach((file) => {
-          formData.append("documents[]", file);
+          if (file instanceof File) formData.append("documents[]", file);
         });
-      } else {
-        formData.append(key, value as string);
+      } else if (value != null) {
+        formData.append(key, String(value));
       }
+    });
+
+    removeDocumentIds.forEach((id) => {
+      formData.append("remove_document_ids[]", String(id));
     });
 
     const { data } = await http.post<{
@@ -44,19 +50,23 @@ export async function postLegalService(
     }>(url, formData);
 
     updateTag("client-legal-services");
+    if (serviceId) updateTag(`client-legal-service-${serviceId}`);
     return { success: true, message: data.message };
   } catch (error) {
-    console.error("Error posting legal service:", error);
-
     if (error instanceof ValidationError) {
+      // Per-file errors arrive as "documents.0"; show them on the documents field
       const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
+        Object.entries(error.errors)
+          .reverse()
+          .map(([field, messages]) => [
+            field.startsWith("documents.") ? "documents" : field,
+            messages[0] ?? "Invalid value",
+          ]),
       ) as Partial<Record<keyof PostLegalServiceFormData, string>>;
       return { success: false, errors, message: error.responseMessage };
     }
+
+    console.error("Error posting legal service:", error);
 
     return { success: false };
   }
@@ -64,8 +74,7 @@ export async function postLegalService(
 
 // Accept Service Offer
 type AcceptOfferResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function acceptServiceOffer({
   serviceId,
@@ -94,8 +103,7 @@ export async function acceptServiceOffer({
 
 // Approve Delivery
 type ApproveDeliveryResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function approveDelivery(
   serviceId: number,
@@ -117,8 +125,7 @@ export async function approveDelivery(
 
 // Rate Lawyer
 type RateServiceResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function rateService(
   serviceId: number,
@@ -143,8 +150,7 @@ export async function rateService(
 
 // Request Revision
 type RequestRevisionResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function requestRevision(
   formData: RequestRevisionFormValues,

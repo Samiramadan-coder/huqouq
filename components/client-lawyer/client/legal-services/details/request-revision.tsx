@@ -25,7 +25,7 @@ import FormTextarea from "@/components/public/shared/form/form-textarea";
 
 const requestRevisionSchema = (t: T) =>
   z.object({
-    note: z.string().min(1, t("noteRequired")),
+    note: z.string().trim().min(1, t("noteRequired")),
   });
 
 export type RequestRevisionFormValues = z.infer<
@@ -83,6 +83,7 @@ export default function RequestRevision({ serviceId }: { serviceId: number }) {
         <form ref={formRef} onSubmit={(e) => handleSubmit(onSubmit)(e)}>
           <FormTextarea
             name="note"
+            label={t("revisionNote")}
             register={register}
             required
             disabled={isSubmitting}
@@ -94,6 +95,7 @@ export default function RequestRevision({ serviceId }: { serviceId: number }) {
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={() => formRef.current?.requestSubmit()}
+            disabled={isSubmitting}
             className="bg-amber-600 text-white border-secondary hover:bg-amber-700 rounded-sm h-11 flex-1"
           >
             {isSubmitting && <Spinner />}

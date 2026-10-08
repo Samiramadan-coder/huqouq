@@ -2,9 +2,9 @@ import { cookies } from "next/headers";
 import ApproveDelivery from "./approve-delivery";
 import RequestRevision from "./request-revision";
 import { getTranslations } from "next-intl/server";
-import { CircleAlert, FileText } from "lucide-react";
+import { CircleAlert } from "lucide-react";
+import DeliveredFiles from "./delivered-files";
 import { LegalServiceDetails } from "@/types/client/legal-services";
-import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 
 export default async function DeliveredSection({
   service,
@@ -14,59 +14,42 @@ export default async function DeliveredSection({
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value || "";
   const t = await getTranslations("Client.LegalServices");
-  const allFiles = service.deliveries.flatMap((delivery) => delivery.files);
+  const note =
+    service.latest_delivery?.note ?? service.deliveries?.[0]?.note ?? null;
 
   return (
     <div className="bg-white border border-amber-200 rounded-sm overflow-hidden">
       <div className="bg-amber-50 border-b border-amber-200 px-5 py-4 flex items-start gap-3">
-        <CircleAlert className="text-amber-600 size-5" />
+        <CircleAlert
+          className="text-amber-600 size-5 shrink-0"
+          aria-hidden="true"
+        />
         <p className=" text-sm font-semibold text-amber-800">
           {t("lawyerDeliveredFlag", {
             lawyerName: service.hired_lawyer?.name || "",
+            service: service.service_type_label,
           })}
         </p>
       </div>
 
-      <div className="px-5 py-5 border-b border-secondary">
-        <p className=" text-xs font-semibold tracking-widest uppercase text-primary/35 mb-3">
-          {t("deliveredFiles")}
-        </p>
+      <DeliveredFiles service={service} token={token} />
 
-        <div className="space-y-2">
-          {allFiles.map((file) => (
-            <div
-              key={file.id}
-              className="flex items-center gap-3 bg-background border border-secondary rounded-sm px-4 py-3"
-            >
-              <FileText
-                className="text-accent size-4 shrink-0"
-                aria-hidden="true"
-              />
-              <div className="flex-1 min-w-0">
-                <p className=" text-sm text-primary font-medium truncate">
-                  {file.name}
-                </p>
-                <p className=" text-xs text-primary/35">
-                  {(file.size_bytes / 1024).toFixed(2)} KB
-                </p>
-              </div>
-              <DownloadFile id={file.id} name={file.name} token={token} />
-            </div>
-          ))}
-        </div>
-      </div>
       <div className="px-5 py-4 border-b border-[#EDE9E1]">
         <p className=" text-xs font-semibold tracking-widest uppercase text-primary/35 mb-2">
           {t("noteFromLawyer")}
         </p>
-        <p className=" text-sm text-primary/60 leading-relaxed">
-          {service.deliveries[0].note || "-"}
+        <p className=" text-sm text-primary/60 leading-relaxed whitespace-pre-line wrap-break-word">
+          {note || "-"}
         </p>
       </div>
       <div className="px-5 py-5 flex flex-col gap-4">
         <div className="flex flex-wrap gap-3">
-          <ApproveDelivery serviceId={service.id} />
-          <RequestRevision serviceId={service.id} />
+          {service.can.approve_delivery && (
+            <ApproveDelivery serviceId={service.id} />
+          )}
+          {service.can.request_revision && (
+            <RequestRevision serviceId={service.id} />
+          )}
         </div>
         <button className="self-start  text-xs text-[#9B2C2C]/60 hover:text-[#9B2C2C] transition-colors duration-200 underline underline-offset-2">
           {t("openDispute")}

@@ -74,7 +74,7 @@ export default function RateService({ serviceId }: { serviceId: number }) {
     <Dialog>
       <DialogTrigger asChild>
         <button className="inline-flex items-center gap-2 border border-accent/40 text-accent  text-sm font-semibold px-4 py-2 rounded-sm hover:bg-accent/8 transition-colors duration-200">
-          <Star className="size-5" />
+          <Star className="size-5" aria-hidden="true" />
           {t("rateThisService")}
         </button>
       </DialogTrigger>
@@ -119,7 +119,11 @@ export default function RateService({ serviceId }: { serviceId: number }) {
           />
 
           <div>
-            <Button className="w-full bg-accent rounded-sm h-12" type="submit">
+            <Button
+              className="w-full bg-accent rounded-sm h-12"
+              type="submit"
+              disabled={isSubmitting}
+            >
               {isSubmitting && <Spinner />}
               {t("submitReview")}
             </Button>

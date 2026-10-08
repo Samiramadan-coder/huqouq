@@ -1390,7 +1390,7 @@
       "lawyerAmount": "المحامي يتلقى: {amount} (يحتفظ بها حقوق حتى توافق على التسليم)",
       "totalYouPay": "إجمالي ما تدفعه",
       "inProgress": "قيد التنفيذ",
-      "inProgressMessage": "{name} يعمل على مراجعة عقدك. سيتم إعلامك عند تسليم العمل.",
+      "inProgressMessage": "{name} يعمل على {service}. سيتم إعلامك عند تسليم العمل.",
       "openChat": "افتح الدردشة",
       "offerAccepted": "تم قبول العرض {date}",
       "paymentSecured": "تم تأمين الدفع {date}",
@@ -1399,8 +1399,8 @@
       "noOffers": "لا توجد عروض بعد",
       "reviewNow": "راجع الآن",
       "documentsareDelivered": "تم تسليم المستندات وتنتظر موافقتك.",
-      "lawyerDeliveredFlag": "قام {lawyerName} بتسليم إشعارك القانوني. يرجى المراجعة والموافقة.",
-      "deliveredLegalNotice": "قام {lawyerName} بتسليم إشعارك القانوني. يرجى المراجعة والموافقة.",
+      "lawyerDeliveredFlag": "قام {lawyerName} بتسليم {service}. يرجى المراجعة والموافقة.",
+      "deliveredLegalNotice": "قام {lawyerName} بتسليم {service}. يرجى المراجعة والموافقة.",
       "deliveredFiles": "الملفات المسلمة",
       "download": "تحميل",
       "noteFromLawyer": "ملاحظة من المحامي",
@@ -1474,8 +1474,10 @@
           "optional": "اختياري",
           "dropText": "اسحب الملفات هنا أو",
           "browse": "تصفح",
-          "formats": "PDF، DOCX، JPG، PNG — حتى 10 ميغابايت لكل ملف",
-          "required": "مطلوب مستند واحد على الأقل"
+          "formats": "PDF, JPG, PNG, WEBP — حتى 5 ميغابايت لكل ملف",
+          "required": "مطلوب مستند واحد على الأقل",
+          "invalidType": "يُسمح فقط بملفات PDF و JPG و PNG و WEBP",
+          "tooLarge": "يجب ألا يتجاوز حجم كل ملف 5 ميغابايت"
         },
         "submit": {
           "button": "إرسال الطلب",
@@ -1486,7 +1488,13 @@
         "startYourChat": "ابدأ محادثتك مع المحامى لمناقشة تفاصيل الخدمة وأي أسئلة قد تكون لديك.",
         "chatWith": "الدردشة مع {name}",
         "you": "أنت"
-      }
+      },
+      "reviews": "تقييمات",
+      "attachments": "المرفقات",
+      "revisionNote": "ما الذي يحتاج إلى تعديل؟",
+      "notFound": "الخدمة القانونية غير موجودة",
+      "notFoundDescription": "هذا الطلب غير موجود أو ليس لديك صلاحية الوصول إليه.",
+      "checkoutLoadFailed": "تعذر تحميل تفاصيل الدفع. أغلق هذه النافذة وحاول مرة أخرى."
     }
   },
   "Lawyer": {

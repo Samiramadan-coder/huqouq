@@ -4,6 +4,7 @@ import {
   LegalServiceDetails,
   PostLegalServiceFormData,
   postLegalServiceShema,
+  SERVICE_DOCUMENT_EXTENSIONS,
 } from "@/types/client/legal-services";
 
 import { toast } from "sonner";
@@ -61,31 +62,44 @@ export default function Form({
 
   // Handle form submission
   const onSubmit: SubmitHandler<PostLegalServiceFormData> = async (data) => {
-    const result = await postLegalService(data, legalServiceItem?.id);
+    const failedMessage = legalServiceItem
+      ? tCommon("EditFailed")
+      : tCommon("CreationFailed");
+
+    // Existing documents the user removed from the list
+    const removeDocumentIds = (legalServiceItem?.attachments ?? [])
+      .filter((doc) => !data.documents.includes(doc.download_url))
+      .map((doc) => doc.id);
+
+    let result: Awaited<ReturnType<typeof postLegalService>>;
+
+    try {
+      result = await postLegalService(
+        data,
+        legalServiceItem?.id,
+        removeDocumentIds,
+      );
+    } catch {
+      // The request itself failed (network, upload too large, ...)
+      toast.error(failedMessage);
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
-      router.back();
+      router.push("/client/legal-services");
       return;
     }
 
-    if (result.message) {
-      toast.error(result.message);
-    }
-
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        setError(field as keyof PostLegalServiceFormData, {
-          type: "manual",
-          message: message as string,
-        });
+    Object.entries(result.errors ?? {}).forEach(([field, message]) => {
+      if (!message) return;
+      setError(field as keyof PostLegalServiceFormData, {
+        type: "manual",
+        message,
       });
-      return;
-    }
+    });
 
-    toast.error(
-      legalServiceItem ? tCommon("EditFailed") : tCommon("CreationFailed"),
-    );
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
@@ -101,7 +115,7 @@ export default function Form({
         </Hint>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
         <FormSelect
           control={control}
           required
@@ -127,7 +141,10 @@ export default function Form({
           textareaClassName="bg-white border border-accent/20! h-40"
           labelDescription={
             <div className="p-3 border border-secondary flex items-center gap-2">
-              <CircleCheck className="size-3.5 text-accent" />
+              <CircleCheck
+                className="size-3.5 shrink-0 text-accent"
+                aria-hidden="true"
+              />
               <p className="text-xs text-primary/55">
                 {tFields("description.notice")}
               </p>
@@ -141,7 +158,10 @@ export default function Form({
         />
 
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary/50 mb-2">
+          <p
+            id="urgency-label"
+            className="text-xs font-semibold uppercase tracking-widest text-primary/50 mb-2"
+          >
             {tFields("urgency.label")}
           </p>
           <Controller
@@ -151,14 +171,19 @@ export default function Form({
               const { value, onChange } = field;
 
               return (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div
+                  role="group"
+                  aria-labelledby="urgency-label"
+                  className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+                >
                   {urgencyKeys.map((key) => (
                     <Button
                       key={key}
                       variant="outline"
                       type="button"
+                      aria-pressed={value === key}
                       className={cn(
-                        "group py-4 px-2 border-secondary rounded-sm flex flex-col min-h-14.5 hover:bg-primary hover:text-white",
+                        "group py-4 px-2 border-secondary rounded-sm flex flex-col min-h-14.5 h-auto whitespace-normal hover:bg-primary hover:text-white",
                         value === key && "bg-primary text-white",
                       )}
                       onClick={() => onChange(key)}
@@ -201,13 +226,21 @@ export default function Form({
           control={control}
           name="documents"
           multiple
+          required
+          accept={SERVICE_DOCUMENT_EXTENSIONS.map((ext) => `.${ext}`).join(",")}
+          description={tFields("documents.formats")}
+          getFileLabel={(url) =>
+            legalServiceItem?.attachments.find(
+              (doc) => doc.download_url === url,
+            )?.name ?? url
+          }
           label={tFields("documents.label")}
           uploadButtonClassName="bg-white"
           previewBlockClassName="bg-white"
         />
 
         <Alert className="bg-transparent rounded-xs border-secondary">
-          <Info className="text-accent!" />
+          <Info className="text-accent!" aria-hidden="true" />
           <AlertDescription className="text-sm text-primary/60 leading-relaxed">
             {tFields("recieveHint")}
           </AlertDescription>

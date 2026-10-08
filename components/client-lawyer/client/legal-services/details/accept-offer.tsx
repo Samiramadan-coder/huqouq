@@ -40,12 +40,15 @@ export default function AcceptOffer({
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(
     null,
   );
+  const [loadFailed, setLoadFailed] = useState(false);
 
   // Fetch payment details when the dialog opens
   useEffect(() => {
     if (!open) return;
 
     async function getPaymentDetails() {
+      setLoadFailed(false);
+
       try {
         const { data } = await http.get<{ data: PaymentDetails }>(
           `/api/legal-services/${serviceId}/offers/${offer.id}/checkout`,
@@ -54,6 +57,7 @@ export default function AcceptOffer({
         setPaymentDetails(data.data);
       } catch (error) {
         console.error("Error fetching payment details:", error);
+        setLoadFailed(true);
       }
     }
 
@@ -62,11 +66,14 @@ export default function AcceptOffer({
 
   // Handle accept offer
   async function handleAcceptOffer() {
+    // Never pay before the checkout amount has loaded
+    if (!paymentDetails || loading) return;
+
     setLoading(true);
     const result = await acceptServiceOffer({
       serviceId,
       offerId: offer.id,
-      fee: paymentDetails?.total ?? 0,
+      fee: paymentDetails.total,
     });
     setLoading(false);
 
@@ -111,7 +118,9 @@ export default function AcceptOffer({
                   src={offer.lawyer.photo_url}
                   alt={paymentDetails.lawyer_name}
                 />
-                <AvatarFallback>{paymentDetails.lawyer_name[0]}</AvatarFallback>
+                <AvatarFallback>
+                  {paymentDetails.lawyer_name?.[0]}
+                </AvatarFallback>
               </Avatar>
               <div>
                 <p
@@ -161,6 +170,10 @@ export default function AcceptOffer({
               </p>
             </div>
           </div>
+        ) : loadFailed ? (
+          <p role="alert" className="text-sm text-destructive">
+            {t("checkoutLoadFailed")}
+          </p>
         ) : (
           <Spinner />
         )}
@@ -168,11 +181,15 @@ export default function AcceptOffer({
         <DialogFooter className="bg-white border-none">
           <Button
             onClick={handleAcceptOffer}
+            disabled={!paymentDetails || loading}
             className="bg-accent text-primary border-secondary hover:bg-accent rounded-sm h-11 flex-1"
           >
             {loading && <Spinner />}
             {t("continueToPayment")}
-            <ArrowRight className="size-4 text-primary rtl:rotate-180" />
+            <ArrowRight
+              className="size-4 text-primary rtl:rotate-180"
+              aria-hidden="true"
+            />
           </Button>
           <DialogClose asChild>
             <Button ref={closeBtn} className="hidden"></Button>

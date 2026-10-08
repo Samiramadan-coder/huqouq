@@ -1,19 +1,51 @@
 import z from "zod";
 import { T } from "@/types/shared";
 
+// Upload rules enforced by the API for request documents
+export const SERVICE_DOCUMENT_EXTENSIONS = [
+  "pdf",
+  "jpg",
+  "jpeg",
+  "png",
+  "webp",
+];
+export const SERVICE_DOCUMENT_MAX_BYTES = 5 * 1024 * 1024;
+
 export const postLegalServiceShema = (t: T) =>
   z.object({
     service_type: z.string().min(1, t("type.required")),
     description: z
       .string()
+      .trim()
       .min(1, t("description.required"))
       .min(2, t("description.minLength"))
       .max(2000, t("description.maxLength")),
     urgency: z.string(),
     emirate: z.string().min(1, t("location.required")),
+    // Existing documents are URLs; only newly picked files are checked
     documents: z
       .array(z.instanceof(File).or(z.string()))
-      .min(1, t("documents.required")),
+      .min(1, t("documents.required"))
+      .refine(
+        (items) =>
+          items.every(
+            (item) =>
+              !(item instanceof File) ||
+              SERVICE_DOCUMENT_EXTENSIONS.includes(
+                item.name.split(".").pop()?.toLowerCase() ?? "",
+              ),
+          ),
+        t("documents.invalidType"),
+      )
+      .refine(
+        (items) =>
+          items.every(
+            (item) =>
+              !(item instanceof File) ||
+              item.size <= SERVICE_DOCUMENT_MAX_BYTES,
+          ),
+        t("documents.tooLarge"),
+      ),
   });
 
 export type PostLegalServiceFormData = z.infer<

@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { LoaderPinwheelIcon } from "lucide-react";
@@ -12,6 +14,15 @@ type SearchParams = {
   page?: string;
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Client.LegalServices");
+
+  return {
+    title: `${t("title")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
+
 async function ListOfLegalServices({
   searchParams,
 }: {
@@ -19,7 +30,7 @@ async function ListOfLegalServices({
 }) {
   const { page, tab } = await searchParams;
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     data: LegalService[];
     meta: Meta;
     counts: Counts;
@@ -32,10 +43,6 @@ async function ListOfLegalServices({
       tags: ["client-legal-services"],
     },
   });
-
-  if (!ok) {
-    throw new Error("Failed to fetch legal services");
-  }
 
   return (
     <div className=" space-y-4">
@@ -55,7 +62,14 @@ export default async function Page({
       <SectionTitle />
 
       <Suspense
-        fallback={<LoaderPinwheelIcon className="animate-spin text-accent" />}
+        fallback={
+          <div role="status" aria-label="Loading">
+            <LoaderPinwheelIcon
+              className="animate-spin text-accent"
+              aria-hidden="true"
+            />
+          </div>
+        }
       >
         <ListOfLegalServices searchParams={searchParams} />
       </Suspense>

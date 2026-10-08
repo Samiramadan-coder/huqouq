@@ -34,10 +34,12 @@ import { ChartNoAxesColumn, ShieldCheck, Star } from "lucide-react";
 
 export default async function CompareOffers({
   serviceId,
+  serviceLabel,
   offers,
 }: {
   offers: Offer[];
   serviceId: number;
+  serviceLabel: string;
 }) {
   const locale = await getLocale();
   const tCommon = await getTranslations("Common");
@@ -61,7 +63,7 @@ export default async function CompareOffers({
             {t("compareOffers")}
           </DialogTitle>
           <DialogDescription className="text-xs text-primary/40">
-            {t("compareOffersDescription")}
+            {serviceLabel}
           </DialogDescription>
         </DialogHeader>
 

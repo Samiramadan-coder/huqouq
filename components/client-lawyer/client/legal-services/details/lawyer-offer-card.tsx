@@ -38,7 +38,7 @@ export default function LawyerOfferCard({
               src={serviceOffer.lawyer.photo_url}
               alt={serviceOffer.lawyer.name}
             />
-            <AvatarFallback>{serviceOffer.lawyer.name[0]}</AvatarFallback>
+            <AvatarFallback>{serviceOffer.lawyer.name?.[0]}</AvatarFallback>
             <AvatarBadge className="bg-accent">
               <ShieldCheck />
             </AvatarBadge>
@@ -55,7 +55,7 @@ export default function LawyerOfferCard({
                 </p>
               </div>
 
-              <div className="shrink-0 text-right">
+              <div className="shrink-0 text-end">
                 <p className={cn("text-lg font-semibold", fontClass)}>
                   {tCommon("AED")} {serviceOffer.fee}
                 </p>
@@ -82,13 +82,13 @@ export default function LawyerOfferCard({
 
               <span className="text-primary/50">
                 {serviceOffer.lawyer.rating} (
-                {serviceOffer.lawyer.reviews_count} reviews)
+                {serviceOffer.lawyer.reviews_count} {t("reviews")})
               </span>
             </div>
 
             <p
               className={cn(
-                "mt-4 text-sm leading-relaxed text-primary/65",
+                "mt-4 text-sm leading-relaxed text-primary/65 wrap-break-word",
                 !showFullMessage && "line-clamp-2",
               )}
             >
@@ -103,20 +103,24 @@ export default function LawyerOfferCard({
               {showFullMessage ? t("readLess") : t("readMore")}
             </button>
 
-            <div className="mt-4 flex items-center justify-between gap-4">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <AcceptOffer offer={serviceOffer} serviceId={serviceId} />
               </div>
 
-              <Link href={`/client/find-lawyers/${serviceOffer.lawyer.id}`}>
-                <Button
-                  variant="ghost"
-                  className="px-0 text-primary/45 font-normal text-xs hover:bg-transparent"
-                >
+              <Button
+                asChild
+                variant="ghost"
+                className="px-0 text-primary/45 font-normal text-xs hover:bg-transparent"
+              >
+                <Link href={`/client/find-lawyers/${serviceOffer.lawyer.id}`}>
                   {t("viewProfile")}
-                  <ChevronRight className="size-3.5" />
-                </Button>
-              </Link>
+                  <ChevronRight
+                    className="size-3.5 rtl:rotate-180"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
