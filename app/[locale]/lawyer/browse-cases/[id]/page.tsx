@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
 import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails } from "@/types/lawyer/browse-cases";
+import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Details from "@/components/client-lawyer/lawyer/browse-cases/details";
 
@@ -21,6 +21,7 @@ type CaseDetailsResponse = {
   data: CaseDetails;
   profile_status: string;
   submit_offer_blocked_reason: string | null;
+  my_offer: MyOffer | null;
 };
 
 // Shared between generateMetadata and the page so the case is fetched once.
@@ -67,6 +68,8 @@ async function GetCaseDetails({
   const { hire } = await searchParams;
   const data = await getCaseDetails(id);
 
+  console.log(data);
+
   if (!data) {
     notFound();
   }
@@ -77,6 +80,7 @@ async function GetCaseDetails({
       hire={!!hire}
       canSubmitOffer={data.can_submit_offer}
       submitOfferBlockedReason={data.submit_offer_blocked_reason}
+      myOffer={data.my_offer}
     />
   );
 }

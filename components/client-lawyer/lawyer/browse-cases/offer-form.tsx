@@ -9,15 +9,21 @@ import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
-import { OfferFormData, offerFormSchema } from "@/types/lawyer/browse-cases";
+import {
+  MyOffer,
+  OfferFormData,
+  offerFormSchema,
+} from "@/types/lawyer/browse-cases";
 import DeclineOffer from "./decline-offer";
 
 export default function OfferForm({
   caseId,
   hire = false,
+  myOffer = null,
 }: {
   caseId: number;
   hire?: boolean;
+  myOffer?: MyOffer | null;
 }) {
   const router = useRouter();
   const t = useTranslations("Lawyer.BrowseCases");
@@ -32,8 +38,9 @@ export default function OfferForm({
   } = useForm<OfferFormData>({
     resolver: zodResolver(offerFormSchema(tFields)),
     defaultValues: {
-      amount: undefined,
-      message: "",
+      amount: myOffer?.amount ?? undefined,
+      expected_days: myOffer?.expected_days ?? undefined,
+      message: myOffer?.message ?? "",
     },
   });
 
@@ -79,6 +86,7 @@ export default function OfferForm({
         label={tFields("ProposedPrice.Label")}
         placeholder={tFields("ProposedPrice.Placeholder")}
         inputClassName="bg-background border border-accent/20!"
+        disabled={myOffer != null}
       />
 
       <FormInput
@@ -91,12 +99,14 @@ export default function OfferForm({
         label={tFields("EstimatedTimeline.Label")}
         placeholder={tFields("EstimatedTimeline.Placeholder")}
         inputClassName="bg-background border border-accent/20!"
+        disabled={myOffer != null}
       />
 
       <FormTextarea
         register={register}
         errors={errors}
         required
+        disabled={myOffer != null}
         name="message"
         label={tFields("Message.Label")}
         placeholder={tFields("Message.Placeholder")}
@@ -110,11 +120,13 @@ export default function OfferForm({
       <div className="sm:col-span-2 flex flex-wrap gap-2 justify-end">
         {hire && <DeclineOffer caseId={caseId} />}
 
-        <SubmitBtn
-          label={t("SubmitOffer")}
-          loading={isSubmitting}
-          className="w-40 h-10"
-        />
+        {!myOffer && (
+          <SubmitBtn
+            label={t("SubmitOffer")}
+            loading={isSubmitting}
+            className="w-40 h-10"
+          />
+        )}
       </div>
     </form>
   );

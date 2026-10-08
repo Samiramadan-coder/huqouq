@@ -17,6 +17,12 @@ export type Case = {
   specialization: { id: number; name: string };
 };
 
+export type MyOffer = {
+  amount: number;
+  expected_days: number;
+  message: string;
+};
+
 export type CaseDetails = Case & {
   // Contact fields are only returned once contact_visible is true
   client: {

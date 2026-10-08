@@ -1,15 +1,3 @@
-import React from "react";
-import OfferForm from "./offer-form";
-import Title from "../../reusable/title";
-import { formatDate } from "@/lib/utils";
-import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import UrgencyBadge from "../../reusable/urgency-label";
-import { CaseDetails } from "@/types/lawyer/browse-cases";
-import { getLocale, getTranslations } from "next-intl/server";
 import {
   Calendar,
   CircleAlert,
@@ -19,6 +7,18 @@ import {
   TriangleAlert,
   Users,
 } from "lucide-react";
+import React from "react";
+import OfferForm from "./offer-form";
+import Title from "../../reusable/title";
+import { formatDate } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import UrgencyBadge from "../../reusable/urgency-label";
+import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function formatFileSize(bytes: number) {
@@ -37,11 +37,13 @@ export default async function Details({
   hire = false,
   canSubmitOffer = true,
   submitOfferBlockedReason,
+  myOffer,
 }: {
   caseDetails: CaseDetails;
   hire?: boolean;
   canSubmitOffer?: boolean;
   submitOfferBlockedReason?: string | null;
+  myOffer: MyOffer | null;
 }) {
   const locale = await getLocale();
   const tCommon = await getTranslations("Common");
@@ -202,7 +204,11 @@ export default async function Details({
               </div>
 
               {canSubmitOffer ? (
-                <OfferForm caseId={caseDetails.id} hire={hire} />
+                <OfferForm
+                  caseId={caseDetails.id}
+                  hire={hire}
+                  myOffer={myOffer}
+                />
               ) : (
                 <div
                   role="status"
