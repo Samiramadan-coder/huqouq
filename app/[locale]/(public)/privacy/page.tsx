@@ -27,58 +27,58 @@ export default async function Page() {
 
         <div className="space-y-10">
           <div>
-            <h2 className="font-serif text-xl font-semibold text-primary mb-3">
+            <h2 className="text-xl font-semibold text-primary mb-3">
               {t("informationWeCollect.title")}
             </h2>
-            <p className="font-serif text-base leading-[1.8] text-primary/70">
+            <p className="text-base leading-[1.8] text-primary/70">
               {t("informationWeCollect.content")}
             </p>
           </div>
           <div>
-            <h2 className="font-serif text-xl font-semibold text-primary mb-3">
+            <h2 className="text-xl font-semibold text-primary mb-3">
               {t("howWeUseYourInformation.title")}
             </h2>
-            <p className="font-serif text-base leading-[1.8] text-primary/70">
+            <p className="text-base leading-[1.8] text-primary/70">
               {t("howWeUseYourInformation.content")}
             </p>
           </div>
           <div>
-            <h2 className="font-serif text-xl font-semibold text-primary mb-3">
+            <h2 className="text-xl font-semibold text-primary mb-3">
               {t("dataSharingAndThirdParties.title")}
             </h2>
-            <p className="font-serif text-base leading-[1.8] text-primary/70">
+            <p className="text-base leading-[1.8] text-primary/70">
               {t("dataSharingAndThirdParties.content")}
             </p>
           </div>
           <div>
-            <h2 className="font-serif text-xl font-semibold text-primary mb-3">
+            <h2 className="text-xl font-semibold text-primary mb-3">
               {t("yourRights.title")}
             </h2>
-            <p className="font-serif text-base leading-[1.8] text-primary/70">
+            <p className="text-base leading-[1.8] text-primary/70">
               {t("yourRights.content")}
             </p>
           </div>
           <div>
-            <h2 className="font-serif text-xl font-semibold text-primary mb-3">
+            <h2 className="text-xl font-semibold text-primary mb-3">
               {t("dataSecurity.title")}
             </h2>
-            <p className="font-serif text-base leading-[1.8] text-primary/70">
+            <p className="text-base leading-[1.8] text-primary/70">
               {t("dataSecurity.content")}
             </p>
           </div>
           <div>
-            <h2 className="font-serif text-xl font-semibold text-primary mb-3">
+            <h2 className="text-xl font-semibold text-primary mb-3">
               {t("contactForPrivacyConcerns.title")}
             </h2>
-            <p className="font-serif text-base leading-[1.8] text-primary/70">
+            <p className="text-base leading-[1.8] text-primary/70">
               {t("contactForPrivacyConcerns.content")}
             </p>
           </div>
           <div>
-            <h2 className="font-serif text-xl font-semibold text-primary mb-3">
+            <h2 className="text-xl font-semibold text-primary mb-3">
               {t("policyUpdates.title")}
             </h2>
-            <p className="font-serif text-base leading-[1.8] text-primary/70">
+            <p className="text-base leading-[1.8] text-primary/70">
               {t("policyUpdates.content")}
             </p>
           </div>

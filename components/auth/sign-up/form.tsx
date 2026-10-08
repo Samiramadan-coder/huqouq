@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { signUp } from "@/lib/auth";
 import { Link } from "@/i18n/navigation";
 import OtpDialog from "../shared/otp-dialog";
@@ -14,7 +15,6 @@ import AuthLogo from "@/components/icons/auth-logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { GuestType, User } from "@/types/shared";
 import { useLocale, useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
 import PasswordToggle from "../shared/password-toggle";
 import PasswordStrength from "../shared/password-strength";
 import { SignUpFormValues, signUpSchema } from "@/types/sign-up";
@@ -269,6 +269,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                       terms: (chunks) => (
                         <Link
                           href="/terms"
+                          target="_blank"
                           className="text-accent hover:underline"
                         >
                           {chunks}
@@ -277,6 +278,7 @@ export default function SignUpForm({ guestType }: { guestType: GuestType }) {
                       privacy: (chunks) => (
                         <Link
                           href="/privacy"
+                          target="_blank"
                           className="text-accent hover:underline"
                         >
                           {chunks}

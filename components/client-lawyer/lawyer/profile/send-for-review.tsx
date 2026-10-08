@@ -5,10 +5,12 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { sendForReview } from "@/lib/lawyer/dashboard";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 
 export default function SendForReview() {
   const t = useTranslations("Lawyer.Profile");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleSendForReview() {
     setLoading(true);
@@ -16,7 +18,8 @@ export default function SendForReview() {
     setLoading(false);
 
     if (result.success) {
-      toast.success("Profile sent for review successfully");
+      toast.success(result.message);
+      router.push("/lawyer/dashboard");
       return;
     }
 

@@ -255,13 +255,21 @@ export async function updateCertificate(
 }
 
 // Send For Review
-type SendForReviewResponse = { success: boolean };
+type SendForReviewResponse =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function sendForReview(): Promise<SendForReviewResponse> {
   try {
-    await http.post("/api/lawyer/profile/submit", { confirmed: true });
+    const { data } = await http.post<{ message: string }>(
+      "/api/lawyer/profile/submit",
+      { confirmed: true },
+    );
     updateTag("lawyer-profile");
-    return { success: true };
+    return {
+      success: true,
+      message: data.message,
+    };
   } catch (error) {
     console.error("Error sending for review:", error);
     return { success: false };
