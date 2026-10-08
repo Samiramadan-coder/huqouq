@@ -8,12 +8,25 @@ import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import FormSelect from "@/components/public/shared/form/form-select";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
-import { OfferFormData, offerSchema } from "@/types/lawyer/legal-services";
+import {
+  myOffer,
+  OfferFormData,
+  offerSchema,
+} from "@/types/lawyer/legal-services";
 import { submitOffer } from "@/lib/lawyer/legal-services";
 import { toast } from "sonner";
 
-export default function OfferForm({ serviceId }: { serviceId: number }) {
+export default function OfferForm({
+  serviceId,
+  offer,
+}: {
+  serviceId: number;
+  // The lawyer's existing offer when it can still be edited
+  offer?: myOffer | null;
+}) {
   const t = useTranslations("Lawyer.LegalServices.Details.OfferForm");
+  const tDetails = useTranslations("Lawyer.LegalServices.Details");
+  const isUpdate = !!offer;
 
   const {
     control,
@@ -24,46 +37,47 @@ export default function OfferForm({ serviceId }: { serviceId: number }) {
   } = useForm<OfferFormData>({
     resolver: zodResolver(offerSchema(t)),
     defaultValues: {
-      fee: undefined,
-      delivery_amount: undefined,
-      delivery_unit: "days",
-      message: "",
+      fee: offer?.fee ?? undefined,
+      delivery_amount: offer?.delivery_amount ?? undefined,
+      delivery_unit: offer?.delivery_unit ?? "days",
+      message: offer?.message ?? "",
     },
   });
 
   const message = useWatch({ control, name: "message" });
 
   const onSubmit: SubmitHandler<OfferFormData> = async (data) => {
-    const result = await submitOffer(data, serviceId);
+    let result: Awaited<ReturnType<typeof submitOffer>>;
+
+    try {
+      result = await submitOffer(data, serviceId, isUpdate);
+    } catch {
+      // The request itself failed (network, session, ...)
+      toast.error(tDetails("submitOfferError"));
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
       return;
     }
 
-    if (result.message) {
-      toast.error(result.message);
-    }
-
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
-        setError(field as keyof OfferFormData, {
-          type: "server",
-          message,
-        });
+    Object.entries(result.errors ?? {}).forEach(([field, message]) => {
+      if (!message) return;
+      setError(field as keyof OfferFormData, {
+        type: "server",
+        message,
       });
+    });
 
-      return;
-    }
-
-    toast.error(t("submitOfferError"));
+    toast.error(result.message ?? tDetails("submitOfferError"));
   };
 
   return (
     <form
       className="px-5 py-5 flex flex-col gap-4"
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
       <FormInput
         required
@@ -71,6 +85,7 @@ export default function OfferForm({ serviceId }: { serviceId: number }) {
         register={register}
         name="fee"
         type="number"
+        inputMode="numeric"
         label={t("fee.label")}
         placeholder={t("fee.placeholder")}
         inputClassName="bg-background border border-accent/20! placeholder:text-sm"
@@ -78,7 +93,10 @@ export default function OfferForm({ serviceId }: { serviceId: number }) {
 
       <div className="space-y-2">
         <div>
-          <FieldLabel className="text-xs text-primary/50 uppercase tracking-widest font-semibold">
+          <FieldLabel
+            htmlFor="delivery_amount"
+            className="text-xs text-primary/50 uppercase tracking-widest font-semibold after:ms-1 after:text-destructive after:content-['*']"
+          >
             {t("delivery_time.label")}
           </FieldLabel>
         </div>
@@ -90,6 +108,7 @@ export default function OfferForm({ serviceId }: { serviceId: number }) {
             register={register}
             name="delivery_amount"
             type="number"
+            inputMode="numeric"
             placeholder={t("delivery_time.placeholder")}
             inputClassName="bg-background border border-accent/20! flex-1 placeholder:text-sm"
           />
@@ -115,11 +134,13 @@ export default function OfferForm({ serviceId }: { serviceId: number }) {
           placeholder={t("message.placeholder")}
           className="sm:col-span-2"
           textareaClassName="bg-background border border-accent/20! placeholder:text-sm"
-          description={t("message.description", { count: message.length })}
+          description={t("message.description", {
+            count: message.trim().length,
+          })}
         />
 
         <SubmitBtn
-          label={t("submitOffer")}
+          label={isUpdate ? t("updateOffer") : t("submitOffer")}
           loading={isSubmitting}
           className="bg-accent hover:bg-accent/90"
         />

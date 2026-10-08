@@ -1,7 +1,7 @@
 "use client";
 
 import { parseAsString, parseAsArrayOf, useQueryStates } from "nuqs";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useTransition } from "react";
 
 const filtersParsers = () => ({
   service_type: parseAsArrayOf(parseAsString)
@@ -31,6 +31,7 @@ type LawyerBrowseServicesFiltersContextType = {
   setLawyerFilters: ReturnType<
     typeof useQueryStates<ReturnType<typeof filtersParsers>>
   >[1];
+  isPending: boolean;
 };
 
 const BrowseFiltersContext =
@@ -41,10 +42,15 @@ export function LawyerBrowseServicesFiltersProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [lawyerFilters, setLawyerFilters] = useQueryStates(filtersParsers());
+  const [isPending, startTransition] = useTransition();
+  const [lawyerFilters, setLawyerFilters] = useQueryStates(filtersParsers(), {
+    startTransition,
+  });
 
   return (
-    <BrowseFiltersContext.Provider value={{ lawyerFilters, setLawyerFilters }}>
+    <BrowseFiltersContext.Provider
+      value={{ lawyerFilters, setLawyerFilters, isPending }}
+    >
       {children}
     </BrowseFiltersContext.Provider>
   );

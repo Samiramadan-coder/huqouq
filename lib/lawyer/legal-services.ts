@@ -17,18 +17,24 @@ type SubmitOfferResponse =
       errors?: Partial<Record<keyof OfferFormData, string>>;
     };
 
+// Submits a new offer, or updates the lawyer's existing one when `isUpdate` is set
 export async function submitOffer(
   formData: OfferFormData,
   id: number,
+  isUpdate = false,
 ): Promise<SubmitOfferResponse> {
   const url = `/api/lawyer/legal-services/${id}/offer`;
 
   try {
-    const { data } = await http.post<{ message: string }>(url, formData);
+    const { data } = isUpdate
+      ? await http.patch<{ message: string }>(url, formData)
+      : await http.post<{ message: string }>(url, formData);
     updateTag(`lawyer-legal-service-${id}`);
     return { success: true, message: data.message };
   } catch (error) {
-    console.error("Error submitting offer:", error);
+    if (!(error instanceof ValidationError)) {
+      console.error("Error submitting offer:", error);
+    }
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(error.errors).map(([field, messages]) => [

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
@@ -20,6 +21,15 @@ type SearchParams = {
   sorts?: string;
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Lawyer.LegalServices");
+
+  return {
+    title: `${t("title")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
+
 async function GetListOfLegalServices({
   searchParams,
 }: {
@@ -29,7 +39,7 @@ async function GetListOfLegalServices({
   const { page, service_type, urgencies, emirates, q, sorts } =
     await searchParams;
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     data: LegalService[];
     meta: Meta;
     filters: Filters;
@@ -42,13 +52,10 @@ async function GetListOfLegalServices({
       urgencies: urgencies || "",
       emirates: emirates || "",
       q: q || "",
-      sorts: sorts || "",
+      // The API reads the sort order from `sort`
+      ...(sorts ? { sort: sorts } : {}),
     },
   });
-
-  if (!ok) {
-    throw new Error("Failed to fetch legal services");
-  }
 
   return (
     <LawyerBrowseServicesFiltersProvider>
@@ -56,9 +63,15 @@ async function GetListOfLegalServices({
         <QuerySearchAndTitle />
 
         {data.can_submit_offer === false && (
-          <div className="flex items-center justify-between gap-4 flex-wrap text-[13px] px-4 py-3 border border-amber-200 bg-amber-50 text-amber-700">
+          <div
+            role="status"
+            className="flex items-center justify-between gap-4 flex-wrap text-[13px] px-4 py-3 border border-amber-200 bg-amber-50 text-amber-700"
+          >
             <div className="flex items-center gap-2">
-              <TriangleAlert className="text-amber-700 size-4" />
+              <TriangleAlert
+                className="text-amber-700 size-4 shrink-0"
+                aria-hidden="true"
+              />
               {data.submit_offer_blocked_reason}
             </div>
 
@@ -69,7 +82,10 @@ async function GetListOfLegalServices({
             >
               <Link href="/lawyer/profile" className="flex items-center gap-2">
                 {t("completeProfile")}
-                <MoveRight className="size-4 rtl:rotate-180" />
+                <MoveRight
+                  className="size-4 rtl:rotate-180"
+                  aria-hidden="true"
+                />
               </Link>
             </Button>
           </div>
@@ -80,7 +96,7 @@ async function GetListOfLegalServices({
             <FiltersControl filters={data.filters} />
           </div>
 
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <ListOfLegalServices
               services={data.data}
               pagination={data.meta}
@@ -102,8 +118,11 @@ export default async function Page({
   return (
     <Suspense
       fallback={
-        <div className="p-4 sm:p-6">
-          <LoaderPinwheelIcon className="animate-spin text-accent" />
+        <div className="p-4 sm:p-6" role="status" aria-label="Loading">
+          <LoaderPinwheelIcon
+            className="animate-spin text-accent"
+            aria-hidden="true"
+          />
         </div>
       }
     >

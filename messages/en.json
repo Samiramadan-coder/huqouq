@@ -1881,7 +1881,8 @@
           "fee": {
             "label": "Proposed Fee (AED)",
             "placeholder": "AED e.g. 1500",
-            "required": "Proposed fee is required"
+            "required": "Proposed fee is required",
+            "integer": "Proposed fee must be a whole number"
           },
           "delivery_time": {
             "label": "Delivery Time",
@@ -1890,17 +1891,25 @@
             "options": {
               "days": "Days",
               "weeks": "Weeks"
-            }
+            },
+            "integer": "Delivery time must be a whole number"
           },
           "message": {
             "label": "Proposal Message",
             "placeholder": "Introduce yourself, describe your relevant experience, and explain how you will approach this service...",
             "required": "Message is required",
             "maxLength": "Message must be at most 6000 characters",
-            "description": "{count} / 6000"
-          }
-        }
-      }
+            "description": "{count} / 6000",
+            "minLength": "Message must be at least 10 characters"
+          },
+          "updateOffer": "Update Offer"
+        },
+        "editOffer": "Update Your Offer",
+        "notFound": "Legal service not found",
+        "notFoundDescription": "This request doesn't exist or is no longer available to you."
+      },
+      "sortBy": "Sort by",
+      "viewOffer": "View Your Offer"
     },
     "ServiceOffers": {
       "title": "My Service Offers",

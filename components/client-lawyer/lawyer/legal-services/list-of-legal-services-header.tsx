@@ -13,7 +13,12 @@ import { ListFilterPlus } from "lucide-react";
 import FiltersControl from "./filters-control";
 import { Button } from "@/components/ui/button";
 import { Filters } from "@/types/lawyer/legal-services";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useLawyerBrowseServicesFilters } from "@/providers/lawyer-browse-services-filters";
 
 export default function ListOfLegalServicesHeader({
@@ -32,12 +37,13 @@ export default function ListOfLegalServicesHeader({
         <div className="block lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <ListFilterPlus />
+              <Button variant="ghost" size="icon" aria-label={t("filters")}>
+                <ListFilterPlus aria-hidden="true" />
               </Button>
             </SheetTrigger>
-            <SheetContent>
-              <div className="mt-14 px-2">
+            <SheetContent aria-describedby={undefined}>
+              <SheetTitle className="sr-only">{t("filters")}</SheetTitle>
+              <div className="mt-14 px-2 pb-4 overflow-y-auto">
                 <FiltersControl filters={filters} />
               </div>
             </SheetContent>
@@ -51,7 +57,10 @@ export default function ListOfLegalServicesHeader({
         value={lawyerFilters.sorts}
         onValueChange={(value) => setLawyerFilters({ sorts: value, page: "1" })}
       >
-        <SelectTrigger className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs">
+        <SelectTrigger
+          aria-label={t("sortBy")}
+          className="ms-auto border border-secondary w-full max-w-48 min-h-10 bg-white rounded-xs"
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

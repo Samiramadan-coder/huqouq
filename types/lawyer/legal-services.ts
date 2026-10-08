@@ -11,8 +11,8 @@ type Can = {
 
 type Client = {
   first_name: string;
-  name: string;
-  photo_url: string;
+  photo_url: string | null;
+  contact_visible: boolean;
 };
 
 export type myOffer = {
@@ -64,18 +64,28 @@ export type LegalServiceDetails = LegalService & {
 
 export const offerSchema = (t: T) =>
   z.object({
-    fee: z.number().min(1, { message: t("fee.required") }),
+    fee: z
+      .number(t("fee.required"))
+      .int(t("fee.integer"))
+      .min(1, { message: t("fee.required") }),
 
-    delivery_amount: z.number().min(1, {
-      message: t("delivery_time.required"),
-    }),
+    delivery_amount: z
+      .number(t("delivery_time.required"))
+      .int(t("delivery_time.integer"))
+      .min(1, {
+        message: t("delivery_time.required"),
+      }),
 
     delivery_unit: z.string(),
 
     message: z
       .string()
+      .trim()
       .min(1, {
         message: t("message.required"),
+      })
+      .min(10, {
+        message: t("message.minLength"),
       })
       .max(6000, {
         message: t("message.maxLength"),
