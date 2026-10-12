@@ -19,7 +19,7 @@ export type Case = {
 
 export type MyOffer = {
   amount: number;
-  expected_days: number;
+  win_percentage: number | null;
   message: string;
 };
 
@@ -51,10 +51,10 @@ export type Filters = {
 
 export const offerFormSchema = (t: T) =>
   z.object({
-    expected_days: z
-      .number(t("EstimatedTimeline.Required"))
-      .int(t("EstimatedTimeline.Integer"))
-      .min(1, t("EstimatedTimeline.Required")),
+    win_percentage: z
+      .number(t("WinPercentage.Required"))
+      .int(t("WinPercentage.Integer"))
+      .min(1, t("WinPercentage.Required")),
     amount: z
       .number(t("ProposedPrice.Required"))
       .int(t("ProposedPrice.Integer"))

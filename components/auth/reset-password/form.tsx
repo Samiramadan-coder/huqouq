@@ -18,6 +18,8 @@ import AuthLogo from "@/components/icons/auth-logo";
 import { resetPassword } from "@/lib/auth";
 import PasswordToggle from "../shared/password-toggle";
 import PasswordStrength from "../shared/password-strength";
+import { saveToken } from "@/lib/cookies";
+import { useUser } from "@/providers/user-provider";
 
 export default function ResetPasswordForm({
   defaultPhone = "",
@@ -26,6 +28,7 @@ export default function ResetPasswordForm({
 }) {
   const router = useRouter();
   const locale = useLocale();
+  const { setUser } = useUser();
   const t = useTranslations("ResetPassword");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -52,7 +55,11 @@ export default function ResetPasswordForm({
 
     if (result.success) {
       toast.success(t("successMessage"));
-      router.push("/sign-in");
+      if (result.token && result.user) {
+        saveToken(result.token);
+        setUser(result.user);
+        router.push(`/${result.user.role}/dashboard`);
+      }
       return;
     }
 

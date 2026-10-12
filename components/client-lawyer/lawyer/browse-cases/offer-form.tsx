@@ -39,7 +39,7 @@ export default function OfferForm({
     resolver: zodResolver(offerFormSchema(tFields)),
     defaultValues: {
       amount: myOffer?.amount ?? undefined,
-      expected_days: myOffer?.expected_days ?? undefined,
+      win_percentage: myOffer?.win_percentage ?? undefined,
       message: myOffer?.message ?? "",
     },
   });
@@ -93,11 +93,12 @@ export default function OfferForm({
         required
         errors={errors}
         register={register}
-        name="expected_days"
+        name="win_percentage"
+        prefix="%"
         type="number"
         inputMode="numeric"
-        label={tFields("EstimatedTimeline.Label")}
-        placeholder={tFields("EstimatedTimeline.Placeholder")}
+        label={tFields("WinPercentage.Label")}
+        placeholder={tFields("WinPercentage.Placeholder")}
         inputClassName="bg-background border border-accent/20!"
         disabled={myOffer != null}
       />

@@ -68,8 +68,6 @@ async function GetCaseDetails({
   const { hire } = await searchParams;
   const data = await getCaseDetails(id);
 
-  console.log(data);
-
   if (!data) {
     notFound();
   }

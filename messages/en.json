@@ -1153,7 +1153,7 @@
       "verified": "Verified",
       "experience": "Experience",
       "price": "Price",
-      "estTimeline": "Est. Timeline",
+      "estTimeline": "Win Percentage",
       "years": "Years",
       "proposal": "Proposal",
       "specializations": "Specializations",
@@ -1376,7 +1376,7 @@
       "experience": "Experience",
       "price": "Price",
       "rating": "Rating",
-      "estTimeline": "Est. Timeline",
+      "estTimeline": "Win Percentage",
       "proposal": "Proposal",
       "specializations": "Specializations",
       "actions": "Actions",
@@ -1780,11 +1780,11 @@
       "client": "Client",
       "contactInformationHidden": "Full contact details are shared once you are hired on this case.",
       "Fields": {
-        "EstimatedTimeline": {
-          "Label": "Estimated Timeline (days)",
-          "Placeholder": "e.g., 7",
-          "Required": "Estimated timeline is required",
-          "Integer": "Estimated timeline must be a whole number of days"
+        "WinPercentage": {
+          "Label": "Win Percentage",
+          "Placeholder": "e.g., 50%",
+          "Required": "Win percentage is required",
+          "Integer": "Win percentage must be a whole number"
         },
         "ProposedPrice": {
           "Label": "Proposed Price (AED)",

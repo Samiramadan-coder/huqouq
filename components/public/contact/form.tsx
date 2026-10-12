@@ -32,7 +32,7 @@ export default function Form() {
   });
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   return (

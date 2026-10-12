@@ -169,13 +169,17 @@ export type CaseDetails = Case & {
 };
 
 type OfferStatus =
-  "all" | "pending" | "accepted" | "cancelled" | "declined" | "withdrawn";
+  | "all"
+  | "pending"
+  | "accepted"
+  | "cancelled"
+  | "declined"
+  | "withdrawn";
 
 export type CaseOffer = {
   amount: number;
   created_at: string;
-  expected_days: number | null;
-  expected_timeline: string | null;
+  win_percentage: number | null;
   id: number;
   message: string;
   status: OfferStatus;

@@ -50,7 +50,6 @@ export default function ChatRoom({
       String(serviceId),
       String(user?.id),
       (messages) => {
-        console.log("Messages updated:", messages);
         setMessages(messages);
       },
       (error) => {

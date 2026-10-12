@@ -1152,7 +1152,7 @@
       "verified": "تم التحقق",
       "experience": "الخبرة",
       "price": "السعر",
-      "estTimeline": "الجدول الزمني المقدر",
+      "estTimeline": "نسبة الفوز",
       "years": "سنوات",
       "proposal": "الاقتراح",
       "specializations": "التخصصات",
@@ -1376,7 +1376,7 @@
       "experience": "الخبرة",
       "price": "السعر",
       "rating": "التقييم",
-      "estTimeline": "الجدول الزمني المقدر",
+      "estTimeline": "نسبة الفوز",
       "proposal": "الاقتراح",
       "specializations": "التخصصات",
       "actions": "الإجراءات",
@@ -1780,11 +1780,11 @@
       "client": "العميل",
       "contactInformationHidden": "يتم مشاركة تفاصيل الاتصال الكاملة بمجرد توظيفك في هذه القضية.",
       "Fields": {
-        "EstimatedTimeline": {
-          "Label": "الجدول الزمني المقدر (أيام)",
-          "Placeholder": "مثال: 7",
-          "Required": "الجدول الزمني المقدر مطلوب",
-          "Integer": "يجب أن يكون الجدول الزمني عددًا صحيحًا من الأيام"
+        "WinPercentage": {
+          "Label": "نسبة الفوز",
+          "Placeholder": "مثال: 70%",
+          "Required": "نسبة الفوز مطلوبة",
+          "Integer": "يجب أن تكون نسبة الفوز عددًا صحيحًا"
         },
         "ProposedPrice": {
           "Label": "السعر المقترح (درهم)",

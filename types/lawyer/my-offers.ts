@@ -22,8 +22,7 @@ export type Offer = {
   message: string;
   status: OfferStatus;
   status_label: string;
-  expected_days: number | null;
-  expected_timeline: string | null;
+  win_percentage: number | null;
   case: {
     budget_disclosed: boolean;
     budget_max: number | null;

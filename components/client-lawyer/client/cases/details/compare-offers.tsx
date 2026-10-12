@@ -177,7 +177,7 @@ export default async function CompareOffers({
                 {offers.map((offer) => (
                   <TableCell key={offer.id} className="py-4">
                     <p className="text-base text-primary/70">
-                      {offer.expected_timeline || "_"}
+                      {offer.win_percentage ?? "_"}%
                     </p>
                   </TableCell>
                 ))}

@@ -1,12 +1,12 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import PaginationTemplate from "../../reusable/pagination-template";
 import { Card } from "@/components/ui/card";
 import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { getTranslations } from "next-intl/server";
-import { CircleCheck, Clock, MoveRight } from "lucide-react";
 import type { Offer, OfferStatus } from "@/types/lawyer/my-offers";
+import PaginationTemplate from "../../reusable/pagination-template";
+import { CircleCheck, Clock, MoveRight, Trophy } from "lucide-react";
 
 export default async function ListOfOffers({
   listOfOffers,
@@ -67,14 +67,14 @@ export default async function ListOfOffers({
                   </div>
                 )}
 
-              {offer.expected_timeline && (
+              {offer.win_percentage != null && (
                 <div className="flex items-center gap-1">
-                  <Clock
+                  <Trophy
                     className="size-3 text-primary/35"
                     aria-hidden="true"
                   />
                   <span className="text-primary/35 text-xs">
-                    {offer.expected_timeline}
+                    {offer.win_percentage}%
                   </span>
                 </div>
               )}
