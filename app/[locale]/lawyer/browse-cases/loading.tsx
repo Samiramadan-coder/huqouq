@@ -1,5 +1,14 @@
-import PageLoader from "@/components/client-lawyer/reusable/page-loader";
+import {
+  CaseCardSkeleton,
+  BrowseListSkeleton,
+} from "@/components/client-lawyer/reusable/skeletons";
 
 export default function Loading() {
-  return <PageLoader className="p-4 sm:p-6" />;
+  return (
+    <BrowseListSkeleton>
+      {Array.from({ length: 3 }, (_, index) => (
+        <CaseCardSkeleton key={index} />
+      ))}
+    </BrowseListSkeleton>
+  );
 }
