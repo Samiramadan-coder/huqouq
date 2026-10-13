@@ -22,7 +22,7 @@ export default function QuickLinks() {
     },
     {
       label: tSidebar("MyConsultations"),
-      href: "/client/consultations",
+      href: "/client/my-consultations",
       icon: CalendarDays,
     },
     {

@@ -4,13 +4,12 @@ import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
-import { LoaderPinwheelIcon, MoveRight, TriangleAlert } from "lucide-react";
+import { MoveRight, TriangleAlert } from "lucide-react";
 import { Case, Filters } from "@/types/lawyer/browse-cases";
 import ListOfCases from "@/components/client-lawyer/lawyer/browse-cases/list-of-cases";
 import { LawyerBrowseCasesFiltersProvider } from "@/providers/lawyer-browse-cases-filters";
 import FiltersControl from "@/components/client-lawyer/lawyer/browse-cases/filters-control";
 import QuerySearchAndTitle from "@/components/client-lawyer/lawyer/browse-cases/query-search-and-title";
-import { Suspense } from "react";
 
 type SearchParams = {
   page?: string;
@@ -30,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function GetListOfCases({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -53,8 +52,6 @@ async function GetListOfCases({
       emirate: emirate || "",
       urgency: urgency || "",
       sort: sort || "",
-      // The API reads the sort order from `sort`
-      // ...(sort ? { sort: sort } : {}),
       q: q || "",
     },
   });
@@ -109,26 +106,5 @@ async function GetListOfCases({
         </div>
       </div>
     </LawyerBrowseCasesFiltersProvider>
-  );
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  return (
-    <Suspense
-      fallback={
-        <div className="p-4 sm:p-6" role="status" aria-label="Loading">
-          <LoaderPinwheelIcon
-            className="animate-spin text-accent"
-            aria-hidden="true"
-          />
-        </div>
-      }
-    >
-      <GetListOfCases searchParams={searchParams} />
-    </Suspense>
   );
 }

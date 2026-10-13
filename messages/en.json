@@ -10,7 +10,8 @@
     "Previous": "Previous",
     "RemoveFile": "Remove file",
     "LoadError": "We couldn't load this page. Please try again.",
-    "Retry": "Try again"
+    "Retry": "Try again",
+    "Loading": "Loading"
   },
   "Header": {
     "Title": "HUQOUQ",
@@ -1837,6 +1838,20 @@
       "AgreedFee": "Agreed Fee",
       "ViewCase": "View Case",
       "NoCasesFound": "No cases found"
+    },
+    "Consultations": {
+      "Title": "My Consultations",
+      "TabsLabel": "Consultations sections",
+      "Tabs": {
+        "Bookings": "Bookings",
+        "AvailabilitySettings": "Availability settings"
+      },
+      "Bookings": {
+        "Title": "Bookings"
+      },
+      "AvailabilitySettings": {
+        "Title": "Availability Settings"
+      }
     },
     "Messages": {
       "Title": "Messages",

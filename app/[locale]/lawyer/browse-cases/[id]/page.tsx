@@ -1,11 +1,9 @@
+import { cache } from "react";
 import type { Metadata } from "next";
-import { cache, Suspense } from "react";
 import { notFound } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
-import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
-import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Details from "@/components/client-lawyer/lawyer/browse-cases/details";
 
 type Params = {
@@ -57,7 +55,7 @@ export async function generateMetadata({
   };
 }
 
-async function GetCaseDetails({
+export default async function Page({
   params,
   searchParams,
 }: {
@@ -80,36 +78,5 @@ async function GetCaseDetails({
       submitOfferBlockedReason={data.submit_offer_blocked_reason}
       myOffer={data.my_offer}
     />
-  );
-}
-
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
-}) {
-  const t = await getTranslations("Lawyer.BrowseCases");
-
-  return (
-    <div className="container max-w-5xl space-y-6 py-10">
-      <BackBtn>
-        <span>{t("BackToCases")}</span>
-      </BackBtn>
-
-      <Suspense
-        fallback={
-          <div role="status" aria-label="Loading">
-            <LoaderPinwheelIcon
-              className="animate-spin text-accent"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      >
-        <GetCaseDetails params={params} searchParams={searchParams} />
-      </Suspense>
-    </div>
   );
 }

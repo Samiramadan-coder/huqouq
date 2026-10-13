@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
@@ -6,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import { Filters, LegalService } from "@/types/lawyer/legal-services";
-import { LoaderPinwheelIcon, MoveRight, TriangleAlert } from "lucide-react";
+import { MoveRight, TriangleAlert } from "lucide-react";
 import FiltersControl from "@/components/client-lawyer/lawyer/legal-services/filters-control";
 import { LawyerBrowseServicesFiltersProvider } from "@/providers/lawyer-browse-services-filters";
 import ListOfLegalServices from "@/components/client-lawyer/lawyer/legal-services/list-of-services";
@@ -30,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function GetListOfLegalServices({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -53,8 +52,6 @@ async function GetListOfLegalServices({
       emirates: emirates || "",
       q: q || "",
       sort: sort || "",
-      // The API reads the sort order from `sort`
-      // ...(sort ? { sort: sort } : {}),
     },
   });
 
@@ -111,23 +108,23 @@ async function GetListOfLegalServices({
   );
 }
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  return (
-    <Suspense
-      fallback={
-        <div className="p-4 sm:p-6" role="status" aria-label="Loading">
-          <LoaderPinwheelIcon
-            className="animate-spin text-accent"
-            aria-hidden="true"
-          />
-        </div>
-      }
-    >
-      <GetListOfLegalServices searchParams={searchParams} />
-    </Suspense>
-  );
-}
+// export default async function Page({
+//   searchParams,
+// }: {
+//   searchParams: Promise<SearchParams>;
+// }) {
+//   return (
+//     <Suspense
+//       fallback={
+//         <div className="p-4 sm:p-6" role="status" aria-label="Loading">
+//           <LoaderPinwheelIcon
+//             className="animate-spin text-accent"
+//             aria-hidden="true"
+//           />
+//         </div>
+//       }
+//     >
+//       <GetListOfLegalServices searchParams={searchParams} />
+//     </Suspense>
+//   );
+// }

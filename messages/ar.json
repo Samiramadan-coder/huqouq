@@ -10,7 +10,8 @@
     "Previous": "السابق",
     "RemoveFile": "إزالة الملف",
     "LoadError": "تعذر تحميل هذه الصفحة. يرجى المحاولة مرة أخرى.",
-    "Retry": "إعادة المحاولة"
+    "Retry": "إعادة المحاولة",
+    "Loading": "جارٍ التحميل"
   },
   "Header": {
     "Title": "حقوق",
@@ -1837,6 +1838,20 @@
       "AgreedFee": "الرسوم المتفق عليها",
       "ViewCase": "عرض القضية",
       "NoCasesFound": "لم يتم العثور على حالات"
+    },
+    "Consultations": {
+      "Title": "استشاراتي",
+      "TabsLabel": "أقسام الاستشارات",
+      "Tabs": {
+        "Bookings": "الحجوزات",
+        "AvailabilitySettings": "إعدادات التوفر"
+      },
+      "Bookings": {
+        "Title": "الحجوزات"
+      },
+      "AvailabilitySettings": {
+        "Title": "إعدادات التوفر"
+      }
     },
     "Messages": {
       "Title": "الرسائل",

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { cache, Suspense } from "react";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
 import { redirect } from "@/i18n/navigation";
-import { LoaderPinwheelIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ServiceDetails } from "@/types/lawyer/active-services";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
@@ -49,9 +48,10 @@ export async function generateMetadata({
   };
 }
 
-async function ActiveServiceDetails({ params }: { params: Promise<Params> }) {
+export default async function Page({ params }: { params: Promise<Params> }) {
   const { id } = await params;
   const service = await getService(id);
+  const t = await getTranslations("Lawyer.ActiveServices");
 
   if (!service) {
     notFound();
@@ -67,28 +67,10 @@ async function ActiveServiceDetails({ params }: { params: Promise<Params> }) {
     });
   }
 
-  return <Index service={service} />;
-}
-
-export default async function Page({ params }: { params: Promise<Params> }) {
-  const t = await getTranslations("Lawyer.ActiveServices");
-
   return (
-    <div className="space-y-6 p-4 sm:p-6">
+    <div className="space-y-6">
       <BackBtn>{t("Details.backToServices")}</BackBtn>
-
-      <Suspense
-        fallback={
-          <div className="p-4 sm:p-6" role="status" aria-label="Loading">
-            <LoaderPinwheelIcon
-              className="animate-spin text-accent"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      >
-        <ActiveServiceDetails params={params} />
-      </Suspense>
+      <Index service={service} />
     </div>
   );
 }

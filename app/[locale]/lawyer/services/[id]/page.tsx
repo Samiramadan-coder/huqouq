@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { cache, Suspense } from "react";
+import { cache } from "react";
 import { notFound } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
-import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { LegalServiceDetails } from "@/types/lawyer/legal-services";
-import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Details from "@/components/client-lawyer/lawyer/legal-services/details";
 
 type Params = {
@@ -45,7 +43,7 @@ export async function generateMetadata({
   };
 }
 
-async function LegalService({ params }: { params: Promise<Params> }) {
+export default async function Page({ params }: { params: Promise<Params> }) {
   const { id } = await params;
   const service = await getLegalService(id);
 
@@ -54,26 +52,4 @@ async function LegalService({ params }: { params: Promise<Params> }) {
   }
 
   return <Details service={service} />;
-}
-
-export default async function Page({ params }: { params: Promise<Params> }) {
-  const t = await getTranslations("Lawyer.LegalServices.Details");
-  return (
-    <div className="p-4 sm:px-6 space-y-6">
-      <BackBtn>{t("backToServices")}</BackBtn>
-
-      <Suspense
-        fallback={
-          <div role="status" aria-label="Loading">
-            <LoaderPinwheelIcon
-              className="animate-spin text-accent"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      >
-        <LegalService params={params} />
-      </Suspense>
-    </div>
-  );
 }
