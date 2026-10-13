@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import AvailabilitySettingsForm from "@/components/client-lawyer/lawyer/consultations/availability-settings-form";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Lawyer.Consultations.AvailabilitySettings");
@@ -11,8 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const t = await getTranslations("Lawyer.Consultations.AvailabilitySettings");
-
   // Here i will fetch and display the availability settings for the lawyer
-  return <div>{t("Title")}</div>;
+  return (
+    <div>
+      <AvailabilitySettingsForm />
+    </div>
+  );
 }

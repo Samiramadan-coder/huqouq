@@ -10,7 +10,7 @@ export default async function ConsultationsLayout({
   const t = await getTranslations("Lawyer.Consultations");
 
   return (
-    <div className="py-10 container max-w-7xl">
+    <div className="py-10 container max-w-5xl">
       <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
         <Title>{t("Title")}</Title>
         <ConsultationsTabs />
