@@ -1713,6 +1713,7 @@
       }
     },
     "Dashboard": {
+      "Title": "Overview",
       "GoodEvening": "Good Evening",
       "GoodMorning": "Good Morning",
       "GoodAfternoon": "Good Afternoon",
@@ -1852,6 +1853,15 @@
       "AvailabilitySettings": {
         "Title": "Availability Settings"
       }
+    },
+    "MyEarnings": {
+      "Title": "My Earnings"
+    },
+    "Settings": {
+      "Title": "Settings"
+    },
+    "EmergencyHistory": {
+      "Title": "Emergency History"
     },
     "Messages": {
       "Title": "Messages",

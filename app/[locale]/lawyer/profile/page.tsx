@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { http } from "@/lib/http";
 import { LawyerProfile } from "@/types/lawyer/profile";
@@ -18,6 +19,15 @@ import BarCertificate from "@/components/client-lawyer/lawyer/profile/bar-certif
 import ProfessionalInfo from "@/components/client-lawyer/lawyer/profile/professional-info";
 import SpecializationServices from "@/components/client-lawyer/lawyer/profile/specialization-services";
 import { ChangesRequestedAlert } from "@/components/client-lawyer/lawyer/profile/change-requested-alert";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Lawyer.Profile");
+
+  return {
+    title: `${t("MyProfile")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function DashboardPage() {
   const locale = await getLocale();

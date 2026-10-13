@@ -1713,6 +1713,7 @@
       }
     },
     "Dashboard": {
+      "Title": "نظرة عامة",
       "GoodEvening": "مساء الخير",
       "GoodMorning": "صباح الخير",
       "GoodAfternoon": "طاب يومك",
@@ -1852,6 +1853,15 @@
       "AvailabilitySettings": {
         "Title": "إعدادات التوفر"
       }
+    },
+    "MyEarnings": {
+      "Title": "أرباحي"
+    },
+    "Settings": {
+      "Title": "الإعدادات"
+    },
+    "EmergencyHistory": {
+      "Title": "السجل الطارئ"
     },
     "Messages": {
       "Title": "الرسائل",

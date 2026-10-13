@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
+import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/lawyer/my-cases";
 import Messages from "@/components/client-lawyer/lawyer/messages/messages";
 import ChatMembers from "@/components/client-lawyer/lawyer/messages/chat-members";
@@ -6,6 +8,15 @@ import ChatMembers from "@/components/client-lawyer/lawyer/messages/chat-members
 type SearchParams = {
   caseId: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Lawyer.Messages");
+
+  return {
+    title: `${t("Title")} | Huqouq`,
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function Page({
   searchParams,
