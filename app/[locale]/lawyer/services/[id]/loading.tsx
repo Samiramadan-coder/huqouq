@@ -1,3 +1,1 @@
-"use client";
-
-export { default } from "@/components/client-lawyer/reusable/route-error";
+export { default } from "@/components/client-lawyer/reusable/page-loader";

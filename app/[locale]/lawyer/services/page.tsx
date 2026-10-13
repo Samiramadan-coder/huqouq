@@ -107,24 +107,3 @@ export default async function Page({
     </LawyerBrowseServicesFiltersProvider>
   );
 }
-
-// export default async function Page({
-//   searchParams,
-// }: {
-//   searchParams: Promise<SearchParams>;
-// }) {
-//   return (
-//     <Suspense
-//       fallback={
-//         <div className="p-4 sm:p-6" role="status" aria-label="Loading">
-//           <LoaderPinwheelIcon
-//             className="animate-spin text-accent"
-//             aria-hidden="true"
-//           />
-//         </div>
-//       }
-//     >
-//       <GetListOfLegalServices searchParams={searchParams} />
-//     </Suspense>
-//   );
-// }

@@ -7,7 +7,7 @@ export default async function LegalServiceNotFound() {
   const t = await getTranslations("Lawyer.LegalServices.Details");
 
   return (
-    <div className="space-y-4 p-4 sm:px-6 py-10">
+    <div className="space-y-4">
       <Title>{t("notFound")}</Title>
 
       <p className="text-sm text-primary/55">{t("notFoundDescription")}</p>

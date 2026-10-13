@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Meta } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
-import Title from "@/components/client-lawyer/reusable/title";
 import { Counts, Service } from "@/types/lawyer/active-services";
 import DataPreview from "@/components/client-lawyer/lawyer/active-services/data-preview";
 import FiltersControl from "@/components/client-lawyer/lawyer/active-services/filters-control";
@@ -26,7 +25,6 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const t = await getTranslations("Lawyer.ActiveServices");
   const { page, status } = await searchParams;
 
   const { data } = await http.get<{
@@ -42,7 +40,6 @@ export default async function Page({
 
   return (
     <div className="space-y-6">
-      <Title>{t("title")}</Title>
       <FiltersControl counts={data.counts} />
       <DataPreview services={data.data} pagination={data.meta} />
     </div>

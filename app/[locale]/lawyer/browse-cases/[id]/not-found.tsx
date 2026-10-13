@@ -7,7 +7,7 @@ export default async function CaseNotFound() {
   const t = await getTranslations("Lawyer.BrowseCases");
 
   return (
-    <div className="container max-w-5xl space-y-4 py-10">
+    <div className="space-y-4">
       <Title>{t("CaseNotFound")}</Title>
 
       <p className="text-sm text-primary/55">{t("CaseNotFoundDescription")}</p>

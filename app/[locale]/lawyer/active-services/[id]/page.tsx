@@ -5,7 +5,6 @@ import { http, HttpError } from "@/lib/http";
 import { redirect } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ServiceDetails } from "@/types/lawyer/active-services";
-import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Index from "@/components/client-lawyer/lawyer/active-services/details";
 
 type Params = {
@@ -51,7 +50,6 @@ export async function generateMetadata({
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { id } = await params;
   const service = await getService(id);
-  const t = await getTranslations("Lawyer.ActiveServices");
 
   if (!service) {
     notFound();
@@ -67,10 +65,5 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     });
   }
 
-  return (
-    <div className="space-y-6">
-      <BackBtn>{t("Details.backToServices")}</BackBtn>
-      <Index service={service} />
-    </div>
-  );
+  return <Index service={service} />;
 }

@@ -1,16 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
-// Error boundary UI for a route segment: explains the failure and offers a retry
+// Error boundary UI for a route segment: explains the failure and offers a retry.
+// Spacing comes from the segment's layout; pass `className` where there is none.
 export default function RouteError({
   error,
   unstable_retry,
+  className,
 }: {
   error: Error & { digest?: string };
   unstable_retry: () => void;
+  className?: string;
 }) {
   const t = useTranslations("Common");
 
@@ -19,7 +23,7 @@ export default function RouteError({
   }, [error]);
 
   return (
-    <div role="alert" className="container max-w-5xl space-y-4 py-10">
+    <div role="alert" className={cn("space-y-4", className)}>
       <p className="text-sm text-primary/75">{t("LoadError")}</p>
 
       <Button
