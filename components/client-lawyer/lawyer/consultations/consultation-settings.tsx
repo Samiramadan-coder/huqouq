@@ -26,7 +26,7 @@ export default function ConsultationSettings({
   const tCommon = useTranslations("Common");
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div className="sm:col-span-2">
         <Controller
           control={control}
