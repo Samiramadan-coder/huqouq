@@ -41,7 +41,7 @@ export default function ConsultationSettings({
               </FieldLabel>
 
               <div className="flex items-center gap-6">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <Checkbox
                     id="consultation_type_video"
                     checked={field.value.includes("video")}
@@ -64,7 +64,7 @@ export default function ConsultationSettings({
                   </label>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <Checkbox
                     id="consultation_type_voice"
                     checked={field.value.includes("voice")}
