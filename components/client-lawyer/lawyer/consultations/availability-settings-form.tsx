@@ -1,44 +1,61 @@
+"use client";
+
+import BlockCard from "./blocked-card";
+import { useForm, SubmitHandler } from "react-hook-form";
+import BlockedDates from "./blocked-dates";
+import { useTranslations } from "next-intl";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ConsultationSettings from "./consultation-settings";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
+import { AvailabilitySettings } from "@/types/lawyer/consultations";
+import WeeklyRecuringAvailability from "./weekly-recuring-availability";
+import { availabilitySettingsSchema } from "@/types/lawyer/consultations";
 
 export default function AvailabilitySettingsForm() {
+  const t = useTranslations("Lawyer.Consultations.AvailabilitySettings");
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<AvailabilitySettings>({
+    resolver: zodResolver(availabilitySettingsSchema(t)),
+    defaultValues: {
+      slot_duration: 30,
+      consultation_type: [],
+      price_per_consultation: undefined,
+      buffer_time_between_sessions: 0,
+    },
+  });
+
+  const onSubmit: SubmitHandler<AvailabilitySettings> = (data) => {
+    console.log(data);
+  };
+
   return (
-    <form className="space-y-6">
-      <BlockCard title="Consultation Settings">
-        <div>-</div>
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <BlockCard title={t("Sections.ConsultationSettings")}>
+        <ConsultationSettings
+          register={register}
+          control={control}
+          errors={errors}
+        />
       </BlockCard>
 
-      <BlockCard title="Weekly Recurring Availability">
-        <div>-</div>
+      <BlockCard title={t("Sections.WeeklyRecurringAvailability")}>
+        <WeeklyRecuringAvailability />
       </BlockCard>
 
-      <BlockCard title="Blocked Dates (Exceptions)">
-        <div>-</div>
+      <BlockCard title={t("Sections.BlockedDates")}>
+        <BlockedDates />
       </BlockCard>
 
       <SubmitBtn
-        label="Save Availability"
-        loading={false}
+        label={t("Sections.SaveAvailability")}
         className="bg-accent w-auto px-6"
+        loading={isSubmitting}
       />
     </form>
-  );
-}
-
-function BlockCard({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="bg-white border border-secondary">
-      <div className="px-5 py-4 border-b border-secondary">
-        <p className="text-xs uppercase font-semibold text-primary/40 tracking-[0.08em]">
-          {title}
-        </p>
-      </div>
-      <div className="px-5 py-5">{children}</div>
-    </div>
   );
 }

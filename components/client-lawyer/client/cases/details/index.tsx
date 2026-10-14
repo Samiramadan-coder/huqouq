@@ -4,6 +4,9 @@ import {
   FileText,
   CalendarDays,
   TriangleAlert,
+  FilePlus,
+  Scale,
+  FileCheck,
 } from "lucide-react";
 
 import {
@@ -137,6 +140,24 @@ export default async function Index({
             urgency={caseDetails.urgency}
             urgency_label={caseDetails.urgency_label}
           />
+          {caseDetails.case_type ? (
+            <>
+              <Badge className="rounded-xs text-xs font-normal py-2.5">
+                {caseDetails.case_type === "new_case" && <FilePlus />}
+                {caseDetails.case_type === "ongoing_case" && <Scale />}
+                {caseDetails.case_type === "judgment_execution" && (
+                  <FileCheck />
+                )}
+                {caseDetails.case_type_label}
+              </Badge>
+
+              {caseDetails.case_type !== "new_case" && (
+                <Badge className="rounded-xs text-xs font-normal py-2.5 border border-yellow-200 bg-yellow-50 text-yellow-700">
+                  {caseDetails.court_type_label || caseDetails.execution_type}
+                </Badge>
+              )}
+            </>
+          ) : null}
         </div>
       </div>
 

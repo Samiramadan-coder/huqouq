@@ -43,6 +43,13 @@ export type LegalServiceType = {
   label: string;
 };
 
+export type CaseType = "new_case" | "ongoing_case" | "judgment_execution";
+export type CourtType = "first_instance" | "appeal" | "cassation";
+export type ExecutionType =
+  | "new_execution_file"
+  | "existing_execution_file"
+  | "execution_dispute";
+
 export type ReferenceData = {
   academic_degrees: AcademicDegree[];
   account_types: AccountType[];
@@ -54,4 +61,16 @@ export type ReferenceData = {
   specializations: Specialization[];
   cities: City[];
   legal_service_types: LegalServiceType[];
+  case_types: {
+    value: CaseType;
+    label: string;
+  }[];
+  court_types: {
+    value: CourtType;
+    label: string;
+  }[];
+  execution_types: {
+    value: ExecutionType;
+    label: string;
+  }[];
 };

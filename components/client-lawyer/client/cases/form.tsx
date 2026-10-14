@@ -68,11 +68,15 @@ export default function Form({
       budget_max: caseItem?.budget_max ?? undefined,
       city: caseItem?.city ?? "",
       documents: caseItem?.documents.map((doc) => doc.url) ?? [],
+      case_type: caseItem?.case_type ?? "new_case",
+      court_type: caseItem?.court_type ?? undefined,
+      execution_type: caseItem?.execution_type ?? undefined,
     },
   });
 
   // Watch the description field to dynamically respond to its changes if needed
   const description = useWatch({ control, name: "description" });
+  const caseType = useWatch({ control, name: "case_type" });
 
   // Handle form submission
   const onSubmit: SubmitHandler<PostCaseFormData> = async (data) => {
@@ -87,9 +91,19 @@ export default function Form({
 
     let result: Awaited<ReturnType<typeof postCase>>;
 
+    const courtType =
+      data.case_type === "ongoing_case" ? data.court_type : undefined;
+
+    const executionType =
+      data.case_type === "judgment_execution" ? data.execution_type : undefined;
+
     try {
       result = await postCase(
-        data,
+        {
+          ...data,
+          court_type: courtType,
+          execution_type: executionType,
+        },
         caseItem?.id,
         lawyerId ? `/api/lawyers/${lawyerId}/hire-request` : undefined,
         removeDocumentIds,
@@ -125,6 +139,39 @@ export default function Form({
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+        <FormSelect
+          required
+          control={control}
+          name="case_type"
+          label={tFields("caseType.label")}
+          options={referenceData?.case_types || []}
+          triggerClassName="bg-white border border-accent/20!"
+        />
+
+        {caseType === "ongoing_case" && (
+          <FormSelect
+            required
+            control={control}
+            name="court_type"
+            label={tFields("courtType.label")}
+            options={referenceData?.court_types || []}
+            triggerClassName="bg-white border border-accent/20!"
+            placeholder={tFields("courtType.placeholder")}
+          />
+        )}
+
+        {caseType === "judgment_execution" && (
+          <FormSelect
+            required
+            control={control}
+            name="execution_type"
+            label={tFields("executionType.label")}
+            options={referenceData?.execution_types || []}
+            triggerClassName="bg-white border border-accent/20!"
+            placeholder={tFields("executionType.placeholder")}
+          />
+        )}
+
         <FormInput
           required
           register={register}

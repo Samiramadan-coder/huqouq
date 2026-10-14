@@ -46,6 +46,8 @@ async function ListData({
     },
   });
 
+  // console.log(data.data);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">

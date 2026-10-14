@@ -62,6 +62,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { data: referenceData, ok: referenceDataOk } =
     await http.get<ReferenceData>("/api/reference-data");
 
+  // console.log(referenceData);
+
   if (!referenceDataOk) {
     throw new Error("Failed to fetch reference data");
   }

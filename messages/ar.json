@@ -1253,6 +1253,19 @@
           "invalidType": "يُسمح فقط بملفات PDF و JPG و PNG و WEBP",
           "tooLarge": "يجب ألا يتجاوز حجم كل ملف 5 ميغابايت"
         },
+        "caseType": {
+          "label": "نوع القضية"
+        },
+        "courtType": {
+          "label": "نوع المحكمة",
+          "required": "نوع المحكمة مطلوب",
+          "placeholder": "اختر نوع المحكمة"
+        },
+        "executionType": {
+          "label": "نوع التنفيذ",
+          "required": "نوع التنفيذ مطلوب",
+          "placeholder": "اختر نوع التنفيذ"
+        },
         "submit": {
           "button": "إرسال القضية",
           "disabledMessage": "املأ الحقول المطلوبة للإرسال."

@@ -1254,6 +1254,19 @@
           "invalidType": "Only PDF, JPG, PNG and WEBP files are allowed",
           "tooLarge": "Each file must be 5 MB or smaller"
         },
+        "caseType": {
+          "label": "Case Type"
+        },
+        "courtType": {
+          "label": "Court Type",
+          "required": "Court type is required",
+          "placeholder": "Select a court type"
+        },
+        "executionType": {
+          "label": "Execution Type",
+          "required": "Execution type is required",
+          "placeholder": "Select an execution type"
+        },
         "submit": {
           "button": "Submit Case",
           "disabledMessage": "Fill in the required fields to submit."
@@ -1851,7 +1864,37 @@
         "Title": "Bookings"
       },
       "AvailabilitySettings": {
-        "Title": "Availability Settings"
+        "Title": "Availability Settings",
+        "Sections": {
+          "ConsultationSettings": "Consultation Settings",
+          "WeeklyRecurringAvailability": "Weekly Recurring Availability",
+          "BlockedDates": "Blocked Dates (Exceptions)",
+          "SaveAvailability": "Save Availability"
+        },
+        "Fields": {
+          "Minutes": "{count} Minutes",
+          "SlotDuration": {
+            "Label": "Slot Duration"
+          },
+          "ConsultationType": {
+            "Label": "Consultation Type",
+            "Required": "Choose at least one option",
+            "Options": {
+              "VideoCall": "Video Call",
+              "VoiceCall": "Voice Call"
+            }
+          },
+          "PricePerConsultation": {
+            "Label": "Price Per Consultation",
+            "Placeholder": "AED e.g. 1500",
+            "Required": "Price is Required"
+          },
+          "BufferTimeBetweenSessions": {
+            "Label": "Buffer Time Between Sessions",
+            "Placeholder": "Select buffer time",
+            "NoBuffer": "No Buffer"
+          }
+        }
       }
     },
     "MyEarnings": {

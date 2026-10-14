@@ -1,9 +1,26 @@
 import z from "zod";
 import { T } from "@/types/shared";
+import { CaseType, CourtType, ExecutionType } from "../reference-data";
 
 // Upload rules enforced by the API for case documents
 export const CASE_DOCUMENT_EXTENSIONS = ["pdf", "jpg", "jpeg", "png", "webp"];
 export const CASE_DOCUMENT_MAX_BYTES = 5 * 1024 * 1024;
+
+const CASE_TYPES = [
+  "new_case",
+  "ongoing_case",
+  "judgment_execution",
+] as const satisfies readonly CaseType[];
+const COURT_TYPES = [
+  "first_instance",
+  "appeal",
+  "cassation",
+] as const satisfies readonly CourtType[];
+const EXECUTION_TYPES = [
+  "new_execution_file",
+  "existing_execution_file",
+  "execution_dispute",
+] as const satisfies readonly ExecutionType[];
 
 export const postCaseShema = (t: T) =>
   z
@@ -57,6 +74,11 @@ export const postCaseShema = (t: T) =>
             ),
           t("documents.tooLarge"),
         ),
+
+      case_type: z.enum(CASE_TYPES),
+      // Only required for some case types, enforced in superRefine below
+      court_type: z.enum(COURT_TYPES).optional(),
+      execution_type: z.enum(EXECUTION_TYPES).optional(),
     })
     .superRefine((data, ctx) => {
       if (
@@ -68,6 +90,22 @@ export const postCaseShema = (t: T) =>
           code: "custom",
           message: t("budget.budgetMinMax"),
           path: ["budget_min"],
+        });
+      }
+
+      if (data.case_type === "ongoing_case" && !data.court_type) {
+        ctx.addIssue({
+          code: "custom",
+          message: t("courtType.required"),
+          path: ["court_type"],
+        });
+      }
+
+      if (data.case_type === "judgment_execution" && !data.execution_type) {
+        ctx.addIssue({
+          code: "custom",
+          message: t("executionType.required"),
+          path: ["execution_type"],
         });
       }
     });
@@ -126,6 +164,16 @@ export type Case = {
   reviewed_at: null | string;
   specialization: { id: number; name: string };
   is_reviewed: boolean;
+
+  case_type: CaseType;
+  case_type_label: string;
+
+  court_type: CourtType | null;
+  court_type_label: string | null;
+
+  execution_type: ExecutionType | null;
+  execution_type_label: string | null;
+
   hired_lawyer: {
     id: number;
     name: string;
