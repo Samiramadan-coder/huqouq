@@ -1,5 +1,6 @@
 import z from "zod";
 import { T } from "../shared";
+import { CaseType, CourtType, ExecutionType } from "../reference-data";
 
 export type Case = {
   budget_disclosed: boolean;
@@ -15,6 +16,15 @@ export type Case = {
   urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
   specialization: { id: number; name: string };
+
+  case_type: CaseType;
+  case_type_label: string;
+
+  court_type?: CourtType;
+  court_type_label?: string;
+
+  execution_type?: ExecutionType;
+  execution_type_label?: string;
 };
 
 export type MyOffer = {

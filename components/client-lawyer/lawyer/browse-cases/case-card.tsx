@@ -6,7 +6,14 @@ import { getTranslations } from "next-intl/server";
 import { Case } from "@/types/lawyer/browse-cases";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, Clock, MapPin } from "lucide-react";
+import {
+  ChevronRight,
+  Clock,
+  FileCheck,
+  FilePlus,
+  MapPin,
+  Scale,
+} from "lucide-react";
 
 export default async function CaseCard({
   caseItem,
@@ -31,6 +38,23 @@ export default async function CaseCard({
             urgency={caseItem.urgency}
             urgency_label={caseItem.urgency_label}
           />
+
+          {caseItem.case_type ? (
+            <>
+              <Badge className="rounded-xs text-xs font-normal py-2.5">
+                {caseItem.case_type === "new_case" && <FilePlus />}
+                {caseItem.case_type === "ongoing_case" && <Scale />}
+                {caseItem.case_type === "judgment_execution" && <FileCheck />}
+                {caseItem.case_type_label}
+              </Badge>
+
+              {caseItem.case_type !== "new_case" && (
+                <Badge className="rounded-xs text-xs font-normal py-2.5 border border-yellow-200 bg-yellow-50 text-yellow-700">
+                  {caseItem.court_type_label || caseItem.execution_type}
+                </Badge>
+              )}
+            </>
+          ) : null}
         </div>
 
         <h2 className="font-semibold text-[15px] text-primary mb-2 wrap-break-word">
