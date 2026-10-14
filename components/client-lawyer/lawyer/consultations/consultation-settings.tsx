@@ -123,6 +123,7 @@ export default function ConsultationSettings({
         label={t("Fields.BufferTimeBetweenSessions.Label")}
         placeholder={t("Fields.BufferTimeBetweenSessions.Placeholder")}
         triggerClassName="border border-secondary"
+        className="sm:col-span-2"
         required
         options={[
           {

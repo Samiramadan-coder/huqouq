@@ -17,6 +17,22 @@ export const availabilitySettingsSchema = (t: T) =>
 
     // ISO dates ("YYYY-MM-DD") as produced by the date input
     blocked_dates: z.array(z.iso.date()),
+
+    weekly_recurring_availability: z.array(
+      z.object({
+        day: z.enum([
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday",
+        ]),
+        start_time: z.string(),
+        end_time: z.string(),
+      }),
+    ),
   });
 
 export type AvailabilitySettings = z.infer<

@@ -27,6 +27,7 @@ export default function AvailabilitySettingsForm() {
       price_per_consultation: undefined,
       buffer_time_between_sessions: 0,
       blocked_dates: [],
+      weekly_recurring_availability: [],
     },
   });
 
@@ -45,7 +46,7 @@ export default function AvailabilitySettingsForm() {
       </BlockCard>
 
       <BlockCard title={t("Sections.WeeklyRecurringAvailability")}>
-        <WeeklyRecuringAvailability />
+        <WeeklyRecuringAvailability control={control} />
       </BlockCard>
 
       <BlockCard title={t("Sections.BlockedDates")}>
