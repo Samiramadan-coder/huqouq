@@ -1,10 +1,10 @@
 "use client";
 
 import BlockCard from "./blocked-card";
-import { useForm, SubmitHandler } from "react-hook-form";
 import BlockedDates from "./blocked-dates";
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from "react-hook-form";
 import ConsultationSettings from "./consultation-settings";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { AvailabilitySettings } from "@/types/lawyer/consultations";
@@ -26,6 +26,7 @@ export default function AvailabilitySettingsForm() {
       consultation_type: [],
       price_per_consultation: undefined,
       buffer_time_between_sessions: 0,
+      blocked_dates: [],
     },
   });
 
@@ -48,7 +49,7 @@ export default function AvailabilitySettingsForm() {
       </BlockCard>
 
       <BlockCard title={t("Sections.BlockedDates")}>
-        <BlockedDates />
+        <BlockedDates control={control} />
       </BlockCard>
 
       <SubmitBtn

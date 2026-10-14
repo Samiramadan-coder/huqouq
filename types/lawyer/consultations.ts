@@ -14,6 +14,9 @@ export const availabilitySettingsSchema = (t: T) =>
       .min(1, t("Fields.PricePerConsultation.Required")),
 
     buffer_time_between_sessions: z.number(),
+
+    // ISO dates ("YYYY-MM-DD") as produced by the date input
+    blocked_dates: z.array(z.iso.date()),
   });
 
 export type AvailabilitySettings = z.infer<

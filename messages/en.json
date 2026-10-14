@@ -1893,6 +1893,10 @@
             "Label": "Buffer Time Between Sessions",
             "Placeholder": "Select buffer time",
             "NoBuffer": "No Buffer"
+          },
+          "BlockedDates": {
+            "Hint": "Block specific dates from being booked — e.g. holidays, travel, or personal time off.",
+            "Add": "Add"
           }
         }
       }
