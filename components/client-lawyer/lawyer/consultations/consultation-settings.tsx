@@ -52,7 +52,7 @@ export default function ConsultationSettings({
                     <Checkbox
                       id={`types_${type.value}`}
                       checked={field.value.includes(type.value)}
-                      className="rounded-xs"
+                      className="rounded-xs data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                       onCheckedChange={(checked) =>
                         field.onChange(
                           checked

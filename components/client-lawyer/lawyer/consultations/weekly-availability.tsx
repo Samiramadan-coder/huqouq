@@ -123,9 +123,15 @@ function DayAvailability({
         <Switch
           aria-label={t("ToggleDay", { day: label })}
           checked={slots.length > 0}
+          className="data-[state=checked]:bg-accent"
         />
         <div className="flex-1">
-          <AccordionTrigger className="font-bold">{label}</AccordionTrigger>
+          <AccordionTrigger className="gap-2 items-center">
+            <span className="font-bold min-w-12">{label}</span>
+            <span className="text-xs text-primary/50 font-normal">
+              {slots.map((slot) => `${slot.from}-${slot.to}`).join(", ")}
+            </span>
+          </AccordionTrigger>
         </div>
       </div>
 

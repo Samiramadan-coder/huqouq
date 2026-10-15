@@ -26,7 +26,7 @@ export default function BlockedDates({ control }: Props) {
         const isDuplicate = value.includes(blockedDate);
 
         return (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <p className="text-xs text-primary/40 leading-relaxed">
               {t("Hint")}
             </p>
@@ -34,7 +34,7 @@ export default function BlockedDates({ control }: Props) {
             <div className="flex items-stretch gap-2">
               <Input
                 type="date"
-                className="rounded-sm h-11 border border-secondary"
+                className="rounded-sm h-11 border border-secondary bg-background"
                 value={blockedDate}
                 onChange={(e) => setBlockedDate(e.target.value)}
               />
