@@ -35,6 +35,9 @@ export default async function Page({
       page: page ?? "1",
       status: status ?? "",
     },
+    next: {
+      tags: ["lawyer-consultations"],
+    },
   });
 
   return (

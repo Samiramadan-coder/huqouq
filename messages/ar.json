@@ -1910,6 +1910,17 @@
         "ViewDetails": "عرض التفاصيل",
         "StartsIn": "تبدأ خلال {time}",
         "Countdown": "{hours}س {minutes}د",
+        "Cancel": {
+          "Trigger": "إلغاء",
+          "Title": "إلغاء الاستشارة",
+          "Description": "سيتم إبلاغ العميل بإلغاء هذه الاستشارة.",
+          "ReasonLabel": "السبب",
+          "ReasonPlaceholder": "أخبر العميل بسبب الإلغاء",
+          "ReasonRequired": "يرجى إدخال سبب الإلغاء",
+          "Confirm": "إلغاء الاستشارة",
+          "Back": "الإبقاء عليها",
+          "Failed": "فشل إلغاء الاستشارة. يرجى المحاولة مرة أخرى."
+        },
         "Details": {
           "Title": "تفاصيل الاستشارة",
           "Client": "العميل",

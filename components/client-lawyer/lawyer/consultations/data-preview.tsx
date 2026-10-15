@@ -2,6 +2,7 @@ import { Meta } from "@/types/shared";
 import { useTranslations } from "next-intl";
 import { Calendar, Phone, Video } from "lucide-react";
 import ConsultationStatus from "./consultation-status";
+import CancelConsultation from "./cancel-consultation";
 import ConsultationDetails from "./consultation-details";
 import { Consultation } from "@/types/lawyer/consultations";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -62,6 +63,9 @@ export default function DataPreview({
 
               <div className="flex items-center gap-2 sm:ms-auto">
                 <ConsultationDetails consultation={consultation} />
+                {consultation.can.cancel && (
+                  <CancelConsultation consultationId={consultation.id} />
+                )}
                 <ConsultationStatus consultation={consultation} />
               </div>
             </div>

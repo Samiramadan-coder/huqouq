@@ -1910,6 +1910,17 @@
         "ViewDetails": "View Details",
         "StartsIn": "Starts in {time}",
         "Countdown": "{hours}h {minutes}m",
+        "Cancel": {
+          "Trigger": "Cancel",
+          "Title": "Cancel Consultation",
+          "Description": "The client will be notified that this consultation has been cancelled.",
+          "ReasonLabel": "Reason",
+          "ReasonPlaceholder": "Let the client know why you're cancelling",
+          "ReasonRequired": "Please enter a reason for cancelling",
+          "Confirm": "Cancel Consultation",
+          "Back": "Keep It",
+          "Failed": "Failed to cancel the consultation. Please try again."
+        },
         "Details": {
           "Title": "Consultation Details",
           "Client": "Client",

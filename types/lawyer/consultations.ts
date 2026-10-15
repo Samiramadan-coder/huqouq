@@ -38,6 +38,15 @@ export type AvailabilitySettings = z.infer<
   ReturnType<typeof availabilitySettingsSchema>
 >;
 
+export const cancelConsultationSchema = (t: T) =>
+  z.object({
+    reason: z.string().trim().min(1, t("ReasonRequired")),
+  });
+
+export type CancelConsultationFormValues = z.infer<
+  ReturnType<typeof cancelConsultationSchema>
+>;
+
 export type Options = {
   buffer_minutes: { value: number; label: string }[];
   days: { key: Weekday; label: string }[];
