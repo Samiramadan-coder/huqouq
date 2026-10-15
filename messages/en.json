@@ -1522,6 +1522,15 @@
       "notFound": "Legal service not found",
       "notFoundDescription": "This request doesn't exist or you don't have access to it.",
       "checkoutLoadFailed": "We couldn't load the payment details. Close this window and try again."
+    },
+    "Consultations": {
+      "Filters": {
+        "all": "All",
+        "cancelled": "Cancelled",
+        "completed": "Completed",
+        "needs_new_time": "Needs New Time",
+        "upcoming": "Upcoming"
+      }
     }
   },
   "Lawyer": {
