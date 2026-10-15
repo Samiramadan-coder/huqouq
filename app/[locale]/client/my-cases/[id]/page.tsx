@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { cache, Suspense } from "react";
+import { cache } from "react";
 import { Meta } from "@/types/shared";
 import { notFound } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
-import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import Index from "@/components/client-lawyer/client/cases/details";
@@ -52,7 +51,7 @@ export async function generateMetadata({
   };
 }
 
-async function SingleCase({
+export default async function Page({
   params,
   searchParams,
 }: {
@@ -61,6 +60,7 @@ async function SingleCase({
 }) {
   const { id } = await params;
   const { page } = await searchParams;
+  const t = await getTranslations("Client.Cases");
 
   const caseDetails = await getCase(id);
 
@@ -91,42 +91,16 @@ async function SingleCase({
   ]);
 
   return (
-    <Index
-      caseDetails={caseDetails}
-      offers={offers.data}
-      pagination={offers.meta}
-      timeline={timeline.data.steps}
-    />
-  );
-}
-
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
-}) {
-  const t = await getTranslations("Client.Cases");
-
-  return (
     <div className="container max-w-3xl space-y-6 py-10">
       <BackBtn>
         <span>{t("backToCases")}</span>
       </BackBtn>
-
-      <Suspense
-        fallback={
-          <div role="status" aria-label="Loading">
-            <LoaderPinwheelIcon
-              className="animate-spin text-accent"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      >
-        <SingleCase params={params} searchParams={searchParams} />
-      </Suspense>
+      <Index
+        caseDetails={caseDetails}
+        offers={offers.data}
+        pagination={offers.meta}
+        timeline={timeline.data.steps}
+      />
     </div>
   );
 }

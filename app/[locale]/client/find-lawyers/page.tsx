@@ -1,8 +1,6 @@
-import { Suspense } from "react";
 import { http } from "@/lib/http";
 import type { Metadata } from "next";
 import { Meta } from "@/types/shared";
-import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Filters, Lawyer } from "@/types/client/find-lawyer";
 import { FindLawyerFiltersProvider } from "@/providers/find-lawyer-filters";
@@ -32,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function GetListOfLawyers({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<SerachParams>;
@@ -67,45 +65,24 @@ async function GetListOfLawyers({
   });
 
   return (
-    <div className="flex items-start gap-5">
-      <div className="w-60 shrink-0 sticky top-20 hidden lg:block">
-        <FiltersControl filters={data.filters} />
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <ListOfLawyers
-          lawyers={data.data}
-          pagination={data.meta}
-          caseId={caseId}
-          filters={data.filters}
-        />
-      </div>
-    </div>
-  );
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SerachParams>;
-}) {
-  return (
     <FindLawyerFiltersProvider>
       <div className="space-y-6 px-4 sm:px-6 py-10">
         <QuerySearchAndTitle />
 
-        <Suspense
-          fallback={
-            <div role="status" aria-label="Loading">
-              <LoaderPinwheelIcon
-                className="animate-spin text-accent"
-                aria-hidden="true"
-              />
-            </div>
-          }
-        >
-          <GetListOfLawyers searchParams={searchParams} />
-        </Suspense>
+        <div className="flex items-start gap-5">
+          <div className="w-60 shrink-0 sticky top-20 hidden lg:block">
+            <FiltersControl filters={data.filters} />
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <ListOfLawyers
+              lawyers={data.data}
+              pagination={data.meta}
+              caseId={caseId}
+              filters={data.filters}
+            />
+          </div>
+        </div>
       </div>
     </FindLawyerFiltersProvider>
   );

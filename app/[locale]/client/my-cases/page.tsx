@@ -1,8 +1,6 @@
-import { Suspense } from "react";
 import { http } from "@/lib/http";
 import type { Metadata } from "next";
 import { Meta } from "@/types/shared";
-import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Case, Counts } from "@/types/client/my-cases";
 import Title from "@/components/client-lawyer/reusable/title";
@@ -24,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function ListData({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -47,43 +45,20 @@ async function ListData({
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between flex-wrap gap-2">
-        <Filters counts={data.counts} />
-
-        <div className="ms-auto shrink-0">
-          <AddNew href="/client/my-cases/create">{t("addNew")}</AddNew>
-        </div>
-      </div>
-
-      <DataPreview cases={data.data} pagination={data.meta} />
-    </div>
-  );
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const t = await getTranslations("Client.Cases");
-
-  return (
     <div className="space-y-6 container max-w-7xl py-10">
       <Title>{t("myCases")}</Title>
 
-      <Suspense
-        fallback={
-          <div role="status" aria-label="Loading">
-            <LoaderPinwheelIcon
-              className="animate-spin text-accent"
-              aria-hidden="true"
-            />
+      <div className="space-y-4">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <Filters counts={data.counts} />
+
+          <div className="ms-auto shrink-0">
+            <AddNew href="/client/my-cases/create">{t("addNew")}</AddNew>
           </div>
-        }
-      >
-        <ListData searchParams={searchParams} />
-      </Suspense>
+        </div>
+
+        <DataPreview cases={data.data} pagination={data.meta} />
+      </div>
     </div>
   );
 }

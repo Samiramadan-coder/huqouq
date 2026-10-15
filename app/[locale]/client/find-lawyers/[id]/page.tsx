@@ -1,9 +1,8 @@
+import { cache } from "react";
 import type { Metadata } from "next";
-import { cache, Suspense } from "react";
 import { Meta } from "@/types/shared";
 import { notFound } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
-import { LoaderPinwheelIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { LawyerDetails, Review } from "@/types/client/find-lawyer";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
@@ -52,7 +51,7 @@ export async function generateMetadata({
   };
 }
 
-async function GetLawyerDetails({
+export default async function Page({
   params,
   searchParams,
 }: {
@@ -61,6 +60,7 @@ async function GetLawyerDetails({
 }) {
   const { id } = await params;
   const { caseId, page } = await searchParams;
+  const t = await getTranslations("Client.FindLawyer");
 
   // Start both requests together; the profile decides whether the page exists
   const reviewsRequest = /^\d+$/.test(id)
@@ -88,41 +88,15 @@ async function GetLawyerDetails({
   }
 
   return (
-    <LawyerDetailsPreview
-      lawyer={lawyerDetails.data}
-      ratingBreakdown={lawyerDetails.rating_breakdown}
-      reviews={reviews?.data.data ?? []}
-      reviewsPagination={reviews?.data.meta}
-      caseId={caseId}
-    />
-  );
-}
-
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
-}) {
-  const t = await getTranslations("Client.FindLawyer");
-
-  return (
     <div className="container max-w-5xl space-y-6 py-10">
       <BackBtn>{t("backToFindLawyers")}</BackBtn>
-
-      <Suspense
-        fallback={
-          <div role="status" aria-label="Loading">
-            <LoaderPinwheelIcon
-              className="animate-spin text-accent"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      >
-        <GetLawyerDetails params={params} searchParams={searchParams} />
-      </Suspense>
+      <LawyerDetailsPreview
+        lawyer={lawyerDetails.data}
+        ratingBreakdown={lawyerDetails.rating_breakdown}
+        reviews={reviews?.data.data ?? []}
+        reviewsPagination={reviews?.data.meta}
+        caseId={caseId}
+      />
     </div>
   );
 }

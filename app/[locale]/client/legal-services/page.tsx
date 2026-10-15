@@ -1,9 +1,7 @@
-import { Suspense } from "react";
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import { http } from "@/lib/http";
+import type { Metadata } from "next";
 import { Meta } from "@/types/shared";
-import { LoaderPinwheelIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Counts, LegalService } from "@/types/client/legal-services";
 import Filters from "@/components/client-lawyer/client/legal-services/filters";
 import SectionTitle from "@/components/client-lawyer/client/legal-services/section-title";
@@ -23,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function ListOfLegalServices({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -45,34 +43,12 @@ async function ListOfLegalServices({
   });
 
   return (
-    <div className=" space-y-4">
-      <Filters counts={data.counts} />
-      <ListOfServices services={data.data} pagination={data.meta} />
-    </div>
-  );
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  return (
     <div className="py-10 container max-w-7xl space-y-6">
       <SectionTitle />
-
-      <Suspense
-        fallback={
-          <div role="status" aria-label="Loading">
-            <LoaderPinwheelIcon
-              className="animate-spin text-accent"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      >
-        <ListOfLegalServices searchParams={searchParams} />
-      </Suspense>
+      <div className=" space-y-4">
+        <Filters counts={data.counts} />
+        <ListOfServices services={data.data} pagination={data.meta} />
+      </div>
     </div>
   );
 }
