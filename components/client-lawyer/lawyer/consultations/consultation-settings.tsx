@@ -16,6 +16,7 @@ type Props = {
   control: Control<AvailabilitySettings>;
   errors: FieldErrors<AvailabilitySettings>;
   options: Options;
+  currency: string;
 };
 
 export default function ConsultationSettings({
@@ -23,9 +24,9 @@ export default function ConsultationSettings({
   control,
   errors,
   options,
+  currency,
 }: Props) {
   const t = useTranslations("Lawyer.Consultations.AvailabilitySettings");
-  const tCommon = useTranslations("Common");
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -91,7 +92,7 @@ export default function ConsultationSettings({
         name="price"
         label={t("Fields.PricePerConsultation.Label")}
         inputClassName="border border-secondary bg-background"
-        prefix={tCommon("AED")}
+        prefix={currency}
         type="number"
         required
         errors={errors}

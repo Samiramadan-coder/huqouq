@@ -90,6 +90,7 @@ export default function AvailabilitySettingsForm({ options, data }: Props) {
           control={control}
           errors={errors}
           options={options}
+          currency={data.currency}
         />
       </SectionCard>
 
