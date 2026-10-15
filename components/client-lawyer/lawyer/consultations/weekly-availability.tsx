@@ -17,14 +17,45 @@ import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, useWatch } from "react-hook-form";
 
 type Props = {
   control: Control<AvailabilitySettings>;
   options: Options;
 };
 
+const MINUTES_PER_DAY = 24 * 60;
+
+const toMinutes = (time: string) => {
+  const [hours, minutes] = time.split(":").map(Number);
+  return hours * 60 + minutes;
+};
+
+const formatMinutes = (total: number) =>
+  [Math.floor(total / 60), total % 60]
+    .map((n) => String(n).padStart(2, "0"))
+    .join(":");
+
+// A slot always lasts exactly `slotMinutes`, so its end is derived from its start
+export const withSlotEnd = (from: string, slotMinutes: number): TimeSlot => ({
+  from,
+  to: from ? formatMinutes(toMinutes(from) + slotMinutes) : "",
+});
+
+export const withSlotEnds = (
+  weekly: AvailabilitySettings["weekly"],
+  slotMinutes: number,
+) =>
+  Object.fromEntries(
+    Object.entries(weekly).map(([day, slots]) => [
+      day,
+      slots.map((slot) => withSlotEnd(slot.from, slotMinutes)),
+    ]),
+  ) as AvailabilitySettings["weekly"];
+
 export default function WeeklyAvailability({ control, options }: Props) {
+  const slotMinutes = useWatch({ control, name: "slot_minutes" });
+
   return (
     <Controller
       control={control}
@@ -42,6 +73,7 @@ export default function WeeklyAvailability({ control, options }: Props) {
                 label={options.days.find((d) => d.key === day)?.label ?? day}
                 slots={slots}
                 timeStepMinutes={options.time_step_minutes}
+                slotMinutes={slotMinutes}
                 onSlotsChange={(newSlots) =>
                   onChange({ ...value, [day]: newSlots })
                 }
@@ -59,6 +91,7 @@ type DayAvailabilityProps = {
   label: string;
   slots: TimeSlot[];
   timeStepMinutes: number;
+  slotMinutes: number;
   onSlotsChange: (slots: TimeSlot[]) => void;
 };
 
@@ -67,16 +100,22 @@ function DayAvailability({
   label,
   slots,
   timeStepMinutes,
+  slotMinutes,
   onSlotsChange,
 }: DayAvailabilityProps) {
   const t = useTranslations(
     "Lawyer.Consultations.AvailabilitySettings.Fields.WeeklyAvailability",
   );
 
-  const updateSlot = (index: number, key: keyof TimeSlot, time: string) =>
+  const updateSlotStart = (index: number, from: string) =>
     onSlotsChange(
-      slots.map((slot, i) => (i === index ? { ...slot, [key]: time } : slot)),
+      slots.map((slot, i) =>
+        i === index ? withSlotEnd(from, slotMinutes) : slot,
+      ),
     );
+
+  // Latest start that still lets the slot end by midnight
+  const latestStart = formatMinutes(MINUTES_PER_DAY - slotMinutes);
 
   return (
     <AccordionItem value={day}>
@@ -95,17 +134,24 @@ function DayAvailability({
           {slots.length > 0 ? (
             slots.map((slot, index) => (
               <div key={index} className="flex items-center gap-2">
-                {(["from", "to"] as const).map((key) => (
-                  <Input
-                    key={key}
-                    type="time"
-                    step={timeStepMinutes * 60}
-                    value={slot[key]}
-                    aria-label={`${label} ${t(key === "from" ? "From" : "To")}`}
-                    className="w-32 rounded-sm border border-secondary bg-background"
-                    onChange={(e) => updateSlot(index, key, e.target.value)}
-                  />
-                ))}
+                <Input
+                  type="time"
+                  step={timeStepMinutes * 60}
+                  max={latestStart}
+                  value={slot.from}
+                  aria-label={`${label} ${t("From")}`}
+                  className="w-32 rounded-sm border border-secondary bg-background"
+                  onChange={(e) => updateSlotStart(index, e.target.value)}
+                />
+
+                <Input
+                  type="time"
+                  readOnly
+                  tabIndex={-1}
+                  value={withSlotEnd(slot.from, slotMinutes).to}
+                  aria-label={`${label} ${t("To")}`}
+                  className="w-32 rounded-sm border border-secondary bg-muted"
+                />
 
                 <Button
                   type="button"

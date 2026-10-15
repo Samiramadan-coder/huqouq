@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SectionCard from "./section-card";
 import BlockedDates from "./blocked-dates";
-import WeeklyAvailability from "./weekly-availability";
+import WeeklyAvailability, { withSlotEnds } from "./weekly-availability";
 import ConsultationSettings from "./consultation-settings";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { updateAvailabilitySettings } from "@/lib/lawyer/consultations";
@@ -56,9 +56,12 @@ export default function AvailabilitySettingsForm({ options, data }: Props) {
     let result: Awaited<ReturnType<typeof updateAvailabilitySettings>>;
 
     try {
-      result = await updateAvailabilitySettings(values);
+      result = await updateAvailabilitySettings({
+        ...values,
+        // Re-derive slot ends in case slot_minutes changed after slots were set
+        weekly: withSlotEnds(values.weekly, values.slot_minutes),
+      });
     } catch {
-      // The request itself failed (network, server action error, ...)
       toast.error(tCommon("EditFailed"));
       return;
     }
