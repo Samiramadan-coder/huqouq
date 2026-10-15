@@ -62,7 +62,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
           {filters.service_types.map((service) => (
             <Field key={service.value} orientation="horizontal">
               <Checkbox
-                className="rounded-xs"
+                className="rounded-xs data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                 id={`${idPrefix}-service-type-${service.value}`}
                 name={`service-type-${service.value}`}
                 checked={lawyerFilters.service_type.includes(service.value)}
@@ -104,7 +104,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
           {filters.urgencies.map((urgency) => (
             <Field key={urgency.value} orientation="horizontal">
               <Checkbox
-                className="rounded-xs"
+                className="rounded-xs data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                 id={`${idPrefix}-urgency-${urgency.value}`}
                 name={`urgency-${urgency.value}`}
                 checked={lawyerFilters.urgencies.includes(urgency.value)}
@@ -149,7 +149,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
           {filters.emirates.map((emirate) => (
             <Field key={emirate} orientation="horizontal">
               <Checkbox
-                className="rounded-xs"
+                className="rounded-xs data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                 id={`${idPrefix}-emirate-${emirate}`}
                 name={`emirate-${emirate}`}
                 checked={lawyerFilters.emirates.includes(emirate)}

@@ -8,9 +8,9 @@ import { SlidersHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Filters } from "@/types/lawyer/browse-cases";
 import { Separator } from "@/components/ui/separator";
+import UrgencyBadge from "../../reusable/urgency-label";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
-import UrgencyBadge from "../../reusable/urgency-label";
 
 export default function FiltersControl({ filters }: { filters: Filters }) {
   const t = useTranslations("Lawyer.BrowseCases");
@@ -62,7 +62,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
           {filters.specializations.map((spec) => (
             <Field key={spec.id} orientation="horizontal">
               <Checkbox
-                className="rounded-xs"
+                className="rounded-xs data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                 id={`${idPrefix}-specialization-${spec.id}`}
                 name={`specialization-${spec.id}`}
                 checked={lawyerFilters.specialization_id.includes(spec.id)}
@@ -112,7 +112,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
           {filters.urgencies.map((urgency) => (
             <Field key={urgency.value} orientation="horizontal">
               <Checkbox
-                className="rounded-xs"
+                className="rounded-xs data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                 id={`${idPrefix}-urgency-${urgency.value}`}
                 name={`urgency-${urgency.value}`}
                 checked={lawyerFilters.urgency.includes(urgency.value)}
@@ -155,7 +155,7 @@ export default function FiltersControl({ filters }: { filters: Filters }) {
           {filters.emirates.map((emirate) => (
             <Field key={emirate} orientation="horizontal">
               <Checkbox
-                className="rounded-xs"
+                className="rounded-xs data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                 id={`${idPrefix}-emirate-${emirate}`}
                 name={`emirate-${emirate}`}
                 checked={lawyerFilters.emirate.includes(emirate)}
