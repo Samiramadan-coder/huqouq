@@ -1342,7 +1342,20 @@
       "loadError": "تعذر تحميل هذه الصفحة. يرجى المحاولة مرة أخرى.",
       "retry": "إعادة المحاولة",
       "lawyerNotFound": "المحامي غير موجود",
-      "lawyerNotFoundDescription": "هذا الملف الشخصي غير موجود أو لم يعد متاحًا."
+      "lawyerNotFoundDescription": "هذا الملف الشخصي غير موجود أو لم يعد متاحًا.",
+      "bookConsultation": {
+        "consultationType": "نوع الاستشارة",
+        "minutes": "{count} دقيقة",
+        "selectDate": "اختر التاريخ",
+        "availableTimes": "الأوقات المتاحة",
+        "dateRequired": "التاريخ مطلوب",
+        "timeRequired": "الوقت مطلوب",
+        "briefLabel": "وصف مختصر (اختياري)",
+        "briefPlaceholder": "ما الذي تود مناقشته؟ (يساعد المحامي على الاستعداد)",
+        "price": "السعر",
+        "sessionInfo": "صوت أو فيديو · جلسة مدتها {count} دقيقة",
+        "continueToPayment": "متابعة إلى الدفع"
+      }
     },
     "Messages": {
       "Title": "الرسائل",

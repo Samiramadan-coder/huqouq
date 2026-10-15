@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { LawyerDetails } from "@/types/client/find-lawyer";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Clock3, Heart, ShieldCheck, Star } from "lucide-react";
+import BookConsultations from "./book-consultation";
 
 export default async function DefinitionCard({
   lawyer,
@@ -132,19 +133,7 @@ export default async function DefinitionCard({
             <AssignToLawyer caseId={+caseId} lawyerId={lawyer.id} />
           )}
 
-          {lawyer.consultation && (
-            <Button
-              variant="outline"
-              className="h-15 w-full flex-col gap-0 rounded border-accent bg-white hover:bg-[#fffdf8]"
-            >
-              <span className="text-sm text-accent">
-                {t("bookAConsultation")}
-              </span>
-              <span className="text-[11px] font-normal text-accent">
-                {t("freeLaunchPeriod")}
-              </span>
-            </Button>
-          )}
+          {lawyer.consultation && <BookConsultations lawyerDetails={lawyer} />}
         </div>
 
         <button

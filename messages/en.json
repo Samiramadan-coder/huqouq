@@ -1342,7 +1342,20 @@
       "loadError": "We couldn't load this page. Please try again.",
       "retry": "Try again",
       "lawyerNotFound": "Lawyer not found",
-      "lawyerNotFoundDescription": "This lawyer profile doesn't exist or is no longer available."
+      "lawyerNotFoundDescription": "This lawyer profile doesn't exist or is no longer available.",
+      "bookConsultation": {
+        "consultationType": "Consultation Type",
+        "minutes": "{count} min",
+        "selectDate": "Select a Date",
+        "availableTimes": "Available Times",
+        "dateRequired": "Date is required",
+        "timeRequired": "Time is required",
+        "briefLabel": "Brief Description (Optional)",
+        "briefPlaceholder": "What would you like to discuss? (Helps the lawyer prepare)",
+        "price": "Price",
+        "sessionInfo": "Voice or Video · {count} min session",
+        "continueToPayment": "Continue to Payment"
+      }
     },
     "Messages": {
       "Title": "Messages",
