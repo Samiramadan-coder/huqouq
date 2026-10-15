@@ -68,3 +68,66 @@ export type AvailabilitySettingsResponse = {
   options: Options;
   data: Data;
 };
+
+export type Counts = {
+  all: number;
+  cancelled: number;
+  completed: number;
+  needs_new_time: number;
+  upcoming: number;
+};
+
+type Can = {
+  cancel: boolean;
+  join_call: boolean;
+  rate: boolean;
+  reschedule: boolean;
+};
+
+type Client = {
+  display_name: string;
+  first_name: string;
+  id: number;
+  photo_url: string;
+};
+
+type Payment = {
+  amount: number;
+  currency: string;
+  fee_percentage: number;
+  lawyer_amount: number;
+  payout_status: string;
+  platform_fee: number;
+};
+
+export type Consultation = {
+  brief: null | string;
+  can: Can;
+  cancellation: null | string;
+  cancelled_at: null | string;
+  client: Client;
+  created_at: string;
+  date: string;
+  date_label: string;
+  duration_minutes: number;
+  ends_at: string;
+  id: number;
+  is_reviewed: boolean;
+  join_call_opens_at: string;
+  lawyer: null;
+  lawyer_cancel_reason: null | string;
+  lawyer_cancelled: boolean;
+  lawyer_cancelled_at: null | string;
+  payment: Payment;
+  reference: string;
+  rescheduled: boolean;
+  rescheduled_from: null | string;
+  review: null | string;
+  starts_at: string;
+  status: string;
+  status_label: string;
+  time: string;
+  time_label: string;
+  type: string;
+  type_label: string;
+};

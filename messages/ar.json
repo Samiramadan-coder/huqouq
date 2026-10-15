@@ -1898,7 +1898,30 @@
         "AvailabilitySettings": "إعدادات التوفر"
       },
       "Bookings": {
-        "Title": "الحجوزات"
+        "Title": "الحجوزات",
+        "Filters": {
+          "all": "الكل",
+          "cancelled": "ملغاة",
+          "completed": "مكتملة",
+          "needs_new_time": "بحاجة إلى موعد جديد",
+          "upcoming": "قادمة"
+        },
+        "NoConsultations": "لا توجد استشارات.",
+        "ViewDetails": "عرض التفاصيل",
+        "StartsIn": "تبدأ خلال {time}",
+        "Countdown": "{hours}س {minutes}د",
+        "Details": {
+          "Title": "تفاصيل الاستشارة",
+          "Client": "العميل",
+          "Type": "النوع",
+          "Date": "التاريخ",
+          "DateTimeValue": "{date} الساعة {time}",
+          "Duration": "المدة",
+          "DurationValue": "{count} دقيقة (مجدولة)",
+          "Price": "السعر",
+          "ClientNote": "ملاحظة العميل",
+          "Close": "إغلاق"
+        }
       },
       "AvailabilitySettings": {
         "Title": "إعدادات التوفر",

@@ -1898,8 +1898,32 @@
         "AvailabilitySettings": "Availability settings"
       },
       "Bookings": {
-        "Title": "Bookings"
+        "Title": "Bookings",
+        "Filters": {
+          "all": "All",
+          "cancelled": "Cancelled",
+          "completed": "Completed",
+          "needs_new_time": "Needs New Time",
+          "upcoming": "Upcoming"
+        },
+        "NoConsultations": "No consultations available.",
+        "ViewDetails": "View Details",
+        "StartsIn": "Starts in {time}",
+        "Countdown": "{hours}h {minutes}m",
+        "Details": {
+          "Title": "Consultation Details",
+          "Client": "Client",
+          "Type": "Type",
+          "Date": "Date",
+          "DateTimeValue": "{date} at {time}",
+          "Duration": "Duration",
+          "DurationValue": "{count} min (scheduled)",
+          "Price": "Price",
+          "ClientNote": "Client's Note",
+          "Close": "Close"
+        }
       },
+
       "AvailabilitySettings": {
         "Title": "Availability Settings",
         "Sections": {
