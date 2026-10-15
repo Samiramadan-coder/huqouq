@@ -1,5 +1,6 @@
+import Details from "./details";
 import { Meta } from "@/types/shared";
-import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import { Calendar, Clock, Phone } from "lucide-react";
 import { Consultation } from "@/types/client/consultation";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -12,6 +13,8 @@ export default function DataPreview({
   data: Consultation[];
   pagination: Meta;
 }) {
+  const t = useTranslations("Client.Consultations");
+
   return (
     <div className="mt-4 space-y-4">
       {data.length > 0 ? (
@@ -52,18 +55,13 @@ export default function DataPreview({
               </div>
 
               <div>
-                <Button
-                  variant="outline"
-                  className="rounded-sm border-secondary bg-transparent text-primary/50 font-normal text-xs hover:text-accent hover:bg-transparent"
-                >
-                  Details
-                </Button>
+                <Details consultation={consultation} />
               </div>
             </div>
           </div>
         ))
       ) : (
-        <span className="text-primary/55">No consultations available.</span>
+        <span className="text-primary/55">{t("noConsultations")}</span>
       )}
       {pagination.last_page > 1 && (
         <PaginationTemplate

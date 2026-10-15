@@ -1522,6 +1522,30 @@
       "notFound": "الخدمة القانونية غير موجودة",
       "notFoundDescription": "هذا الطلب غير موجود أو ليس لديك صلاحية الوصول إليه.",
       "checkoutLoadFailed": "تعذر تحميل تفاصيل الدفع. أغلق هذه النافذة وحاول مرة أخرى."
+    },
+    "Consultations": {
+      "Filters": {
+        "all": "الكل",
+        "cancelled": "ملغاة",
+        "completed": "مكتملة",
+        "needs_new_time": "بحاجة إلى موعد جديد",
+        "upcoming": "قادمة"
+      },
+      "noConsultations": "لا توجد استشارات.",
+      "Details": {
+        "trigger": "التفاصيل",
+        "consultationType": "نوع الاستشارة",
+        "duration": "المدة",
+        "minutes": "{count} دقيقة",
+        "dateTime": "التاريخ والوقت",
+        "dateTimeValue": "{date} الساعة {time}",
+        "pricePaid": "المبلغ المدفوع",
+        "free": "مجاني (فترة الإطلاق)",
+        "whatYouShared": "ما شاركته",
+        "joinCall": "انضم إلى المكالمة",
+        "reschedule": "إعادة الجدولة",
+        "cancelConsultation": "إلغاء الاستشارة"
+      }
     }
   },
   "Lawyer": {

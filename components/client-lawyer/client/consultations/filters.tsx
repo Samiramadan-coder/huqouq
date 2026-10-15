@@ -2,8 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { parseAsString, useQueryStates } from "nuqs";
-import { Separator } from "@/components/ui/separator";
 import { Counts } from "@/types/client/consultation";
+import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Filters({ counts }: { counts: Counts }) {

@@ -1530,6 +1530,21 @@
         "completed": "Completed",
         "needs_new_time": "Needs New Time",
         "upcoming": "Upcoming"
+      },
+      "noConsultations": "No consultations available.",
+      "Details": {
+        "trigger": "Details",
+        "consultationType": "Consultation Type",
+        "duration": "Duration",
+        "minutes": "{count} minutes",
+        "dateTime": "Date & Time",
+        "dateTimeValue": "{date} at {time}",
+        "pricePaid": "Price Paid",
+        "free": "Free (Launch Period)",
+        "whatYouShared": "What You Shared",
+        "joinCall": "Join Call",
+        "reschedule": "Reschedule",
+        "cancelConsultation": "Cancel Consultation"
       }
     }
   },
