@@ -38,6 +38,8 @@ type FormInputProps<T extends FieldValues> = {
   autoComplete?: React.HTMLInputAutoCompleteAttribute;
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   maxLength?: number;
+  min?: number;
+  max?: number;
   dir?: "ltr" | "rtl";
   ariaLabel?: string;
 };
@@ -60,6 +62,8 @@ export default function FormInput<T extends FieldValues>({
   autoComplete,
   inputMode,
   maxLength,
+  min,
+  max,
   dir,
   ariaLabel,
 }: FormInputProps<T>) {
@@ -75,6 +79,8 @@ export default function FormInput<T extends FieldValues>({
               : Number(value),
         })
       : register(name);
+
+  const numberProps = type === "number" ? { min, max } : {};
 
   const hasAddon = Boolean(prefix || suffix);
 
@@ -126,6 +132,7 @@ export default function FormInput<T extends FieldValues>({
                 autoComplete={autoComplete}
                 inputMode={inputMode}
                 maxLength={maxLength}
+                {...numberProps}
                 disabled={disabled}
                 className={cn(
                   "h-full min-w-0 flex-1 rounded-none bg-transparent px-0 shadow-none",
@@ -157,6 +164,7 @@ export default function FormInput<T extends FieldValues>({
               autoComplete={autoComplete}
               inputMode={inputMode}
               maxLength={maxLength}
+              {...numberProps}
               disabled={disabled}
               className={cn(
                 "h-11 rounded-none border-0 border-b border-border bg-transparent shadow-none",

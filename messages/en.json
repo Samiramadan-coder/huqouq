@@ -1872,17 +1872,12 @@
           "SaveAvailability": "Save Availability"
         },
         "Fields": {
-          "Minutes": "{count} Minutes",
           "SlotDuration": {
             "Label": "Slot Duration"
           },
           "ConsultationType": {
             "Label": "Consultation Type",
-            "Required": "Choose at least one option",
-            "Options": {
-              "VideoCall": "Video Call",
-              "VoiceCall": "Voice Call"
-            }
+            "Required": "Choose at least one option"
           },
           "PricePerConsultation": {
             "Label": "Price Per Consultation",
@@ -1891,8 +1886,7 @@
           },
           "BufferTimeBetweenSessions": {
             "Label": "Buffer Time Between Sessions",
-            "Placeholder": "Select buffer time",
-            "NoBuffer": "No Buffer"
+            "Placeholder": "Select buffer time"
           },
           "BlockedDates": {
             "Hint": "Block specific dates from being booked — e.g. holidays, travel, or personal time off.",

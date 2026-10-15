@@ -3,6 +3,7 @@
 import BlockCard from "./blocked-card";
 import BlockedDates from "./blocked-dates";
 import { useTranslations } from "next-intl";
+import { Data, Options } from "@/types/lawyer/consultations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ConsultationSettings from "./consultation-settings";
@@ -11,7 +12,13 @@ import { AvailabilitySettings } from "@/types/lawyer/consultations";
 import WeeklyRecuringAvailability from "./weekly-recuring-availability";
 import { availabilitySettingsSchema } from "@/types/lawyer/consultations";
 
-export default function AvailabilitySettingsForm() {
+export default function AvailabilitySettingsForm({
+  options,
+  data,
+}: {
+  options: Options;
+  data: Data;
+}) {
   const t = useTranslations("Lawyer.Consultations.AvailabilitySettings");
 
   const {
@@ -22,12 +29,29 @@ export default function AvailabilitySettingsForm() {
   } = useForm<AvailabilitySettings>({
     resolver: zodResolver(availabilitySettingsSchema(t)),
     defaultValues: {
-      slot_duration: 30,
-      consultation_type: [],
-      price_per_consultation: undefined,
-      buffer_time_between_sessions: 0,
-      blocked_dates: [],
-      weekly_recurring_availability: [],
+      slot_minutes: data.slot_minutes ?? options.slot_minutes[0].value,
+      types: data.types ?? [],
+      price: data.price ?? undefined,
+      buffer_minutes: data.buffer_minutes ?? 0,
+      blocked_dates: data.blocked_dates ?? [],
+      weekly: data.weekly ?? {
+        sun: [],
+        mon: [],
+        tue: [],
+        wed: [],
+        thu: [],
+        fri: [],
+        sat: [],
+      },
+      // weekly_recurring_availability: [
+      //   { day: "monday", is_available: false, slots: [] },
+      //   { day: "tuesday", is_available: false, slots: [] },
+      //   { day: "wednesday", is_available: false, slots: [] },
+      //   { day: "thursday", is_available: false, slots: [] },
+      //   { day: "friday", is_available: false, slots: [] },
+      //   { day: "saturday", is_available: false, slots: [] },
+      //   { day: "sunday", is_available: false, slots: [] },
+      // ],
     },
   });
 
@@ -42,11 +66,12 @@ export default function AvailabilitySettingsForm() {
           register={register}
           control={control}
           errors={errors}
+          options={options}
         />
       </BlockCard>
 
       <BlockCard title={t("Sections.WeeklyRecurringAvailability")}>
-        <WeeklyRecuringAvailability control={control} />
+        <WeeklyRecuringAvailability control={control} options={options} />
       </BlockCard>
 
       <BlockCard title={t("Sections.BlockedDates")}>
