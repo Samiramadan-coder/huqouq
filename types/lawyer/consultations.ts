@@ -19,27 +19,6 @@ export const availabilitySettingsSchema = (t: T) =>
       z.enum(["sun", "mon", "tue", "wed", "thu", "fri", "sat"]),
       z.array(z.object({ from: z.string(), to: z.string() })),
     ),
-
-    // weekly: z.array(
-    //   z.object({
-    //     day: z.enum([
-    //       "monday",
-    //       "tuesday",
-    //       "wednesday",
-    //       "thursday",
-    //       "friday",
-    //       "saturday",
-    //       "sunday",
-    //     ]),
-    //     is_available: z.boolean(),
-    //     slots: z.array(
-    //       z.object({
-    //         start_time: z.string(),
-    //         end_time: z.string(),
-    //       }),
-    //     ),
-    //   }),
-    // ),
   });
 
 export type AvailabilitySettings = z.infer<

@@ -3,14 +3,19 @@
 import BlockCard from "./blocked-card";
 import BlockedDates from "./blocked-dates";
 import { useTranslations } from "next-intl";
-import { Data, Options } from "@/types/lawyer/consultations";
+import {
+  Data,
+  Options,
+  AvailabilitySettings,
+  availabilitySettingsSchema,
+} from "@/types/lawyer/consultations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ConsultationSettings from "./consultation-settings";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
-import { AvailabilitySettings } from "@/types/lawyer/consultations";
 import WeeklyRecuringAvailability from "./weekly-recuring-availability";
-import { availabilitySettingsSchema } from "@/types/lawyer/consultations";
+import { updateAvailabilitySettings } from "@/lib/lawyer/consultations";
+import { toast } from "sonner";
 
 export default function AvailabilitySettingsForm({
   options,
@@ -24,6 +29,7 @@ export default function AvailabilitySettingsForm({
   const {
     register,
     control,
+    setError,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<AvailabilitySettings>({
@@ -43,20 +49,31 @@ export default function AvailabilitySettingsForm({
         fri: [],
         sat: [],
       },
-      // weekly_recurring_availability: [
-      //   { day: "monday", is_available: false, slots: [] },
-      //   { day: "tuesday", is_available: false, slots: [] },
-      //   { day: "wednesday", is_available: false, slots: [] },
-      //   { day: "thursday", is_available: false, slots: [] },
-      //   { day: "friday", is_available: false, slots: [] },
-      //   { day: "saturday", is_available: false, slots: [] },
-      //   { day: "sunday", is_available: false, slots: [] },
-      // ],
     },
   });
 
-  const onSubmit: SubmitHandler<AvailabilitySettings> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<AvailabilitySettings> = async (data) => {
+    const result = await updateAvailabilitySettings(data);
+
+    if (result.success) {
+      toast.success(result.message);
+      return;
+    }
+
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    if (fieldErrors.length > 0) {
+      fieldErrors.forEach(([field, message]) => {
+        setError(field as keyof AvailabilitySettings, {
+          type: "manual",
+          message,
+        });
+      });
+
+      return;
+    }
   };
 
   return (

@@ -28,8 +28,8 @@ export default function WeeklyRecuringAvailability({
         const { value, onChange } = field;
 
         const days = Object.entries(value).map(([day, slots]) => ({
-          day: day,
-          slots: slots,
+          day,
+          slots,
         }));
 
         return (
@@ -37,24 +37,16 @@ export default function WeeklyRecuringAvailability({
             type="multiple"
             className="*:data-[slot=accordion-item]:border-secondary"
           >
-            {(days ?? []).map((day, index) => {
+            {days.map((day) => {
               const dayLabel =
                 options.days.find((d) => d.key === day.day)?.label ?? day.day;
 
               return (
-                <AccordionItem
-                  key={day.day}
-                  value={day.day}
-                  // disabled={day.slots.length === 0}
-                >
+                <AccordionItem key={day.day} value={day.day}>
                   <div className="flex items-center gap-2">
                     <Switch
-                      aria-label={`Toggle availability for ${day.day}`}
-                      // onCheckedChange={(checked) => {
-                      //   const newValue = [...value];
-                      //   newValue[index].is_available = checked;
-                      //   onChange(newValue);
-                      // }}
+                      aria-label={`Toggle availability for ${dayLabel}`}
+                      checked={day.slots.length > 0}
                     />
                     <div className="flex-1">
                       <AccordionTrigger className="font-bold">
@@ -64,7 +56,7 @@ export default function WeeklyRecuringAvailability({
                   </div>
 
                   <AccordionContent>
-                    <div className="space-y-3">
+                    <div className="space-y-3 px-8 pt-4">
                       {day.slots.length > 0 ? (
                         day.slots.map((slot, slotIndex) => (
                           <div
@@ -78,7 +70,7 @@ export default function WeeklyRecuringAvailability({
                                 step={options.time_step_minutes * 60}
                                 value={slot[key]}
                                 aria-label={`${dayLabel} ${key}`}
-                                className="w-32 rounded-sm border border-secondary"
+                                className="w-32 rounded-sm border border-secondary bg-background"
                                 onChange={(e) =>
                                   onChange({
                                     ...value,
@@ -93,8 +85,9 @@ export default function WeeklyRecuringAvailability({
                             ))}
 
                             <Button
+                              type="button"
                               size="icon"
-                              variant="destructive"
+                              variant="ghost"
                               aria-label={`Remove slot ${slotIndex + 1} for ${dayLabel}`}
                               onClick={() =>
                                 onChange({
@@ -105,7 +98,7 @@ export default function WeeklyRecuringAvailability({
                                 })
                               }
                             >
-                              <Trash2 className="size-4" />
+                              <Trash2 className="size-4 text-destructive" />
                             </Button>
                           </div>
                         ))
@@ -116,6 +109,7 @@ export default function WeeklyRecuringAvailability({
                       )}
 
                       <Button
+                        type="button"
                         variant="ghost"
                         className="text-accent text-xs p-0 hover:bg-transparent hover:text-accent"
                         aria-label={`Add slot for ${dayLabel}`}

@@ -79,7 +79,7 @@ export default function ConsultationSettings({
         control={control}
         name="slot_minutes"
         label={t("Fields.SlotDuration.Label")}
-        triggerClassName="border border-secondary"
+        triggerClassName="border border-secondary bg-background"
         required
         options={options.slot_minutes}
       />
@@ -88,7 +88,7 @@ export default function ConsultationSettings({
         register={register}
         name="price"
         label={t("Fields.PricePerConsultation.Label")}
-        inputClassName="border border-secondary"
+        inputClassName="border border-secondary bg-background"
         prefix={tCommon("AED")}
         type="number"
         required
@@ -102,7 +102,7 @@ export default function ConsultationSettings({
         name="buffer_minutes"
         label={t("Fields.BufferTimeBetweenSessions.Label")}
         placeholder={t("Fields.BufferTimeBetweenSessions.Placeholder")}
-        triggerClassName="border border-secondary"
+        triggerClassName="border border-secondary bg-background"
         className="sm:col-span-2"
         required
         options={options.buffer_minutes}

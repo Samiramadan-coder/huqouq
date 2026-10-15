@@ -19,7 +19,6 @@ export default async function Page() {
     data: Data;
   }>("/api/lawyer/consultation-availability");
 
-  // console.log(data);
   return (
     <div>
       <AvailabilitySettingsForm options={data.options} data={data.data} />
