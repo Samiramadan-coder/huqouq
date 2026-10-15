@@ -132,17 +132,19 @@ export default async function DefinitionCard({
             <AssignToLawyer caseId={+caseId} lawyerId={lawyer.id} />
           )}
 
-          <Button
-            variant="outline"
-            className="h-15 w-full flex-col gap-0 rounded border-accent bg-white hover:bg-[#fffdf8]"
-          >
-            <span className="text-sm text-accent">
-              {t("bookAConsultation")}
-            </span>
-            <span className="text-[11px] font-normal text-accent">
-              {t("freeLaunchPeriod")}
-            </span>
-          </Button>
+          {lawyer.consultation && (
+            <Button
+              variant="outline"
+              className="h-15 w-full flex-col gap-0 rounded border-accent bg-white hover:bg-[#fffdf8]"
+            >
+              <span className="text-sm text-accent">
+                {t("bookAConsultation")}
+              </span>
+              <span className="text-[11px] font-normal text-accent">
+                {t("freeLaunchPeriod")}
+              </span>
+            </Button>
+          )}
         </div>
 
         <button
