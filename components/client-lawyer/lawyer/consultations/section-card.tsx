@@ -1,4 +1,4 @@
-export default function BlockCard({
+export default function SectionCard({
   title,
   children,
 }: {

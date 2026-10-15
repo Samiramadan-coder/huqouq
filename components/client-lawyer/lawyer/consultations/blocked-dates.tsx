@@ -34,7 +34,7 @@ export default function BlockedDates({ control }: Props) {
             <div className="flex items-stretch gap-2">
               <Input
                 type="date"
-                className="rounded-sm  h-11 border border-secondary"
+                className="rounded-sm h-11 border border-secondary"
                 value={blockedDate}
                 onChange={(e) => setBlockedDate(e.target.value)}
               />
@@ -44,8 +44,6 @@ export default function BlockedDates({ control }: Props) {
                 type="button"
                 className="h-11 px-4 text-xs rounded-sm"
                 onClick={() => {
-                  if (!blockedDate || isDuplicate) return;
-
                   onChange([...value, blockedDate].sort());
                   setBlockedDate("");
                 }}
@@ -67,6 +65,7 @@ export default function BlockedDates({ control }: Props) {
                     size="icon"
                     variant="ghost"
                     className="px-0!"
+                    aria-label={t("Remove", { date })}
                     onClick={() => onChange(value.filter((d) => d !== date))}
                   >
                     <X className="size-4" />

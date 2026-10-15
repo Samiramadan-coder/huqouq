@@ -1,6 +1,22 @@
 import z from "zod";
 import { T } from "../shared";
 
+export const weekdays = [
+  "sun",
+  "mon",
+  "tue",
+  "wed",
+  "thu",
+  "fri",
+  "sat",
+] as const;
+
+export type Weekday = (typeof weekdays)[number];
+
+const timeSlotSchema = z.object({ from: z.string(), to: z.string() });
+
+export type TimeSlot = z.infer<typeof timeSlotSchema>;
+
 export const availabilitySettingsSchema = (t: T) =>
   z.object({
     types: z.array(z.string()).min(1, t("Fields.ConsultationType.Required")),
@@ -15,10 +31,7 @@ export const availabilitySettingsSchema = (t: T) =>
 
     blocked_dates: z.array(z.iso.date()),
 
-    weekly: z.record(
-      z.enum(["sun", "mon", "tue", "wed", "thu", "fri", "sat"]),
-      z.array(z.object({ from: z.string(), to: z.string() })),
-    ),
+    weekly: z.record(z.enum(weekdays), z.array(timeSlotSchema)),
   });
 
 export type AvailabilitySettings = z.infer<
@@ -27,7 +40,7 @@ export type AvailabilitySettings = z.infer<
 
 export type Options = {
   buffer_minutes: { value: number; label: string }[];
-  days: { key: string; label: string }[];
+  days: { key: Weekday; label: string }[];
   price: { min: number; max: number };
   slot_minutes: { value: number; label: string }[];
   time_step_minutes: number;
@@ -37,7 +50,7 @@ export type Options = {
 export type Data = {
   active_days: number;
   blocked_dates: string[];
-  bookable: false;
+  bookable: boolean;
   buffer_minutes: number;
   currency: string;
   not_bookable_reason: string;
@@ -46,7 +59,12 @@ export type Data = {
   slot_minutes: number;
   types: string[];
   weekly: Record<
-    "sun" | "mon" | "tue" | "wed" | "thu" | "fri" | "sat",
-    { from: string; to: string; from_label: string; to_label: string }[]
+    Weekday,
+    (TimeSlot & { from_label: string; to_label: string })[]
   >;
+};
+
+export type AvailabilitySettingsResponse = {
+  options: Options;
+  data: Data;
 };

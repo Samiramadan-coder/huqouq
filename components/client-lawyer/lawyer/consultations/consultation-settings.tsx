@@ -36,28 +36,30 @@ export default function ConsultationSettings({
           render={({ field }) => (
             <div className="space-y-3">
               <FieldLabel
-                htmlFor="types"
+                id="types-label"
                 className="text-xs text-primary/50 uppercase tracking-widest font-semibold after:ms-1 after:text-destructive after:content-['*']"
               >
                 {t("Fields.ConsultationType.Label")}
               </FieldLabel>
 
-              <div className="flex items-center gap-6">
+              <div
+                role="group"
+                aria-labelledby="types-label"
+                className="flex items-center gap-6"
+              >
                 {options.types.map((type) => (
                   <div className="flex items-center gap-2" key={type.value}>
                     <Checkbox
                       id={`types_${type.value}`}
                       checked={field.value.includes(type.value)}
                       className="rounded-xs"
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          field.onChange([...field.value, type.value]);
-                        } else {
-                          field.onChange(
-                            field.value.filter((v) => v !== type.value),
-                          );
-                        }
-                      }}
+                      onCheckedChange={(checked) =>
+                        field.onChange(
+                          checked
+                            ? [...field.value, type.value]
+                            : field.value.filter((v) => v !== type.value),
+                        )
+                      }
                     />
                     <label
                       htmlFor={`types_${type.value}`}

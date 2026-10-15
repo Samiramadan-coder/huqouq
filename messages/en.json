@@ -1888,9 +1888,18 @@
             "Label": "Buffer Time Between Sessions",
             "Placeholder": "Select buffer time"
           },
+          "WeeklyAvailability": {
+            "NoSlots": "No time slots available",
+            "AddSlot": "Add time slot",
+            "From": "From",
+            "To": "To",
+            "ToggleDay": "Toggle availability for {day}",
+            "RemoveSlot": "Remove slot {index} for {day}"
+          },
           "BlockedDates": {
             "Hint": "Block specific dates from being booked — e.g. holidays, travel, or personal time off.",
-            "Add": "Add"
+            "Add": "Add",
+            "Remove": "Remove {date}"
           }
         }
       }

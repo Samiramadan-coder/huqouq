@@ -1864,7 +1864,44 @@
         "Title": "الحجوزات"
       },
       "AvailabilitySettings": {
-        "Title": "إعدادات التوفر"
+        "Title": "إعدادات التوفر",
+        "Sections": {
+          "ConsultationSettings": "إعدادات الاستشارة",
+          "WeeklyRecurringAvailability": "التوفر الأسبوعي المتكرر",
+          "BlockedDates": "التواريخ المحظورة (الاستثناءات)",
+          "SaveAvailability": "حفظ التوفر"
+        },
+        "Fields": {
+          "SlotDuration": {
+            "Label": "مدة الجلسة"
+          },
+          "ConsultationType": {
+            "Label": "نوع الاستشارة",
+            "Required": "اختر خيارًا واحدًا على الأقل"
+          },
+          "PricePerConsultation": {
+            "Label": "سعر الاستشارة",
+            "Placeholder": "درهم، مثال: 1500",
+            "Required": "السعر مطلوب"
+          },
+          "BufferTimeBetweenSessions": {
+            "Label": "الفاصل الزمني بين الجلسات",
+            "Placeholder": "اختر الفاصل الزمني"
+          },
+          "WeeklyAvailability": {
+            "NoSlots": "لا توجد فترات زمنية متاحة",
+            "AddSlot": "إضافة فترة زمنية",
+            "From": "من",
+            "To": "إلى",
+            "ToggleDay": "تبديل التوفر ليوم {day}",
+            "RemoveSlot": "حذف الفترة {index} ليوم {day}"
+          },
+          "BlockedDates": {
+            "Hint": "احظر تواريخ محددة من الحجز — مثل العطلات أو السفر أو الإجازات الشخصية.",
+            "Add": "إضافة",
+            "Remove": "إزالة {date}"
+          }
+        }
       }
     },
     "MyEarnings": {

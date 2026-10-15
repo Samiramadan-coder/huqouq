@@ -1,30 +1,31 @@
-import { AvailabilitySettings } from "@/types/lawyer/consultations";
-import { http, ValidationError } from "../http";
+"use server";
 
-// Update availability settings for a lawyer's consultations
-type ConsultationResponse =
+import { http, ValidationError } from "../http";
+import { AvailabilitySettings } from "@/types/lawyer/consultations";
+
+// Update availability settings response type
+type UpdateAvailabilitySettingsResponse =
   | {
       success: true;
       message: string;
     }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof AvailabilitySettings, string>>;
     };
 
+// Updates the lawyer's consultation availability settings
 export async function updateAvailabilitySettings(
   values: AvailabilitySettings,
-): Promise<ConsultationResponse> {
+): Promise<UpdateAvailabilitySettingsResponse> {
   try {
     const { data } = await http.post<{ message: string }>(
       "/api/lawyer/consultation-availability",
       values,
     );
 
-    return {
-      success: true,
-      message: data.message,
-    };
+    return { success: true, message: data.message };
   } catch (error) {
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -33,9 +34,11 @@ export async function updateAvailabilitySettings(
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof AvailabilitySettings, string>>;
-      return { success: false, errors };
+
+      return { success: false, errors, message: error.responseMessage };
     }
 
+    console.error("Error updating availability settings:", error);
     return { success: false };
   }
 }
