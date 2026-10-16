@@ -20,10 +20,27 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { CallType, getCallCredentials } from "./config";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
+import {
+  CallType,
+  CallSchedule,
+  CallEndReason,
+  CallEndResult,
+  formatSeconds,
+  getCallCredentials,
+  ENDING_SOON_MINUTES,
+} from "./config";
+import { useCallTiming } from "@/hook/use-call-timing";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
+  Clock,
+  Hourglass,
   Mic,
   MicOff,
   PhoneOff,
@@ -35,9 +52,10 @@ import {
 export type AgoraCallProps = {
   consultationId: number;
   callType: CallType;
+  schedule: CallSchedule;
   remoteName: string;
   remotePhoto?: string | null;
-  onLeave: () => void;
+  onEnd: (result: CallEndResult) => void;
 };
 
 // Volume level (0-1) above which a participant is shown as speaking.
@@ -63,42 +81,13 @@ function getErrorCode(error: AgoraRTCReactError | null) {
     : error.rtcError?.code;
 }
 
-function formatDuration(totalSeconds: number) {
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  const pad = (n: number) => String(n).padStart(2, "0");
-
-  return hours > 0
-    ? `${hours}:${pad(minutes)}:${pad(seconds)}`
-    : `${pad(minutes)}:${pad(seconds)}`;
-}
-
-function useCallTimer(running: boolean) {
-  const [seconds, setSeconds] = useState(0);
-
-  useEffect(() => {
-    if (!running) return;
-    const startedAt = Date.now();
-    const interval = setInterval(
-      () => setSeconds(Math.floor((Date.now() - startedAt) / 1000)),
-      1000,
-    );
-    return () => {
-      clearInterval(interval);
-      setSeconds(0);
-    };
-  }, [running]);
-
-  return seconds;
-}
-
 function CallRoom({
   consultationId,
   callType,
+  schedule,
   remoteName,
   remotePhoto,
-  onLeave,
+  onEnd,
 }: AgoraCallProps) {
   const t = useTranslations("Call");
   const client = useRTCClient();
@@ -129,7 +118,15 @@ function CallRoom({
 
   const remoteUsers = useRemoteUsers();
   const remoteUser = remoteUsers[0];
-  const duration = useCallTimer(!!remoteUser);
+  const timing = useCallTiming(schedule);
+
+  // Time spent in the call is measured from our own join, not the schedule.
+  const joinedAtRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (isConnected && joinedAtRef.current === null) {
+      joinedAtRef.current = Date.now();
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     localMicrophoneTrack?.setMuted(!micOn);
@@ -144,17 +141,31 @@ function CallRoom({
     return () => tracksRef.current.forEach((track) => track.close());
   }, []);
 
-  async function handleLeave() {
+  const endingRef = useRef(false);
+  async function endCall(reason: CallEndReason) {
+    if (endingRef.current) return;
+    endingRef.current = true;
     setLeaving(true);
+
+    const joinedAt = joinedAtRef.current;
+    const durationSeconds = joinedAt ? (Date.now() - joinedAt) / 1000 : 0;
+
     try {
       await client.leave();
-    } finally {
-      // close() also stops the track and releases the mic/camera.
-      localMicrophoneTrack?.close();
-      localCameraTrack?.close();
-      onLeave();
+    } catch {
+      // Already disconnected; nothing left to leave.
     }
+    // close() also stops the track and releases the mic/camera.
+    localMicrophoneTrack?.close();
+    localCameraTrack?.close();
+    onEnd({ reason, durationSeconds });
   }
+
+  // Auto-leave once the extra time after the scheduled end runs out.
+  const onTimeUp = useEffectEvent(() => endCall("timeEnded"));
+  useEffect(() => {
+    if (timing.phase === "ended") onTimeUp();
+  }, [timing.phase]);
 
   const mediaError = micError ?? cameraError;
   const mediaErrorCode = getErrorCode(mediaError);
@@ -190,20 +201,53 @@ function CallRoom({
           {isVideo ? t("videoCall") : t("audioCall")}
         </span>
 
-        {errorMessage ? null : remoteUser ? (
-          <span
-            className="font-semibold tabular-nums text-accent"
-            aria-label={t("duration")}
-          >
-            {formatDuration(duration)}
-          </span>
-        ) : (
+        {!isConnected && !errorMessage ? (
           <span className="flex items-center gap-1.5 text-primary/55">
             <Spinner className="size-3" />
-            {isConnected ? t("waiting") : t("connecting")}
+            {t("connecting")}
           </span>
-        )}
+        ) : timing.phase === "lobby" ? (
+          <span className="flex items-center gap-1.5 tabular-nums text-primary/55">
+            <Clock className="size-3" aria-hidden="true" />
+            {t("startsIn", { time: formatSeconds(timing.secondsToStart) })}
+          </span>
+        ) : timing.phase === "inProgress" ? (
+          <span
+            className={cn(
+              "flex items-center gap-1.5 font-semibold tabular-nums",
+              timing.isEndingSoon ? "text-amber-600" : "text-accent",
+            )}
+          >
+            <Clock className="size-3" aria-hidden="true" />
+            {t("timeLeft", { time: formatSeconds(timing.secondsToEnd) })}
+          </span>
+        ) : timing.phase === "extraTime" ? (
+          <span className="flex items-center gap-1.5 font-semibold tabular-nums text-destructive">
+            <Hourglass className="size-3" aria-hidden="true" />
+            {formatSeconds(timing.secondsToHardEnd)}
+          </span>
+        ) : null}
       </div>
+
+      {timing.isEndingSoon && (
+        <p
+          role="status"
+          className="flex items-center gap-2 rounded-sm border border-amber-200 bg-amber-50 px-4 py-2.5 text-xs text-amber-700"
+        >
+          <TriangleAlert className="size-3.5 shrink-0" aria-hidden="true" />
+          {t("endingSoon", { minutes: ENDING_SOON_MINUTES })}
+        </p>
+      )}
+
+      {timing.phase === "extraTime" && (
+        <p
+          role="status"
+          className="flex items-center gap-2 rounded-sm border border-destructive/20 bg-destructive/5 px-4 py-2.5 text-xs text-destructive"
+        >
+          <Hourglass className="size-3.5 shrink-0" aria-hidden="true" />
+          {t("extraTime", { time: formatSeconds(timing.secondsToHardEnd) })}
+        </p>
+      )}
 
       {errorMessage ? (
         <div
@@ -318,7 +362,7 @@ function CallRoom({
           type="button"
           className="rounded-sm bg-destructive font-normal text-white hover:bg-destructive/90"
           disabled={leaving}
-          onClick={handleLeave}
+          onClick={() => endCall("left")}
         >
           {leaving ? <Spinner /> : <PhoneOff />}
           {t("leave")}

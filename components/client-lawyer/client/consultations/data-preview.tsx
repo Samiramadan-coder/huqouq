@@ -69,9 +69,15 @@ export default function DataPreview({
                   <JoinCall
                     consultationId={consultation.id}
                     callType={toCallType(consultation.type)}
+                    schedule={{
+                      // startsAt: "2026-10-16T14:50:00+03:00",
+                      startsAt: consultation.starts_at,
+                      durationMinutes: consultation.duration_minutes,
+                    }}
                     remoteName={consultation.lawyer.name}
                     remotePhoto={consultation.lawyer.photo_url}
                     label={t("joinCall")}
+                    consultationsHref="/client/my-consultations"
                   />
                 )}
               </div>
