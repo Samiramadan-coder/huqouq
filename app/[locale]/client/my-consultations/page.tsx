@@ -30,8 +30,6 @@ export default async function Page({
     },
   });
 
-  console.log(data.data);
-
   return (
     <div>
       <Filters counts={data.counts} />

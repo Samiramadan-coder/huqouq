@@ -1,14 +1,14 @@
 "use client";
 
 import z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { T } from "@/types/shared";
 import { useTranslations } from "next-intl";
-import FormInput from "../shared/form/form-input";
-import FormTextarea from "../shared/form/form-textarea";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import FormInput from "../shared/form/form-input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormTextarea from "../shared/form/form-textarea";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 const schema = (t: T) =>
   z.object({
@@ -31,9 +31,7 @@ export default function Form() {
     resolver: zodResolver(schema(t)),
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    // console.log(data);
-  };
+  const onSubmit: SubmitHandler<FormData> = () => {};
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
