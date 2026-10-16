@@ -1544,7 +1544,11 @@
         "whatYouShared": "ما شاركته",
         "joinCall": "انضم إلى المكالمة",
         "reschedule": "إعادة الجدولة",
-        "cancelConsultation": "إلغاء الاستشارة"
+        "cancelConsultation": "إلغاء الاستشارة",
+        "selectDate": "اختر التاريخ",
+        "availableTimes": "الأوقات المتاحة",
+        "dateRequired": "التاريخ مطلوب",
+        "timeRequired": "الوقت مطلوب"
       }
     }
   },
