@@ -8,6 +8,7 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
+import Reschedule from "./rescheduale";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -131,12 +132,10 @@ export default function Details({
           {(can.reschedule || can.cancel) && (
             <div className="flex gap-4">
               {can.reschedule && (
-                <Button
-                  variant="outline"
-                  className="flex-1 h-11 rounded-sm border-secondary bg-transparent text-primary/60 font-normal"
-                >
-                  {t("reschedule")}
-                </Button>
+                <Reschedule
+                  lawyerId={consultation.lawyer.id}
+                  consultationId={consultation.id}
+                />
               )}
               {can.cancel && (
                 <Button

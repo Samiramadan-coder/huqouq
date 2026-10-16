@@ -1524,6 +1524,7 @@
       "checkoutLoadFailed": "We couldn't load the payment details. Close this window and try again."
     },
     "Consultations": {
+      "noConsultations": "No consultations available.",
       "Filters": {
         "all": "All",
         "cancelled": "Cancelled",
@@ -1531,7 +1532,6 @@
         "needs_new_time": "Needs New Time",
         "upcoming": "Upcoming"
       },
-      "noConsultations": "No consultations available.",
       "Details": {
         "trigger": "Details",
         "consultationType": "Consultation Type",
@@ -1544,7 +1544,11 @@
         "whatYouShared": "What You Shared",
         "joinCall": "Join Call",
         "reschedule": "Reschedule",
-        "cancelConsultation": "Cancel Consultation"
+        "cancelConsultation": "Cancel Consultation",
+        "selectDate": "Select Date",
+        "availableTimes": "Available Times",
+        "dateRequired": "Date is required",
+        "timeRequired": "Time is required"
       }
     }
   },

@@ -55,7 +55,7 @@ export type Consultation = {
   rescheduled_from: null | string;
   review: null;
   starts_at: string;
-  status: string;
+  status: "needs_new_time" | "upcoming" | "completed" | "cancelled";
   status_label: string;
   time: string;
   time_label: string;
