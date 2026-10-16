@@ -1,12 +1,13 @@
 import { Meta } from "@/types/shared";
 import { useTranslations } from "next-intl";
-import { Calendar, Phone, Video } from "lucide-react";
+import { Calendar, Phone, PhoneCall, Video } from "lucide-react";
 import ConsultationStatus from "./consultation-status";
 import CancelConsultation from "./cancel-consultation";
 import ConsultationDetails from "./consultation-details";
 import { Consultation } from "@/types/lawyer/consultations";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
+import { Button } from "@/components/ui/button";
 
 export default function DataPreview({
   data,
@@ -63,10 +64,19 @@ export default function DataPreview({
 
               <div className="flex items-center gap-2 sm:ms-auto">
                 <ConsultationDetails consultation={consultation} />
+
                 {consultation.can.cancel && (
                   <CancelConsultation consultationId={consultation.id} />
                 )}
+
                 <ConsultationStatus consultation={consultation} />
+
+                {consultation.can.join_call && (
+                  <Button className="bg-accent font-normal rounded-sm">
+                    <PhoneCall />
+                    {t("joinCall")}
+                  </Button>
+                )}
               </div>
             </div>
           );

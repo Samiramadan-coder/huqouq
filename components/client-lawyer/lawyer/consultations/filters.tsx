@@ -10,10 +10,10 @@ export default function Filters({ counts }: { counts: Counts }) {
 
   const statusKeys: (keyof Counts)[] = [
     "all",
-    "cancelled",
-    "completed",
-    "needs_new_time",
     "upcoming",
+    "needs_new_time",
+    "completed",
+    "cancelled",
   ];
 
   const [filters, setFilters] = useQueryStates({

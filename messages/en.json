@@ -1525,6 +1525,7 @@
     },
     "Consultations": {
       "noConsultations": "No consultations available.",
+      "joinCall": "Join Call",
       "Filters": {
         "all": "All",
         "cancelled": "Cancelled",
@@ -1906,6 +1907,7 @@
       },
       "Bookings": {
         "Title": "Bookings",
+        "joinCall": "Join Call",
         "Filters": {
           "all": "All",
           "cancelled": "Cancelled",
