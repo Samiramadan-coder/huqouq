@@ -8,9 +8,10 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
+import Cancel from "./cancel";
 import Reschedule from "./rescheduale";
 import { useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/badge";
+import StatusBadge from "./status-badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone, Video } from "lucide-react";
 import { Consultation } from "@/types/client/consultation";
@@ -73,12 +74,10 @@ export default function Details({
         </DialogHeader>
 
         <div className="p-6 space-y-5">
-          <Badge
-            variant="outline"
-            className="rounded-sm border-secondary bg-secondary/40 text-primary px-2.5 py-3"
-          >
-            {consultation.status_label}
-          </Badge>
+          <StatusBadge
+            status={consultation.status}
+            label={consultation.status_label}
+          />
 
           <div className="grid grid-cols-2 gap-5">
             <DetailItem label={t("consultationType")}>
@@ -138,12 +137,10 @@ export default function Details({
                 />
               )}
               {can.cancel && (
-                <Button
-                  variant="outline"
-                  className="flex-1 h-11 rounded-sm border-destructive/20 bg-transparent text-destructive font-normal hover:bg-destructive/5 hover:text-destructive"
-                >
-                  {t("cancelConsultation")}
-                </Button>
+                <Cancel
+                  consultationId={consultation.id}
+                  policy={consultation.cancellation.policy || undefined}
+                />
               )}
             </div>
           )}

@@ -1548,7 +1548,10 @@
         "selectDate": "Select Date",
         "availableTimes": "Available Times",
         "dateRequired": "Date is required",
-        "timeRequired": "Time is required"
+        "timeRequired": "Time is required",
+        "cancelDescription": "Are you sure you want to cancel this consultation?",
+        "keepIt": "Keep It",
+        "cancelFailed": "Failed to cancel the consultation. Please try again."
       }
     }
   },
@@ -1938,7 +1941,6 @@
           "Close": "Close"
         }
       },
-
       "AvailabilitySettings": {
         "Title": "Availability Settings",
         "Sections": {

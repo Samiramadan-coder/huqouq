@@ -39,3 +39,26 @@ export async function rescheduleConsultation(
     return { success: false };
   }
 }
+
+// Cancel Consultation
+type CancelConsultationResponse =
+  { success: true; message?: string } | { success: false; message?: string };
+
+export async function cancelConsultation(
+  consultationId: number,
+): Promise<CancelConsultationResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/consultations/${consultationId}/cancel`,
+    );
+
+    updateTag(`consultations`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    console.error("Error cancelling consultation:", error);
+    return { success: false };
+  }
+}

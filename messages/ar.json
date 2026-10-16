@@ -1548,7 +1548,10 @@
         "selectDate": "اختر التاريخ",
         "availableTimes": "الأوقات المتاحة",
         "dateRequired": "التاريخ مطلوب",
-        "timeRequired": "الوقت مطلوب"
+        "timeRequired": "الوقت مطلوب",
+        "cancelDescription": "هل أنت متأكد من رغبتك في إلغاء هذه الاستشارة؟",
+        "keepIt": "الإبقاء عليها",
+        "cancelFailed": "فشل إلغاء الاستشارة. يرجى المحاولة مرة أخرى."
       }
     }
   },

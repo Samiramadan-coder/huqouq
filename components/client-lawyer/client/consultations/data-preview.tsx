@@ -1,6 +1,7 @@
 import Details from "./details";
 import { Meta } from "@/types/shared";
 import { useTranslations } from "next-intl";
+import StatusBadge from "./status-badge";
 import { Calendar, Clock, Phone } from "lucide-react";
 import { Consultation } from "@/types/client/consultation";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -54,7 +55,12 @@ export default function DataPreview({
                 </div>
               </div>
 
-              <div>
+              <div className="flex items-center gap-2 sm:ms-auto">
+                <StatusBadge
+                  status={consultation.status}
+                  label={consultation.status_label}
+                />
+
                 <Details consultation={consultation} />
               </div>
             </div>
