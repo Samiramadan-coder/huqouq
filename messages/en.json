@@ -2131,5 +2131,35 @@
         "you": "You"
       }
     }
+  },
+  "Call": {
+    "title": "Call with {name}",
+    "videoDescription": "Video consultation",
+    "audioDescription": "Voice consultation",
+    "videoCall": "Video call",
+    "audioCall": "Voice call",
+    "connecting": "Connecting...",
+    "waiting": "Waiting for the other party to join...",
+    "duration": "Call duration",
+    "you": "You",
+    "connected": "Connected",
+    "speaking": "Speaking",
+    "muted": "Muted",
+    "mute": "Mute microphone",
+    "unmute": "Unmute microphone",
+    "cameraOff": "Turn camera off",
+    "cameraOn": "Turn camera on",
+    "leave": "Leave",
+    "microphone": "microphone",
+    "camera": "camera",
+    "Errors": {
+      "permissionDenied": "Access to your {device} was blocked. Allow access to join the call.",
+      "permissionHint": "Click the camera/lock icon in your browser's address bar, allow access, then leave and join the call again.",
+      "deviceNotFound": "No {device} was found. Connect one and try again.",
+      "deviceInUse": "Your {device} is being used by another app. Close it and try again.",
+      "deviceFailed": "We couldn't start your {device}. Please try again.",
+      "joinFailed": "We couldn't connect to the call. Please try again.",
+      "missingConfig": "Calls aren't configured yet. Please contact support."
+    }
   }
 }
