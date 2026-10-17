@@ -2,21 +2,24 @@
 
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
-import type { PayoutDetailsSchemaType } from "@/components/client-lawyer/lawyer/settings/payout-details";
+import { PayoutDetailsFormValues } from "@/types/lawyer/settings";
 
-type PayoutResponse =
+// Update payout details response type
+type UpdatePayoutDetailsResponse =
   | {
       success: true;
       message: string;
     }
   | {
       success: false;
-      errors?: Partial<Record<keyof PayoutDetailsSchemaType, string>>;
+      message?: string;
+      errors?: Partial<Record<keyof PayoutDetailsFormValues, string>>;
     };
 
+// Updates the bank account the lawyer's earnings are paid out to
 export async function updatePayoutDetails(
-  values: PayoutDetailsSchemaType,
-): Promise<PayoutResponse> {
+  values: PayoutDetailsFormValues,
+): Promise<UpdatePayoutDetailsResponse> {
   try {
     const { data } = await http.put<{ message: string }>(
       "/api/lawyer/payout-details",
@@ -32,9 +35,9 @@ export async function updatePayoutDetails(
           field,
           messages[0] ?? "Invalid value",
         ]),
-      ) as Partial<Record<keyof PayoutDetailsSchemaType, string>>;
+      ) as Partial<Record<keyof PayoutDetailsFormValues, string>>;
 
-      return { success: false, errors };
+      return { success: false, errors, message: error.responseMessage };
     }
 
     console.error("Error updating payout details:", error);

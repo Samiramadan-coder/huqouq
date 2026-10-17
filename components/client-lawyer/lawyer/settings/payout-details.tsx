@@ -1,147 +1,181 @@
 "use client";
 
-import z from "zod";
-import { T } from "@/types/shared";
+import {
+  PayoutDetailsType,
+  payoutDetailsSchema,
+  PayoutDetailsFormValues,
+} from "@/types/lawyer/settings";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Edit, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import type { PayoutDetailsType } from "@/types/lawyer/settings";
-import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
-import { useState } from "react";
+import { updatePayoutDetails } from "@/lib/lawyer/settings";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
-import { updatePayoutDetails } from "@/lib/lawyer/settings";
-import { toast } from "sonner";
+import SectionCard from "@/components/client-lawyer/lawyer/consultations/section-card";
 
-const payoutDetailsSchema = (t: T) =>
-  z.object({
-    iban: z.string().min(1, "IBAN is required"),
-    account_name: z.string().min(1, "Account name is required"),
-  });
-
-export type PayoutDetailsSchemaType = z.infer<
-  ReturnType<typeof payoutDetailsSchema>
->;
+// Groups an IBAN into blocks of four for readability
+const formatIban = (iban: string) => iban.replace(/(.{4})(?=.)/g, "$1 ");
 
 export default function PayoutDetails({
   payoutDetails,
 }: {
   payoutDetails: PayoutDetailsType;
 }) {
-  const t = useTranslations("Lawyer.Settings");
-  const [isEditMode, setIsEditMode] = useState(false);
+  const t = useTranslations("Lawyer.Settings.PayoutDetails");
+  const [isEditMode, setIsEditMode] = useState(!payoutDetails.provided);
 
   const {
+    reset,
     register,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<PayoutDetailsSchemaType>({
+  } = useForm<PayoutDetailsFormValues>({
     resolver: zodResolver(payoutDetailsSchema(t)),
     defaultValues: {
-      iban: payoutDetails.iban ?? "",
       account_name: payoutDetails.account_name ?? "",
+      iban: payoutDetails.iban ?? "",
     },
   });
 
-  const onSubmit: SubmitHandler<PayoutDetailsSchemaType> = async (data) => {
-    const result = await updatePayoutDetails(data);
+  const onCancel = () => {
+    reset();
+    setIsEditMode(false);
+  };
+
+  const onSubmit: SubmitHandler<PayoutDetailsFormValues> = async (values) => {
+    let result: Awaited<ReturnType<typeof updatePayoutDetails>>;
+
+    try {
+      result = await updatePayoutDetails(values);
+    } catch {
+      toast.error(t("Messages.UpdateFailed"));
+      return;
+    }
 
     if (result.success) {
-      toast.success(result.message);
+      toast.success(result.message || t("Messages.Updated"));
+      // Keep the saved values as the baseline for a later cancel
+      reset(values);
       setIsEditMode(false);
       return;
     }
 
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([key, message]) => {
-        setError(key as keyof PayoutDetailsSchemaType, {
-          type: "manual",
-          message,
-        });
+    Object.entries(result.errors ?? {}).forEach(([field, message]) => {
+      if (!message) return;
+      setError(field as keyof PayoutDetailsFormValues, {
+        type: "server",
+        message,
       });
-    }
+    });
+
+    toast.error(result.message ?? t("Messages.UpdateFailed"));
   };
 
   return (
-    <div className="bg-white p-5 border border-secondary flex items-start gap-6">
-      {/* Data Preview */}
-      {!isEditMode && (
-        <div className="flex-1 flex flex-col gap-2">
-          <p className="text-sm text-primary font-semibold">
-            IBAN:{" "}
-            <span className="font-normal">
-              {payoutDetails.iban || (
-                <span className="text-primary/50">N/A</span>
-              )}
-            </span>
-          </p>
-          <p className="text-sm text-primary font-semibold">
-            Account Name:{" "}
-            <span className="font-normal">
-              {payoutDetails.account_name || (
-                <span className="text-primary/50">N/A</span>
-              )}
-            </span>
-          </p>
-        </div>
-      )}
-
-      {/* Edit Mode Form */}
-      {isEditMode && (
-        <form
-          className="flex-1 flex flex-col gap-4"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <FormInput
-            register={register}
-            name="iban"
-            label="IBAN"
-            errors={errors}
-            required
-            inputClassName="bg-background border border-secondary"
-          />
-
-          <FormInput
-            register={register}
-            name="account_name"
-            label="Account Name"
-            errors={errors}
-            required
-            inputClassName="bg-background border border-secondary"
-          />
-
-          <SubmitBtn
-            label="Save Changes"
-            className="bg-accent"
-            loading={isSubmitting}
-          />
-        </form>
-      )}
-
-      {/* Edit and Cancel buttons */}
-      <div>
+    <SectionCard title={t("Title")}>
+      <div className="flex flex-col-reverse sm:flex-row sm:items-start gap-4 sm:gap-6">
         {isEditMode ? (
-          <Button
-            variant="outline"
-            className="bg-transparent rounded-sm border-destructive/50 text-xs text-destructive/80 hover:bg-transparent"
-            onClick={() => setIsEditMode(false)}
+          <form
+            noValidate
+            className="flex-1 grid grid-cols-1 gap-6"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <Edit />
-            Cancel
-          </Button>
+            <FormInput
+              required
+              errors={errors}
+              register={register}
+              name="account_name"
+              autoComplete="name"
+              label={t("Fields.AccountName.Label")}
+              placeholder={t("Fields.AccountName.Placeholder")}
+              disabled={isSubmitting}
+              inputClassName="bg-background border border-secondary"
+            />
+
+            <FormInput
+              required
+              dir="ltr"
+              errors={errors}
+              register={register}
+              name="iban"
+              autoComplete="off"
+              maxLength={42}
+              label={t("Fields.Iban.Label")}
+              placeholder={t("Fields.Iban.Placeholder")}
+              description={t("Fields.Iban.Description")}
+              disabled={isSubmitting}
+              inputClassName="bg-background border border-secondary uppercase rtl:text-end"
+            />
+
+            <div className="flex justify-end">
+              <SubmitBtn
+                label={t("Save")}
+                loading={isSubmitting}
+                showArrow={false}
+                className="bg-accent min-w-35 w-auto h-10 px-5"
+              />
+            </div>
+          </form>
         ) : (
-          <Button
-            variant="outline"
-            className="bg-transparent rounded-sm border-secondary text-xs text-primary/70 hover:bg-transparent"
-            onClick={() => setIsEditMode(true)}
-          >
-            <Edit />
-            Edit
-          </Button>
+          <dl className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <dt className="text-xs text-primary/50 uppercase tracking-widest font-semibold">
+                {t("Fields.AccountName.Label")}
+              </dt>
+              <dd className="text-sm text-primary wrap-break-word">
+                {payoutDetails.account_name || (
+                  <span className="text-primary/50">{t("NotProvided")}</span>
+                )}
+              </dd>
+            </div>
+
+            <div className="space-y-1">
+              <dt className="text-xs text-primary/50 uppercase tracking-widest font-semibold">
+                {t("Fields.Iban.Label")}
+              </dt>
+              <dd className="text-sm text-primary break-all">
+                {payoutDetails.iban ? (
+                  <span dir="ltr">{formatIban(payoutDetails.iban)}</span>
+                ) : (
+                  <span className="text-primary/50">{t("NotProvided")}</span>
+                )}
+              </dd>
+            </div>
+          </dl>
         )}
+
+        <div className="flex justify-end">
+          {isEditMode ? (
+            payoutDetails.provided && (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isSubmitting}
+                className="bg-transparent rounded-sm border-destructive/50 text-xs text-destructive/80 hover:bg-transparent"
+                onClick={onCancel}
+              >
+                <X />
+                {t("Cancel")}
+              </Button>
+            )
+          ) : (
+            <Button
+              type="button"
+              variant="outline"
+              className="bg-transparent rounded-sm border-secondary text-xs text-primary/70 hover:bg-transparent"
+              onClick={() => setIsEditMode(true)}
+            >
+              <Edit />
+              {t("Edit")}
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
+    </SectionCard>
   );
 }

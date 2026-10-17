@@ -1988,7 +1988,34 @@
       "Title": "My Earnings"
     },
     "Settings": {
-      "Title": "Settings"
+      "Title": "Settings",
+      "Description": "Manage your account settings and the bank account your earnings are paid out to.",
+      "PayoutDetails": {
+        "Title": "Payout Details",
+        "NotProvided": "Not provided",
+        "Edit": "Edit",
+        "Cancel": "Cancel",
+        "Save": "Save Changes",
+        "Fields": {
+          "AccountName": {
+            "Label": "Account Holder Name",
+            "Placeholder": "Name as it appears on your bank account",
+            "Required": "Account holder name is required"
+          },
+          "Iban": {
+            "Label": "IBAN",
+            "Placeholder": "AE07 0331 2345 6789 0123 456",
+            "Description": "UAE IBANs start with AE followed by 21 digits.",
+            "Required": "IBAN is required",
+            "Invalid": "Enter a valid IBAN",
+            "InvalidUae": "A UAE IBAN must be AE followed by 21 digits"
+          }
+        },
+        "Messages": {
+          "Updated": "Payout details updated successfully",
+          "UpdateFailed": "Failed to update payout details"
+        }
+      }
     },
     "EmergencyHistory": {
       "Title": "Emergency History"
