@@ -1,10 +1,17 @@
 import { http } from "@/lib/http";
 import type { Metadata } from "next";
+import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { Info, MoveRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { Summary } from "@/types/lawyer/my-earnings";
 import Stats from "@/components/client-lawyer/lawyer/my-earnings/stats";
+import type { Summary, Counts, Earning } from "@/types/lawyer/my-earnings";
+import Filters from "@/components/client-lawyer/lawyer/my-earnings/filters";
+import DataPreview from "@/components/client-lawyer/lawyer/my-earnings/data-preview";
+
+type SearchParams = {
+  tab?: string;
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Lawyer.MyEarnings");
@@ -15,15 +22,25 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { tab } = await searchParams;
   const t = await getTranslations("Lawyer.MyEarnings");
 
   const { data } = await http.get<{
+    meta: Meta;
+    counts: Counts;
     summary: Summary;
+    data: Earning[];
     payout_details_missing: boolean;
-  }>("/api/lawyer/earnings");
-
-  console.log(data);
+  }>("/api/lawyer/earnings", {
+    params: {
+      tab: tab ?? "",
+    },
+  });
 
   return (
     <div className="space-y-4">
@@ -46,6 +63,10 @@ export default async function Page() {
           </Link>
         </div>
       )}
+
+      <Filters counts={data.counts} />
+
+      <DataPreview earnings={data.data} pagination={data.meta} />
     </div>
   );
 }

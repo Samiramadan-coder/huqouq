@@ -1988,6 +1988,14 @@
       "Title": "My Earnings",
       "MissedDataHint": "Huqouq transfers your Ready earnings directly to your registered bank account.",
       "UpdatedDataHint": "Update Bank Details",
+      "Filters": {
+        "all": "All",
+        "pending": "Pending",
+        "consultations": "Consultations",
+        "legal_services": "Legal Services",
+        "paid": "Paid",
+        "ready": "Ready"
+      },
       "Stats": {
         "TotalEarned": {
           "Label": "Total Earned",
@@ -2004,6 +2012,31 @@
         "PaidToDate": {
           "Label": "Paid to Date",
           "Hint": "Transferred to bank"
+        }
+      },
+      "Table": {
+        "Source": "Source",
+        "Client": "Client",
+        "Date": "Date",
+        "Amount": "Amount",
+        "Status": "Status",
+        "NoEarnings": "No earnings yet",
+        "ToggleDetails": "Show earning details",
+        "ServiceFee": "Service Fee: {amount}",
+        "YourShare": "Your Share ({percentage}%): {amount}",
+        "PaidOn": "Paid on {date}",
+        "AvailableOn": "Available {date}",
+        "Details": {
+          "ServiceDetails": "Service Details",
+          "FeeBreakdown": "Fee Breakdown",
+          "Type": "Type",
+          "Client": "Client",
+          "Gross": "Gross (paid by client)",
+          "PlatformFee": "Huqouq Platform Fee ({percentage}%)",
+          "YourShare": "Your Share ({percentage}%)",
+          "YourEarnings": "Your Earnings",
+          "PaidOn": "Paid on",
+          "PayoutReference": "Reference"
         }
       }
     },

@@ -1988,6 +1988,14 @@
       "Title": "أرباحي",
       "MissedDataHint": "يقوم حقوق بتحويل أرباحك الجاهزة مباشرة إلى حسابك البنكي المسجل.",
       "UpdatedDataHint": "تحديث بيانات البنك",
+      "Filters": {
+        "all": "الكل",
+        "pending": "قيد الانتظار",
+        "consultations": "الاستشارات",
+        "legal_services": "الخدمات القانونية",
+        "paid": "مدفوع",
+        "ready": "جاهز"
+      },
       "Stats": {
         "TotalEarned": {
           "Label": "إجمالي الأرباح",
@@ -2004,6 +2012,31 @@
         "PaidToDate": {
           "Label": "المدفوع حتى الآن",
           "Hint": "تم تحويلها إلى البنك"
+        }
+      },
+      "Table": {
+        "Source": "المصدر",
+        "Client": "العميل",
+        "Date": "التاريخ",
+        "Amount": "المبلغ",
+        "Status": "الحالة",
+        "NoEarnings": "لا توجد أرباح بعد",
+        "ToggleDetails": "عرض تفاصيل الربح",
+        "ServiceFee": "رسوم الخدمة: {amount}",
+        "YourShare": "حصتك ({percentage}%): {amount}",
+        "PaidOn": "دُفعت في {date}",
+        "AvailableOn": "متاحة في {date}",
+        "Details": {
+          "ServiceDetails": "تفاصيل الخدمة",
+          "FeeBreakdown": "تفاصيل الرسوم",
+          "Type": "النوع",
+          "Client": "العميل",
+          "Gross": "الإجمالي (مدفوع من العميل)",
+          "PlatformFee": "رسوم منصة حقوق ({percentage}%)",
+          "YourShare": "حصتك ({percentage}%)",
+          "YourEarnings": "أرباحك",
+          "PaidOn": "تاريخ الدفع",
+          "PayoutReference": "المرجع"
         }
       }
     },
