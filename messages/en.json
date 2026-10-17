@@ -1985,7 +1985,27 @@
       }
     },
     "MyEarnings": {
-      "Title": "My Earnings"
+      "Title": "My Earnings",
+      "MissedDataHint": "Huqouq transfers your Ready earnings directly to your registered bank account.",
+      "UpdatedDataHint": "Update Bank Details",
+      "Stats": {
+        "TotalEarned": {
+          "Label": "Total Earned",
+          "Hint": "All time"
+        },
+        "Pending": {
+          "Label": "Pending",
+          "Hint": "Awaiting approval / hold"
+        },
+        "ReadyForPayout": {
+          "Label": "Ready for Payout",
+          "Hint": "Available to transfer"
+        },
+        "PaidToDate": {
+          "Label": "Paid to Date",
+          "Hint": "Transferred to bank"
+        }
+      }
     },
     "Settings": {
       "Title": "Settings",
