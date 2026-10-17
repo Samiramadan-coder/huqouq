@@ -7,7 +7,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Summary } from "@/types/lawyer/my-earnings";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { useEarningFormatters } from "./use-earning-formatters";
 
 type StatItem = {
   key: "TotalEarned" | "Pending" | "ReadyForPayout" | "PaidToDate";
@@ -19,8 +20,7 @@ type StatItem = {
 };
 
 export default function Stats({ summary }: { summary: Summary }) {
-  const format = useFormatter();
-  const tCommon = useTranslations("Common");
+  const { money } = useEarningFormatters();
   const t = useTranslations("Lawyer.MyEarnings.Stats");
 
   const stats: StatItem[] = [
@@ -86,8 +86,7 @@ export default function Stats({ summary }: { summary: Summary }) {
                 valueClassName,
               )}
             >
-              {tCommon("AED")}{" "}
-              {format.number(value, { numberingSystem: "latn" })}
+              {money(value, summary.currency)}
             </p>
 
             <p className="mt-1 text-[11px] text-primary/40">

@@ -5,6 +5,7 @@ import { parseAsString, useQueryStates } from "nuqs";
 import { Separator } from "@/components/ui/separator";
 import type { Counts } from "@/types/lawyer/my-earnings";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEarningFormatters } from "./use-earning-formatters";
 
 const statusKeys: (keyof Counts)[] = [
   "all",
@@ -16,6 +17,7 @@ const statusKeys: (keyof Counts)[] = [
 ];
 
 export default function Filters({ counts }: { counts: Counts }) {
+  const { count } = useEarningFormatters();
   const t = useTranslations("Lawyer.MyEarnings.Filters");
   const [{ tab }, setFilters] = useQueryStates({
     tab: parseAsString
@@ -37,7 +39,7 @@ export default function Filters({ counts }: { counts: Counts }) {
             <TabsTrigger key={key} value={key} className="h-9">
               {t(key)}
               <span className="ms-1 h-4 min-w-4 px-1 bg-secondary rounded-full text-primary/40 text-[10px]">
-                {counts[key]}
+                {count(counts[key])}
               </span>
             </TabsTrigger>
           ))}

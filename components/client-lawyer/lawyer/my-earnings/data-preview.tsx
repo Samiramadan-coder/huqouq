@@ -15,7 +15,8 @@ import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Earning } from "@/types/lawyer/my-earnings";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { useEarningFormatters } from "./use-earning-formatters";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 const COLUMNS_COUNT = 6;
@@ -23,28 +24,6 @@ const COLUMNS_COUNT = 6;
 // Share of the gross amount as a whole percentage, e.g. 90
 const percentageOf = (part: number, whole: number) =>
   whole > 0 ? Math.round((part / whole) * 100) : 0;
-
-function useEarningFormatters() {
-  const format = useFormatter();
-  const tCommon = useTranslations("Common");
-
-  const money = (value: number) =>
-    `${tCommon("AED")} ${format.number(value, { numberingSystem: "latn" })}`;
-
-  // Short day and month, e.g. "Jun 8"; falls back to the raw value if unparsable
-  const day = (value: string) => {
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return value;
-
-    return format.dateTime(date, {
-      month: "short",
-      day: "numeric",
-      numberingSystem: "latn",
-    });
-  };
-
-  return { money, day };
-}
 
 export default function DataPreview({
   earnings,
@@ -110,7 +89,7 @@ function EarningRow({
   onToggle: () => void;
 }) {
   const t = useTranslations("Lawyer.MyEarnings.Table");
-  const { money, day } = useEarningFormatters();
+  const { money, percent, day } = useEarningFormatters();
   const detailsId = `earning-${earning.id}-details`;
   const hasPlatformFee = earning.platform_fee > 0;
 
@@ -142,18 +121,22 @@ function EarningRow({
           {hasPlatformFee ? (
             <>
               <p className="text-xs text-primary/45">
-                {t("ServiceFee", { amount: money(earning.gross) })}
+                {t("ServiceFee", {
+                  amount: money(earning.gross, earning.currency),
+                })}
               </p>
               <p className="mt-0.5 text-sm font-semibold text-primary">
                 {t("YourShare", {
-                  percentage: percentageOf(earning.amount, earning.gross),
-                  amount: money(earning.amount),
+                  percentage: percent(
+                    percentageOf(earning.amount, earning.gross) / 100,
+                  ),
+                  amount: money(earning.amount, earning.currency),
                 })}
               </p>
             </>
           ) : (
             <span className="text-sm font-semibold text-primary">
-              {money(earning.amount)}
+              {money(earning.amount, earning.currency)}
             </span>
           )}
         </TableCell>
@@ -264,7 +247,7 @@ function EarningStatus({ earning }: { earning: Earning }) {
 
 function EarningDetails({ earning }: { earning: Earning }) {
   const t = useTranslations("Lawyer.MyEarnings.Table.Details");
-  const { money, day } = useEarningFormatters();
+  const { money, percent, day } = useEarningFormatters();
   const sharePercentage = percentageOf(earning.amount, earning.gross);
 
   const serviceDetails = [
@@ -310,14 +293,18 @@ function EarningDetails({ earning }: { earning: Earning }) {
             <>
               <div className="flex items-center justify-between gap-6">
                 <dt className="text-primary/45">{t("Gross")}</dt>
-                <dd className="text-primary">{money(earning.gross)}</dd>
+                <dd className="text-primary">
+                  {money(earning.gross, earning.currency)}
+                </dd>
               </div>
               <div className="flex items-center justify-between gap-6">
                 <dt className="text-primary/45">
-                  {t("PlatformFee", { percentage: 100 - sharePercentage })}
+                  {t("PlatformFee", {
+                    percentage: percent((100 - sharePercentage) / 100),
+                  })}
                 </dt>
                 <dd className="text-primary/45">
-                  − {money(earning.platform_fee)}
+                  − {money(earning.platform_fee, earning.currency)}
                 </dd>
               </div>
             </>
@@ -330,10 +317,12 @@ function EarningDetails({ earning }: { earning: Earning }) {
           >
             <dt className="text-primary">
               {earning.platform_fee > 0
-                ? t("YourShare", { percentage: sharePercentage })
+                ? t("YourShare", { percentage: percent(sharePercentage / 100) })
                 : t("YourEarnings")}
             </dt>
-            <dd className="text-accent">{money(earning.amount)}</dd>
+            <dd className="text-accent">
+              {money(earning.amount, earning.currency)}
+            </dd>
           </div>
         </dl>
       </section>

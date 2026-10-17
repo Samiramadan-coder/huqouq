@@ -1986,6 +1986,7 @@
     },
     "MyEarnings": {
       "Title": "أرباحي",
+      "Description": "أرباحك من الخدمات القانونية والاستشارات.",
       "MissedDataHint": "يقوم حقوق بتحويل أرباحك الجاهزة مباشرة إلى حسابك البنكي المسجل.",
       "UpdatedDataHint": "تحديث بيانات البنك",
       "Filters": {
@@ -2023,7 +2024,7 @@
         "NoEarnings": "لا توجد أرباح بعد",
         "ToggleDetails": "عرض تفاصيل الربح",
         "ServiceFee": "رسوم الخدمة: {amount}",
-        "YourShare": "حصتك ({percentage}%): {amount}",
+        "YourShare": "حصتك ({percentage}): {amount}",
         "PaidOn": "دُفعت في {date}",
         "AvailableOn": "متاحة في {date}",
         "Details": {
@@ -2032,8 +2033,8 @@
           "Type": "النوع",
           "Client": "العميل",
           "Gross": "الإجمالي (مدفوع من العميل)",
-          "PlatformFee": "رسوم منصة حقوق ({percentage}%)",
-          "YourShare": "حصتك ({percentage}%)",
+          "PlatformFee": "رسوم منصة حقوق ({percentage})",
+          "YourShare": "حصتك ({percentage})",
           "YourEarnings": "أرباحك",
           "PaidOn": "تاريخ الدفع",
           "PayoutReference": "المرجع"

@@ -1986,6 +1986,7 @@
     },
     "MyEarnings": {
       "Title": "My Earnings",
+      "Description": "Earnings from Legal Services and Consultations.",
       "MissedDataHint": "Huqouq transfers your Ready earnings directly to your registered bank account.",
       "UpdatedDataHint": "Update Bank Details",
       "Filters": {
@@ -2023,7 +2024,7 @@
         "NoEarnings": "No earnings yet",
         "ToggleDetails": "Show earning details",
         "ServiceFee": "Service Fee: {amount}",
-        "YourShare": "Your Share ({percentage}%): {amount}",
+        "YourShare": "Your Share ({percentage}): {amount}",
         "PaidOn": "Paid on {date}",
         "AvailableOn": "Available {date}",
         "Details": {
@@ -2032,8 +2033,8 @@
           "Type": "Type",
           "Client": "Client",
           "Gross": "Gross (paid by client)",
-          "PlatformFee": "Huqouq Platform Fee ({percentage}%)",
-          "YourShare": "Your Share ({percentage}%)",
+          "PlatformFee": "Huqouq Platform Fee ({percentage})",
+          "YourShare": "Your Share ({percentage})",
           "YourEarnings": "Your Earnings",
           "PaidOn": "Paid on",
           "PayoutReference": "Reference"

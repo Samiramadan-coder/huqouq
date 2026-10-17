@@ -18,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: `${t("Title")} | Huqouq`,
+    description: t("Description"),
     robots: { index: false, follow: false },
   };
 }
