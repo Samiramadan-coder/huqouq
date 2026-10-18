@@ -197,8 +197,8 @@ export function DetailsSkeleton({
 // Mirrors the messages page: chats list beside the open conversation
 export function MessagesSkeleton() {
   return (
-    <LoadingRegion className="flex h-[calc(100vh-56px)]">
-      <aside className="w-75 h-full bg-white border-e border-secondary">
+    <LoadingRegion className="flex h-[calc(100dvh-56px)]">
+      <aside className="w-full md:w-75 shrink-0 h-full bg-white md:border-e border-secondary">
         <div className="border-b border-secondary px-4 pt-5 pb-3">
           <Skeleton className="h-6 w-28 mb-3" />
           <Skeleton className="h-9 w-full rounded-sm" />
@@ -215,7 +215,7 @@ export function MessagesSkeleton() {
         ))}
       </aside>
 
-      <div className="flex-1 h-full flex flex-col">
+      <div className="flex-1 min-w-0 h-full hidden md:flex flex-col">
         <div className="flex items-center gap-3 border-b border-secondary bg-white px-5 py-3.5">
           <Skeleton className="size-9 shrink-0 rounded-full" />
           <div className="space-y-2">

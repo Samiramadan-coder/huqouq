@@ -1373,7 +1373,8 @@
       "SendVoiceMessage": "Send voice message",
       "MicrophoneDenied": "Microphone access was denied. Allow it in your browser settings to record a voice message.",
       "MicrophoneUnsupported": "Voice recording isn't supported in this browser.",
-      "VoiceMessageFailed": "Failed to send the voice message. Please try again."
+      "VoiceMessageFailed": "Failed to send the voice message. Please try again.",
+      "Back": "Back to conversations"
     },
     "LegalServices": {
       "create": "Request a Legal Service",
@@ -1801,7 +1802,14 @@
       "StatusConsultation": "{status} Consultation",
       "NoConsultations": "No consultations yet",
       "KeepAvailabilityUpdated": "Keep your availability up to date so clients can book the right times.",
-      "NoConsultationsDescription": "When clients book a consultation with you, it will appear here. Keep your availability up to date to get booked."
+      "NoConsultationsDescription": "When clients book a consultation with you, it will appear here. Keep your availability up to date to get booked.",
+      "LegalServices": "Legal Services",
+      "BrowseServices": "Browse Services",
+      "NewServiceRequests": "New service requests matching your specialization",
+      "ActiveServicesInProgress": "Active services in progress",
+      "MyActiveServices": "My Active Services",
+      "ServiceOffersAwaiting": "Service offers awaiting client response",
+      "MyServiceOffers": "My Service Offers"
     },
     "BrowseCases": {
       "Title": "Browse Cases",
@@ -2093,7 +2101,8 @@
       "MarkAsCompleteDescription": "By marking this case as complete once all work has been finished, you indicate that the case has been successfully concluded.",
       "Cancel": "Cancel",
       "MarkAsCompleteFailed": "Failed to mark the case as complete",
-      "You": "You"
+      "You": "You",
+      "Back": "Back to conversations"
     },
     "LegalServices": {
       "title": "Browse Legal Service Requests",

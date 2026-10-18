@@ -1373,7 +1373,8 @@
       "SendVoiceMessage": "إرسال الرسالة الصوتية",
       "MicrophoneDenied": "تم رفض الوصول إلى الميكروفون. اسمح به من إعدادات المتصفح لتسجيل رسالة صوتية.",
       "MicrophoneUnsupported": "تسجيل الصوت غير مدعوم في هذا المتصفح.",
-      "VoiceMessageFailed": "فشل إرسال الرسالة الصوتية. يرجى المحاولة مرة أخرى."
+      "VoiceMessageFailed": "فشل إرسال الرسالة الصوتية. يرجى المحاولة مرة أخرى.",
+      "Back": "العودة إلى المحادثات"
     },
     "LegalServices": {
       "create": "طلب خدمة قانونية",
@@ -1801,7 +1802,14 @@
       "StatusConsultation": "استشارة {status}",
       "NoConsultations": "لا توجد استشارات بعد",
       "KeepAvailabilityUpdated": "حافظ على تحديث أوقات توفرك حتى يتمكن العملاء من حجز الأوقات المناسبة.",
-      "NoConsultationsDescription": "عندما يحجز العملاء استشارة معك، ستظهر هنا. حافظ على تحديث أوقات توفرك لتلقي الحجوزات."
+      "NoConsultationsDescription": "عندما يحجز العملاء استشارة معك، ستظهر هنا. حافظ على تحديث أوقات توفرك لتلقي الحجوزات.",
+      "LegalServices": "الخدمات القانونية",
+      "BrowseServices": "تصفح الخدمات",
+      "NewServiceRequests": "طلبات خدمة جديدة تطابق تخصصك",
+      "ActiveServicesInProgress": "خدمات نشطة قيد التنفيذ",
+      "MyActiveServices": "خدماتي النشطة",
+      "ServiceOffersAwaiting": "عروض خدمات بانتظار رد العميل",
+      "MyServiceOffers": "عروض خدماتي"
     },
     "BrowseCases": {
       "Title": "تصفح القضايا",
@@ -2093,7 +2101,8 @@
       "MarkAsCompleteDescription": "من خلال وضع علامة على هذه القضية كمكتملة بمجرد الانتهاء من جميع الأعمال، فإنك تشير إلى أن القضية قد تم الانتهاء منها بنجاح.",
       "Cancel": "إلغاء",
       "MarkAsCompleteFailed": "فشل في وضع علامة على القضية كمكتملة",
-      "You": "أنت"
+      "You": "أنت",
+      "Back": "العودة إلى المحادثات"
     },
     "LegalServices": {
       "title": "تصفح طلبات الخدمات القانونية",

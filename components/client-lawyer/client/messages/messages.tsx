@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import SendMessage from "./send-message";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Case } from "@/types/client/my-cases";
 import type { ChatMessage } from "@/types/chat";
@@ -17,6 +18,7 @@ import { cn, formatChatDate } from "@/lib/utils";
 import { useUser } from "@/providers/user-provider";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import {
+  ArrowLeft,
   Download,
   Expand,
   FileArchive,
@@ -77,7 +79,15 @@ export default function Messages({
     <div className="flex h-full flex-col">
       {caseId ? (
         <>
-          <div className="flex shrink-0 items-center gap-3 border-b border-secondary bg-white px-5 py-3.5">
+          <div className="flex shrink-0 items-center gap-3 border-b border-secondary bg-white px-3 md:px-5 py-3.5">
+            <Link
+              href="/client/messages"
+              className="-ms-1 grid size-8 shrink-0 place-content-center rounded-full text-primary hover:bg-gray-100 md:hidden"
+            >
+              <ArrowLeft className="size-4 rtl:rotate-180" />
+              <span className="sr-only">{t("Back")}</span>
+            </Link>
+
             <Avatar className="size-9 shrink-0">
               <AvatarImage
                 src={activeCase?.hired_lawyer.photo_url || "/avatar.png"}
@@ -106,7 +116,7 @@ export default function Messages({
           </div>
 
           <div className="flex min-h-0 flex-1 flex-col">
-            <div className="flex-1 overflow-y-auto px-5 py-4">
+            <div className="flex-1 overflow-y-auto px-3 md:px-5 py-4">
               <div className="flex flex-col gap-5">
                 <div className="text-center">
                   <Badge className="text-[11px] bg-accent/10 text-accent py-1 font-normal px-3 border-accent/20">
@@ -161,7 +171,7 @@ export default function Messages({
                       >
                         <div
                           className={cn(
-                            "max-w-[70%]",
+                            "max-w-[85%] md:max-w-[70%]",
                             isText &&
                               cn(
                                 "rounded-xl px-3.5 py-2.5 text-sm leading-relaxed",
@@ -243,7 +253,7 @@ export default function Messages({
         </>
       ) : (
         <div className="flex-1 flex items-center justify-center">
-          <p className="text-primary/50">{t("SelectCase")}</p>
+          <p className="text-center text-primary/50">{t("SelectCase")}</p>
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
 import { http } from "@/lib/http";
+import { cn } from "@/lib/utils";
 import { Case } from "@/types/client/my-cases";
 import Messages from "@/components/client-lawyer/client/messages/messages";
 import ChatMembers from "@/components/client-lawyer/client/messages/chat-members";
@@ -26,12 +27,20 @@ export default async function Page({
   const availableCases = data.data.filter((caseItem) => caseItem.chat_unlocked);
 
   return (
-    <div className="flex h-[calc(100vh-56px)]">
-      <aside className="w-75 h-full bg-white border-e border-secondary">
+    <div className="flex h-[calc(100dvh-56px)]">
+      {/* On mobile only one pane is visible: the list, or the open chat */}
+      <aside
+        className={cn(
+          "w-full md:w-75 shrink-0 h-full bg-white md:border-e border-secondary",
+          caseId && "hidden md:block",
+        )}
+      >
         <ChatMembers cases={availableCases} caseId={caseId} />
       </aside>
 
-      <div className="flex-1 h-full">
+      <div
+        className={cn("flex-1 min-w-0 h-full", !caseId && "hidden md:block")}
+      >
         <Messages caseId={caseId} activeCase={activeCase} />
       </div>
     </div>

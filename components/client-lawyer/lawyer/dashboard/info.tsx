@@ -23,6 +23,8 @@ export default function Info() {
   const lawyer = user?.lawyer_profile;
   const t = useTranslations("Lawyer.Dashboard");
 
+  console.log(user);
+
   const nextSectionToFill = lawyer?.review_items.find(
     (item) => !item.is_complete,
   );

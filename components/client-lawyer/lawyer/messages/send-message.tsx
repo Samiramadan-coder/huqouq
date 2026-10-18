@@ -137,7 +137,7 @@ export default function SendMessage({
   };
 
   return (
-    <div className="shrink-0 space-y-3 px-5 py-4">
+    <div className="shrink-0 space-y-3 px-3 md:px-5 py-3 md:py-4">
       {activeCase?.display_status !== "pending_closure" &&
         activeCase?.display_status !== "closed" && (
           <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
