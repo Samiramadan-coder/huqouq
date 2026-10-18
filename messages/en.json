@@ -1793,8 +1793,15 @@
       "Posted": "Posted",
       "Offers": "Offers",
       "Actions": "Actions",
-      "NoCases": "No cases found.",
-      "View": "View"
+      "NoCases": "No matching cases yet",
+      "NoCasesDescription": "New cases that match your specialization will appear here. You can browse all open cases in the meantime.",
+      "View": "View",
+      "Consultations": "Consultations",
+      "ManageAvailability": "Manage Availability",
+      "StatusConsultation": "{status} Consultation",
+      "NoConsultations": "No consultations yet",
+      "KeepAvailabilityUpdated": "Keep your availability up to date so clients can book the right times.",
+      "NoConsultationsDescription": "When clients book a consultation with you, it will appear here. Keep your availability up to date to get booked."
     },
     "BrowseCases": {
       "Title": "Browse Cases",

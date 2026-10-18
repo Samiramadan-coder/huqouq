@@ -1,7 +1,10 @@
+import { http } from "@/lib/http";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Info from "@/components/client-lawyer/lawyer/dashboard/info";
 import RecentCases from "@/components/client-lawyer/lawyer/dashboard/recent-cases";
+import Consultations from "@/components/client-lawyer/lawyer/dashboard/consultations";
+import { Consultation } from "@/types/lawyer/consultations";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Lawyer.Dashboard");
@@ -13,10 +16,22 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
+  let consultations: Consultation[] = [];
+
+  try {
+    const { data } = await http.get<{ data: Consultation[] }>(
+      "/api/lawyer/consultations",
+    );
+    consultations = data.data ?? [];
+  } catch (error) {
+    console.error("Failed to fetch consultations:", error);
+  }
+
   return (
-    <div className="container max-w-7xl mx-auto space-y-6 py-10">
+    <div className="container max-w-7xl mx-auto space-y-8 py-10">
       <Info />
       <RecentCases />
+      <Consultations consultations={consultations} />
     </div>
   );
 }
