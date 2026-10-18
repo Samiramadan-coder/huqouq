@@ -1,13 +1,13 @@
 import Details from "./details";
 import { Meta } from "@/types/shared";
-import { useTranslations } from "next-intl";
 import StatusBadge from "./status-badge";
+import { useTranslations } from "next-intl";
+import JoinCall from "../../reusable/call/join-call";
 import { Calendar, Clock, Phone } from "lucide-react";
+import { toCallType } from "../../reusable/call/config";
 import { Consultation } from "@/types/client/consultation";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import PaginationTemplate from "../../reusable/pagination-template";
-import JoinCall from "../../reusable/call/join-call";
-import { toCallType } from "../../reusable/call/config";
 
 export default function DataPreview({
   data,
@@ -65,12 +65,13 @@ export default function DataPreview({
 
                 <Details consultation={consultation} />
 
+                {}
+
                 {consultation.can.join_call && (
                   <JoinCall
                     consultationId={consultation.id}
                     callType={toCallType(consultation.type)}
                     schedule={{
-                      // startsAt: "2026-10-16T14:50:00+03:00",
                       startsAt: consultation.starts_at,
                       durationMinutes: consultation.duration_minutes,
                     }}
@@ -78,6 +79,8 @@ export default function DataPreview({
                     remotePhoto={consultation.lawyer.photo_url}
                     label={t("joinCall")}
                     consultationsHref="/client/my-consultations"
+                    whoIsOnCall="client"
+                    lawyerId={consultation.lawyer.id}
                   />
                 )}
               </div>

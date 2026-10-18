@@ -17,6 +17,7 @@ export type CallEndReason = "timeEnded" | "left";
 export type CallEndResult = {
   reason: CallEndReason;
   durationSeconds: number;
+  remoteName: string;
 };
 
 // Join opens this many minutes before the scheduled start.

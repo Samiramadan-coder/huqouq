@@ -99,8 +99,7 @@ function CallRoom({
 
   const { localMicrophoneTrack, error: micError } = useLocalMicrophoneTrack();
   // Audio calls never create (or ask permission for) the camera.
-  const { localCameraTrack, error: cameraError } =
-    useLocalCameraTrack(isVideo);
+  const { localCameraTrack, error: cameraError } = useLocalCameraTrack(isVideo);
 
   const fetchArgs = useCallback(
     () => getCallCredentials(consultationId),
@@ -111,7 +110,8 @@ function CallRoom({
   const tracks: ILocalTrack[] = [localMicrophoneTrack, localCameraTrack].filter(
     (track): track is NonNullable<typeof track> => track !== null,
   );
-  const tracksReady = !!localMicrophoneTrack && (!isVideo || !!localCameraTrack);
+  const tracksReady =
+    !!localMicrophoneTrack && (!isVideo || !!localCameraTrack);
   usePublish(tracks, isConnected && tracksReady && !leaving);
 
   const localVolume = useVolumeLevel(localMicrophoneTrack ?? undefined);
@@ -158,7 +158,7 @@ function CallRoom({
     // close() also stops the track and releases the mic/camera.
     localMicrophoneTrack?.close();
     localCameraTrack?.close();
-    onEnd({ reason, durationSeconds });
+    onEnd({ reason, durationSeconds, remoteName: remoteName ?? "" });
   }
 
   // Auto-leave once the extra time after the scheduled end runs out.
@@ -327,7 +327,8 @@ function CallRoom({
           size="icon-lg"
           className={cn(
             "rounded-full border-secondary",
-            !micOn && "bg-destructive/10 text-destructive border-destructive/20",
+            !micOn &&
+              "bg-destructive/10 text-destructive border-destructive/20",
           )}
           disabled={!localMicrophoneTrack || leaving}
           aria-pressed={!micOn}

@@ -84,6 +84,7 @@ export default function DataPreview({
                     remotePhoto={client.photo_url}
                     label={t("joinCall")}
                     consultationsHref="/lawyer/consultations"
+                    whoIsOnCall="lawyer"
                   />
                 )}
               </div>

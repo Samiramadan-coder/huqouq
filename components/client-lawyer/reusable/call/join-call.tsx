@@ -8,21 +8,23 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { useState } from "react";
-import dynamic from "next/dynamic";
-import CallEnded from "./call-ended";
-import { PhoneCall } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { useCallTiming } from "@/hook/use-call-timing";
+
 import {
   CallType,
   CallSchedule,
   CallEndResult,
   JOIN_OPENS_BEFORE_MINUTES,
 } from "./config";
+
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import CallEnded from "./call-ended";
+import { ArrowRight, PhoneCall } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { useCallTiming } from "@/hook/use-call-timing";
 
 // The Agora SDK touches browser APIs on import, so it must never render on the server.
 const AgoraCall = dynamic(() => import("./agora-call"), {
@@ -42,6 +44,8 @@ export default function JoinCall({
   remotePhoto,
   label,
   consultationsHref,
+  whoIsOnCall,
+  lawyerId,
 }: {
   consultationId: number;
   callType: CallType;
@@ -50,6 +54,8 @@ export default function JoinCall({
   remotePhoto?: string | null;
   label: string;
   consultationsHref: string;
+  whoIsOnCall: "client" | "lawyer";
+  lawyerId?: number;
 }) {
   const t = useTranslations("Call");
   const router = useRouter();
@@ -77,7 +83,6 @@ export default function JoinCall({
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        {/* Disabled buttons don't show a title, so the hint sits on a wrapper. */}
         <span title={joinHint} className="inline-flex">
           <DialogTrigger asChild>
             <Button
@@ -92,7 +97,6 @@ export default function JoinCall({
 
         <DialogContent
           showCloseButton={false}
-          // Only Leave (or the time running out) ends the call, so tracks and the channel are always released.
           onEscapeKeyDown={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           className="sm:max-w-3xl gap-0 p-0 rounded-sm ring-0!"
@@ -133,7 +137,29 @@ export default function JoinCall({
         >
           {endResult && (
             <CallEnded result={endResult} onDone={handleDone}>
-              {/* Rating / feedback section goes here. */}
+              {whoIsOnCall === "client" && (
+                <>
+                  <div className="bg-background border border-secondary rounded-sm p-5 mb-6 text-left">
+                    <p className="font-sans text-xs text-primary/40 tracking-widest uppercase mb-2">
+                      {t("Ended.continue")}
+                    </p>
+                    <p className="font-sans text-sm text-primary/65 leading-relaxed">
+                      {t("Ended.createCase")}
+                    </p>
+                  </div>
+
+                  {/* TODO: List Of Specializations Need To Be Dynamically Added */}
+                  <Link
+                    href={`/client/my-cases/create?lawyerId=${lawyerId}&specializations=1,2`}
+                    className="w-full block"
+                  >
+                    <Button className="w-full rounded-sm h-10 bg-accent hover:bg-accent/90">
+                      {t("Ended.convert")}
+                      <ArrowRight className="rtl:rotate-180" />
+                    </Button>
+                  </Link>
+                </>
+              )}
             </CallEnded>
           )}
         </DialogContent>

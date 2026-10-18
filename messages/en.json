@@ -2252,7 +2252,12 @@
       "timeEnded": "Consultation time ended",
       "left": "You left the call",
       "timeSpent": "Time in call",
-      "done": "Back to consultations"
+      "done": "Back to consultations",
+      "noThanks": "No, thanks",
+      "callDuration": "Your call with {name} lasted",
+      "continue": "Continue?",
+      "createCase": "Convert this consultation into a full case so Ahmad can continue helping you with documentation and follow-up.",
+      "convert": "Convert to full case"
     }
   }
 }
