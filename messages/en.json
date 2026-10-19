@@ -1007,7 +1007,11 @@
       "requestLegalServiceDesc": "Need a contract drafted, reviewed, or a legal notice sent?",
       "activeRequestCount": "1",
       "activeRequest": "Active Request",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "recommendedLawyers": "Recommended Lawyers",
+      "browseAllLawyers": "Browse All Lawyers",
+      "yearsShort": "{count} yrs",
+      "noRecommendedLawyers": "No recommended lawyers yet."
     },
     "Sidebar": {
       "Overview": "Overview",

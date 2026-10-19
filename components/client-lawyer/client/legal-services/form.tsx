@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import Hint from "../../reusable/hint";
 import Title from "../../reusable/title";
 import { useTranslations } from "next-intl";
+import BackBtn from "../../reusable/back-btn";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { CircleCheck, Info } from "lucide-react";
@@ -24,14 +25,15 @@ import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
-import BackBtn from "../../reusable/back-btn";
 
 const urgencyKeys = ["standard", "urgent", "very_urgent"] as const;
 
 export default function Form({
   legalServiceItem,
+  serviceType,
 }: {
   legalServiceItem?: LegalServiceDetails;
+  serviceType?: string;
 }) {
   const router = useRouter();
   const tCommon = useTranslations("Common");
@@ -48,7 +50,7 @@ export default function Form({
   } = useForm<PostLegalServiceFormData>({
     resolver: zodResolver(postLegalServiceShema(tFields)),
     defaultValues: {
-      service_type: legalServiceItem?.service_type ?? "",
+      service_type: legalServiceItem?.service_type ?? serviceType ?? "",
       description: legalServiceItem?.description ?? "",
       urgency: legalServiceItem?.urgency ?? "standard",
       emirate: legalServiceItem?.emirate ?? "",

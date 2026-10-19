@@ -1,10 +1,15 @@
-import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { getTranslations } from "next-intl/server";
-import { FileText, MoveRight, Scale } from "lucide-react";
+"use client";
 
-export default async function LegalServices() {
-  const t = await getTranslations("Client.Dashboard");
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { FileText, MoveRight, Scale } from "lucide-react";
+import { useReferenceData } from "@/providers/reference-data.provider";
+import { Badge } from "@/components/ui/badge";
+
+export default function LegalServices() {
+  const { referenceData } = useReferenceData();
+  const t = useTranslations("Client.Dashboard");
 
   return (
     <div>
@@ -58,6 +63,19 @@ export default async function LegalServices() {
             </Button>
           </Link>
         </div>
+      </div>
+
+      <div className="mt-2 flex flex-wrap gap-2">
+        {referenceData?.legal_service_types.map((type) => (
+          <Link
+            href={`/client/legal-services/create?type=${type.value}`}
+            key={type.value}
+          >
+            <Badge className="rounded-xs py-3 font-normal text-primary/60 border-secondary bg-white">
+              {type.label}
+            </Badge>
+          </Link>
+        ))}
       </div>
     </div>
   );

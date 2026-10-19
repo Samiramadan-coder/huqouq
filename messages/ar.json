@@ -1007,7 +1007,11 @@
       "requestLegalServiceDesc": "هل تحتاج إلى صياغة عقد أو مراجعته، أو إرسال إشعار قانوني؟",
       "activeRequestCount": "1",
       "activeRequest": "الطلب النشط",
-      "viewAll": "عرض الكل"
+      "viewAll": "عرض الكل",
+      "recommendedLawyers": "محامون موصى بهم",
+      "browseAllLawyers": "تصفح جميع المحامين",
+      "yearsShort": "{count} سنة",
+      "noRecommendedLawyers": "لا يوجد محامون موصى بهم حالياً."
     },
     "Sidebar": {
       "Overview": "نظرة عامة",
