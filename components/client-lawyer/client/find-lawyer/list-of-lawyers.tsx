@@ -4,11 +4,11 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, Shield, Star } from "lucide-react";
-import { Filters, Lawyer } from "@/types/client/find-lawyer";
+import { getTranslations } from "next-intl/server";
 import { Card, CardContent } from "@/components/ui/card";
-import LawyersPendingRegion from "./lawyers-pending-region";
 import ListOfLawyersHeader from "./list-of-lawyers-header";
-import { getLocale, getTranslations } from "next-intl/server";
+import LawyersPendingRegion from "./lawyers-pending-region";
+import { Filters, Lawyer } from "@/types/client/find-lawyer";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function ListOfLawyers({
@@ -22,9 +22,7 @@ export default async function ListOfLawyers({
   caseId?: string;
   filters: Filters;
 }) {
-  const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div className="space-y-3">
@@ -77,7 +75,7 @@ export default async function ListOfLawyers({
                 <CardContent className="space-y-4 px-5 py-5">
                   <div>
                     <h2
-                      className={`text-base font-semibold leading-tight text-primary mb-2 wrap-break-word ${fontClass}`}
+                      className={`text-base font-semibold leading-tight text-primary mb-2 wrap-break-word ltr:font-lora`}
                     >
                       {lawyer.name}
                     </h2>

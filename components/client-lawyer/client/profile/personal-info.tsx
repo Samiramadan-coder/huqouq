@@ -4,19 +4,17 @@ import { toast } from "sonner";
 import Title from "../../reusable/title";
 import { ChangeEvent, useRef } from "react";
 import { Camera, User } from "lucide-react";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { updateProfilePhoto } from "@/lib/client/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function PersonalInfo() {
   const { user, setUser } = useUser();
-  const locale = useLocale();
   const t = useTranslations("Client.Profile");
   const inputRef = useRef<HTMLInputElement>(null);
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -82,12 +80,7 @@ export default function PersonalInfo() {
           </div>
 
           <div>
-            <p
-              className={cn(
-                "text-xl font-semibold text-primary leading-snug",
-                fontClass,
-              )}
-            >
+            <p className="text-xl font-semibold text-primary leading-snug ltr:font-lora">
               {user?.name}
             </p>
             <p className="text-sm text-primary/50 mt-1">{user?.email}</p>
@@ -104,12 +97,7 @@ export default function PersonalInfo() {
         {/* Statistics */}
         <div className="mt-4 pt-4 border-t border-secondary flex items-center">
           <div className="flex-1 text-center border-e border-secondary">
-            <p
-              className={cn(
-                "text-xl font-semibold text-primary leading-none",
-                fontClass,
-              )}
-            >
+            <p className="text-xl font-semibold text-primary leading-none ltr:font-lora">
               7
             </p>
             <p className="text-[11px] text-primary/40 mt-1 leading-tight">
@@ -117,12 +105,7 @@ export default function PersonalInfo() {
             </p>
           </div>
           <div className="flex-1 text-center border-e border-secondary">
-            <p
-              className={cn(
-                "text-xl font-semibold text-primary leading-none",
-                fontClass,
-              )}
-            >
+            <p className="text-xl font-semibold text-primary leading-none ltr:font-lora">
               12
             </p>
             <p className="text-[11px] text-primary/40 mt-1 leading-tight">
@@ -130,12 +113,7 @@ export default function PersonalInfo() {
             </p>
           </div>
           <div className="flex-1 text-center">
-            <p
-              className={cn(
-                "text-xl font-semibold text-primary leading-none",
-                fontClass,
-              )}
-            >
+            <p className="text-xl font-semibold text-primary leading-none ltr:font-lora">
               13
             </p>
             <p className="text-[11px] text-primary/40 mt-1 leading-tight">

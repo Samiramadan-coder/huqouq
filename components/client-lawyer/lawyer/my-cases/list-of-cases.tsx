@@ -1,14 +1,14 @@
 import { Meta } from "@/types/shared";
 import { formatDate } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/lawyer/my-cases";
 import UrgencyBadge from "../../reusable/urgency-label";
-import { Briefcase, Calendar, MapPin, MoveRight } from "lucide-react";
-import { getLocale, getTranslations } from "next-intl/server";
 import PaginationTemplate from "../../reusable/pagination-template";
 import CaseStatusLabel from "../../reusable/case-status-label";
-import { Link } from "@/i18n/navigation";
+import { Briefcase, Calendar, MapPin, MoveRight } from "lucide-react";
 
 export default async function ListOfCases({
   cases,
@@ -17,10 +17,8 @@ export default async function ListOfCases({
   cases: CaseDetails[];
   pagination: Meta;
 }) {
-  const locale = await getLocale();
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.MyCases");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div className="space-y-4">
@@ -47,7 +45,7 @@ export default async function ListOfCases({
               </div>
 
               <h2
-                className={`mt-3 font-semibold text-lg wrap-break-word ${fontClass}`}
+                className={`mt-3 font-semibold text-lg wrap-break-word ltr:font-lora`}
               >
                 {caseItem.title}
               </h2>
@@ -79,7 +77,7 @@ export default async function ListOfCases({
                     {t("AgreedFee")}
                   </p>
                   <p
-                    className={`text-primary font-semibold text-lg ${fontClass}`}
+                    className={`text-primary font-semibold text-lg ltr:font-lora`}
                   >
                     {tCommon("AED")} {caseItem.accepted_offer.amount}
                   </p>

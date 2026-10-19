@@ -10,14 +10,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import { cn } from "cn";
 import { toast } from "sonner";
 import { useRef, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { CaseOffer } from "@/types/client/my-cases";
 import { Spinner } from "@/components/ui/spinner";
+import { CaseOffer } from "@/types/client/my-cases";
 import { acceptCaseOffer } from "@/lib/client/cases";
-import { cn } from "cn";
 
 export default function AcceptOffer({
   caseId,
@@ -28,11 +29,9 @@ export default function AcceptOffer({
   offer: CaseOffer;
   btnClassName?: string;
 }) {
-  const locale = useLocale();
   const t = useTranslations("Client.Cases");
   const [loading, setLoading] = useState(false);
   const closeBtn = useRef<HTMLButtonElement>(null);
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   async function handleAcceptOffer() {
     setLoading(true);
@@ -67,7 +66,7 @@ export default function AcceptOffer({
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm ring-0!">
         <DialogHeader>
-          <DialogTitle className={cn("font-bold", fontClass)}>
+          <DialogTitle className="font-bold ltr:font-lora">
             {t("ConfirmHire")}
           </DialogTitle>
           <DialogDescription className="mt-3">

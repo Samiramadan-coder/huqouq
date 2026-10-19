@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/input-group";
 
 import { db } from "@/lib/firebase";
-import { useLocale } from "next-intl";
 import { useTranslations } from "use-intl";
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
@@ -32,15 +31,13 @@ export default function ChatMembers({
   cases: Case[];
   caseId: string;
 }) {
-  const locale = useLocale();
   const t = useTranslations("Client.Messages");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div className="h-full flex flex-col">
       <div className="px-4 pt-5 pb-3 border-b border-secondary">
         <h1
-          className={`${fontClass} font-semibold text-[17px] text-primary mb-3`}
+          className={`ltr:font-lora font-semibold text-[17px] text-primary mb-3`}
         >
           {t("Title")}
         </h1>

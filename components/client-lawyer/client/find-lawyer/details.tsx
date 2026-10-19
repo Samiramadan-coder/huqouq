@@ -1,10 +1,10 @@
 import { Meta } from "@/types/shared";
 import { formatDate } from "@/lib/utils";
-import PaginationTemplate from "../../reusable/pagination-template";
 import { ExternalLink, Star } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { LawyerDetails, Review } from "@/types/client/find-lawyer";
+import PaginationTemplate from "../../reusable/pagination-template";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function Details({
   lawyer,
@@ -17,9 +17,8 @@ export default async function Details({
   reviews: Review[];
   reviewsPagination?: Meta;
 }) {
-  const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
-  const fontClass = locale === "en" ? "font-lora" : "";
+
   // Only link out to real web addresses
   const websiteUrl =
     lawyer.website_url && /^https?:\/\//i.test(lawyer.website_url)
@@ -31,7 +30,7 @@ export default async function Details({
       {/* About */}
       <section>
         <div className="mb-7">
-          <h2 className={`text-[22px] font-semibold text-primary ${fontClass}`}>
+          <h2 className="text-[22px] font-semibold text-primary ltr:font-lora">
             {t("about")}
           </h2>
 
@@ -62,9 +61,7 @@ export default async function Details({
       {lawyer.education?.length > 0 && (
         <section>
           <div className="mb-5">
-            <h2
-              className={`text-[22px] font-semibold text-primary ${fontClass}`}
-            >
+            <h2 className="text-[22px] font-semibold text-primary ltr:font-lora">
               {t("education")}
             </h2>
 
@@ -89,9 +86,7 @@ export default async function Details({
                   </div>
 
                   <div className={isLast ? "" : "pb-8"}>
-                    <h3
-                      className={`text-[16px] font-semibold text-primary ${fontClass}`}
-                    >
+                    <h3 className="text-[16px] font-semibold text-primary ltr:font-lora">
                       {item.degree_label || item.degree}
                     </h3>
 
@@ -114,9 +109,7 @@ export default async function Details({
       {lawyer.experience?.length > 0 && (
         <section>
           <div className="mb-5">
-            <h2
-              className={`text-[22px] font-semibold text-primary ${fontClass}`}
-            >
+            <h2 className="text-[22px] font-semibold text-primary ltr:font-lora">
               {t("experience")}
             </h2>
 
@@ -141,9 +134,7 @@ export default async function Details({
                   </div>
 
                   <div className={isLast ? "" : "pb-8"}>
-                    <h3
-                      className={`text-[16px] font-semibold text-primary ${fontClass}`}
-                    >
+                    <h3 className="text-[16px] font-semibold text-primary ltr:font-lora">
                       {item.title}
                     </h3>
 
@@ -171,9 +162,7 @@ export default async function Details({
       {lawyer.services?.length > 0 && (
         <section>
           <div className="mb-5">
-            <h2
-              className={`text-[22px] font-semibold text-primary ${fontClass}`}
-            >
+            <h2 className="text-[22px] font-semibold text-primary ltr:font-lora">
               {t("services_offered")}
             </h2>
             <div className="mt-3 h-px w-10 bg-accent" />
@@ -197,9 +186,7 @@ export default async function Details({
         <>
           <section>
             <div className="mb-7">
-              <h2
-                className={`text-[22px] font-semibold text-primary ${fontClass}`}
-              >
+              <h2 className="text-[22px] font-semibold text-primary ltr:font-lora">
                 {t("reviews")}
               </h2>
               <div className="mt-3 h-px w-10 bg-accent" />
@@ -207,9 +194,7 @@ export default async function Details({
 
             <div className="flex flex-wrap items-center gap-x-9 gap-y-4">
               <div className="shrink-0">
-                <div
-                  className={`text-[50px] leading-none font-semibold text-primary ${fontClass}`}
-                >
+                <div className="text-[50px] leading-none font-semibold text-primary ltr:font-lora">
                   {(lawyer.rating ?? 0).toFixed(1)}
                 </div>
                 <div

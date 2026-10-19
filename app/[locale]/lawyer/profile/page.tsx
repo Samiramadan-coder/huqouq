@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { http } from "@/lib/http";
 import { LawyerProfile } from "@/types/lawyer/profile";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Circle, CircleCheck, TriangleAlert } from "lucide-react";
 import Info from "@/components/client-lawyer/lawyer/profile/info";
 import Education from "@/components/client-lawyer/lawyer/profile/education";
@@ -30,9 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DashboardPage() {
-  const locale = await getLocale();
   const t = await getTranslations("Lawyer.Profile");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   const { data, ok } = await http.get<LawyerProfile>("/api/lawyer/profile", {
     next: { tags: ["lawyer-profile"] },
@@ -49,9 +47,7 @@ export default async function DashboardPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <div className="py-8">
-        <h1 className={cn("text-2xl font-semibold mb-7", fontClass)}>
-          {t("MyProfile")}
-        </h1>
+        <h1 className="text-2xl font-semibold mb-7">{t("MyProfile")}</h1>
 
         {countSectionsNeedAttention > 0 && (
           <ChangesRequestedAlert count={countSectionsNeedAttention} />

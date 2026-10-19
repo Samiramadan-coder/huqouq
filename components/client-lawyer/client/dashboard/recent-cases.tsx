@@ -1,19 +1,16 @@
 import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
 import { MoveRight } from "lucide-react";
-import { getLocale } from "next-intl/server";
-import { CaseDetails } from "@/types/client/my-cases";
+import { getTranslations } from "next-intl/server";
 import { CasesTable } from "../cases/data-preview";
+import { CaseDetails } from "@/types/client/my-cases";
 
 export default async function RecentCases({ cases }: { cases: CaseDetails[] }) {
   const t = await getTranslations("Client.Dashboard");
-  const locale = await getLocale();
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h3 className={`text-lg font-semibold text-primary ${fontClass}`}>
+        <h3 className="text-lg font-semibold text-primary ltr:font-lora">
           {t("recentCases")}
         </h3>
 

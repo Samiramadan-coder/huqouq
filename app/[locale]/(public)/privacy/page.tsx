@@ -1,17 +1,13 @@
 import { Link } from "@/i18n/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 export default async function Page() {
-  const locale = await getLocale();
   const t = await getTranslations("Privacy");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div className="bg-white">
       <div className="container max-w-3xl py-20">
-        <h1
-          className={`text-4xl md:text-5xl font-semibold text-primary mb-3 text-balance ${fontClass}`}
-        >
+        <h1 className="text-4xl md:text-5xl font-semibold text-primary mb-3 text-balance ltr:font-lora">
           {t("title")}
         </h1>
 
@@ -19,9 +15,7 @@ export default async function Page() {
           {t("lastUpdated")}
         </p>
 
-        <p
-          className={`text-lg leading-relaxed text-primary/80 mb-12 ${fontClass}`}
-        >
+        <p className="text-lg leading-relaxed text-primary/80 mb-12 ltr:font-lora">
           {t("introduction")}
         </p>
 

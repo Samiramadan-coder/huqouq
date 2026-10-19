@@ -3,25 +3,18 @@ import PlayStoreIcon from "@/components/icons/play-store";
 import Form from "@/components/public/contact/form";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { getLocale } from "next-intl/server";
 
 export default async function Page() {
-  const locale = await getLocale();
   const t = await getTranslations("Contact");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <div className="bg-white">
       <div className="container max-w-6xl py-20">
         <div className="text-center mb-16">
-          <h1
-            className={`text-4xl md:text-5xl font-semibold text-primary mb-3 text-balance ${fontClass}`}
-          >
+          <h1 className="text-4xl md:text-5xl font-semibold text-primary mb-3 text-balance ltr:font-lora">
             {t("title")}
           </h1>
-          <p
-            className={`text-lg text-primary/60 max-w-2xl mx-auto ${fontClass}`}
-          >
+          <p className="text-lg text-primary/60 max-w-2xl mx-auto ltr:font-lora">
             {t("description")}
           </p>
         </div>

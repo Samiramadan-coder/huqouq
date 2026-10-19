@@ -29,7 +29,7 @@ import Proposal from "./proposal-message";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Offer } from "@/types/client/legal-services";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { ChartNoAxesColumn, ShieldCheck, Star } from "lucide-react";
 
 export default async function CompareOffers({
@@ -41,10 +41,8 @@ export default async function CompareOffers({
   serviceId: number;
   serviceLabel: string;
 }) {
-  const locale = await getLocale();
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Client.LegalServices");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <Dialog>
@@ -59,7 +57,7 @@ export default async function CompareOffers({
 
       <DialogContent className="ring-0! lg:min-w-5xl">
         <DialogHeader>
-          <DialogTitle className={`font-bold ${fontClass}`}>
+          <DialogTitle className="font-bold ltr:font-lora">
             {t("compareOffers")}
           </DialogTitle>
           <DialogDescription className="text-xs text-primary/40">
@@ -90,9 +88,7 @@ export default async function CompareOffers({
                         </AvatarBadge>
                       </Avatar>
                       <div>
-                        <h3
-                          className={cn("text-base font-semibold", fontClass)}
-                        >
+                        <h3 className="text-base font-semibold ltr:font-lora">
                           {offer.lawyer.name}
                         </h3>
                         <span className="text-accent font-semibold text-[11px] mt-1">
@@ -161,7 +157,7 @@ export default async function CompareOffers({
                 </TableCell>
                 {offers.map((offer) => (
                   <TableCell key={offer.id} className="py-4">
-                    <p className={`text-lg font-bold text-accent ${fontClass}`}>
+                    <p className="text-lg font-bold text-accent ltr:font-lora">
                       {tCommon("AED")} {offer.delivery_amount}
                     </p>
                   </TableCell>

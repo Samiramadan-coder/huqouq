@@ -10,17 +10,16 @@ import {
 } from "@/components/ui/dialog";
 
 import z from "zod";
-import { cn } from "cn";
 import { toast } from "sonner";
 import { useRef } from "react";
 import { T } from "@/types/shared";
 import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { useLocale, useTranslations } from "next-intl";
 import { rateService } from "@/lib/client/legal-services";
 import Rating from "@/components/client-lawyer/reusable/rating";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
@@ -34,11 +33,9 @@ const ratingSchema = (t: T) =>
 export type RatingSchema = z.infer<ReturnType<typeof ratingSchema>>;
 
 export default function RateService({ serviceId }: { serviceId: number }) {
-  const locale = useLocale();
   const t = useTranslations("Client.LegalServices");
   const form = useRef<HTMLFormElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   const {
     register,
@@ -81,7 +78,7 @@ export default function RateService({ serviceId }: { serviceId: number }) {
       <DialogContent className="sm:max-w-sm ring-0!">
         <DialogHeader>
           <DialogTitle>
-            <p className={cn("text-lg font-bold", fontClass)}>
+            <p className="text-lg font-bold ltr:font-lora">
               {t("rateThisService")}
             </p>
           </DialogTitle>

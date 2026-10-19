@@ -28,7 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
 import { Separator } from "@/components/ui/separator";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { CaseDetails, CaseOffer, Step } from "@/types/client/my-cases";
@@ -48,10 +48,8 @@ export default async function Index({
   pagination: Meta;
   timeline: Step[];
 }) {
-  const locale = await getLocale();
   const t = await getTranslations("Client.Cases");
   const tCommon = await getTranslations("Common");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   const visibleSteps = timeline.filter((step) => step.state !== "skipped");
 
@@ -164,7 +162,7 @@ export default async function Index({
       <div className="grid items-start grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="w-full md:col-span-3 rounded-xs ring-0! border border-secondary">
           <CardHeader className="pb-3">
-            <CardTitle className={cn("text-sm font-semibold", fontClass)}>
+            <CardTitle className="text-sm font-semibold ltr:font-lora">
               {t("caseStatusTimeline")}
             </CardTitle>
           </CardHeader>
@@ -247,8 +245,7 @@ export default async function Index({
             <CardHeader className="pb-3">
               <CardTitle
                 className={cn(
-                  "text-sm font-semibold flex items-center gap-1",
-                  fontClass,
+                  "text-sm font-semibold flex items-center gap-1 ltr:font-lora",
                 )}
               >
                 <FileText
@@ -273,7 +270,7 @@ export default async function Index({
             <div className="space-y-6 mt-4">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
-                  <p className={cn("font-semibold", fontClass)}>
+                  <p className="font-semibold ltr:font-lora">
                     {t("lawyersOffers")}
                   </p>
                   <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">

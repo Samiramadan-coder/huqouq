@@ -48,10 +48,8 @@ export default async function Details({
   submitOfferBlockedReason?: string | null;
   myOffer: MyOffer | null;
 }) {
-  const locale = await getLocale();
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");
-  const fontClass = locale === "en" ? "font-lora" : "";
   const { client } = caseDetails;
   const documents = caseDetails.documents ?? [];
 
@@ -217,7 +215,9 @@ export default async function Details({
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
             <div className="p-5">
               <div>
-                <h2 className={`text-base text-primary font-bold ${fontClass}`}>
+                <h2
+                  className={`text-base text-primary font-bold ltr:font-lora`}
+                >
                   {t("SubmitOffer")}
                 </h2>
                 <p className="text-xs text-primary/45 mb-5 leading-relaxed">

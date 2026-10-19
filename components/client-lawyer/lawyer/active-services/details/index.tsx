@@ -1,7 +1,7 @@
 import { Check, Mail, Paperclip, Phone } from "lucide-react";
 import DownloadFile from "../../../reusable/download-file";
 import { OfferStatus } from "../data-preview";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { ServiceDetails } from "@/types/lawyer/active-services";
 import DeliverWork from "./deliver-work";
 import Revisions from "./revisions";
@@ -10,11 +10,9 @@ import { cookies } from "next/headers";
 import ChatRoom from "./chat-room";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
-  const locale = await getLocale();
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value;
   const tCommon = await getTranslations("Common");
-  const fontClass = locale === "en" ? "font-lora" : "";
   const t = await getTranslations("Lawyer.ActiveServices.Details");
   const timeline = service.timeline ?? [];
   const revisions = service.revisions ?? [];
@@ -39,7 +37,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
       <div className="flex-1 min-w-0 flex flex-col gap-5">
         <div className="bg-white border border-secondary rounded-sm p-5">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
-            <h1 className={`text-lg font-semibold text-primary ${fontClass}`}>
+            <h1 className={`text-lg font-semibold text-primary ltr:font-lora`}>
               {service.service_type_label}
             </h1>
 
@@ -193,7 +191,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
               <span
-                className={`${fontClass} text-sm font-semibold text-primary`}
+                className={`ltr:font-lora text-sm font-semibold text-primary`}
               >
                 {clientName.slice(0, 1).toUpperCase()}
               </span>

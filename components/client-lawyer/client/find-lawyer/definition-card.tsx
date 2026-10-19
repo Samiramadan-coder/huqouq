@@ -3,12 +3,12 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import AssignToLawyer from "./assign-to-lawyer";
+import { getTranslations } from "next-intl/server";
+import BookConsultations from "./book-consultation";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { LawyerDetails } from "@/types/client/find-lawyer";
-import { getLocale, getTranslations } from "next-intl/server";
 import { Clock3, Heart, ShieldCheck, Star } from "lucide-react";
-import BookConsultations from "./book-consultation";
 
 export default async function DefinitionCard({
   lawyer,
@@ -17,9 +17,7 @@ export default async function DefinitionCard({
   lawyer: LawyerDetails;
   caseId?: string;
 }) {
-  const locale = await getLocale();
   const t = await getTranslations("Client.FindLawyer");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   return (
     <Card
@@ -54,9 +52,7 @@ export default async function DefinitionCard({
             )}
           </div>
 
-          <h1
-            className={`${fontClass} mt-5 text-[1.25rem] font-semibold leading-tight text-primary mb-1 wrap-break-word`}
-          >
+          <h1 className="ltr:font-lora mt-5 text-[1.25rem] font-semibold leading-tight text-primary mb-1 wrap-break-word">
             {lawyer.name}
           </h1>
 

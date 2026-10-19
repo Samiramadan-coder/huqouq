@@ -17,7 +17,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useEffect, useRef, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { acceptServiceOffer } from "@/lib/client/legal-services";
 import { Offer, PaymentDetails } from "@/types/client/legal-services";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -31,11 +31,9 @@ export default function AcceptOffer({
   offer: Offer;
   btnClassName?: string;
 }) {
-  const locale = useLocale();
   const t = useTranslations("Client.LegalServices");
   const [loading, setLoading] = useState(false);
   const closeBtn = useRef<HTMLButtonElement>(null);
-  const fontClass = locale === "en" ? "font-lora" : "";
   const [open, setOpen] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(
     null,
@@ -105,7 +103,7 @@ export default function AcceptOffer({
       </DialogTrigger>
       <DialogContent className="sm:max-w-md rounded-sm ring-0!">
         <DialogHeader>
-          <DialogTitle className={cn("font-bold text-lg", fontClass)}>
+          <DialogTitle className="font-bold text-lg ltr:font-lora">
             {t("ConfirmHire")}
           </DialogTitle>
         </DialogHeader>
@@ -125,8 +123,7 @@ export default function AcceptOffer({
               <div>
                 <p
                   className={cn(
-                    "text-sm text-primary font-semibold",
-                    fontClass,
+                    "text-sm text-primary font-semibold ltr:font-lora",
                   )}
                 >
                   {paymentDetails.lawyer_name}

@@ -5,24 +5,31 @@ import WelcomeText from "@/components/client-lawyer/reusable/welcome-text";
 import NeedHelp from "@/components/client-lawyer/client/dashboard/need-help";
 import RecentCases from "@/components/client-lawyer/client/dashboard/recent-cases";
 import LegalServices from "@/components/client-lawyer/client/dashboard/legal-services";
+import type { Counts as ConsultationCounts } from "@/types/client/consultation";
 
 export default async function DashboardPage() {
-  const { data, ok } = await http.get<{
-    data: CaseDetails[];
-    counts: Counts;
-  }>("/api/cases");
+  const [cases, consultations] = await Promise.all([
+    http.get<{
+      data: CaseDetails[];
+      counts: Counts;
+    }>("/api/cases"),
 
-  if (!ok) {
-    throw new Error("Failed to fetch cases");
-  }
+    http.get<{
+      counts: ConsultationCounts;
+    }>("/api/consultations"),
+  ]);
 
   return (
     <div className="container max-w-7xl space-y-6 py-10">
       <WelcomeText />
-      <Stats activeCases={data.counts.all} hasOffers={data.counts.has_offers} />
+      <Stats
+        activeCases={cases.data.counts.all}
+        hasOffers={cases.data.counts.has_offers}
+        upcomingConsultations={consultations.data.counts.upcoming}
+      />
       <NeedHelp />
       <LegalServices />
-      <RecentCases cases={data.data} />
+      <RecentCases cases={cases.data.data} />
     </div>
   );
 }

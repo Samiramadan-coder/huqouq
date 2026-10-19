@@ -1,28 +1,26 @@
-import { cn } from "@/lib/utils";
-import PayTheCase from "./pay-the-case";
-import { Button } from "@/components/ui/button";
-import { Lock, MessageSquare, ShieldCheck } from "lucide-react";
-import { CaseDetails } from "@/types/client/my-cases";
-import { Separator } from "@/components/ui/separator";
-import { Card, CardContent } from "@/components/ui/card";
-import { getLocale, getTranslations } from "next-intl/server";
 import {
   Avatar,
   AvatarBadge,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+
+import PayTheCase from "./pay-the-case";
 import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
+import { CaseDetails } from "@/types/client/my-cases";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import { Lock, MessageSquare, ShieldCheck } from "lucide-react";
 
 export default async function AcceptedOffer({
   caseDetails,
 }: {
   caseDetails: CaseDetails;
 }) {
-  const locale = await getLocale();
   const t = await getTranslations("Client.Cases");
   const tCommon = await getTranslations("Common");
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   if (!caseDetails.accepted_offer) {
     return null;
@@ -40,7 +38,7 @@ export default async function AcceptedOffer({
   return (
     <Card className="rounded-xs border border-secondary ring-0!">
       <CardContent>
-        <p className={cn("text-sm font-semibold text-primary", fontClass)}>
+        <p className="text-sm font-semibold text-primary ltr:font-lora">
           {t("yourHiredLawyer")}
         </p>
 
@@ -63,7 +61,7 @@ export default async function AcceptedOffer({
 
             <div>
               <div>
-                <h3 className={cn("text-sm font-semibold", fontClass)}>
+                <h3 className="text-sm font-semibold ltr:font-lora">
                   {caseDetails.accepted_offer.lawyer.name}
                 </h3>
                 <p className="mt-1 text-[11px] text-accent">
@@ -78,7 +76,7 @@ export default async function AcceptedOffer({
               <p className="text-xs mb-1 text-primary/40 uppercase">
                 {t("agreedAmount")}
               </p>
-              <p className={cn("text-lg font-semibold", fontClass)}>
+              <p className="text-lg font-semibold ltr:font-lora">
                 {tCommon("AED")} {caseDetails.accepted_offer.amount}
               </p>
             </div>
@@ -93,12 +91,7 @@ export default async function AcceptedOffer({
                 <div className="space-y-2">
                   <p className="text-sm text-primary/70">
                     {t("platformFee")} ({caseDetails.payment?.fee_percentage}%):{" "}
-                    <span
-                      className={cn(
-                        "font-bold text-primary text-base",
-                        fontClass,
-                      )}
-                    >
+                    <span className="font-bold text-primary text-base ltr:font-lora">
                       {tCommon("AED")} {platformFee}
                     </span>
                   </p>
@@ -112,12 +105,7 @@ export default async function AcceptedOffer({
                 <div className="space-y-2">
                   <p className="text-sm text-primary/70">
                     {t("amountForLawyer")}{" "}
-                    <span
-                      className={cn(
-                        "font-bold text-primary text-base",
-                        fontClass,
-                      )}
-                    >
+                    <span className="font-bold text-primary text-base ltr:font-lora">
                       {tCommon("AED")} {amountToPayLawyer}
                     </span>
                   </p>

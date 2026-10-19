@@ -15,7 +15,6 @@ import {
 
 import { cn, formatChatDate } from "@/lib/utils";
 import { db } from "@/lib/firebase";
-import { useLocale } from "next-intl";
 import { useTranslations } from "use-intl";
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
@@ -32,12 +31,8 @@ export default function ChatMembers({
   cases: CaseDetails[];
   caseId: string;
 }) {
-  const locale = useLocale();
   const t = useTranslations("Lawyer.Messages");
-
   const [firebaseReady, setFirebaseReady] = useState(false);
-
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   useEffect(() => {
     const initFirebase = async () => {
@@ -57,7 +52,7 @@ export default function ChatMembers({
     <div className="flex h-full flex-col">
       <div className="border-b border-secondary px-4 pt-5 pb-3">
         <h1
-          className={`${fontClass} mb-3 text-[17px] font-semibold text-primary`}
+          className={`ltr:font-lora mb-3 text-[17px] font-semibold text-primary`}
         >
           {t("Title")}
         </h1>

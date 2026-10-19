@@ -5,7 +5,7 @@ import { useState } from "react";
 import AcceptOffer from "./accept-offer";
 import { ChevronRight, ShieldCheck, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Avatar,
@@ -23,10 +23,8 @@ export default function LawyerOfferCard({
   serviceId: number;
   serviceOffer: Offer;
 }) {
-  const locale = useLocale();
   const t = useTranslations("Client.LegalServices");
   const tCommon = useTranslations("Common");
-  const fontClass = locale === "en" ? "font-lora" : "";
   const [showFullMessage, setShowFullMessage] = useState(false);
 
   return (
@@ -47,7 +45,7 @@ export default function LawyerOfferCard({
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-6">
               <div>
-                <h3 className={cn("text-sm font-semibold", fontClass)}>
+                <h3 className="text-sm font-semibold ltr:font-lora">
                   {serviceOffer.lawyer.name}
                 </h3>
                 <p className="mt-1 text-[11px] text-accent">
@@ -56,7 +54,7 @@ export default function LawyerOfferCard({
               </div>
 
               <div className="shrink-0 text-end">
-                <p className={cn("text-lg font-semibold", fontClass)}>
+                <p className="text-lg font-semibold ltr:font-lora">
                   {tCommon("AED")} {serviceOffer.fee}
                 </p>
                 <p className="text-[11px] text-primary/40">

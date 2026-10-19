@@ -14,24 +14,22 @@ import { toast } from "sonner";
 import { useRef } from "react";
 import { Star } from "lucide-react";
 import Rating from "../../reusable/rating";
+import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { rateLawyer } from "@/lib/client/cases";
 import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { useLocale, useTranslations } from "next-intl";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Case, rateFormSchema, RateLawyerForm } from "@/types/client/my-cases";
-import { Badge } from "@/components/ui/badge";
 
 export default function RateLawyer({ caseItem }: { caseItem: Case }) {
-  const locale = useLocale();
   const t = useTranslations("Client.Cases");
   const form = useRef<HTMLFormElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
-  const fontClass = locale === "en" ? "font-lora" : "";
 
   const availableTags = [
     { label: t("Responsive"), value: "responsive" },
@@ -97,12 +95,7 @@ export default function RateLawyer({ caseItem }: { caseItem: Case }) {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <p
-                  className={cn(
-                    "text-sm text-primary font-semibold",
-                    fontClass,
-                  )}
-                >
+                <p className="text-sm text-primary font-semibold">
                   {caseItem.hired_lawyer?.name}
                 </p>
                 <p className="text-primary/70 mt-0.5 text-xs">

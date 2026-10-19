@@ -9,7 +9,7 @@ import LawyerOfferCard from "./lawyer-offer-card";
 import DeliveredSection from "./delivered-section";
 import { Separator } from "@/components/ui/separator";
 import { LegalServiceStatus } from "../list-of-services";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { LegalServiceDetails } from "@/types/client/legal-services";
 import { MapPin, Calendar, Clock, FileText, MessageSquare } from "lucide-react";
@@ -24,9 +24,7 @@ export default async function Index({
 }: {
   legalService: LegalServiceDetails;
 }) {
-  const locale = await getLocale();
   const t = await getTranslations("Client.LegalServices");
-  const fontClass = locale === "en" ? "font-lora" : "";
   const token = (await cookies()).get("token")?.value || "";
   const visibleSteps = legalService.timeline.filter(
     (item) => item.state !== "skipped",
@@ -55,7 +53,7 @@ export default async function Index({
           <div className="space-y-6 mt-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <p className={cn("font-semibold", fontClass)}>
+                <p className="font-semibold ltr:font-lora">
                   {t("lawyersOffers")}
                 </p>
                 <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
@@ -103,7 +101,7 @@ export default async function Index({
         {/* Legal status timeline section */}
         <Card className="w-full rounded-xs ring-0! border border-secondary">
           <CardHeader className="pb-3">
-            <CardTitle className={cn("text-sm font-semibold", fontClass)}>
+            <CardTitle className="text-sm font-semibold ltr:font-lora">
               {t("legalStatusTimeLine")}
             </CardTitle>
           </CardHeader>
@@ -173,12 +171,7 @@ export default async function Index({
               <p className=" text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-1">
                 {t("Fields.type.label")}
               </p>
-              <h1
-                className={cn(
-                  `text-base font-semibold text-primary`,
-                  fontClass,
-                )}
-              >
+              <h1 className="text-base font-semibold text-primary ltr:font-lora">
                 {legalService.service_type_label}
               </h1>
             </div>

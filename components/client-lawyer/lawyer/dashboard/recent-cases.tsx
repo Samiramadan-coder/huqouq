@@ -8,16 +8,14 @@ import { Button } from "@/components/ui/button";
 import DataTable from "../../reusable/data-table";
 import { Case } from "@/types/lawyer/browse-cases";
 import { useUser } from "@/providers/user-provider";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { ArrowRight, BriefcaseBusiness } from "lucide-react";
 
 export default function RecentCases() {
   const { user } = useUser();
-  const locale = useLocale();
   const t = useTranslations("Lawyer.Dashboard");
-  const fontClass = locale === "en" ? "font-lora" : "";
   const [cases, setCases] = useState<Case[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const specializationIds =
@@ -45,7 +43,7 @@ export default function RecentCases() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className={`text-lg font-semibold text-primary ${fontClass}`}>
+        <h3 className={`text-lg font-semibold text-primary ltr:font-lora`}>
           {t("RecentCases")}
         </h3>
 
@@ -67,7 +65,7 @@ export default function RecentCases() {
             />
           </div>
           <div className="space-y-1">
-            <p className={`font-semibold text-primary ${fontClass}`}>
+            <p className={`font-semibold text-primary ltr:font-lora`}>
               {t("NoCases")}
             </p>
             <p className="text-sm text-primary/55 max-w-sm">
