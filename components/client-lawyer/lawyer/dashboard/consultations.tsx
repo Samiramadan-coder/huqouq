@@ -105,12 +105,12 @@ export default function Consultations({
       <div className="mt-4 flex items-center justify-between bg-white border border-secondary rounded-sm px-5 py-3.5">
         <div className="flex items-center gap-3">
           <CalendarCheck className="size-5 text-accent" />
-          <p className="font-sans text-sm text-primary/55">
+          <p className="text-sm text-primary/55">
             {t("KeepAvailabilityUpdated")}
           </p>
         </div>
         <Link
-          className="shrink-0 font-sans text-xs text-accent hover:text-accent/80 transition-colors flex items-center gap-1 group ml-4"
+          className="shrink-0 text-xs text-accent hover:text-accent/80 transition-colors flex items-center gap-1 group ml-4"
           href="/lawyer/consultations/availability-settings"
         >
           {t("ManageAvailability")}{" "}
