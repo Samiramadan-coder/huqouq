@@ -21,6 +21,41 @@ export function BackBtnSkeleton() {
   return <Skeleton className="h-4 w-36" />;
 }
 
+// Mirrors a single lawyer card
+export function LawyerCardSkeleton() {
+  return (
+    <div className="overflow-hidden rounded-md border border-secondary bg-white">
+      <Skeleton className="aspect-410/545 w-full rounded-none" />
+      <div className="space-y-4 px-5 py-5">
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-2/3" />
+          <Skeleton className="h-3 w-1/2" />
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <Skeleton className="h-3 w-20" />
+          <Skeleton className="h-3 w-16" />
+        </div>
+        <div className="flex flex-wrap gap-1">
+          <Skeleton className="h-6.5 w-16 rounded-full" />
+          <Skeleton className="h-6.5 w-20 rounded-full" />
+        </div>
+        <Skeleton className="h-4 w-24" />
+      </div>
+    </div>
+  );
+}
+
+// Mirrors the favorites lawyer cards grid
+export function FavoritesSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {Array.from({ length: 8 }, (_, index) => (
+        <LawyerCardSkeleton key={index} />
+      ))}
+    </div>
+  );
+}
+
 // Mirrors the find lawyers filters sidebar and lawyer cards grid
 export function LawyersResultsSkeleton() {
   return (
@@ -50,27 +85,7 @@ export function LawyersResultsSkeleton() {
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }, (_, index) => (
-            <div
-              key={index}
-              className="overflow-hidden rounded-md border border-secondary bg-white"
-            >
-              <Skeleton className="aspect-410/545 w-full rounded-none" />
-              <div className="space-y-4 px-5 py-5">
-                <div className="space-y-2">
-                  <Skeleton className="h-5 w-2/3" />
-                  <Skeleton className="h-3 w-1/2" />
-                </div>
-                <div className="flex items-center justify-between gap-4">
-                  <Skeleton className="h-3 w-20" />
-                  <Skeleton className="h-3 w-16" />
-                </div>
-                <div className="flex flex-wrap gap-1">
-                  <Skeleton className="h-6.5 w-16 rounded-full" />
-                  <Skeleton className="h-6.5 w-20 rounded-full" />
-                </div>
-                <Skeleton className="h-4 w-24" />
-              </div>
-            </div>
+            <LawyerCardSkeleton key={index} />
           ))}
         </div>
       </div>
