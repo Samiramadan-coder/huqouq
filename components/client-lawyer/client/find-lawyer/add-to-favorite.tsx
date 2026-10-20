@@ -70,7 +70,7 @@ export default function AddToFavorite({
         <Spinner />
       ) : (
         <Heart
-          className={`size-4 ${isFavourite ? "text-rose-500" : ""}`}
+          className={`size-4 ${isFavourite ? "fill-accent text-accent" : ""}`}
           aria-hidden="true"
         />
       )}
