@@ -34,7 +34,7 @@ export default async function LawyerLayout({
       <Sidebar
         side={locale === "ar" ? "right" : "left"}
         collapsible="icon"
-        className="border-secondary"
+        className="border-e border-secondary"
       >
         <SidebarContent className="bg-white">
           <SidebarGroup className="p-0">
