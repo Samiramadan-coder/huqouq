@@ -1347,6 +1347,7 @@
       "retry": "إعادة المحاولة",
       "lawyerNotFound": "المحامي غير موجود",
       "lawyerNotFoundDescription": "هذا الملف الشخصي غير موجود أو لم يعد متاحًا.",
+      "failedToSaveToFavourites": "فشل في الحفظ في المفضلة.",
       "bookConsultation": {
         "consultationType": "نوع الاستشارة",
         "minutes": "{count} دقيقة",

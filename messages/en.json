@@ -1347,6 +1347,7 @@
       "retry": "Try again",
       "lawyerNotFound": "Lawyer not found",
       "lawyerNotFoundDescription": "This lawyer profile doesn't exist or is no longer available.",
+      "failedToSaveToFavourites": "Failed to save to favourites.",
       "bookConsultation": {
         "consultationType": "Consultation Type",
         "minutes": "{count} min",

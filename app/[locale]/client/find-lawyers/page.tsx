@@ -62,6 +62,9 @@ export default async function Page({
       q: q ?? "",
       availability: availability ?? "",
     },
+    next: {
+      tags: ["lawyers"],
+    },
   });
 
   return (

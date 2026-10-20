@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
+import { Shield, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Heart, Shield, Star } from "lucide-react";
+import AddToFavorite from "./add-to-favorite";
 import { getTranslations } from "next-intl/server";
 import { Card, CardContent } from "@/components/ui/card";
 import ListOfLawyersHeader from "./list-of-lawyers-header";
@@ -48,15 +48,11 @@ export default async function ListOfLawyers({
                     className="object-cover group-hover:scale-105 transition-transform duration-300 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                   />
 
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="icon"
-                    aria-label={`${t("saveToFavourites")}: ${lawyer.name}`}
-                    className="absolute inset-e-3 top-3 size-9 rounded-full bg-white text-slate-400 shadow-sm hover:bg-white hover:text-rose-500"
-                  >
-                    <Heart className="size-4" aria-hidden="true" />
-                  </Button>
+                  <AddToFavorite
+                    name={lawyer.name}
+                    id={lawyer.id}
+                    isFavourite={lawyer.is_favorite}
+                  />
 
                   {lawyer.verified && (
                     <div

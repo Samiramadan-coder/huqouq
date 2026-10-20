@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { LawyerDetails } from "@/types/client/find-lawyer";
 import { Clock3, Heart, ShieldCheck, Star } from "lucide-react";
+import AddToFavorite from "./add-to-favorite";
 
 export default async function DefinitionCard({
   lawyer,
@@ -132,13 +133,22 @@ export default async function DefinitionCard({
           {lawyer.consultation && <BookConsultations lawyerDetails={lawyer} />}
         </div>
 
-        <button
+        <div>
+          <AddToFavorite
+            name={lawyer.name}
+            id={lawyer.id}
+            isFavourite={lawyer.is_favorite}
+            fromDetails={true}
+          />
+        </div>
+
+        {/* <button
           type="button"
           className="mt-4 flex w-full items-center justify-center gap-1.5 py-2 text-xs text-slate-400 transition-colors hover:text-primary"
         >
           <Heart className="size-3.5" aria-hidden="true" />
           {t("saveToFavourites")}
-        </button>
+        </button> */}
       </CardContent>
     </Card>
   );

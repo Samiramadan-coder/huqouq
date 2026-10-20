@@ -14,6 +14,7 @@ export type Lawyer = {
   years_of_experience: number;
   specializations: { id: number; name: string }[];
   available_now: boolean;
+  is_favorite: boolean;
   consultation: null | {
     bookable: boolean;
     currency: string;

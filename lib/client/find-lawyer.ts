@@ -19,7 +19,7 @@ export async function sendToLawyer(
       { lawyer_id: lawyerId },
     );
 
-    updateTag(`cases`);
+    updateTag(`lawyers`);
     return { success: true, message: data.message };
   } catch (error) {
     if (error instanceof ValidationError) {
@@ -49,7 +49,7 @@ export async function requestConsultation(
       values,
     );
 
-    updateTag(`cases`);
+    updateTag(`lawyers`);
     return { success: true, message: data.message };
   } catch (error) {
     if (error instanceof ValidationError) {
@@ -63,6 +63,29 @@ export async function requestConsultation(
       return { success: false, errors: errors, message: error.responseMessage };
     }
     console.error("Error requesting consultation:", error);
+    return { success: false };
+  }
+}
+
+// Save To favourite
+type SaveToFavouriteResponse =
+  | { success: true; message: string }
+  | { success: false };
+
+export async function saveToFavourite(
+  lawyerId: number,
+  isFavourite: boolean,
+): Promise<SaveToFavouriteResponse> {
+  try {
+    const method = isFavourite ? "delete" : "post";
+    const { data } = await http[method]<{ message: string }>(
+      `/api/lawyers/${lawyerId}/favorite`,
+    );
+
+    updateTag(`lawyers`);
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error saving to favourite:", error);
     return { success: false };
   }
 }
