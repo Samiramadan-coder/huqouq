@@ -2,7 +2,7 @@
 
 import { toast } from "sonner";
 import Title from "../../reusable/title";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Camera, User } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -10,18 +10,21 @@ import { useUser } from "@/providers/user-provider";
 import { useTranslations } from "next-intl";
 import { updateProfilePhoto } from "@/lib/client/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function PersonalInfo() {
   const { user, setUser } = useUser();
   const t = useTranslations("Client.Profile");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (!file) return;
-
+    setLoading(true);
     const result = await updateProfilePhoto(file);
+    setLoading(false);
 
     if (result.result) {
       setUser(result.user);
@@ -67,7 +70,7 @@ export default function PersonalInfo() {
               variant="link"
               className="p-0 text-xs text-accent"
             >
-              {t("ChangePhoto")}
+              {loading ? <Spinner /> : t("ChangePhoto")}
             </Button>
 
             <input

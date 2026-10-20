@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Camera } from "lucide-react";
@@ -9,19 +9,23 @@ import { useUser } from "@/providers/user-provider";
 import { useLocale, useTranslations } from "next-intl";
 import { updateProfilePhoto } from "@/lib/lawyer/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Info() {
   const locale = useLocale();
   const { user, setUser } = useUser();
   const t = useTranslations("Lawyer.Profile");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
     if (!file) return;
 
+    setLoading(true);
     const result = await updateProfilePhoto(file);
+    setLoading(false);
 
     if (result.result) {
       toast.success(result.message);
@@ -77,7 +81,7 @@ export default function Info() {
           variant="link"
           className="p-0 text-xs text-accent"
         >
-          {t("ChangePhoto")}
+          {loading ? <Spinner /> : t("ChangePhoto")}
         </Button>
       </div>
     </div>
