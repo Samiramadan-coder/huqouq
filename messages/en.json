@@ -1845,7 +1845,7 @@
       "OffersSubmitted2": "Lawyers have already submitted offers on this case.",
       "CompleteProfile": "Complete Profile",
       "SubmitOffer": "Submit Your Offer",
-      "SubmitOfferDescription": "Present your proposed price, estimated timeline, and a personalised message for the client.",
+      "SubmitOfferDescription": "Present your proposed price, and a personalised message for the client.",
       "SubmittedSuccessfully": "Your Offer Submitted Successfully",
       "SubmitOfferError": "Failed to Submit Offer",
       "noCasesFound": "No cases found matching your filters.",
@@ -1916,7 +1916,9 @@
       "Accepted": "Accepted",
       "AgreedFee": "Agreed Fee",
       "ViewCase": "View Case",
-      "NoCasesFound": "No cases found"
+      "NoCasesFound": "No cases found",
+      "PendingFeeWarnings": "Waiting for the client to pay the platform fee — chat opens after payment",
+      "PendingClosure": "Waiting for the client to confirm"
     },
     "Consultations": {
       "Title": "My Consultations",

@@ -66,17 +66,13 @@ export default async function Page({
   const { hire } = await searchParams;
   const data = await getCaseDetails(id);
 
+  console.log(data);
+
   if (!data) {
     notFound();
   }
 
   return (
-    <Details
-      caseDetails={data.data}
-      hire={!!hire}
-      canSubmitOffer={data.can_submit_offer}
-      submitOfferBlockedReason={data.submit_offer_blocked_reason}
-      myOffer={data.my_offer}
-    />
+    <Details caseDetails={data.data} hire={!!hire} myOffer={data.my_offer} />
   );
 }

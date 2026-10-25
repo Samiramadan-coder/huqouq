@@ -1845,7 +1845,7 @@
       "OffersSubmitted2": "لقد قدم المحامون بالفعل عروضًا على هذه القضية.",
       "CompleteProfile": "أكمل الملف الشخصي",
       "SubmitOffer": "تقديم عرضك",
-      "SubmitOfferDescription": "قدم السعر المقترح، والجدول الزمني المقدر، ورسالة مخصصة للعميل.",
+      "SubmitOfferDescription": "قدم السعر المقترح، ورسالة مخصصة للعميل.",
       "SubmittedSuccessfully": "تم تقديم عرضك بنجاح",
       "SubmitOfferError": "فشل في تقديم العرض",
       "noCasesFound": "لم يتم العثور على قضايا تطابق فلاترك.",
@@ -1916,7 +1916,9 @@
       "Accepted": "تم القبول",
       "AgreedFee": "الرسوم المتفق عليها",
       "ViewCase": "عرض القضية",
-      "NoCasesFound": "لم يتم العثور على حالات"
+      "NoCasesFound": "لم يتم العثور على حالات",
+      "PendingFeeWarnings": "بانتظار سداد العميل لرسوم المنصة — تُفتح المحادثة بعد الدفع",
+      "PendingClosure": "بانتظار تأكيد العميل"
     },
     "Consultations": {
       "Title": "استشاراتي",

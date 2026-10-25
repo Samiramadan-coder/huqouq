@@ -5,23 +5,19 @@ import {
   FilePlus,
   Lock,
   MapPin,
-  MoveRight,
   Scale,
-  TriangleAlert,
   Users,
 } from "lucide-react";
 import React from "react";
 import OfferForm from "./offer-form";
 import Title from "../../reusable/title";
 import { formatDate } from "@/lib/utils";
-import { Link } from "@/i18n/navigation";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
-import { getLocale, getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function formatFileSize(bytes: number) {
@@ -38,20 +34,18 @@ function getFileExtension(name: string) {
 export default async function Details({
   caseDetails,
   hire = false,
-  canSubmitOffer = true,
-  submitOfferBlockedReason,
   myOffer,
 }: {
   caseDetails: CaseDetails;
   hire?: boolean;
-  canSubmitOffer?: boolean;
-  submitOfferBlockedReason?: string | null;
   myOffer: MyOffer | null;
 }) {
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");
   const { client } = caseDetails;
   const documents = caseDetails.documents ?? [];
+
+  console.log(caseDetails);
 
   return (
     <div className="space-y-4">
@@ -212,58 +206,28 @@ export default async function Details({
             </div>
           </Card>
 
-          <Card className="p-0 rounded-xs ring-0! border border-secondary">
-            <div className="p-5">
-              <div>
-                <h2
-                  className={`text-base text-primary font-bold ltr:font-lora`}
-                >
-                  {t("SubmitOffer")}
-                </h2>
-                <p className="text-xs text-primary/45 mb-5 leading-relaxed">
-                  {t("SubmitOfferDescription")}
-                </p>
-              </div>
+          {!myOffer && (
+            <Card className="p-0 rounded-xs ring-0! border border-secondary">
+              <div className="p-5">
+                <div>
+                  <h2
+                    className={`text-base text-primary font-bold ltr:font-lora`}
+                  >
+                    {t("SubmitOffer")}
+                  </h2>
+                  <p className="text-xs text-primary/45 mb-5 leading-relaxed">
+                    {t("SubmitOfferDescription")}
+                  </p>
+                </div>
 
-              {canSubmitOffer ? (
                 <OfferForm
                   caseId={caseDetails.id}
                   hire={hire}
                   myOffer={myOffer}
                 />
-              ) : (
-                <div
-                  role="status"
-                  className="flex items-center justify-between gap-4 flex-wrap text-[13px] px-4 py-3 border border-amber-200 bg-amber-50 text-amber-700"
-                >
-                  <div className="flex items-center gap-2">
-                    <TriangleAlert
-                      className="text-amber-700 size-4 shrink-0"
-                      aria-hidden="true"
-                    />
-                    {submitOfferBlockedReason}
-                  </div>
-
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="ms-auto h-9 text-[13px] text-amber-700 border-amber-200 rounded-xs bg-transparent hover:text-amber-700 hover:bg-transparent"
-                  >
-                    <Link
-                      href="/lawyer/profile"
-                      className="flex items-center gap-2"
-                    >
-                      {t("CompleteProfile")}
-                      <MoveRight
-                        className="size-4 rtl:rotate-180"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </Button>
-                </div>
-              )}
-            </div>
-          </Card>
+              </div>
+            </Card>
+          )}
         </div>
 
         <div className="lg:w-75 space-y-4 order-1 lg:order-2">
