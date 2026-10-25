@@ -119,17 +119,20 @@ export default async function AcceptedOffer({
             </>
           )}
 
-        {caseDetails.chat_unlocked ? (
-          <Button
-            asChild
-            className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"
-          >
-            <Link href={`/client/messages?caseId=${caseDetails.id}`}>
-              <MessageSquare className="size-4" aria-hidden="true" />
-              {t("message")}
-            </Link>
-          </Button>
-        ) : (
+        {caseDetails.chat_unlocked &&
+          caseDetails.display_status !== "closed" && (
+            <Button
+              asChild
+              className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"
+            >
+              <Link href={`/client/messages?caseId=${caseDetails.id}`}>
+                <MessageSquare className="size-4" aria-hidden="true" />
+                {t("message")}
+              </Link>
+            </Button>
+          )}
+
+        {!caseDetails.chat_unlocked && (
           <Button
             disabled
             className="text-xs mt-4 w-full h-11 text-primary bg-accent/20 hover:bg-accent/20 hover:text-primary"

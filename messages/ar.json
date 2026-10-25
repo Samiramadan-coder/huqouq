@@ -1291,9 +1291,9 @@
         "InProgressMessage": "محاميك يعمل على قضيتك. يمكنك التواصل معهم عبر الدردشة.",
         "HiredTo": "تم التوظيف إلى {name}",
         "Current": "الحالي",
-        "ReviewedOnPending": "المراجعة (قيد الانتظار)",
+        "ReviewedOnPending": "بانتظار مراجعة Huqouq — عادةً خلال 24 ساعة",
         "PendingClosureOn": "القضية تقترب من الحل. المراجعة النهائية معلقة قبل الإغلاق.",
-        "ClosedCase": "يتم إغلاق القضية.",
+        "ClosedCase": "تم الإغلاق فى {date}",
         "ReviewedOn": "تمت المراجعة في {date}"
       },
       "CommentPlaceholder": "شارك تفاصيل تجربتك (اختياري)",

@@ -1292,9 +1292,9 @@
         "InProgressMessage": "Your lawyer is working on your case. You can communicate with them through the chat.",
         "HiredTo": "Hired to {name}",
         "Current": "Current",
-        "ReviewedOnPending": "Reviewed on (pending)",
+        "ReviewedOnPending": "Waiting for Huqouq review — usually within 24 hours",
         "PendingClosureOn": "Case nearing resolution. Final review pending before closure.",
-        "ClosedCase": "Case is being closed.",
+        "ClosedCase": "Closed on {date}",
         "ReviewedOn": "Reviewed on {date}"
       },
       "reviews": "reviews",

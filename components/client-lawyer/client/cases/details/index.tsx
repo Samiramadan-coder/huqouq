@@ -95,7 +95,7 @@ export default async function Index({
         return t("Timeline.PendingClosureOn");
 
       case "closed":
-        return t("Timeline.ClosedCase");
+        return t("Timeline.ClosedCase", { date: formatDate(step.at!) });
 
       case "reviewed":
         return t("Timeline.ReviewedOn", { date: formatDate(step.at!) });

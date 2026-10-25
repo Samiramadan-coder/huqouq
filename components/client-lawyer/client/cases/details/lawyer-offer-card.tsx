@@ -1,20 +1,20 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { useState } from "react";
-import AcceptOffer from "./accept-offer";
-import { ChevronRight, ShieldCheck, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CaseOffer } from "@/types/client/my-cases";
-import { useTranslations } from "next-intl";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Avatar,
   AvatarBadge,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import AcceptOffer from "./accept-offer";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { CaseOffer } from "@/types/client/my-cases";
+import { Card, CardContent } from "@/components/ui/card";
+import { ChevronRight, ShieldCheck, Star } from "lucide-react";
 
 export default function LawyerOfferCard({
   caseId,
@@ -57,7 +57,6 @@ export default function LawyerOfferCard({
                 <p className="text-lg font-semibold ltr:font-lora">
                   {tCommon("AED")} {caseOffer.amount}
                 </p>
-                <p className="text-[11px] text-primary/40">{t("fixedFee")}</p>
               </div>
             </div>
 
