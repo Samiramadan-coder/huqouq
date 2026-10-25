@@ -23,7 +23,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 
-import { cn } from "@/lib/utils";
+import { cn, formatNumbers } from "@/lib/utils";
 import AcceptOffer from "./accept-offer";
 import Proposal from "./proposal-message";
 import { Badge } from "@/components/ui/badge";
@@ -158,7 +158,7 @@ export default async function CompareOffers({
                 {offers.map((offer) => (
                   <TableCell key={offer.id} className="py-4">
                     <p className="text-lg font-bold text-accent ltr:font-lora">
-                      {tCommon("AED")} {offer.delivery_amount}
+                      {tCommon("AED")} {formatNumbers(offer.fee)}
                     </p>
                   </TableCell>
                 ))}
