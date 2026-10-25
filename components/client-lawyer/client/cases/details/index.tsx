@@ -20,7 +20,7 @@ import InfoRow from "./info-row";
 import CloseCase from "./close-case";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, formatNumbers } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
 import AcceptedOffer from "./accepted-offer";
 import CompareOffers from "./compare-offers";
@@ -36,6 +36,7 @@ import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
+import RateLawyer from "../rate-lawyer";
 
 export default async function Index({
   caseDetails,
@@ -125,7 +126,13 @@ export default async function Index({
                 </Link>
               </Button>
             )}
+
             {caseDetails.can_close && <CloseCase caseId={caseDetails.id} />}
+
+            {caseDetails.display_status === "closed" &&
+              caseDetails.is_reviewed === false && (
+                <RateLawyer caseItem={caseDetails} />
+              )}
           </div>
         </div>
 
@@ -335,7 +342,7 @@ export default async function Index({
                 <InfoRow
                   icon={TriangleAlert}
                   label={t("Fields.budget.label")}
-                  value={`${caseDetails.budget_min} - ${caseDetails.budget_max} ${tCommon("AED")}`}
+                  value={`${formatNumbers(caseDetails.budget_min)} - ${formatNumbers(caseDetails.budget_max)} ${tCommon("AED")}`}
                 />
               )}
             <Separator className="bg-secondary" />

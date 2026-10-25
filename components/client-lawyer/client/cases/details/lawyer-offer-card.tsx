@@ -6,7 +6,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+import { cn, formatNumbers } from "@/lib/utils";
 import { useState } from "react";
 import AcceptOffer from "./accept-offer";
 import { Link } from "@/i18n/navigation";
@@ -55,7 +55,7 @@ export default function LawyerOfferCard({
 
               <div className="shrink-0 text-end">
                 <p className="text-lg font-semibold ltr:font-lora">
-                  {tCommon("AED")} {caseOffer.amount}
+                  {tCommon("AED")} {formatNumbers(caseOffer.amount)}
                 </p>
               </div>
             </div>

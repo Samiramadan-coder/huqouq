@@ -13,6 +13,7 @@ import { CaseDetails } from "@/types/client/my-cases";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lock, MessageSquare, ShieldCheck } from "lucide-react";
+import { formatNumbers } from "@/lib/utils";
 
 export default async function AcceptedOffer({
   caseDetails,
@@ -77,7 +78,8 @@ export default async function AcceptedOffer({
                 {t("agreedAmount")}
               </p>
               <p className="text-lg font-semibold ltr:font-lora">
-                {tCommon("AED")} {caseDetails.accepted_offer.amount}
+                {tCommon("AED")}{" "}
+                {formatNumbers(caseDetails.accepted_offer.amount)}
               </p>
             </div>
           </div>
@@ -97,11 +99,13 @@ export default async function AcceptedOffer({
                   </p>
                   <p className="font-sans text-[11px] text-primary/45 mb-3">
                     {t("platformFeeDescription", {
-                      percentage: caseDetails.payment?.fee_percentage,
+                      percentage: `${caseDetails.payment?.fee_percentage}%`,
                     })}
                   </p>
                 </div>
+
                 <Separator className="bg-accent/40" />
+
                 <div className="space-y-2">
                   <p className="text-sm text-primary/70">
                     {t("amountForLawyer")}{" "}

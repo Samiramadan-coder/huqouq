@@ -129,3 +129,14 @@ export const formatChatDate = (date: Date | null) => {
 export async function getAppUrl(requestUrl: string) {
   return process.env.APP_URL || new URL(requestUrl).origin;
 }
+
+/**
+ * Format Numbers
+ */
+export function formatNumbers(
+  value: number,
+  locale: string = "en",
+  options?: Intl.NumberFormatOptions,
+) {
+  return new Intl.NumberFormat(locale, options).format(value);
+}
