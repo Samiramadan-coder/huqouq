@@ -171,9 +171,10 @@ export default async function Index({ service }: { service: ServiceDetails }) {
         ) : null}
 
         {/* The API decides when work can still be delivered */}
-        {(service.can?.deliver || service.can?.add_files) && (
-          <DeliverWork serviceId={service.id} />
-        )}
+        {(service.can?.deliver || service.can?.add_files) &&
+          service.status === "in_progress" && (
+            <DeliverWork serviceId={service.id} />
+          )}
 
         {service.can?.open_chat && (
           <ChatRoom
