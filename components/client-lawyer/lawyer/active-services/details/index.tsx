@@ -8,6 +8,7 @@ import Revisions from "./revisions";
 import Deliveries from "./deliveries";
 import { cookies } from "next/headers";
 import ChatRoom from "./chat-room";
+import { formatDate } from "@/lib/utils";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const cookiesStore = await cookies();
@@ -24,13 +25,40 @@ export default async function Index({ service }: { service: ServiceDetails }) {
     timeline.length > 1
       ? Math.min((doneSteps / (timeline.length - 1)) * 100, 100)
       : 0;
-  // Only show a countdown while the work is still open
+  const latestDelivery = deliveries.reduce<(typeof deliveries)[number] | null>(
+    (latest, d) =>
+      !latest || new Date(d.delivered_at) > new Date(latest.delivered_at)
+        ? d
+        : latest,
+    null,
+  );
+  const latestRevision = revisions.reduce<(typeof revisions)[number] | null>(
+    (latest, r) =>
+      !latest || new Date(r.requested_at) > new Date(latest.requested_at)
+        ? r
+        : latest,
+    null,
+  );
+  // A revision is pending when it was requested on the latest delivery
+  const pendingRevisionNote =
+    service.status === "in_progress" &&
+    latestRevision &&
+    latestDelivery &&
+    latestRevision.delivery_id === latestDelivery.id
+      ? latestRevision.note
+      : null;
+
+  // Countdown while the work is open; the delivery date once delivered
   const daysLabel =
-    service.status === "completed" || service.days_remaining == null
-      ? null
-      : service.overdue || service.days_remaining < 0
-        ? t("overdue", { days: Math.abs(service.days_remaining) })
-        : t("daysRemaining", { days: service.days_remaining });
+    service.status === "delivered"
+      ? latestDelivery
+        ? t("deliveredOn", { date: formatDate(latestDelivery.delivered_at) })
+        : null
+      : service.status === "completed" || service.days_remaining == null
+        ? null
+        : service.overdue || service.days_remaining < 0
+          ? t("overdue", { days: Math.abs(service.days_remaining) })
+          : t("daysRemaining", { days: service.days_remaining });
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
@@ -171,10 +199,22 @@ export default async function Index({ service }: { service: ServiceDetails }) {
         ) : null}
 
         {/* The API decides when work can still be delivered */}
-        {(service.can?.deliver || service.can?.add_files) &&
-          service.status === "in_progress" && (
-            <DeliverWork serviceId={service.id} />
-          )}
+        {service.status === "in_progress" && service.can?.deliver && (
+          <DeliverWork
+            serviceId={service.id}
+            mode="deliver"
+            revisionNote={pendingRevisionNote}
+          />
+        )}
+
+        {service.status === "delivered" && (
+          <DeliverWork
+            serviceId={service.id}
+            mode="addFiles"
+            deliveredAt={latestDelivery?.delivered_at ?? null}
+            canAddFiles={!!service.can?.add_files}
+          />
+        )}
 
         {service.can?.open_chat && (
           <ChatRoom

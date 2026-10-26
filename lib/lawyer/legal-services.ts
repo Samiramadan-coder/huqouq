@@ -63,12 +63,31 @@ type DeliverWorkResponse =
       errors?: Partial<Record<keyof DeliverWorkFormValues, string>>;
     };
 
+// Delivers work while the service is in progress
 export async function deliverWork(
   values: DeliverWorkFormValues,
   id: number,
 ): Promise<DeliverWorkResponse> {
-  const url = `/api/lawyer/legal-services/${id}/deliver`;
+  return uploadDelivery(`/api/lawyer/legal-services/${id}/deliver`, values, id);
+}
 
+// Adds more files to a delivery that is awaiting the client's approval
+export async function addDeliveryFiles(
+  values: DeliverWorkFormValues,
+  id: number,
+): Promise<DeliverWorkResponse> {
+  return uploadDelivery(
+    `/api/lawyer/legal-services/${id}/delivery-files`,
+    values,
+    id,
+  );
+}
+
+async function uploadDelivery(
+  url: string,
+  values: DeliverWorkFormValues,
+  id: number,
+): Promise<DeliverWorkResponse> {
   const formData = new FormData();
 
   values.files.forEach((file) => {
