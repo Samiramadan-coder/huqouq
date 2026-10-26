@@ -4,7 +4,7 @@ import DeliveredFiles from "./delivered-files";
 import { CircleCheck, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { LegalServiceDetails } from "@/types/client/legal-services";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatNumbers } from "@/lib/utils";
 
 export default async function Completed({
   service,
@@ -13,6 +13,12 @@ export default async function Completed({
 }) {
   const t = await getTranslations("Client.LegalServices");
   const token = (await cookies()).get("token")?.value || "";
+
+  // The client only ever sees what they paid, never the lawyer's net or the platform fee
+  const completedAt = service.timeline.find((e) => e.key === "completed")?.at;
+  const amount = service.payment
+    ? `${service.payment.currency} ${formatNumbers(service.payment.amount)}`
+    : "";
 
   return (
     <div className="bg-white border border-emerald-200 rounded-sm overflow-hidden">
@@ -27,10 +33,9 @@ export default async function Completed({
           </p>
           {service.payment && (
             <p className=" text-xs text-emerald-700/75">
-              {t("paymentReleased", {
-                date: formatDate(service.created_at),
-                amount: `${service.payment.currency} ${service.payment.amount}`,
-              })}
+              {completedAt
+                ? t("completedOn", { date: formatDate(completedAt), amount })
+                : t("youPaid", { amount })}
             </p>
           )}
         </div>
