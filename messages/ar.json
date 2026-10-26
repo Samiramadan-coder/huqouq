@@ -1445,7 +1445,7 @@
       "approveDeliveryFailed": "فشل في الموافقة على التسليم. يرجى المحاولة مرة أخرى.",
       "serviceCompleted": "تم إكمال الخدمة",
       "rateThisService": "قيم هذه الخدمة",
-      "paymentReleased": "تم إصدار الدفع {amount} إلى {lawyerName}",
+      "paymentReleased": "تم إصدار الدفع فى {date}, تم دفع {amount}",
       "submitReview": "إرسال التقييم",
       "skipForNow": "تخطي الآن",
       "commentPlaceholder": "اكتب تقييمك هنا",

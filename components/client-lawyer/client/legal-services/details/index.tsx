@@ -1,4 +1,7 @@
+import ChatRoom from "./chat-room";
 import Completed from "./completed";
+import { cookies } from "next/headers";
+import { Link } from "@/i18n/navigation";
 import TimelineRail from "./timeline-radial";
 import CompareOffers from "./compare-offers";
 import OfferAccepted from "./accepted-offer";
@@ -7,17 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
 import DeliveredSection from "./delivered-section";
+import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import { LegalServiceStatus } from "../list-of-services";
-import { getTranslations } from "next-intl/server";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { LegalServiceDetails } from "@/types/client/legal-services";
+import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 import { MapPin, Calendar, Clock, FileText, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import ChatRoom from "./chat-room";
-import { cookies } from "next/headers";
-import { Link } from "@/i18n/navigation";
-import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 
 export default async function Index({
   legalService,

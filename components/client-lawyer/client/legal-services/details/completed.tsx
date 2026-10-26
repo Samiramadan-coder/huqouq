@@ -4,6 +4,7 @@ import DeliveredFiles from "./delivered-files";
 import { CircleCheck, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { LegalServiceDetails } from "@/types/client/legal-services";
+import { formatDate } from "@/lib/utils";
 
 export default async function Completed({
   service,
@@ -27,17 +28,16 @@ export default async function Completed({
           {service.payment && (
             <p className=" text-xs text-emerald-700/75">
               {t("paymentReleased", {
-                amount:
-                  service.payment.currency +
-                  " " +
-                  service.payment.lawyer_amount,
-                lawyerName: service.hired_lawyer?.name || "",
+                date: formatDate(service.created_at),
+                amount: `${service.payment.currency} ${service.payment.amount}`,
               })}
             </p>
           )}
         </div>
       </div>
+
       <DeliveredFiles service={service} token={token} />
+
       <div className="px-5 py-4">
         {service.review ? (
           <div>
