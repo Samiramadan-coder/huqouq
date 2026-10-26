@@ -13,6 +13,7 @@ import {
 import { cn } from "cn";
 import { toast } from "sonner";
 import { http } from "@/lib/http";
+import { formatNumbers } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -140,15 +141,7 @@ export default function AcceptOffer({
                   {t("agreedFee")}
                 </span>
                 <span className="text-sm font-bold text-primary">
-                  {paymentDetails.currency} {paymentDetails.fee}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-primary/45">
-                  {t("huqouqPlatformFee")} ({paymentDetails.fee_percentage}%)
-                </span>
-                <span className="text-xs text-primary/45">
-                  {paymentDetails.currency} {paymentDetails.platform_fee}
+                  {paymentDetails.currency} {formatNumbers(paymentDetails.fee)}
                 </span>
               </div>
               <div className="h-px bg-[#EDE9E1]"></div>
@@ -157,13 +150,12 @@ export default function AcceptOffer({
                   {t("totalYouPay")}
                 </span>
                 <span className="text-base font-bold text-accent">
-                  {paymentDetails.currency} {paymentDetails.total}
+                  {paymentDetails.currency}{" "}
+                  {formatNumbers(paymentDetails.total)}
                 </span>
               </div>
               <p className="text-[11px] text-primary/35 leading-relaxed">
-                {t("lawyerAmount", {
-                  amount: `${paymentDetails.currency} ${paymentDetails.lawyer_amount}`,
-                })}
+                {t("paymentHeldNote")}
               </p>
             </div>
           </div>
