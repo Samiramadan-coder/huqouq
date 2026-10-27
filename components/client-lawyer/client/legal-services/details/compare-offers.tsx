@@ -112,7 +112,7 @@ export default async function CompareOffers({
                 {offers.map((offer) => (
                   <TableCell key={offer.id} className="py-4">
                     <p className="text-base text-primary/70">
-                      {offer.lawyer.years_of_experience} Years
+                      {format.number(offer.lawyer.years_of_experience)} Years
                     </p>
                   </TableCell>
                 ))}
@@ -142,7 +142,7 @@ export default async function CompareOffers({
                       </div>
 
                       <span className="text-primary/50">
-                        {offer.lawyer.rating} ({offer.lawyer.reviews_count}{" "}
+                        {format.number(offer.lawyer.rating)} ({format.number(offer.lawyer.reviews_count)}{" "}
                         reviews)
                       </span>
                     </div>

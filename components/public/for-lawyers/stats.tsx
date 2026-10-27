@@ -8,6 +8,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 
 type Stat = {
   key: "lawyers" | "specializations" | "satisfaction" | "licensed";
@@ -41,6 +42,7 @@ const stats: Stat[] = [
 export default async function Stats() {
   const locale = await getLocale();
   const t = await getTranslations("ForLawyers.stats");
+  const format = await getFormatters();
 
   return (
     <section className="bg-primary py-10 lg:py-11.5">
@@ -61,7 +63,7 @@ export default async function Stats() {
                 },
               )}
             >
-              {value}
+              {format.digits(value)}
             </strong>
 
             <span className="mt-2 block font-sans text-xs tracking-wide text-white/40 uppercase">

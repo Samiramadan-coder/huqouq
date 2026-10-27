@@ -81,7 +81,7 @@ export default function BookConsultations({
   const { consultation } = lawyerDetails;
 
   const duration = tBook("minutes", {
-    count: consultation?.duration_minutes ?? 0,
+    count: format.number(consultation?.duration_minutes),
   });
 
   const priceLabel = !consultation?.price
@@ -176,7 +176,7 @@ export default function BookConsultations({
     },
     {
       label: tBook("dateTime"),
-      value: `${bookableDays.find((day) => day.date === selectedDate)?.label ?? selectedDate} · ${selectedTime}`,
+      value: `${bookableDays.find((day) => day.date === selectedDate)?.label ?? selectedDate} · ${format.digits(selectedTime)}`,
     },
     { label: tBook("price"), value: priceLabel },
   ];
@@ -368,7 +368,7 @@ export default function BookConsultations({
                             aria-pressed={value === slot.label}
                             onClick={() => onChange(slot.label)}
                           >
-                            {slot.label}
+                            {format.digits(slot.label)}
                           </button>
                         </Badge>
                       ))}

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 
 const stats = [
   {
@@ -23,6 +24,7 @@ const stats = [
 export default async function Stats() {
   const locale = await getLocale();
   const t = await getTranslations("ForClients.stats");
+  const format = await getFormatters();
 
   return (
     <section className="bg-primary py-10 lg:py-11.5">
@@ -38,7 +40,7 @@ export default async function Stats() {
                 },
               )}
             >
-              {stat.value}
+              {format.digits(stat.value)}
             </strong>
 
             <span className="font-sans text-xs tracking-wide text-white/40 uppercase">

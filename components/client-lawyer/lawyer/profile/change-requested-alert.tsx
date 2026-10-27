@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, ChevronRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 
 export async function ChangesRequestedAlert({ count }: { count: number }) {
   const t = await getTranslations("Lawyer.Profile");
+  const format = await getFormatters();
 
   return (
     <div className="flex items-center justify-between flex-wrap gap-6 rounded-md border border-amber-300/50 bg-white px-5 py-6 mb-7">
@@ -18,7 +20,7 @@ export async function ChangesRequestedAlert({ count }: { count: number }) {
           </h3>
 
           <p className="max-w-xl text-sm leading-6 text-primary/50">
-            {count} {t("changeRequestAlert")}
+            {format.number(count)} {t("changeRequestAlert")}
           </p>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default async function Completed({
               <span className="font-semibold text-primary/70">
                 {t("rating")}
               </span>
-              : {service.review.rating}
+              : {format.number(service.review.rating)}
               <Star
                 className="size-4 fill-accent text-accent"
                 aria-hidden="true"

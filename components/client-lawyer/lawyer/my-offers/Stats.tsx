@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Counts } from "@/types/lawyer/my-offers";
 import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
+import { useFormatters } from "@/lib/format";
 
 export default async function Stats({ counts }: { counts: Counts }) {
   const t = await getTranslations("Lawyer.MyOffers");
@@ -44,9 +45,11 @@ export default async function Stats({ counts }: { counts: Counts }) {
 }
 
 function StatItem({ count, label }: { count: number; label: string }) {
+  const format = useFormatters();
+
   return (
     <div className="flex gap-2 items-center">
-      <span className="font-bold text-lg text-primary">{count}</span>
+      <span className="font-bold text-lg text-primary">{format.number(count)}</span>
       <span className="font-normal text-xs text-primary/40">{label}</span>
     </div>
   );

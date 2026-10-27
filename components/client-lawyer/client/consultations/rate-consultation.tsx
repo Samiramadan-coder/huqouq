@@ -26,6 +26,7 @@ import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { rateFormSchema, RateLawyerForm } from "@/types/client/my-cases";
 import { Consultation, ConsultationReview } from "@/types/client/consultation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useFormatters } from "@/lib/format";
 
 // Quick tags shared with case reviews, so labels come from Client.Cases
 const TAGS = [
@@ -207,6 +208,7 @@ export function ConsultationReviewView({
   review: ConsultationReview;
 }) {
   const t = useTranslations("Client.Consultations.Rate");
+  const format = useFormatters();
   const tags = review.tags ?? [];
 
   return (
@@ -216,7 +218,7 @@ export function ConsultationReviewView({
       </p>
       <p
         className="flex items-center gap-1 text-sm text-primary"
-        aria-label={`${review.rating}/5`}
+        aria-label={`${format.number(review.rating)}/{format.number(5)}`}
       >
         {[1, 2, 3, 4, 5].map((star) => (
           <Star

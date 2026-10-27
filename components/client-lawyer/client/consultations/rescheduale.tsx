@@ -22,6 +22,7 @@ import { FieldError, FieldLabel } from "@/components/ui/field";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import { rescheduleConsultation } from "@/lib/client/consultations";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
+import { useFormatters } from "@/lib/format";
 
 type BookableDay = {
   available: boolean;
@@ -54,6 +55,7 @@ export default function Reschedule({
 }) {
   const [open, setOpen] = useState(false);
   const t = useTranslations("Client.Consultations.Details");
+  const format = useFormatters();
   const [bookableDays, setBookableDays] = useState<BookableDay[]>([]);
 
   useEffect(() => {
@@ -187,7 +189,7 @@ export default function Reschedule({
                           aria-pressed={value === slot.label}
                           onClick={() => onChange(slot.label)}
                         >
-                          {slot.label}
+                          {format.digits(slot.label)}
                         </button>
                       </Badge>
                     ))}

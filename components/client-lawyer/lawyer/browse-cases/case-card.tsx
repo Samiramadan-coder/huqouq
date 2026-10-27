@@ -85,7 +85,7 @@ export default async function CaseCard({
 
         <div className="border-t border-secondary pt-4 flex items-center justify-between gap-3 flex-wrap">
           <p className="text-xs text-primary/40">
-            {caseItem.offers_count} {t("lawyersHaveOffers")}
+            {format.number(caseItem.offers_count)} {t("lawyersHaveOffers")}
           </p>
 
           {can_submit_offer && (

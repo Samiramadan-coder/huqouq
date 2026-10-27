@@ -7,9 +7,11 @@ import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import FooterColumn, { FooterHeading } from "./footer/footer-column";
 import { lawyerLinks, legalLinks, platformLinks } from "@/constants/shared";
+import { getFormatters } from "@/lib/format.server";
 
 export default async function Footer() {
   const t = await getTranslations("Footer");
+  const format = await getFormatters();
 
   return (
     <footer className="bg-[#122840] text-white">
@@ -105,7 +107,7 @@ export default async function Footer() {
         <Separator className="my-12 bg-white/10" />
 
         <div className="flex flex-col gap-4 text-xs text-white/30 sm:flex-row sm:items-center sm:justify-between">
-          <p>{t("Copyright", { year: new Date().getFullYear() })}</p>
+          <p>{t("Copyright", { year: format.digits(new Date().getFullYear()) })}</p>
 
           <p>{t("TrustStatement")}</p>
         </div>

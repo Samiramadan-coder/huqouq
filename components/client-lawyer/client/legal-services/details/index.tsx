@@ -59,7 +59,7 @@ export default async function Index({
                   {t("lawyersOffers")}
                 </p>
                 <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
-                  {legalService.offers_count} {t("offers")}
+                  {format.number(legalService.offers_count)} {t("offers")}
                 </Badge>
               </div>
 

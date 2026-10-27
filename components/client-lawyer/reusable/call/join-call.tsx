@@ -25,6 +25,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useCallTiming } from "@/hook/use-call-timing";
+import { useFormatters } from "@/lib/format";
 
 // The Agora SDK touches browser APIs on import, so it must never render on the server.
 const AgoraCall = dynamic(() => import("./agora-call"), {
@@ -58,6 +59,7 @@ export default function JoinCall({
   lawyerId?: number;
 }) {
   const t = useTranslations("Call");
+  const format = useFormatters();
   const router = useRouter();
   const timing = useCallTiming(schedule);
   const [open, setOpen] = useState(false);
@@ -65,7 +67,7 @@ export default function JoinCall({
 
   const joinHint =
     timing.phase === "tooEarly"
-      ? t("joinNotOpen", { minutes: JOIN_OPENS_BEFORE_MINUTES })
+      ? t("joinNotOpen", { minutes: format.number(JOIN_OPENS_BEFORE_MINUTES) })
       : timing.phase === "ended"
         ? t("joinClosed")
         : undefined;

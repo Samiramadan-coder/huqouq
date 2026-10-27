@@ -77,7 +77,7 @@ export default function LawyerOfferCard({
               </div>
 
               <span className="text-primary/50">
-                {caseOffer.lawyer.rating} ({caseOffer.lawyer.reviews_count}{" "}
+                {format.number(caseOffer.lawyer.rating)} ({format.number(caseOffer.lawyer.reviews_count)}{" "}
                 {t("reviews")})
               </span>
             </div>

@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowRight, BriefcaseBusiness, FileText, Scale } from "lucide-react";
+import { useFormatters } from "@/lib/format";
 
 // TODO: replace with real data from the API
 const stats = [
@@ -33,6 +34,7 @@ const stats = [
 
 export default function LegalServices() {
   const t = useTranslations("Lawyer.Dashboard");
+  const format = useFormatters();
 
   return (
     <div className="space-y-3">
@@ -83,7 +85,7 @@ export default function LegalServices() {
                   highlighted ? "text-accent" : "text-primary",
                 )}
               >
-                {count}
+                {format.number(count)}
               </p>
               <p className="text-sm text-primary/55">{t(label)}</p>
 

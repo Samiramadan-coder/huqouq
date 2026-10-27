@@ -48,6 +48,7 @@ import {
   Video,
   VideoOff,
 } from "lucide-react";
+import { useFormatters } from "@/lib/format";
 
 export type AgoraCallProps = {
   consultationId: number;
@@ -90,6 +91,7 @@ function CallRoom({
   onEnd,
 }: AgoraCallProps) {
   const t = useTranslations("Call");
+  const format = useFormatters();
   const client = useRTCClient();
   const isVideo = callType === "video";
 
@@ -209,7 +211,7 @@ function CallRoom({
         ) : timing.phase === "lobby" ? (
           <span className="flex items-center gap-1.5 tabular-nums text-primary/55">
             <Clock className="size-3" aria-hidden="true" />
-            {t("startsIn", { time: formatSeconds(timing.secondsToStart) })}
+            {t("startsIn", { time: format.digits(formatSeconds(timing.secondsToStart)) })}
           </span>
         ) : timing.phase === "inProgress" ? (
           <span
@@ -219,12 +221,12 @@ function CallRoom({
             )}
           >
             <Clock className="size-3" aria-hidden="true" />
-            {t("timeLeft", { time: formatSeconds(timing.secondsToEnd) })}
+            {t("timeLeft", { time: format.digits(formatSeconds(timing.secondsToEnd)) })}
           </span>
         ) : timing.phase === "extraTime" ? (
           <span className="flex items-center gap-1.5 font-semibold tabular-nums text-destructive">
             <Hourglass className="size-3" aria-hidden="true" />
-            {formatSeconds(timing.secondsToHardEnd)}
+            {format.digits(formatSeconds(timing.secondsToHardEnd))}
           </span>
         ) : null}
       </div>
@@ -235,7 +237,7 @@ function CallRoom({
           className="flex items-center gap-2 rounded-sm border border-amber-200 bg-amber-50 px-4 py-2.5 text-xs text-amber-700"
         >
           <TriangleAlert className="size-3.5 shrink-0" aria-hidden="true" />
-          {t("endingSoon", { minutes: ENDING_SOON_MINUTES })}
+          {t("endingSoon", { minutes: format.number(ENDING_SOON_MINUTES) })}
         </p>
       )}
 
@@ -245,7 +247,7 @@ function CallRoom({
           className="flex items-center gap-2 rounded-sm border border-destructive/20 bg-destructive/5 px-4 py-2.5 text-xs text-destructive"
         >
           <Hourglass className="size-3.5 shrink-0" aria-hidden="true" />
-          {t("extraTime", { time: formatSeconds(timing.secondsToHardEnd) })}
+          {t("extraTime", { time: format.digits(formatSeconds(timing.secondsToHardEnd)) })}
         </p>
       )}
 

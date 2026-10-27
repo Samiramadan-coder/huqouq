@@ -80,8 +80,8 @@ export default function LawyerOfferCard({
               </div>
 
               <span className="text-primary/50">
-                {serviceOffer.lawyer.rating} (
-                {serviceOffer.lawyer.reviews_count} {t("reviews")})
+                {format.number(serviceOffer.lawyer.rating)} (
+                {format.number(serviceOffer.lawyer.reviews_count)} {t("reviews")})
               </span>
             </div>
 

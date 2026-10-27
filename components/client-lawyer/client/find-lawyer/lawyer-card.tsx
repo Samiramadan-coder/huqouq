@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
 import { Lawyer } from "@/types/client/find-lawyer";
 import { getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 
 export default async function LawyerCard({
   lawyer,
@@ -18,6 +19,7 @@ export default async function LawyerCard({
   caseId?: string;
 }) {
   const t = await getTranslations("Client.FindLawyer");
+  const format = await getFormatters();
 
   return (
     <Card
@@ -64,7 +66,7 @@ export default async function LawyerCard({
           </h2>
 
           <p className="text-xs text-primary/50 mb-3">
-            {t("lawyer")} · {lawyer.years_of_experience} {t("yearsExperience")}
+            {t("lawyer")} · {format.number(lawyer.years_of_experience)} {t("yearsExperience")}
           </p>
         </div>
 
@@ -83,7 +85,7 @@ export default async function LawyerCard({
           </div>
 
           <p className="text-xs text-primary/60">
-            {lawyer.rating} ({lawyer.reviews_count})
+            {format.number(lawyer.rating)} ({format.number(lawyer.reviews_count)})
           </p>
         </div>
 

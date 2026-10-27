@@ -9,6 +9,7 @@ import { PhoneOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { CallEndResult, formatSeconds } from "./config";
+import { useFormatters } from "@/lib/format";
 
 export default function CallEnded({
   result,
@@ -20,6 +21,7 @@ export default function CallEnded({
   children?: React.ReactNode;
 }) {
   const t = useTranslations("Call.Ended");
+  const format = useFormatters();
 
   return (
     <>
@@ -34,7 +36,7 @@ export default function CallEnded({
 
         <DialogDescription className="text-sm text-primary/55">
           {t("callDuration", { name: result.remoteName })}:{" "}
-          {formatSeconds(result.durationSeconds)}.
+          {format.digits(formatSeconds(result.durationSeconds))}.
         </DialogDescription>
       </DialogHeader>
 

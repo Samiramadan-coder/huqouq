@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Control, Controller, useWatch } from "react-hook-form";
+import { useFormatters } from "@/lib/format";
 
 type Props = {
   control: Control<AvailabilitySettings>;
@@ -106,6 +107,7 @@ function DayAvailability({
   const t = useTranslations(
     "Lawyer.Consultations.AvailabilitySettings.Fields.WeeklyAvailability",
   );
+  const format = useFormatters();
 
   const updateSlotStart = (index: number, from: string) =>
     onSlotsChange(
@@ -163,7 +165,7 @@ function DayAvailability({
                   type="button"
                   size="icon"
                   variant="ghost"
-                  aria-label={t("RemoveSlot", { index: index + 1, day: label })}
+                  aria-label={t("RemoveSlot", { index: format.number(index + 1), day: label })}
                   onClick={() =>
                     onSlotsChange(slots.filter((_, i) => i !== index))
                   }

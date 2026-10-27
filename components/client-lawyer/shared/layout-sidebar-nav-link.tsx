@@ -2,6 +2,7 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { useFormatters } from "@/lib/format";
 
 export default function SidebarNavLink({
   href,
@@ -14,6 +15,7 @@ export default function SidebarNavLink({
   icon: React.ReactNode;
   count?: number;
 }) {
+  const format = useFormatters();
   const pathname = usePathname();
   const normalizedPathname = pathname.replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const isActive = normalizedPathname.startsWith(href);
@@ -29,7 +31,7 @@ export default function SidebarNavLink({
         <span>{label}</span>
         {count && (
           <div className="ml-auto text-xs font-semibold text-white bg-accent w-5 h-5 rounded-full flex items-center justify-center">
-            {count}
+            {format.number(count)}
           </div>
         )}
       </Link>

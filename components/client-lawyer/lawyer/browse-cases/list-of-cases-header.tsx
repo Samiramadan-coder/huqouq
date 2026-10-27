@@ -20,6 +20,7 @@ import FiltersControl from "./filters-control";
 import { Button } from "@/components/ui/button";
 import { ListFilterPlus } from "lucide-react";
 import { useLawyerBrowseCasesFilters } from "@/providers/lawyer-browse-cases-filters";
+import { useFormatters } from "@/lib/format";
 
 export default function ListOfCasesHeader({
   total,
@@ -29,6 +30,7 @@ export default function ListOfCasesHeader({
   filters: Filters;
 }) {
   const t = useTranslations("Lawyer.BrowseCases");
+  const format = useFormatters();
   const { lawyerFilters, setLawyerFilters } = useLawyerBrowseCasesFilters();
 
   return (
@@ -49,7 +51,7 @@ export default function ListOfCasesHeader({
             </SheetContent>
           </Sheet>
         </div>
-        <span className="text-primary font-bold">{total}</span>{" "}
+        <span className="text-primary font-bold">{format.number(total)}</span>{" "}
         {t("MatchYourFilters")}
       </div>
 

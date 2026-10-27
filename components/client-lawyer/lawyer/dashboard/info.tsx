@@ -138,7 +138,7 @@ export default function Info() {
           >
             <div className="flex size-11 items-center justify-center rounded-full bg-white">
               <span className="text-xs font-semibold text-primary">
-                {lawyer?.completion_percentage}%
+                {format.number(lawyer?.completion_percentage)}%
               </span>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function Info() {
                 locale === "en" && "font-lora",
               )}
             >
-              {lawyer?.completion_percentage}% {t("Complete")}
+              {format.number(lawyer?.completion_percentage)}% {t("Complete")}
             </h3>
 
             {nextSectionToFill && (

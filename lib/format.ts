@@ -5,17 +5,20 @@ const CURRENCY_LABELS: Record<string, Record<string, string>> = {
   ar: { AED: "درهم" },
 };
 
+const ARABIC_DIGITS = "٠١٢٣٤٥٦٧٨٩";
+
 /**
  * Locale-aware date, number and money formatters shared across the site.
- * Digits stay Latin in every locale.
+ * Arabic uses Arabic-Indic digits (١٬٥٠٠); other locales use Latin digits.
  */
 export function createFormatters(locale: string) {
   const isArabic = locale === "ar";
+  const numberingSystem = isArabic ? "arab" : "latn";
 
-  // e.g. "1,500"; decimals only when the value has them
+  // e.g. "1,500" / "١٬٥٠٠"; decimals only when the value has them
   const number = (value: number | string | null | undefined) =>
     new Intl.NumberFormat(locale, {
-      numberingSystem: "latn",
+      numberingSystem,
       maximumFractionDigits: 2,
     }).format(Number(value ?? 0));
 
@@ -27,20 +30,20 @@ export function createFormatters(locale: string) {
     return isArabic ? `${amount} ${label}` : `${label} ${amount}`;
   };
 
-  // e.g. "AED 1,500" / "1,500 درهم"
+  // e.g. "AED 1,500" / "١٬٥٠٠ درهم"
   const money = (
     value: number | string | null | undefined,
     currency?: string | null,
   ) => withCurrency(number(value), currency);
 
-  // e.g. "AED 1,000 – 5,000" / "1,000 – 5,000 درهم"
+  // e.g. "AED 1,000 – 5,000" / "١٬٠٠٠ – ٥٬٠٠٠ درهم"
   const moneyRange = (
     min: number | string | null | undefined,
     max: number | string | null | undefined,
     currency?: string | null,
   ) => withCurrency(`${number(min)} – ${number(max)}`, currency);
 
-  // e.g. "Oct 25, 2026" / "25 أكتوبر 2026"; empty when the value is unparsable
+  // e.g. "Oct 25, 2026" / "٢٥ أكتوبر ٢٠٢٦"; empty when the value is unparsable
   const date = (value: string | Date | null | undefined) => {
     if (!value) return "";
 
@@ -48,14 +51,22 @@ export function createFormatters(locale: string) {
     if (Number.isNaN(parsed.getTime())) return "";
 
     return new Intl.DateTimeFormat(locale, {
-      numberingSystem: "latn",
+      numberingSystem,
       day: isArabic ? "numeric" : "2-digit",
       month: isArabic ? "long" : "short",
       year: "numeric",
     }).format(parsed);
   };
 
-  return { number, money, moneyRange, date };
+  // Swaps the digits inside preformatted text, e.g. "500+" → "٥٠٠+", "12:30" → "١٢:٣٠"
+  const digits = (value: number | string | null | undefined) => {
+    const text = String(value ?? "");
+    return isArabic
+      ? text.replace(/\d/g, (digit) => ARABIC_DIGITS[Number(digit)])
+      : text;
+  };
+
+  return { number, money, moneyRange, date, digits };
 }
 
 export type Formatters = ReturnType<typeof createFormatters>;

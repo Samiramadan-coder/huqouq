@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Lawyer } from "@/types/client/find-lawyer";
 import { ChevronRight, MoveRight, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useFormatters } from "@/lib/format";
 
 export default function RecommendedLawyers({
   recommendedLawyers,
@@ -10,6 +11,7 @@ export default function RecommendedLawyers({
   recommendedLawyers: Lawyer[];
 }) {
   const t = useTranslations("Client.Dashboard");
+  const format = useFormatters();
   const lawyers = recommendedLawyers.slice(0, 3);
 
   return (
@@ -70,7 +72,7 @@ export default function RecommendedLawyers({
                   </div>
                   <span>({lawyer.reviews_count})</span>
                   <span>
-                    · {t("yearsShort", { count: lawyer.years_of_experience })}
+                    · {t("yearsShort", { count: format.number(lawyer.years_of_experience) })}
                   </span>
                 </div>
               </div>

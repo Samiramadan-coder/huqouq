@@ -29,7 +29,7 @@ export default async function Deliveries({
         <div key={delivery.id} className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-sm font-semibold text-primary">
-              {t("round", { number: index + 1 })}
+              {t("round", { number: format.number(index + 1) })}
             </h3>
             <span className="text-xs text-primary/50">
               {format.date(delivery.delivered_at)}

@@ -78,7 +78,7 @@ export default async function Index({
 
       case "offers":
         return t("Timeline.OffersReceivedMessage", {
-          count: step.meta.offers_count,
+          count: format.number(step.meta.offers_count),
         });
 
       case "hired":
@@ -287,7 +287,7 @@ export default async function Index({
                     {t("lawyersOffers")}
                   </p>
                   <Badge className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-2 h-6">
-                    {pagination.total} {t("offers")}
+                    {format.number(pagination.total)} {t("offers")}
                   </Badge>
                 </div>
 

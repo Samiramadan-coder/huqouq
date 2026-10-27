@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Clock3, ShieldCheck, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { LawyerDetails } from "@/types/client/find-lawyer";
+import { getFormatters } from "@/lib/format.server";
 
 export default async function DefinitionCard({
   lawyer,
@@ -19,6 +20,7 @@ export default async function DefinitionCard({
   caseId?: string;
 }) {
   const t = await getTranslations("Client.FindLawyer");
+  const format = await getFormatters();
 
   return (
     <Card
@@ -59,7 +61,7 @@ export default async function DefinitionCard({
 
           <p className="text-xs text-primary/50 text-center tracking-wide">
             {lawyer.account_type_label || t("independentPractice")} ·{" "}
-            {lawyer.years_of_experience} {t("years")}
+            {format.number(lawyer.years_of_experience)} {t("years")}
             <br />
             {t("experience")}
           </p>
@@ -79,7 +81,7 @@ export default async function DefinitionCard({
             </div>
 
             <span className="text-xs text-slate-400">
-              {lawyer.rating} ({lawyer.reviews_count} {t("reviews")})
+              {format.number(lawyer.rating)} ({format.number(lawyer.reviews_count)} {t("reviews")})
             </span>
           </div>
 

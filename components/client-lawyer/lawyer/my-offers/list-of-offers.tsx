@@ -83,7 +83,7 @@ export default async function ListOfOffers({
                     aria-hidden="true"
                   />
                   <span className="text-primary/35 text-xs">
-                    {offer.win_percentage}%
+                    {format.number(offer.win_percentage)}%
                   </span>
                 </div>
               )}

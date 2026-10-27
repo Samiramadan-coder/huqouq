@@ -59,7 +59,7 @@ export default async function ListOfServices({
                 />
 
                 <span className="text-xs font-medium text-accent">
-                  {service.offers_count} {t("offers")}
+                  {format.number(service.offers_count)} {t("offers")}
                 </span>
 
                 <span className="text-xs text-primary/30">

@@ -214,7 +214,7 @@ export default async function Details({
                   ))}
                 </div>
                 <p className="mt-1 text-xs text-primary/50">
-                  {lawyer.reviews_count} {t("reviews")}
+                  {format.number(lawyer.reviews_count)} {t("reviews")}
                 </p>
               </div>
 
@@ -229,7 +229,7 @@ export default async function Details({
                   return (
                     <div key={rating} className="flex items-center gap-3">
                       <span className="w-2 text-xs text-primary/50">
-                        {rating}
+                        {format.number(rating)}
                       </span>
                       <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-primary/5">
                         <div
@@ -240,7 +240,7 @@ export default async function Details({
                         />
                       </div>
                       <span className="w-5 text-xs text-primary/50">
-                        {count}
+                        {format.number(count)}
                       </span>
                     </div>
                   );

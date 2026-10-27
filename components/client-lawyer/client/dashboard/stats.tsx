@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Calendar, FolderOpen, LucideIcon, NotepadText } from "lucide-react";
+import { useFormatters } from "@/lib/format";
 
 export default function Stats({
   activeCases,
@@ -44,6 +45,7 @@ function StatCard({
   label: string;
   icon: LucideIcon;
 }) {
+  const format = useFormatters();
   const Icon = icon;
 
   return (
@@ -53,7 +55,7 @@ function StatCard({
       </div>
       <div>
         <p className="text-2xl font-semibold text-primary leading-none ltr:font-lora">
-          {count}
+          {format.number(count)}
         </p>
         <p className="text-xs text-primary/45 mt-1">{label}</p>
       </div>

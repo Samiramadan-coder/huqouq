@@ -20,6 +20,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useLawyerBrowseServicesFilters } from "@/providers/lawyer-browse-services-filters";
+import { useFormatters } from "@/lib/format";
 
 export default function ListOfLegalServicesHeader({
   total,
@@ -29,6 +30,7 @@ export default function ListOfLegalServicesHeader({
   filters: Filters;
 }) {
   const t = useTranslations("Lawyer.LegalServices");
+  const format = useFormatters();
   const { lawyerFilters, setLawyerFilters } = useLawyerBrowseServicesFilters();
 
   return (
@@ -49,7 +51,7 @@ export default function ListOfLegalServicesHeader({
             </SheetContent>
           </Sheet>
         </div>
-        <span className="text-primary font-bold">{total}</span>{" "}
+        <span className="text-primary font-bold">{format.number(total)}</span>{" "}
         {t("requestsAvailable")}
       </div>
 

@@ -105,7 +105,7 @@ export default async function Details({
                     {format.date(service.submitted_at)}
                   </span>
                   <span className="text-xs text-primary/45">
-                    {service.offers_count} {t("offersSubmitted")}
+                    {format.number(service.offers_count)} {t("offersSubmitted")}
                   </span>
                 </div>
               </div>

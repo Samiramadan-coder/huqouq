@@ -57,8 +57,8 @@ export default async function Index({ service }: { service: ServiceDetails }) {
       : service.status === "completed" || service.days_remaining == null
         ? null
         : service.overdue || service.days_remaining < 0
-          ? t("overdue", { days: Math.abs(service.days_remaining) })
-          : t("daysRemaining", { days: service.days_remaining });
+          ? t("overdue", { days: format.number(Math.abs(service.days_remaining)) })
+          : t("daysRemaining", { days: format.number(service.days_remaining) });
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:items-start">

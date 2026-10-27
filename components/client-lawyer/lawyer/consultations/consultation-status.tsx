@@ -5,6 +5,7 @@ import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Consultation } from "@/types/lawyer/consultations";
+import { useFormatters } from "@/lib/format";
 
 const statusClassName: Record<string, string> = {
   cancelled: "border-destructive/20 bg-destructive/5 text-destructive/80",
@@ -39,6 +40,7 @@ export default function ConsultationStatus({
   consultation: Consultation;
 }) {
   const t = useTranslations("Lawyer.Consultations.Bookings");
+  const format = useFormatters();
   const minutesLeft = useMinutesUntil(consultation.starts_at);
 
   if (
@@ -47,8 +49,8 @@ export default function ConsultationStatus({
     minutesLeft > 0
   ) {
     const countdown = t("Countdown", {
-      hours: Math.floor(minutesLeft / 60),
-      minutes: minutesLeft % 60,
+      hours: format.number(Math.floor(minutesLeft / 60)),
+      minutes: format.number(minutesLeft % 60),
     });
 
     return (

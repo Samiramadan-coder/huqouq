@@ -68,7 +68,7 @@ export async function CasesTable({
                 />
               </TableCell>
               <TableCell className="px-5 py-3">
-                <span className="font-medium">{caseItem.offers_count}</span>
+                <span className="font-medium">{format.number(caseItem.offers_count)}</span>
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-primary/55">

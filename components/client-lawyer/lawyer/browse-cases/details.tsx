@@ -201,7 +201,7 @@ export default async function Details({
                 aria-hidden="true"
               />
               <p className="font-sans text-xs text-primary/55 leading-relaxed">
-                {caseDetails.offers_count} {t("OffersSubmitted2")}
+                {format.number(caseDetails.offers_count)} {t("OffersSubmitted2")}
               </p>
             </div>
           </Card>
@@ -311,7 +311,7 @@ export default async function Details({
                     {t("Competition")}
                   </p>
                   <p className="text-sm text-primary/50 font-medium mt-1">
-                    {caseDetails.offers_count} {t("OffersSubmitted")}
+                    {format.number(caseDetails.offers_count)} {t("OffersSubmitted")}
                   </p>
                 </div>
               </div>
