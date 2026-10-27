@@ -1840,6 +1840,22 @@
       "MyServiceOffers": "My Service Offers"
     },
     "BrowseCases": {
+      "Timeline": {
+        "Title": "Case Status Timeline",
+        "Current": "Current",
+        "PostedOn": "Posted by the client on {date}",
+        "PublishedOn": "Published on {date}",
+        "PublishedPending": "Waiting for Huqouq review",
+        "OffersReceived": "{count} offers were submitted on this case.",
+        "HiredMessage": "The client accepted your offer.",
+        "PendingFeesMessage": "Waiting for the client to pay the platform fee — chat opens after payment.",
+        "InProgressMessage": "You are working on this case. You can communicate with the client through the chat.",
+        "PendingClosureMessage": "The case was marked as complete and is waiting for confirmation before closure.",
+        "ClosedOn": "Closed on {date}",
+        "Closed": "Closed",
+        "ReviewedOn": "The client reviewed this case on {date}",
+        "ReviewPending": "Waiting for the client's review"
+      },
       "Title": "Browse Cases",
       "SearchPlaceholder": "Search by title, category, keyword...",
       "Filters": "Filters",
@@ -1888,6 +1904,7 @@
       "WaitingClientConfirm": "You marked this case as complete. Waiting for the client to confirm.",
       "ClientMarkedComplete": "The client marked this case as complete.",
       "CaseClosedNotice": "This case is closed.",
+      "CaseClosedOn": "This case was closed on {date}.",
       "AgreedFee": "Agreed Fee",
       "Fields": {
         "WinPercentage": {

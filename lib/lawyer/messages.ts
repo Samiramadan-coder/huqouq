@@ -16,6 +16,7 @@ export async function markCaseAsComplete(
     );
 
     updateTag("lawyer-my-cases");
+    updateTag(`case-${caseId}-timeline`);
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error marking case as complete:", error);
@@ -36,6 +37,7 @@ export async function confirmCaseClosure(
     );
 
     updateTag("lawyer-my-cases");
+    updateTag(`case-${caseId}-timeline`);
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error confirming case closure:", error);

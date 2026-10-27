@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
+import { Step } from "@/types/client/my-cases";
 import Details from "@/components/client-lawyer/lawyer/browse-cases/details";
 
 type Params = {
@@ -72,7 +73,33 @@ export default async function Page({
     notFound();
   }
 
+  // The timeline is only available to the lawyer hired on the case
+  const timeline = data.data.is_hired ? await getTimeline(id) : null;
+
   return (
-    <Details caseDetails={data.data} hire={!!hire} myOffer={data.my_offer} />
+    <Details
+      caseDetails={data.data}
+      hire={!!hire}
+      myOffer={data.my_offer}
+      timeline={timeline}
+    />
   );
+}
+
+async function getTimeline(id: string) {
+  try {
+    const { data } = await http.get<{ data: { steps: Step[] } }>(
+      `/api/cases/${id}/timeline`,
+      {
+        next: {
+          tags: [`case-${id}-timeline`],
+        },
+      },
+    );
+
+    return data.data.steps;
+  } catch (error) {
+    console.error("Error fetching the case timeline:", error);
+    return null;
+  }
 }

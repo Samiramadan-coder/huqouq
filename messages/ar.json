@@ -1840,6 +1840,22 @@
       "MyServiceOffers": "عروض خدماتي"
     },
     "BrowseCases": {
+      "Timeline": {
+        "Title": "الجدول الزمني لحالة القضية",
+        "Current": "الحالية",
+        "PostedOn": "نشرها العميل في {date}",
+        "PublishedOn": "نُشرت في {date}",
+        "PublishedPending": "في انتظار مراجعة حقوق",
+        "OffersReceived": "تم تقديم {count} عروض على هذه القضية.",
+        "HiredMessage": "قبل العميل عرضك.",
+        "PendingFeesMessage": "في انتظار دفع العميل لرسوم المنصة — تُفتح المحادثة بعد الدفع.",
+        "InProgressMessage": "أنت تعمل على هذه القضية. يمكنك التواصل مع العميل عبر المحادثة.",
+        "PendingClosureMessage": "تم تحديد القضية كمكتملة وهي بانتظار التأكيد قبل الإغلاق.",
+        "ClosedOn": "أُغلقت في {date}",
+        "Closed": "مغلقة",
+        "ReviewedOn": "قيّم العميل هذه القضية في {date}",
+        "ReviewPending": "في انتظار تقييم العميل"
+      },
       "Title": "تصفح القضايا",
       "SearchPlaceholder": "ابحث بالعنوان، الفئة، الكلمة المفتاحية...",
       "Filters": "الفلاتر",
@@ -1888,6 +1904,7 @@
       "WaitingClientConfirm": "لقد حددت هذه القضية كمكتملة. في انتظار تأكيد العميل.",
       "ClientMarkedComplete": "قام العميل بتحديد هذه القضية كمكتملة.",
       "CaseClosedNotice": "تم إغلاق هذه القضية.",
+      "CaseClosedOn": "تم إغلاق هذه القضية في {date}.",
       "AgreedFee": "الرسوم المتفق عليها",
       "Fields": {
         "WinPercentage": {

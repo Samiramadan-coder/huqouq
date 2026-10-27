@@ -15,6 +15,8 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import MarkAsComplete from "../messages/mark-as-complete";
 import ConfirmClosure from "../messages/confirm-closure";
+import CaseTimeline from "./case-timeline";
+import { Step } from "@/types/client/my-cases";
 import Title from "../../reusable/title";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -41,10 +43,12 @@ export default async function Details({
   caseDetails,
   hire = false,
   myOffer,
+  timeline = null,
 }: {
   caseDetails: CaseDetails;
   hire?: boolean;
   myOffer: MyOffer | null;
+  timeline?: Step[] | null;
 }) {
   const t = await getTranslations("Lawyer.BrowseCases");
   const format = await getFormatters();
@@ -52,6 +56,8 @@ export default async function Details({
   const documents = caseDetails.documents ?? [];
   const { is_hired } = caseDetails;
   const agreedFee = caseDetails.agreement?.agreed_amount;
+  // The case response has no closed date, so it comes from the timeline
+  const closedAt = timeline?.find((step) => step.key === "closed")?.at;
 
   return (
     <div className="space-y-4">
@@ -191,7 +197,9 @@ export default async function Details({
               {caseDetails.status === "closed" && (
                 <div className="border-t border-secondary bg-background px-5 py-3">
                   <p className="text-xs font-semibold text-primary/70">
-                    {t("CaseClosedNotice")}
+                    {closedAt
+                      ? t("CaseClosedOn", { date: format.date(closedAt) })
+                      : t("CaseClosedNotice")}
                   </p>
                   {caseDetails.closure_note && (
                     <p className="text-xs text-primary/50 mt-1 whitespace-pre-line wrap-break-word">
@@ -235,6 +243,10 @@ export default async function Details({
                 </div>
               </div>
             </Card>
+          )}
+
+          {is_hired && timeline && timeline.length > 0 && (
+            <CaseTimeline timeline={timeline} />
           )}
 
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
