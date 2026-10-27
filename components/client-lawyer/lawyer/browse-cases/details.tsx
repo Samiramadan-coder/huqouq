@@ -169,6 +169,26 @@ export default async function Details({
                   <MarkAsComplete caseId={caseDetails.id} />
                 </div>
               )}
+
+              {caseDetails.status === "pending_closure" &&
+                caseDetails.closure_requested_by === "lawyer" && (
+                  <div className="border-t border-amber-200 bg-amber-50 px-5 py-3 text-xs font-semibold text-amber-800">
+                    {t("WaitingClientConfirm")}
+                  </div>
+                )}
+
+              {caseDetails.status === "closed" && (
+                <div className="border-t border-secondary bg-background px-5 py-3">
+                  <p className="text-xs font-semibold text-primary/70">
+                    {t("CaseClosedNotice")}
+                  </p>
+                  {caseDetails.closure_note && (
+                    <p className="text-xs text-primary/50 mt-1 whitespace-pre-line wrap-break-word">
+                      {caseDetails.closure_note}
+                    </p>
+                  )}
+                </div>
+              )}
             </Card>
           ) : (
             <Card className="p-0 rounded-xs ring-0! border border-secondary">

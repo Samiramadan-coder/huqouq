@@ -1878,6 +1878,8 @@
       "CaseWorkspace": "مساحة عمل القضية",
       "PendingFeesNotice": "في انتظار دفع العميل لرسوم المنصة — تُفتح المحادثة بعد الدفع",
       "OpenChat": "فتح المحادثة",
+      "WaitingClientConfirm": "لقد حددت هذه القضية كمكتملة. في انتظار تأكيد العميل.",
+      "CaseClosedNotice": "تم إغلاق هذه القضية.",
       "AgreedFee": "الرسوم المتفق عليها",
       "Fields": {
         "WinPercentage": {

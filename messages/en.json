@@ -1878,6 +1878,8 @@
       "CaseWorkspace": "Case Workspace",
       "PendingFeesNotice": "Waiting for the client to pay the platform fee — chat opens after payment",
       "OpenChat": "Open Chat",
+      "WaitingClientConfirm": "You marked this case as complete. Waiting for the client to confirm.",
+      "CaseClosedNotice": "This case is closed.",
       "AgreedFee": "Agreed Fee",
       "Fields": {
         "WinPercentage": {
