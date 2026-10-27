@@ -20,7 +20,7 @@ import InfoRow from "./info-row";
 import CloseCase from "./close-case";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import { cn, formatDate, formatNumbers } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import TimelineRail from "./timeline-radial";
 import AcceptedOffer from "./accepted-offer";
 import CompareOffers from "./compare-offers";
@@ -36,6 +36,7 @@ import UrgencyBadge from "@/components/client-lawyer/reusable/urgency-label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CaseStatusLabel from "@/components/client-lawyer/reusable/case-status-label";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
+import { getFormatters } from "@/lib/format.server";
 import RateLawyer from "../rate-lawyer";
 
 export default async function Index({
@@ -50,7 +51,7 @@ export default async function Index({
   timeline: Step[];
 }) {
   const t = await getTranslations("Client.Cases");
-  const tCommon = await getTranslations("Common");
+  const format = await getFormatters();
 
   const visibleSteps = timeline.filter((step) => step.state !== "skipped");
 
@@ -58,13 +59,13 @@ export default async function Index({
     switch (step.key) {
       case "posted":
         return t("PostedOn", {
-          date: formatDate(step.at!),
+          date: format.date(step.at!),
         });
 
       case "approved":
         return step.at ? (
           <div>
-            <p>{t("ReviewedOn", { date: formatDate(step.at) })}</p>
+            <p>{t("ReviewedOn", { date: format.date(step.at) })}</p>
             {caseDetails.rejection_reason && (
               <p className="text-red-400">
                 {t("RejectionReason", { reason: caseDetails.rejection_reason })}
@@ -97,11 +98,11 @@ export default async function Index({
 
       case "closed":
         return step.at
-          ? t("Timeline.ClosedCase", { date: formatDate(step.at) })
+          ? t("Timeline.ClosedCase", { date: format.date(step.at) })
           : t("Timeline.Closed");
 
       case "reviewed":
-        return t("Timeline.ReviewedOn", { date: formatDate(step.at!) });
+        return t("Timeline.ReviewedOn", { date: format.date(step.at!) });
 
       default:
         return "";
@@ -340,14 +341,14 @@ export default async function Index({
             <InfoRow
               icon={CalendarDays}
               label={t("posted")}
-              value={formatDate(caseDetails.created_at)}
+              value={format.date(caseDetails.created_at)}
             />
             {caseDetails.budget_min != null &&
               caseDetails.budget_max != null && (
                 <InfoRow
                   icon={TriangleAlert}
                   label={t("Fields.budget.label")}
-                  value={`${tCommon("AED")} ${formatNumbers(caseDetails.budget_min)} – ${formatNumbers(caseDetails.budget_max)}`}
+                  value={format.moneyRange(caseDetails.budget_min, caseDetails.budget_max)}
                 />
               )}
             <Separator className="bg-secondary" />

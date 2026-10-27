@@ -1,11 +1,12 @@
 import OfferForm from "./offer-form";
 import { cookies } from "next/headers";
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import DownloadFile from "../../reusable/download-file";
 import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { OfferStatus } from "../service-offers/data-preview";
 import { Clock, FileText, MapPin, Paperclip } from "lucide-react";
+import { getFormatters } from "@/lib/format.server";
 import { LegalServiceDetails } from "@/types/lawyer/legal-services";
 
 export default async function Details({
@@ -16,7 +17,7 @@ export default async function Details({
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value;
   const t = await getTranslations("Lawyer.LegalServices");
-  const tCommon = await getTranslations("Common");
+  const format = await getFormatters();
   const attachments = service.attachments ?? [];
   const offer = service.my_offer;
   const showOfferForm = service.can.submit_offer || service.can.edit_offer;
@@ -50,7 +51,7 @@ export default async function Details({
                 {t("Details.OfferForm.fee.label")}
               </dt>
               <dd className="font-semibold text-primary">
-                {tCommon("AED")} {service.my_offer.fee}
+                {format.money(service.my_offer.fee)}
               </dd>
             </div>
             <div>
@@ -101,7 +102,7 @@ export default async function Details({
                       className="size-3 text-primary/40"
                       aria-hidden="true"
                     />
-                    {formatDate(service.submitted_at)}
+                    {format.date(service.submitted_at)}
                   </span>
                   <span className="text-xs text-primary/45">
                     {service.offers_count} {t("offersSubmitted")}

@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Consultation } from "@/types/lawyer/consultations";
+import { useFormatters } from "@/lib/format";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const labelClassName = "text-[11px] uppercase tracking-widest text-primary/40";
@@ -37,6 +38,7 @@ export default function ConsultationDetails({
   consultation: Consultation;
 }) {
   const t = useTranslations("Lawyer.Consultations.Bookings");
+  const format = useFormatters();
   const locale = useLocale();
   const { client, payment } = consultation;
 
@@ -93,7 +95,7 @@ export default function ConsultationDetails({
               })}
             </DetailBox>
             <DetailBox label={t("Details.Price")}>
-              {payment.currency} {payment.amount}
+              {format.money(payment.amount, payment.currency)}
             </DetailBox>
           </div>
 

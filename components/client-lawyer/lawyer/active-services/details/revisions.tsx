@@ -1,5 +1,5 @@
-import { formatDate } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 import { Revision } from "@/types/lawyer/active-services";
 
 export default async function Revisions({
@@ -8,6 +8,7 @@ export default async function Revisions({
   revisions: Revision[];
 }) {
   const t = await getTranslations("Lawyer.ActiveServices.Details");
+  const format = await getFormatters();
   return (
     <div className="bg-white border border-amber-400 rounded-sm p-5">
       <h2 className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-5">
@@ -25,7 +26,7 @@ export default async function Revisions({
               <span className="min-w-0 wrap-break-word">{revision.note}</span>
             </span>
             <span className="ms-auto text-xs text-primary/50 whitespace-nowrap">
-              {formatDate(revision.requested_at)}
+              {format.date(revision.requested_at)}
             </span>
           </p>
         ))}

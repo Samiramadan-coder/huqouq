@@ -4,10 +4,10 @@ import { toast } from "sonner";
 import Title from "../../reusable/title";
 import { ChangeEvent, useRef, useState } from "react";
 import { Camera, User } from "lucide-react";
-import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
 import { updateProfilePhoto } from "@/lib/client/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Spinner } from "@/components/ui/spinner";
@@ -15,6 +15,7 @@ import { Spinner } from "@/components/ui/spinner";
 export default function PersonalInfo() {
   const { user, setUser } = useUser();
   const t = useTranslations("Client.Profile");
+  const format = useFormatters();
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
 
@@ -91,7 +92,7 @@ export default function PersonalInfo() {
             <p className="mt-3 inline-flex items-center gap-1.5 bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-sm">
               <User className="text-[#9a7530] size-3" />
               <span className="text-[11px] text-[#9a7530]">
-                {t("MemberSince")} {formatDate(user?.created_at || "")}
+                {t("MemberSince")} {format.date(user?.created_at || "")}
               </span>
             </p>
           </div>

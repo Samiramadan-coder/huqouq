@@ -1,5 +1,5 @@
 import { Meta } from "@/types/shared";
-import { cn, formatDate, formatNumbers } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { CaseDetails } from "@/types/lawyer/my-cases";
 import UrgencyBadge from "../../reusable/urgency-label";
 import CaseStatusLabel from "../../reusable/case-status-label";
 import PaginationTemplate from "../../reusable/pagination-template";
+import { getFormatters } from "@/lib/format.server";
 import { Briefcase, Calendar, MapPin, MoveRight } from "lucide-react";
 
 export default async function ListOfCases({
@@ -17,8 +18,8 @@ export default async function ListOfCases({
   cases: CaseDetails[];
   pagination: Meta;
 }) {
-  const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.MyCases");
+  const format = await getFormatters();
 
   return (
     <div className="space-y-4">
@@ -70,7 +71,7 @@ export default async function ListOfCases({
                   {caseItem.hired_at && (
                     <span className="flex items-center gap-1 text-xs text-primary/40">
                       <Calendar className="size-3" aria-hidden="true" />{" "}
-                      {t("Accepted")}: {formatDate(caseItem.hired_at)}
+                      {t("Accepted")}: {format.date(caseItem.hired_at)}
                     </span>
                   )}
                 </div>
@@ -85,8 +86,7 @@ export default async function ListOfCases({
                     <p
                       className={`text-primary font-semibold text-lg ltr:font-lora`}
                     >
-                      {tCommon("AED")}{" "}
-                      {formatNumbers(caseItem.accepted_offer.amount)}
+                      {format.money(caseItem.accepted_offer.amount)}
                     </p>
                   </>
                 )}

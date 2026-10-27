@@ -1,6 +1,5 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
 import { Service } from "@/types/lawyer/active-services";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { getFormatters } from "@/lib/format.server";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function DataPreview({
@@ -17,8 +17,8 @@ export default async function DataPreview({
   services: Service[];
   pagination?: Meta;
 }) {
-  const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.ActiveServices");
+  const format = await getFormatters();
 
   return (
     <>
@@ -53,12 +53,12 @@ export default async function DataPreview({
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary font-medium">
-                  {tCommon("AED")} {service.agreed_fee}
+                  {format.money(service.agreed_fee)}
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary/70 font-medium">
-                  {service.deadline ? formatDate(service.deadline) : "—"}
+                  {service.deadline ? format.date(service.deadline) : "—"}
                 </span>
               </TableCell>
 

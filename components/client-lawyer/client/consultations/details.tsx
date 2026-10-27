@@ -12,13 +12,13 @@ import Cancel from "./cancel";
 import Reschedule from "./rescheduale";
 import { useTranslations } from "next-intl";
 import StatusBadge from "./status-badge";
-import { formatNumbers } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Phone, Video } from "lucide-react";
 import JoinCall from "../../reusable/call/join-call";
 import { toCallType } from "../../reusable/call/config";
 import { Consultation } from "@/types/client/consultation";
 import RateConsultation, { ConsultationReviewView } from "./rate-consultation";
+import { useFormatters } from "@/lib/format";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const labelClassName = "text-[11px] uppercase tracking-widest text-primary/40";
@@ -69,6 +69,7 @@ export default function Details({
   defaultOpen?: boolean;
 }) {
   const t = useTranslations("Client.Consultations.Details");
+  const format = useFormatters();
   const { lawyer, payment, can } = consultation;
 
   const TypeIcon = consultation.type === "video" ? Video : Phone;
@@ -143,7 +144,7 @@ export default function Details({
             <DetailItem label={t("pricePaid")}>
               {payment.amount === 0
                 ? t("free")
-                : `${payment.currency} ${formatNumbers(payment.amount)}`}
+                : format.money(payment.amount, payment.currency)}
             </DetailItem>
 
             {consultation.reference && (

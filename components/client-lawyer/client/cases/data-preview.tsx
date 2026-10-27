@@ -1,7 +1,6 @@
 import { Meta } from "@/types/shared";
 import RateLawyer from "./rate-lawyer";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/utils";
 import PublishCase from "./publish-case";
 import { ArrowRight } from "lucide-react";
 import { Case } from "@/types/client/my-cases";
@@ -10,6 +9,7 @@ import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
 import { TableCell, TableRow } from "@/components/ui/table";
 import CaseStatusLabel from "../../reusable/case-status-label";
+import { getFormatters } from "@/lib/format.server";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function DataPreview({
@@ -30,6 +30,7 @@ export async function CasesTable({
   pagination?: Meta;
 }) {
   const t = await getTranslations("Client.Cases");
+  const format = await getFormatters();
 
   return (
     <>
@@ -71,7 +72,7 @@ export async function CasesTable({
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-primary/55">
-                  {formatDate(caseItem.created_at)}
+                  {format.date(caseItem.created_at)}
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3">

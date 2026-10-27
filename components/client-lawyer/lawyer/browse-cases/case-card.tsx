@@ -1,11 +1,11 @@
 import { Link } from "@/i18n/navigation";
-import { formatDate, formatNumbers } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import { Case } from "@/types/lawyer/browse-cases";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { Card, CardContent } from "@/components/ui/card";
+import { getFormatters } from "@/lib/format.server";
 import {
   ChevronRight,
   Clock,
@@ -24,8 +24,8 @@ export default async function CaseCard({
   can_submit_offer: boolean;
   isHireCase?: boolean;
 }) {
-  const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");
+  const format = await getFormatters();
 
   return (
     <Card className="rounded-xs ring-0! border border-secondary">
@@ -68,8 +68,7 @@ export default async function CaseCard({
         <div className="flex items-center flex-wrap gap-4 mb-4">
           {caseItem.budget_min != null && caseItem.budget_max != null && (
             <p className="text-sm font-semibold text-accent">
-              {tCommon("AED")} {formatNumbers(caseItem.budget_min)} –{" "}
-              {formatNumbers(caseItem.budget_max)}
+              {format.moneyRange(caseItem.budget_min, caseItem.budget_max)}
             </p>
           )}
 
@@ -80,7 +79,7 @@ export default async function CaseCard({
 
           <div className="flex items-center gap-1 text-xs text-primary/50">
             <Clock className="size-3" aria-hidden="true" />
-            {formatDate(caseItem.posted_at)}
+            {format.date(caseItem.posted_at)}
           </div>
         </div>
 

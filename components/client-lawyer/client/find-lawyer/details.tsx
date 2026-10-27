@@ -1,9 +1,9 @@
 import { Meta } from "@/types/shared";
-import { formatDate } from "@/lib/utils";
 import { ExternalLink, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { LawyerDetails, Review } from "@/types/client/find-lawyer";
 import PaginationTemplate from "../../reusable/pagination-template";
+import { getFormatters } from "@/lib/format.server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function Details({
@@ -18,6 +18,7 @@ export default async function Details({
   reviewsPagination?: Meta;
 }) {
   const t = await getTranslations("Client.FindLawyer");
+  const format = await getFormatters();
 
   // Only link out to real web addresses
   const websiteUrl =
@@ -274,7 +275,7 @@ export default async function Details({
                           {review.reviewer?.name}
                         </h3>
                         <p className="text-xs text-primary/40">
-                          {formatDate(review.created_at)}
+                          {format.date(review.created_at)}
                         </p>
                       </div>
 

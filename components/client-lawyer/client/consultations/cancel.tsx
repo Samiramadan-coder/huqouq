@@ -17,8 +17,8 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { cancelConsultation } from "@/lib/client/consultations";
+import { useFormatters } from "@/lib/format";
 import { Consultation } from "@/types/client/consultation";
-import { formatNumbers } from "@/lib/utils";
 
 export default function Cancel({
   consultationId,
@@ -32,6 +32,7 @@ export default function Cancel({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const t = useTranslations("Client.Consultations.Details");
+  const format = useFormatters();
 
   async function handleCancel() {
     setLoading(true);
@@ -79,7 +80,7 @@ export default function Cancel({
         {cancellation.refundable ? (
           <p className="text-sm text-primary">
             {t("fullRefund", {
-              amount: `${currency} ${formatNumbers(cancellation.refund_amount)}`,
+              amount: format.money(cancellation.refund_amount, currency),
             })}
           </p>
         ) : (

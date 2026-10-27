@@ -41,16 +41,6 @@ export function checkPasswordStrength(password: string): ScoreOutput {
 }
 
 /**
- * Formats a date string or Date object into a human-readable format (e.g., "Jan 01, 2024").
- */
-export const formatDate = (date: string | Date) =>
-  new Date(date).toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-
-/**
  * Builds a query string from the given parameters.
  */
 export function buildQueryString(params?: Record<string, unknown>) {
@@ -130,13 +120,3 @@ export async function getAppUrl(requestUrl: string) {
   return process.env.APP_URL || new URL(requestUrl).origin;
 }
 
-/**
- * Format Numbers
- */
-export function formatNumbers(
-  value: number,
-  locale: string = "en",
-  options?: Intl.NumberFormatOptions,
-) {
-  return new Intl.NumberFormat(locale, options).format(value);
-}

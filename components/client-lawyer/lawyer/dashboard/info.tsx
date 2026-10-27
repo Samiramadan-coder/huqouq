@@ -8,7 +8,8 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { useFormatters } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/providers/user-provider";
@@ -22,6 +23,7 @@ export default function Info() {
   const locale = useLocale();
   const lawyer = user?.lawyer_profile;
   const t = useTranslations("Lawyer.Dashboard");
+  const format = useFormatters();
 
   console.log(user);
 
@@ -117,7 +119,7 @@ export default function Info() {
         <div className="shrink-0 text-right ms-auto">
           <p className="text-[11px] text-white/65">{t("MemberSince")}</p>
           <p className="mt-1 text-sm text-white/65">
-            {formatDate(user?.created_at || new Date())}
+            {format.date(user?.created_at || new Date())}
           </p>
         </div>
       </div>

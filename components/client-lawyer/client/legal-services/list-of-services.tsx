@@ -1,11 +1,12 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import { ArrowRight, CircleAlert, LucideFileText } from "lucide-react";
 import { LegalService } from "@/types/client/legal-services";
+import { getFormatters } from "@/lib/format.server";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function ListOfServices({
@@ -16,6 +17,7 @@ export default async function ListOfServices({
   pagination: Meta;
 }) {
   const t = await getTranslations("Client.LegalServices");
+  const format = await getFormatters();
 
   return (
     <div className="space-y-4">
@@ -61,7 +63,7 @@ export default async function ListOfServices({
                 </span>
 
                 <span className="text-xs text-primary/30">
-                  {formatDate(service.created_at)}
+                  {format.date(service.created_at)}
                 </span>
 
                 <Button

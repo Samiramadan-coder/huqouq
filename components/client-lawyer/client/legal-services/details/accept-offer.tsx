@@ -13,7 +13,6 @@ import {
 import { cn } from "cn";
 import { toast } from "sonner";
 import { http } from "@/lib/http";
-import { formatNumbers } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -21,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { acceptServiceOffer } from "@/lib/client/legal-services";
 import { Offer, PaymentDetails } from "@/types/client/legal-services";
+import { useFormatters } from "@/lib/format";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function AcceptOffer({
@@ -33,6 +33,7 @@ export default function AcceptOffer({
   btnClassName?: string;
 }) {
   const t = useTranslations("Client.LegalServices");
+  const format = useFormatters();
   const [loading, setLoading] = useState(false);
   const closeBtn = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
@@ -141,7 +142,7 @@ export default function AcceptOffer({
                   {t("agreedFee")}
                 </span>
                 <span className="text-sm font-bold text-primary">
-                  {paymentDetails.currency} {formatNumbers(paymentDetails.fee)}
+                  {format.money(paymentDetails.fee, paymentDetails.currency)}
                 </span>
               </div>
               <div className="h-px bg-[#EDE9E1]"></div>
@@ -150,8 +151,7 @@ export default function AcceptOffer({
                   {t("totalYouPay")}
                 </span>
                 <span className="text-base font-bold text-accent">
-                  {paymentDetails.currency}{" "}
-                  {formatNumbers(paymentDetails.total)}
+                  {format.money(paymentDetails.total, paymentDetails.currency)}
                 </span>
               </div>
               <p className="text-[11px] text-primary/35 leading-relaxed">

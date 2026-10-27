@@ -12,8 +12,8 @@ import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/client/my-cases";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
+import { getFormatters } from "@/lib/format.server";
 import { Lock, MessageSquare, ShieldCheck } from "lucide-react";
-import { formatNumbers } from "@/lib/utils";
 
 export default async function AcceptedOffer({
   caseDetails,
@@ -21,7 +21,7 @@ export default async function AcceptedOffer({
   caseDetails: CaseDetails;
 }) {
   const t = await getTranslations("Client.Cases");
-  const tCommon = await getTranslations("Common");
+  const format = await getFormatters();
 
   if (!caseDetails.accepted_offer) {
     return null;
@@ -78,8 +78,7 @@ export default async function AcceptedOffer({
                 {t("agreedAmount")}
               </p>
               <p className="text-lg font-semibold ltr:font-lora">
-                {tCommon("AED")}{" "}
-                {formatNumbers(caseDetails.accepted_offer.amount)}
+                {format.money(caseDetails.accepted_offer.amount)}
               </p>
             </div>
           </div>
@@ -94,7 +93,7 @@ export default async function AcceptedOffer({
                   <p className="text-sm text-primary/70">
                     {t("platformFee")} ({caseDetails.payment?.fee_percentage}%):{" "}
                     <span className="font-bold text-primary text-base ltr:font-lora">
-                      {tCommon("AED")} {formatNumbers(platformFee)}
+                      {format.money(platformFee)}
                     </span>
                   </p>
                   <p className="font-sans text-[11px] text-primary/45 mb-3">
@@ -110,7 +109,7 @@ export default async function AcceptedOffer({
                   <p className="text-sm text-primary/70">
                     {t("amountForLawyer")}{" "}
                     <span className="font-bold text-primary text-base ltr:font-lora">
-                      {tCommon("AED")} {formatNumbers(amountToPayLawyer)}
+                      {format.money(amountToPayLawyer)}
                     </span>
                   </p>
                   <p className="font-sans text-[11px] text-primary/45 mb-3">

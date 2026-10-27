@@ -1,7 +1,6 @@
 "use client";
 
 import { http } from "@/lib/http";
-import { formatDate } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -11,11 +10,13 @@ import { useUser } from "@/providers/user-provider";
 import { useTranslations } from "next-intl";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { useFormatters } from "@/lib/format";
 import { ArrowRight, BriefcaseBusiness } from "lucide-react";
 
 export default function RecentCases() {
   const { user } = useUser();
   const t = useTranslations("Lawyer.Dashboard");
+  const format = useFormatters();
   const [cases, setCases] = useState<Case[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const specializationIds =
@@ -114,7 +115,7 @@ export default function RecentCases() {
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-primary/55">
-                  {formatDate(caseItem.posted_at)}
+                  {format.date(caseItem.posted_at)}
                 </span>
               </TableCell>
               {user?.lawyer_profile?.profile_status === "approved" && (

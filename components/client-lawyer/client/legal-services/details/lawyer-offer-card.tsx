@@ -14,6 +14,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Link } from "@/i18n/navigation";
+import { useFormatters } from "@/lib/format";
 import { Offer } from "@/types/client/legal-services";
 
 export default function LawyerOfferCard({
@@ -24,7 +25,7 @@ export default function LawyerOfferCard({
   serviceOffer: Offer;
 }) {
   const t = useTranslations("Client.LegalServices");
-  const tCommon = useTranslations("Common");
+  const format = useFormatters();
   const [showFullMessage, setShowFullMessage] = useState(false);
 
   return (
@@ -55,7 +56,7 @@ export default function LawyerOfferCard({
 
               <div className="shrink-0 text-end">
                 <p className="text-lg font-semibold ltr:font-lora">
-                  {tCommon("AED")} {serviceOffer.fee}
+                  {format.money(serviceOffer.fee)}
                 </p>
                 <p className="text-[11px] text-primary/40">
                   {serviceOffer.delivery_time_label}

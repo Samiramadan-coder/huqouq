@@ -1,5 +1,4 @@
 import { Meta } from "@/types/shared";
-import { formatDate } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
@@ -9,6 +8,7 @@ import PaginationTemplate from "../../reusable/pagination-template";
 import { LegalService, Filters } from "@/types/lawyer/legal-services";
 import ServicesPendingRegion from "./services-pending-region";
 import { OfferStatus } from "../service-offers/data-preview";
+import { getFormatters } from "@/lib/format.server";
 import ListOfLegalServicesHeader from "./list-of-legal-services-header";
 
 export default async function ListOfLegalServices({
@@ -23,6 +23,7 @@ export default async function ListOfLegalServices({
   can_submit_offer: boolean;
 }) {
   const t = await getTranslations("Lawyer.LegalServices");
+  const format = await getFormatters();
 
   return (
     <div className="space-y-3">
@@ -76,7 +77,7 @@ export default async function ListOfLegalServices({
                           className="size-3 text-primary/45"
                           aria-hidden="true"
                         />
-                        {formatDate(service.submitted_at)}
+                        {format.date(service.submitted_at)}
                       </span>
                       <span className="font-sans text-xs text-primary/45">
                         {service.offers_count} {t("offersSubmitted")}

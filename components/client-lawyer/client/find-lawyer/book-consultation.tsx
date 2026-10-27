@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/field";
 
 import z from "zod";
-import { cn, formatNumbers } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useRouter } from "@/i18n/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { http } from "@/lib/http";
@@ -35,6 +35,7 @@ import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
 import { requestConsultation } from "@/lib/client/find-lawyer";
+import { useFormatters } from "@/lib/format";
 import { toast } from "sonner";
 
 type BookableDay = {
@@ -75,6 +76,7 @@ export default function BookConsultations({
 }) {
   const t = useTranslations("Client.FindLawyer");
   const tBook = useTranslations("Client.FindLawyer.bookConsultation");
+  const format = useFormatters();
 
   const { consultation } = lawyerDetails;
 
@@ -84,7 +86,7 @@ export default function BookConsultations({
 
   const priceLabel = !consultation?.price
     ? t("freeLaunchPeriod")
-    : `${consultation.currency} ${formatNumbers(consultation.price)} / ${duration}`;
+    : `${format.money(consultation.price, consultation.currency)} / ${duration}`;
 
   const router = useRouter();
   const [open, setOpen] = useState(false);

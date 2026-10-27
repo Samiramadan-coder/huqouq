@@ -6,7 +6,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { cn, formatNumbers } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import AcceptOffer from "./accept-offer";
 import { Link } from "@/i18n/navigation";
@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { CaseOffer } from "@/types/client/my-cases";
 import { Card, CardContent } from "@/components/ui/card";
+import { useFormatters } from "@/lib/format";
 import { ChevronRight, ShieldCheck, Star } from "lucide-react";
 
 export default function LawyerOfferCard({
@@ -24,7 +25,7 @@ export default function LawyerOfferCard({
   caseOffer: CaseOffer;
 }) {
   const t = useTranslations("Client.Cases");
-  const tCommon = useTranslations("Common");
+  const format = useFormatters();
   const [showFullMessage, setShowFullMessage] = useState(false);
 
   return (
@@ -55,7 +56,7 @@ export default function LawyerOfferCard({
 
               <div className="shrink-0 text-end">
                 <p className="text-lg font-semibold ltr:font-lora">
-                  {tCommon("AED")} {formatNumbers(caseOffer.amount)}
+                  {format.money(caseOffer.amount)}
                 </p>
               </div>
             </div>

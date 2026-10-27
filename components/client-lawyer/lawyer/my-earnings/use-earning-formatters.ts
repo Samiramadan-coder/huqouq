@@ -1,23 +1,15 @@
 import { useFormatter } from "next-intl";
+import { useFormatters } from "@/lib/format";
 
 // Locale-aware formatters shared by the earnings components.
 // Digits stay Latin in every locale, matching the rest of the dashboard.
 export function useEarningFormatters() {
   const format = useFormatter();
+  // Money comes from the site-wide formatter so currency labels match everywhere
+  const { money } = useFormatters();
 
   const count = (value: number) =>
     format.number(value, { numberingSystem: "latn" });
-
-  // e.g. "AED 5,840" / "5,840 د.إ.‏"; decimals only when the amount has them
-  const money = (value: number, currency?: string | null) =>
-    format.number(value, {
-      style: "currency",
-      currency: currency || "AED",
-      numberingSystem: "latn",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-      trailingZeroDisplay: "stripIfInteger",
-    });
 
   // Whole-number percentage of a ratio, e.g. 0.9 → "90%"
   const percent = (ratio: number) =>

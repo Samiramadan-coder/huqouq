@@ -5,13 +5,13 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { T } from "@/types/shared";
 import { useTranslations } from "next-intl";
-import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { addDeliveryFiles, deliverWork } from "@/lib/lawyer/legal-services";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
+import { useFormatters } from "@/lib/format";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
 
 const MAX_FILES = 10;
@@ -45,6 +45,7 @@ type DeliverWorkProps = { serviceId: number } & (
 
 export default function DeliverWork(props: DeliverWorkProps) {
   const t = useTranslations("Lawyer.ActiveServices.Details");
+  const format = useFormatters();
   const [showForm, setShowForm] = useState(props.mode === "deliver");
 
   if (props.mode === "addFiles") {
@@ -53,7 +54,7 @@ export default function DeliverWork(props: DeliverWorkProps) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <p className="text-sm text-primary/70">
             {props.deliveredAt
-              ? t("deliveredWaiting", { date: formatDate(props.deliveredAt) })
+              ? t("deliveredWaiting", { date: format.date(props.deliveredAt) })
               : t("waitingForClient")}
           </p>
           {props.canAddFiles && !showForm && (

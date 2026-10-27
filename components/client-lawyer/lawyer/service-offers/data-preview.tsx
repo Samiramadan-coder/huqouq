@@ -1,6 +1,5 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import DataTable from "../../reusable/data-table";
 import { getTranslations } from "next-intl/server";
 import { Offer } from "@/types/lawyer/service-offers";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { getFormatters } from "@/lib/format.server";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 export default async function DataPreview({
@@ -17,8 +17,8 @@ export default async function DataPreview({
   offers: Offer[];
   pagination?: Meta;
 }) {
-  const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.ServiceOffers");
+  const format = await getFormatters();
 
   return (
     <>
@@ -54,7 +54,7 @@ export default async function DataPreview({
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-sm text-primary font-medium">
-                  {tCommon("AED")} {offer.fee}
+                  {format.money(offer.fee)}
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3">
@@ -64,7 +64,7 @@ export default async function DataPreview({
               </TableCell>
               <TableCell className="px-5 py-3">
                 <span className="text-xs text-primary/70 font-medium">
-                  {formatDate(offer.created_at)}
+                  {format.date(offer.created_at)}
                 </span>
               </TableCell>
               <TableCell className="px-5 py-3">

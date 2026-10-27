@@ -8,6 +8,7 @@ import { Consultation } from "@/types/lawyer/consultations";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 import JoinCall from "@/components/client-lawyer/reusable/call/join-call";
+import { useFormatters } from "@/lib/format";
 import { toCallType } from "@/components/client-lawyer/reusable/call/config";
 
 export default function DataPreview({
@@ -18,6 +19,7 @@ export default function DataPreview({
   pagination: Meta;
 }) {
   const t = useTranslations("Lawyer.Consultations.Bookings");
+  const format = useFormatters();
 
   return (
     <div className="mt-4 space-y-3">
@@ -57,7 +59,7 @@ export default function DataPreview({
                       {consultation.type_label}
                     </span>
                     <span className="font-semibold text-accent">
-                      {payment.currency} {payment.amount}
+                      {format.money(payment.amount, payment.currency)}
                     </span>
                   </div>
                 </div>

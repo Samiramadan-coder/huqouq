@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import TimelineRail from "./timeline-radial";
 import CompareOffers from "./compare-offers";
 import OfferAccepted from "./accepted-offer";
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
@@ -17,6 +17,7 @@ import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { LegalServiceDetails } from "@/types/client/legal-services";
 import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 import { MapPin, Calendar, Clock, FileText, MessageSquare } from "lucide-react";
+import { getFormatters } from "@/lib/format.server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Index({
@@ -25,6 +26,7 @@ export default async function Index({
   legalService: LegalServiceDetails;
 }) {
   const t = await getTranslations("Client.LegalServices");
+  const format = await getFormatters();
   const token = (await cookies()).get("token")?.value || "";
   const visibleSteps = legalService.timeline.filter(
     (item) => item.state !== "skipped",
@@ -216,7 +218,7 @@ export default async function Index({
             <div className="flex flex-col gap-2">
               <span className="flex items-center gap-2 text-xs text-primary/45">
                 <Calendar className="size-4" aria-hidden="true" />
-                {t("Submitted")} {formatDate(legalService.created_at)}
+                {t("Submitted")} {format.date(legalService.created_at)}
               </span>
 
               <span className="flex items-center gap-2 text-xs text-primary/45">

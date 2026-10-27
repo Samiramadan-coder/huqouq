@@ -1,7 +1,7 @@
 import { FileText } from "lucide-react";
-import { formatDate } from "@/lib/utils";
 import { Delivery } from "@/types/lawyer/active-services";
 import DownloadFile from "@/components/client-lawyer/reusable/download-file";
+import { getFormatters } from "@/lib/format.server";
 import { getTranslations } from "next-intl/server";
 
 export default async function Deliveries({
@@ -12,6 +12,7 @@ export default async function Deliveries({
   token: string;
 }) {
   const t = await getTranslations("Lawyer.ActiveServices.Details");
+  const format = await getFormatters();
   // Oldest first, so each delivery's position is its round number
   const rounds = [...deliveries].sort(
     (a, b) =>
@@ -31,7 +32,7 @@ export default async function Deliveries({
               {t("round", { number: index + 1 })}
             </h3>
             <span className="text-xs text-primary/50">
-              {formatDate(delivery.delivered_at)}
+              {format.date(delivery.delivered_at)}
             </span>
           </div>
 

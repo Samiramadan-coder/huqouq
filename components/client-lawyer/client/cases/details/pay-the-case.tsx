@@ -5,9 +5,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { payCase } from "@/lib/client/cases";
 import { MoveRight } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
 import { useState } from "react";
 import { toast } from "sonner";
-import { formatNumbers } from "@/lib/utils";
 
 export default function PayTheCase({
   caseId,
@@ -17,7 +17,7 @@ export default function PayTheCase({
   platformFee: number;
 }) {
   const t = useTranslations("Client.Cases");
-  const tCommon = useTranslations("Common");
+  const format = useFormatters();
   const [loading, setLoading] = useState(false);
 
   async function completePayment() {
@@ -45,7 +45,7 @@ export default function PayTheCase({
       disabled={loading}
     >
       {loading && <Spinner className="size-4" />}
-      {t("payNow")} ({tCommon("AED")} {formatNumbers(platformFee)})
+      {t("payNow")} ({format.money(platformFee)})
       <MoveRight className="size-4 rtl:rotate-180" />
     </Button>
   );

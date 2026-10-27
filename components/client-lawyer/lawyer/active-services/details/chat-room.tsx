@@ -39,7 +39,7 @@ export default function Messages({
   clientName: string;
 }) {
   const { user } = useUser();
-  const t = useTranslations("Client.LegalServices.Messages");
+  const t = useTranslations("Lawyer.ActiveServices.Messages");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 

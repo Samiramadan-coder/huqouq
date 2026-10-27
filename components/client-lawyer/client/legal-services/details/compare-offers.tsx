@@ -23,13 +23,14 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 
-import { cn, formatNumbers } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import AcceptOffer from "./accept-offer";
 import Proposal from "./proposal-message";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Offer } from "@/types/client/legal-services";
 import { getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 import { ChartNoAxesColumn, ShieldCheck, Star } from "lucide-react";
 
 export default async function CompareOffers({
@@ -41,8 +42,8 @@ export default async function CompareOffers({
   serviceId: number;
   serviceLabel: string;
 }) {
-  const tCommon = await getTranslations("Common");
   const t = await getTranslations("Client.LegalServices");
+  const format = await getFormatters();
 
   return (
     <Dialog>
@@ -158,7 +159,7 @@ export default async function CompareOffers({
                 {offers.map((offer) => (
                   <TableCell key={offer.id} className="py-4">
                     <p className="text-lg font-bold text-accent ltr:font-lora">
-                      {tCommon("AED")} {formatNumbers(offer.fee)}
+                      {format.money(offer.fee)}
                     </p>
                   </TableCell>
                 ))}

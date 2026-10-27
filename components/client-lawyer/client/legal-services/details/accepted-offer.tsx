@@ -2,6 +2,7 @@ import { Clock, MessageSquare } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AcceptedOffer, HiredLawyer } from "@/types/client/legal-services";
+import { getFormatters } from "@/lib/format.server";
 import { Button } from "@/components/ui/button";
 
 export default async function OfferAccepted({
@@ -16,7 +17,7 @@ export default async function OfferAccepted({
   canOpenChat: boolean;
 }) {
   const t = await getTranslations("Client.LegalServices");
-  const tCommon = await getTranslations("Common");
+  const format = await getFormatters();
 
   return (
     <div className="bg-white border border-secondary rounded-sm overflow-hidden">
@@ -46,7 +47,7 @@ export default async function OfferAccepted({
             {hiredLawyer.name}
           </p>
           <p className="font-sans text-xs text-primary/40">
-            {t("agreedFee")}: {tCommon("AED")} {offer.fee}
+            {t("agreedFee")}: {format.money(offer.fee)}
           </p>
         </div>
 

@@ -1,11 +1,12 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { Card } from "@/components/ui/card";
-import { cn, formatDate, formatNumbers } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Offer, OfferStatus } from "@/types/lawyer/my-offers";
 import PaginationTemplate from "../../reusable/pagination-template";
+import { getFormatters } from "@/lib/format.server";
 import { CircleCheck, Clock, MoveRight, Trophy } from "lucide-react";
 
 export default async function ListOfOffers({
@@ -17,6 +18,8 @@ export default async function ListOfOffers({
 }) {
   const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.MyOffers");
+  const format = await getFormatters();
+  const isArabic = (await getLocale()) === "ar";
 
   return (
     <div className="space-y-4">
@@ -48,8 +51,15 @@ export default async function ListOfOffers({
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <p className="text-xs flex items-center gap-1">
-                <span className="text-accent">{tCommon("AED")}</span>
-                <span className="font-bold">{formatNumbers(offer.amount)}</span>
+                {/* Arabic reads the amount before the currency */}
+                <span
+                  className={cn("flex items-center gap-1", {
+                    "flex-row-reverse": isArabic,
+                  })}
+                >
+                  <span className="text-accent">{tCommon("AED")}</span>
+                  <span className="font-bold">{format.number(offer.amount)}</span>
+                </span>
                 <span className="text-primary/35">{t("Proposed")}</span>
               </p>
 
@@ -61,8 +71,7 @@ export default async function ListOfOffers({
                     </span>
 
                     <span className="text-primary/35 text-xs">
-                      {tCommon("AED")} {formatNumbers(offer.case.budget_min)}{" "}
-                      – {formatNumbers(offer.case.budget_max)}
+                      {format.moneyRange(offer.case.budget_min, offer.case.budget_max)}
                     </span>
                   </div>
                 )}
@@ -81,7 +90,7 @@ export default async function ListOfOffers({
             </div>
 
             <p className="font-semibold text-xs text-primary/35 mt-1">
-              {t("SubmittedOn", { date: formatDate(offer.created_at) })}
+              {t("SubmittedOn", { date: format.date(offer.created_at) })}
             </p>
 
             {/* Pending Fee Hint */}

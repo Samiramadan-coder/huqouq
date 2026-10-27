@@ -3,8 +3,8 @@ import RateService from "./rate-service";
 import DeliveredFiles from "./delivered-files";
 import { CircleCheck, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 import { LegalServiceDetails } from "@/types/client/legal-services";
-import { formatDate, formatNumbers } from "@/lib/utils";
 
 export default async function Completed({
   service,
@@ -12,12 +12,13 @@ export default async function Completed({
   service: LegalServiceDetails;
 }) {
   const t = await getTranslations("Client.LegalServices");
+  const format = await getFormatters();
   const token = (await cookies()).get("token")?.value || "";
 
   // The client only ever sees what they paid, never the lawyer's net or the platform fee
   const completedAt = service.timeline.find((e) => e.key === "completed")?.at;
   const amount = service.payment
-    ? `${service.payment.currency} ${formatNumbers(service.payment.amount)}`
+    ? format.money(service.payment.amount, service.payment.currency)
     : "";
 
   return (
@@ -34,7 +35,7 @@ export default async function Completed({
           {service.payment && (
             <p className=" text-xs text-emerald-700/75">
               {completedAt
-                ? t("completedOn", { date: formatDate(completedAt), amount })
+                ? t("completedOn", { date: format.date(completedAt), amount })
                 : t("youPaid", { amount })}
             </p>
           )}

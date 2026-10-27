@@ -11,13 +11,13 @@ import {
 import React from "react";
 import OfferForm from "./offer-form";
 import Title from "../../reusable/title";
-import { formatDate, formatNumbers } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import UrgencyBadge from "../../reusable/urgency-label";
 import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
+import { getFormatters } from "@/lib/format.server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function formatFileSize(bytes: number) {
@@ -40,8 +40,8 @@ export default async function Details({
   hire?: boolean;
   myOffer: MyOffer | null;
 }) {
-  const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.BrowseCases");
+  const format = await getFormatters();
   const { client } = caseDetails;
   const documents = caseDetails.documents ?? [];
 
@@ -274,7 +274,7 @@ export default async function Details({
                       aria-hidden="true"
                     />
                     <p className="text-sm font-medium text-primary">
-                      {formatDate(caseDetails.posted_at)}
+                      {format.date(caseDetails.posted_at)}
                     </p>
                   </div>
                 </div>
@@ -288,9 +288,7 @@ export default async function Details({
                           {t("Budget")}
                         </p>
                         <p className="text-sm text-accent font-semibold mt-1">
-                          {tCommon("AED")}{" "}
-                          {formatNumbers(caseDetails.budget_min)} –{" "}
-                          {formatNumbers(caseDetails.budget_max)}
+                          {format.moneyRange(caseDetails.budget_min, caseDetails.budget_max)}
                         </p>
                       </div>
                       <Separator className="bg-secondary" />

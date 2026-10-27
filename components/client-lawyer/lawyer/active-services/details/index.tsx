@@ -7,14 +7,14 @@ import DeliverWork from "./deliver-work";
 import Revisions from "./revisions";
 import Deliveries from "./deliveries";
 import { cookies } from "next/headers";
+import { getFormatters } from "@/lib/format.server";
 import ChatRoom from "./chat-room";
-import { formatDate } from "@/lib/utils";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value;
-  const tCommon = await getTranslations("Common");
   const t = await getTranslations("Lawyer.ActiveServices.Details");
+  const format = await getFormatters();
   const timeline = service.timeline ?? [];
   const revisions = service.revisions ?? [];
   const deliveries = service.deliveries ?? [];
@@ -52,7 +52,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
   const daysLabel =
     service.status === "delivered"
       ? latestDelivery
-        ? t("deliveredOn", { date: formatDate(latestDelivery.delivered_at) })
+        ? t("deliveredOn", { date: format.date(latestDelivery.delivered_at) })
         : null
       : service.status === "completed" || service.days_remaining == null
         ? null
@@ -75,7 +75,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             />
           </div>
           <p className="text-sm text-primary/50">
-            {t("client")}: {clientName} · {tCommon("AED")} {service.agreed_fee}
+            {t("client")}: {clientName} · {format.money(service.agreed_fee)}
             {daysLabel ? ` · ${daysLabel}` : ""}
           </p>
         </div>
@@ -287,7 +287,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             <div className="flex items-center justify-between">
               <span className="text-xs text-primary/50">{t("agreedFee")}</span>
               <span className="text-sm font-bold text-primary">
-                {tCommon("AED")} {service.agreed_fee}
+                {format.money(service.agreed_fee)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -295,7 +295,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
                 {t("platformFee")}
               </span>
               <span className="text-xs text-primary/50">
-                − {tCommon("AED")} {service.earnings?.platform_fee}
+                − {format.money(service.earnings?.platform_fee)}
               </span>
             </div>
             <div className="h-px bg-[#F7F5F0]"></div>
@@ -304,7 +304,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
                 {t("yourEarnings")}
               </span>
               <span className="text-sm font-bold text-accent">
-                {tCommon("AED")} {service.earnings?.your_earnings}
+                {format.money(service.earnings?.your_earnings)}
               </span>
             </div>
           </div>
