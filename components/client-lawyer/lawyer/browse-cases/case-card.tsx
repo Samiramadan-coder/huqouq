@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatNumbers } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
@@ -50,7 +50,7 @@ export default async function CaseCard({
 
               {caseItem.case_type !== "new_case" && (
                 <Badge className="rounded-xs text-xs font-normal py-2.5 border border-yellow-200 bg-yellow-50 text-yellow-700">
-                  {caseItem.court_type_label || caseItem.execution_type}
+                  {caseItem.court_type_label || caseItem.execution_type_label}
                 </Badge>
               )}
             </>
@@ -68,7 +68,8 @@ export default async function CaseCard({
         <div className="flex items-center flex-wrap gap-4 mb-4">
           {caseItem.budget_min != null && caseItem.budget_max != null && (
             <p className="text-sm font-semibold text-accent">
-              {tCommon("AED")} {caseItem.budget_min} - {caseItem.budget_max}
+              {tCommon("AED")} {formatNumbers(caseItem.budget_min)} –{" "}
+              {formatNumbers(caseItem.budget_max)}
             </p>
           )}
 

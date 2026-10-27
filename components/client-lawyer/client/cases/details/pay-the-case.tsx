@@ -7,6 +7,7 @@ import { MoveRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { formatNumbers } from "@/lib/utils";
 
 export default function PayTheCase({
   caseId,
@@ -44,7 +45,7 @@ export default function PayTheCase({
       disabled={loading}
     >
       {loading && <Spinner className="size-4" />}
-      {t("payNow")} ({tCommon("AED")} {platformFee})
+      {t("payNow")} ({tCommon("AED")} {formatNumbers(platformFee)})
       <MoveRight className="size-4 rtl:rotate-180" />
     </Button>
   );

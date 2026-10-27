@@ -1,5 +1,5 @@
 import { Meta } from "@/types/shared";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, formatNumbers } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -85,7 +85,8 @@ export default async function ListOfCases({
                     <p
                       className={`text-primary font-semibold text-lg ltr:font-lora`}
                     >
-                      {tCommon("AED")} {caseItem.accepted_offer.amount}
+                      {tCommon("AED")}{" "}
+                      {formatNumbers(caseItem.accepted_offer.amount)}
                     </p>
                   </>
                 )}

@@ -94,7 +94,7 @@ export default async function AcceptedOffer({
                   <p className="text-sm text-primary/70">
                     {t("platformFee")} ({caseDetails.payment?.fee_percentage}%):{" "}
                     <span className="font-bold text-primary text-base ltr:font-lora">
-                      {tCommon("AED")} {platformFee}
+                      {tCommon("AED")} {formatNumbers(platformFee)}
                     </span>
                   </p>
                   <p className="font-sans text-[11px] text-primary/45 mb-3">
@@ -110,7 +110,7 @@ export default async function AcceptedOffer({
                   <p className="text-sm text-primary/70">
                     {t("amountForLawyer")}{" "}
                     <span className="font-bold text-primary text-base ltr:font-lora">
-                      {tCommon("AED")} {amountToPayLawyer}
+                      {tCommon("AED")} {formatNumbers(amountToPayLawyer)}
                     </span>
                   </p>
                   <p className="font-sans text-[11px] text-primary/45 mb-3">

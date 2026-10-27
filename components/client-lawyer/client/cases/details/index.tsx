@@ -96,7 +96,9 @@ export default async function Index({
         return t("Timeline.PendingClosureOn");
 
       case "closed":
-        return t("Timeline.ClosedCase", { date: formatDate(step.at!) });
+        return step.at
+          ? t("Timeline.ClosedCase", { date: formatDate(step.at) })
+          : t("Timeline.Closed");
 
       case "reviewed":
         return t("Timeline.ReviewedOn", { date: formatDate(step.at!) });
@@ -158,7 +160,7 @@ export default async function Index({
 
               {caseDetails.case_type !== "new_case" && (
                 <Badge className="rounded-xs text-xs font-normal py-2.5 border border-yellow-200 bg-yellow-50 text-yellow-700">
-                  {caseDetails.court_type_label || caseDetails.execution_type}
+                  {caseDetails.court_type_label || caseDetails.execution_type_label}
                 </Badge>
               )}
             </>
@@ -183,8 +185,11 @@ export default async function Index({
               className="w-full"
             >
               {visibleSteps.map((item, index) => {
-                const isCompleted = item.state === "done";
-                const isCurrent = item.state === "current";
+                // Closed is the final step, so it is done rather than current
+                const isClosedStep =
+                  item.key === "closed" && item.state === "current";
+                const isCompleted = item.state === "done" || isClosedStep;
+                const isCurrent = item.state === "current" && !isClosedStep;
                 const isPending = item.state === "upcoming";
                 const isEnabled = item.state !== "upcoming";
                 const isLast = index === visibleSteps.length - 1;
@@ -342,7 +347,7 @@ export default async function Index({
                 <InfoRow
                   icon={TriangleAlert}
                   label={t("Fields.budget.label")}
-                  value={`${formatNumbers(caseDetails.budget_min)} - ${formatNumbers(caseDetails.budget_max)} ${tCommon("AED")}`}
+                  value={`${tCommon("AED")} ${formatNumbers(caseDetails.budget_min)} – ${formatNumbers(caseDetails.budget_max)}`}
                 />
               )}
             <Separator className="bg-secondary" />

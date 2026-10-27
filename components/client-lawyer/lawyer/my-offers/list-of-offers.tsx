@@ -1,7 +1,7 @@
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { Card } from "@/components/ui/card";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, formatNumbers } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { getTranslations } from "next-intl/server";
 import type { Offer, OfferStatus } from "@/types/lawyer/my-offers";
@@ -49,7 +49,7 @@ export default async function ListOfOffers({
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <p className="text-xs flex items-center gap-1">
                 <span className="text-accent">{tCommon("AED")}</span>
-                <span className="font-bold">{offer.amount}</span>
+                <span className="font-bold">{formatNumbers(offer.amount)}</span>
                 <span className="text-primary/35">{t("Proposed")}</span>
               </p>
 
@@ -61,8 +61,8 @@ export default async function ListOfOffers({
                     </span>
 
                     <span className="text-primary/35 text-xs">
-                      {tCommon("AED")} {offer.case.budget_min} -{" "}
-                      {offer.case.budget_max}
+                      {tCommon("AED")} {formatNumbers(offer.case.budget_min)}{" "}
+                      – {formatNumbers(offer.case.budget_max)}
                     </span>
                   </div>
                 )}

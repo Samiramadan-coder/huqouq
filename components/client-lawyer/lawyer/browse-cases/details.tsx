@@ -11,7 +11,7 @@ import {
 import React from "react";
 import OfferForm from "./offer-form";
 import Title from "../../reusable/title";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatNumbers } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getTranslations } from "next-intl/server";
@@ -74,7 +74,7 @@ export default async function Details({
 
               {caseDetails.case_type !== "new_case" && (
                 <Badge className="rounded-xs text-xs font-normal py-2.5 border border-yellow-200 bg-yellow-50 text-yellow-700">
-                  {caseDetails.court_type_label || caseDetails.execution_type}
+                  {caseDetails.court_type_label || caseDetails.execution_type_label}
                 </Badge>
               )}
             </>
@@ -288,8 +288,9 @@ export default async function Details({
                           {t("Budget")}
                         </p>
                         <p className="text-sm text-accent font-semibold mt-1">
-                          {tCommon("AED")} {caseDetails.budget_min} -{" "}
-                          {caseDetails.budget_max}
+                          {tCommon("AED")}{" "}
+                          {formatNumbers(caseDetails.budget_min)} –{" "}
+                          {formatNumbers(caseDetails.budget_max)}
                         </p>
                       </div>
                       <Separator className="bg-secondary" />
