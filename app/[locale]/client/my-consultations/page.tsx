@@ -7,6 +7,7 @@ import DataPreview from "@/components/client-lawyer/client/consultations/data-pr
 type SearchParams = {
   status?: string;
   page?: string;
+  open?: string;
 };
 
 export default async function Page({
@@ -14,7 +15,7 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { status, page } = await searchParams;
+  const { status, page, open } = await searchParams;
 
   const { data } = await http.get<{
     meta: Meta;
@@ -33,7 +34,11 @@ export default async function Page({
   return (
     <div>
       <Filters counts={data.counts} />
-      <DataPreview data={data.data} pagination={data.meta} />
+      <DataPreview
+        data={data.data}
+        pagination={data.meta}
+        openId={open ? Number(open) : undefined}
+      />
     </div>
   );
 }

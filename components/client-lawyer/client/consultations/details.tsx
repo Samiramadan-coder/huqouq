@@ -12,9 +12,13 @@ import Cancel from "./cancel";
 import Reschedule from "./rescheduale";
 import { useTranslations } from "next-intl";
 import StatusBadge from "./status-badge";
+import { formatNumbers } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone, Video } from "lucide-react";
+import { Phone, Video } from "lucide-react";
+import JoinCall from "../../reusable/call/join-call";
+import { toCallType } from "../../reusable/call/config";
 import { Consultation } from "@/types/client/consultation";
+import RateConsultation, { ConsultationReviewView } from "./rate-consultation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const labelClassName = "text-[11px] uppercase tracking-widest text-primary/40";
@@ -34,18 +38,49 @@ function DetailItem({
   );
 }
 
-export default function Details({
+// Shown while the lawyer has cancelled and the client has to act
+export function NeedsNewTimeNotice({
   consultation,
 }: {
   consultation: Consultation;
 }) {
   const t = useTranslations("Client.Consultations.Details");
+
+  if (consultation.status !== "needs_new_time") return null;
+
+  return (
+    <div className="rounded-sm bg-amber-50 border border-amber-200 px-4 py-3 space-y-1">
+      {consultation.lawyer_cancel_reason && (
+        <p className="text-sm text-amber-900 wrap-break-word">
+          <span className="font-semibold">{t("lawyerReason")}:</span>{" "}
+          {consultation.lawyer_cancel_reason}
+        </p>
+      )}
+      <p className="text-xs text-amber-800">{t("pickNewTimeOrCancel")}</p>
+    </div>
+  );
+}
+
+export default function Details({
+  consultation,
+  defaultOpen = false,
+}: {
+  consultation: Consultation;
+  defaultOpen?: boolean;
+}) {
+  const t = useTranslations("Client.Consultations.Details");
   const { lawyer, payment, can } = consultation;
 
   const TypeIcon = consultation.type === "video" ? Video : Phone;
+  // The one allowed reschedule has been used and the API no longer offers it
+  const rescheduleUsed =
+    consultation.rescheduled &&
+    !can.reschedule &&
+    (consultation.status === "upcoming" ||
+      consultation.status === "needs_new_time");
 
   return (
-    <Dialog>
+    <Dialog defaultOpen={defaultOpen}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -55,12 +90,15 @@ export default function Details({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md gap-0 p-0 rounded-sm ring-0!">
+      <DialogContent className="sm:max-w-md gap-0 p-0 rounded-sm ring-0! max-h-[90vh] overflow-y-auto">
         <DialogHeader className="p-6 border-b border-secondary">
           <div className="flex items-center gap-3">
             <Avatar className="size-10">
-              <AvatarImage src={lawyer.photo_url} alt={lawyer.name} />
-              <AvatarFallback>{lawyer.name[0]}</AvatarFallback>
+              <AvatarImage
+                src={lawyer.photo_url ?? undefined}
+                alt={lawyer.name}
+              />
+              <AvatarFallback>{lawyer.name?.[0]}</AvatarFallback>
             </Avatar>
             <div className="text-start">
               <DialogTitle className="ltr:font-lora text-sm font-semibold text-primary">
@@ -78,6 +116,8 @@ export default function Details({
             status={consultation.status}
             label={consultation.status_label}
           />
+
+          <NeedsNewTimeNotice consultation={consultation} />
 
           <div className="grid grid-cols-2 gap-5">
             <DetailItem label={t("consultationType")}>
@@ -100,13 +140,17 @@ export default function Details({
               </DetailItem>
             </div>
 
-            <div className="col-span-2">
-              <DetailItem label={t("pricePaid")}>
-                {payment.amount === 0
-                  ? t("free")
-                  : `${payment.currency} ${payment.amount}`}
+            <DetailItem label={t("pricePaid")}>
+              {payment.amount === 0
+                ? t("free")
+                : `${payment.currency} ${formatNumbers(payment.amount)}`}
+            </DetailItem>
+
+            {consultation.reference && (
+              <DetailItem label={t("bookingReference")}>
+                <span dir="ltr">{consultation.reference}</span>
               </DetailItem>
-            </div>
+            )}
           </div>
 
           {consultation.brief && (
@@ -118,36 +162,55 @@ export default function Details({
             </div>
           )}
 
-          {can.join_call && (
-            <Button className="w-full h-12 rounded-sm bg-accent hover:bg-accent/80">
-              {t("joinCall")}
-              <ArrowRight
-                className="size-4 rtl:rotate-180"
-                aria-hidden="true"
+          {consultation.review ? (
+            <ConsultationReviewView review={consultation.review} />
+          ) : (
+            can.rate && (
+              <RateConsultation
+                consultation={consultation}
+                triggerClassName="w-full h-11"
               />
-            </Button>
+            )
+          )}
+
+          {can.join_call && (
+            <JoinCall
+              consultationId={consultation.id}
+              callType={toCallType(consultation.type)}
+              schedule={{
+                startsAt: consultation.starts_at,
+                durationMinutes: consultation.duration_minutes,
+              }}
+              remoteName={lawyer.name}
+              remotePhoto={lawyer.photo_url ?? undefined}
+              label={t("joinCall")}
+              consultationsHref="/client/my-consultations"
+              whoIsOnCall="client"
+              lawyerId={lawyer.id}
+            />
           )}
 
           {(can.reschedule || can.cancel) && (
             <div className="flex gap-4">
               {can.reschedule && (
                 <Reschedule
-                  lawyerId={consultation.lawyer.id}
+                  lawyerId={lawyer.id}
                   consultationId={consultation.id}
                 />
               )}
               {can.cancel && (
                 <Cancel
                   consultationId={consultation.id}
-                  policy={consultation.cancellation.policy || undefined}
+                  cancellation={consultation.cancellation}
+                  currency={payment.currency}
                 />
               )}
             </div>
           )}
 
-          {can.cancel && consultation.cancellation.policy && (
-            <p className="text-center text-xs text-primary/35">
-              {consultation.cancellation.policy}
+          {rescheduleUsed && (
+            <p className="text-center text-xs text-primary/45">
+              {t("rescheduleUsed")}
             </p>
           )}
         </div>

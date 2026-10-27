@@ -17,13 +17,17 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { cancelConsultation } from "@/lib/client/consultations";
+import { Consultation } from "@/types/client/consultation";
+import { formatNumbers } from "@/lib/utils";
 
 export default function Cancel({
   consultationId,
-  policy,
+  cancellation,
+  currency,
 }: {
   consultationId: number;
-  policy?: string;
+  cancellation: Consultation["cancellation"];
+  currency: string;
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,9 +72,25 @@ export default function Cancel({
         <DialogHeader>
           <DialogTitle>{t("cancelConsultation")}</DialogTitle>
           <DialogDescription className="mt-3">
-            {policy ?? t("cancelDescription")}
+            {t("cancelDescription")}
           </DialogDescription>
         </DialogHeader>
+
+        {cancellation.refundable ? (
+          <p className="text-sm text-primary">
+            {t("fullRefund", {
+              amount: `${currency} ${formatNumbers(cancellation.refund_amount)}`,
+            })}
+          </p>
+        ) : (
+          <p className="text-sm font-medium text-destructive">
+            {t("notRefundable")}
+          </p>
+        )}
+
+        {cancellation.policy && (
+          <p className="text-xs text-primary/45">{cancellation.policy}</p>
+        )}
 
         <DialogFooter className="bg-white border-none">
           <Button

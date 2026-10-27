@@ -22,8 +22,14 @@ type Cancellation = {
 type Lawyer = {
   id: number;
   name: string;
-  photo_url: string;
+  photo_url: string | null;
   specializations: string[];
+};
+
+export type ConsultationReview = {
+  rating: number;
+  comment: string | null;
+  tags: { value: string; label: string }[] | null;
 };
 
 type Payment = {
@@ -53,7 +59,7 @@ export type Consultation = {
   reference: string;
   rescheduled: boolean;
   rescheduled_from: null | string;
-  review: null;
+  review: null | ConsultationReview;
   starts_at: string;
   status: "needs_new_time" | "upcoming" | "completed" | "cancelled";
   status_label: string;

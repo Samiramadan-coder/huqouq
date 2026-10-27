@@ -1359,7 +1359,12 @@
         "briefPlaceholder": "What would you like to discuss? (Helps the lawyer prepare)",
         "price": "Price",
         "sessionInfo": "Voice or Video · {count} min session",
-        "continueToPayment": "Continue to Payment"
+        "continueToPayment": "Continue to Payment",
+        "summaryTitle": "Booking Summary",
+        "lawyer": "Lawyer",
+        "dateTime": "Date & Time",
+        "back": "Back",
+        "confirmAndPay": "Confirm & Pay"
       }
     },
     "Messages": {
@@ -1558,7 +1563,18 @@
         "timeRequired": "Time is required",
         "cancelDescription": "Are you sure you want to cancel this consultation?",
         "keepIt": "Keep It",
-        "cancelFailed": "Failed to cancel the consultation. Please try again."
+        "cancelFailed": "Failed to cancel the consultation. Please try again.",
+        "fullRefund": "You will get a full refund of {amount}.",
+        "notRefundable": "Cancelling now is not refundable.",
+        "bookingReference": "Booking Reference",
+        "lawyerReason": "Lawyer's reason",
+        "pickNewTimeOrCancel": "Pick a new time or cancel for a full refund.",
+        "rescheduleUsed": "You already used your reschedule."
+      },
+      "Rate": {
+        "trigger": "Rate this consultation",
+        "yourReview": "Your Review",
+        "failed": "Failed to submit your review. Please try again."
       }
     }
   },
@@ -1944,7 +1960,7 @@
         "Cancel": {
           "Trigger": "Cancel",
           "Title": "Cancel Consultation",
-          "Description": "The client will be notified that this consultation has been cancelled.",
+          "Description": "The client will be asked to pick a new time or cancel with a full refund. You can do this only once.",
           "ReasonLabel": "Reason",
           "ReasonPlaceholder": "Let the client know why you're cancelling",
           "ReasonRequired": "Please enter a reason for cancelling",

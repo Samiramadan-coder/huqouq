@@ -6,8 +6,7 @@ import { BookFormValues } from "@/components/client-lawyer/client/find-lawyer/bo
 
 // Publish Case
 type PublishCaseResponse =
-  | { success: true; message?: string }
-  | { success: false; message?: string };
+  { success: true; message?: string } | { success: false; message?: string };
 
 export async function sendToLawyer(
   caseId: number,
@@ -32,7 +31,7 @@ export async function sendToLawyer(
 
 // Request Consultation
 type RequestConsultationResponse =
-  | { success: true; message?: string }
+  | { success: true; message?: string; consultationId?: number }
   | {
       success: false;
       errors?: Partial<Record<keyof BookFormValues, string>>;
@@ -44,13 +43,18 @@ export async function requestConsultation(
   values: BookFormValues,
 ): Promise<RequestConsultationResponse> {
   try {
-    const { data } = await http.post<{ message: string }>(
-      `/api/lawyers/${lawyerId}/consultations`,
-      values,
-    );
+    const { data } = await http.post<{
+      message: string;
+      data?: { id: number };
+    }>(`/api/lawyers/${lawyerId}/consultations`, values);
 
     updateTag(`lawyers`);
-    return { success: true, message: data.message };
+    updateTag(`consultations`);
+    return {
+      success: true,
+      message: data.message,
+      consultationId: data.data?.id,
+    };
   } catch (error) {
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -69,8 +73,7 @@ export async function requestConsultation(
 
 // Save To favourite
 type SaveToFavouriteResponse =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false };
 
 export async function saveToFavourite(
   lawyerId: number,

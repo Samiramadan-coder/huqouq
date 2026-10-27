@@ -1,4 +1,5 @@
-import Details from "./details";
+import Details, { NeedsNewTimeNotice } from "./details";
+import RateConsultation from "./rate-consultation";
 import { Meta } from "@/types/shared";
 import StatusBadge from "./status-badge";
 import { useTranslations } from "next-intl";
@@ -6,15 +7,18 @@ import JoinCall from "../../reusable/call/join-call";
 import { Calendar, Clock, Phone } from "lucide-react";
 import { toCallType } from "../../reusable/call/config";
 import { Consultation } from "@/types/client/consultation";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PaginationTemplate from "../../reusable/pagination-template";
 
 export default function DataPreview({
   data,
   pagination,
+  openId,
 }: {
   data: Consultation[];
   pagination: Meta;
+  // Consultation whose details open on load, e.g. right after booking
+  openId?: number;
 }) {
   const t = useTranslations("Client.Consultations");
 
@@ -29,9 +33,10 @@ export default function DataPreview({
             <div className="p-5 flex flex-col sm:flex-row sm:items-center gap-4">
               <Avatar className="size-11">
                 <AvatarImage
-                  src={consultation.lawyer.photo_url}
+                  src={consultation.lawyer.photo_url ?? undefined}
                   alt={consultation.lawyer.name}
                 />
+                <AvatarFallback>{consultation.lawyer.name?.[0]}</AvatarFallback>
               </Avatar>
 
               <div className="flex-1">
@@ -62,11 +67,13 @@ export default function DataPreview({
                   status={consultation.status}
                   label={consultation.status_label}
                 />
-
-                <Details consultation={consultation} />
-
-                {}
-
+                <Details
+                  consultation={consultation}
+                  defaultOpen={consultation.id === openId}
+                />
+                {consultation.can.rate && !consultation.review && (
+                  <RateConsultation consultation={consultation} />
+                )}
                 {consultation.can.join_call && (
                   <JoinCall
                     consultationId={consultation.id}
@@ -85,6 +92,12 @@ export default function DataPreview({
                 )}
               </div>
             </div>
+
+            {consultation.status === "needs_new_time" && (
+              <div className="px-5 pb-5">
+                <NeedsNewTimeNotice consultation={consultation} />
+              </div>
+            )}
           </div>
         ))
       ) : (
