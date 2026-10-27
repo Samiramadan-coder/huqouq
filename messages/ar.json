@@ -1876,6 +1876,8 @@
       "client": "العميل",
       "contactInformationHidden": "يتم مشاركة تفاصيل الاتصال الكاملة بمجرد توظيفك في هذه القضية.",
       "CaseWorkspace": "مساحة عمل القضية",
+      "PendingFeesNotice": "في انتظار دفع العميل لرسوم المنصة — تُفتح المحادثة بعد الدفع",
+      "OpenChat": "فتح المحادثة",
       "AgreedFee": "الرسوم المتفق عليها",
       "Fields": {
         "WinPercentage": {

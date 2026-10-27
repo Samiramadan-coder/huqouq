@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogClose,
@@ -9,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useRef, useState } from "react";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -19,6 +22,7 @@ export default function MarkAsComplete({ caseId }: { caseId: number }) {
   const t = useTranslations("Lawyer.Messages");
   const [loading, setLoading] = useState(false);
   const closeBtn = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
   async function handleMarkAsComplete() {
     setLoading(true);
@@ -28,6 +32,7 @@ export default function MarkAsComplete({ caseId }: { caseId: number }) {
       toast.success(result.message);
       setLoading(false);
       closeBtn.current?.click();
+      router.refresh();
       return;
     }
 

@@ -1876,6 +1876,8 @@
       "client": "Client",
       "contactInformationHidden": "Full contact details are shared once you are hired on this case.",
       "CaseWorkspace": "Case Workspace",
+      "PendingFeesNotice": "Waiting for the client to pay the platform fee — chat opens after payment",
+      "OpenChat": "Open Chat",
       "AgreedFee": "Agreed Fee",
       "Fields": {
         "WinPercentage": {

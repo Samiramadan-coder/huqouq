@@ -5,11 +5,15 @@ import {
   FilePlus,
   Lock,
   MapPin,
+  MessageSquare,
   Scale,
   Users,
 } from "lucide-react";
 import React from "react";
 import OfferForm from "./offer-form";
+import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
+import MarkAsComplete from "../messages/mark-as-complete";
 import Title from "../../reusable/title";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -45,7 +49,7 @@ export default async function Details({
   const format = await getFormatters();
   const { client } = caseDetails;
   const documents = caseDetails.documents ?? [];
-  const { isHired } = caseDetails;
+  const { is_hired } = caseDetails;
   const agreedFee = caseDetails.agreement?.agreed_amount;
 
   return (
@@ -57,6 +61,7 @@ export default async function Details({
           <Badge className="h-6 bg-background text-[11px] text-primary/60 border border-secondary rounded-xs">
             {caseDetails.specialization.name}
           </Badge>
+
           <UrgencyBadge
             urgency={caseDetails.urgency}
             urgency_label={caseDetails.urgency_label}
@@ -86,7 +91,7 @@ export default async function Details({
 
       <div className="flex flex-col lg:flex-row gap-5">
         <div className="flex-1 min-w-0 space-y-3 order-2 lg:order-1">
-          {isHired ? (
+          {is_hired ? (
             <Card className="p-0 rounded-xs ring-0! border border-secondary">
               <div className="p-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -142,6 +147,28 @@ export default async function Details({
                   )}
                 </div>
               </div>
+
+              {caseDetails.status === "pending_fees" && (
+                <div className="border-t border-amber-200 bg-amber-50 px-5 py-3 text-xs font-semibold text-amber-800">
+                  {t("PendingFeesNotice")}
+                </div>
+              )}
+
+              {caseDetails.status === "in_progress" && (
+                <div className="border-t border-secondary px-5 py-3 flex flex-wrap items-center justify-end gap-2">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="rounded-sm border-secondary bg-white text-[11px] font-medium text-primary"
+                  >
+                    <Link href={`/lawyer/messages?caseId=${caseDetails.id}`}>
+                      <MessageSquare aria-hidden="true" />
+                      {t("OpenChat")}
+                    </Link>
+                  </Button>
+                  <MarkAsComplete caseId={caseDetails.id} />
+                </div>
+              )}
             </Card>
           ) : (
             <Card className="p-0 rounded-xs ring-0! border border-secondary">
@@ -178,6 +205,7 @@ export default async function Details({
               </div>
             </Card>
           )}
+
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
             <div className="p-5">
               <p className="text-[10px] text-primary/35 uppercase tracking-widest">
@@ -188,6 +216,7 @@ export default async function Details({
               </p>
             </div>
           </Card>
+
           {documents.length > 0 && (
             <Card className="p-0 rounded-xs ring-0! border border-secondary">
               <div className="p-5">
@@ -233,19 +262,23 @@ export default async function Details({
               </div>
             </Card>
           )}
-          <Card className="p-0 rounded-xs bg-primary/4 ring-0! border border-primary/10">
-            <div className="p-5 flex items-start gap-2">
-              <Users
-                className="text-primary/35 size-4 min-w-4"
-                aria-hidden="true"
-              />
-              <p className="font-sans text-xs text-primary/55 leading-relaxed">
-                {format.number(caseDetails.offers_count)}{" "}
-                {t("OffersSubmitted2")}
-              </p>
-            </div>
-          </Card>
-          {!myOffer && (
+
+          {!is_hired && (
+            <Card className="p-0 rounded-xs bg-primary/4 ring-0! border border-primary/10">
+              <div className="p-5 flex items-start gap-2">
+                <Users
+                  className="text-primary/35 size-4 min-w-4"
+                  aria-hidden="true"
+                />
+                <p className="font-sans text-xs text-primary/55 leading-relaxed">
+                  {format.number(caseDetails.offers_count)}{" "}
+                  {t("OffersSubmitted2")}
+                </p>
+              </div>
+            </Card>
+          )}
+
+          {!is_hired && !myOffer && (
             <Card className="p-0 rounded-xs ring-0! border border-secondary">
               <div className="p-5">
                 <div>
@@ -346,17 +379,21 @@ export default async function Details({
                     urgency_label={caseDetails.urgency_label}
                   />
                 </div>
-                <Separator className="bg-secondary" />
 
-                <div>
-                  <p className="text-[10px] text-primary/35 uppercase tracking-widest">
-                    {t("Competition")}
-                  </p>
-                  <p className="text-sm text-primary/50 font-medium mt-1">
-                    {format.number(caseDetails.offers_count)}{" "}
-                    {t("OffersSubmitted")}
-                  </p>
-                </div>
+                {!is_hired && (
+                  <>
+                    <Separator className="bg-secondary" />
+                    <div>
+                      <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                        {t("Competition")}
+                      </p>
+                      <p className="text-sm text-primary/50 font-medium mt-1">
+                        {format.number(caseDetails.offers_count)}{" "}
+                        {t("OffersSubmitted")}
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </Card>

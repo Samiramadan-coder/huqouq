@@ -55,7 +55,7 @@ export type CaseDetails = Case & {
   closure_note: null | string;
   closure_requested_at: null | string;
   closure_requested_by: null | string;
-  isHired: boolean;
+  is_hired: boolean;
   my_offer: null | {
     amount: number;
     created_at: string;
