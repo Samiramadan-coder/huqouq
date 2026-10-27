@@ -25,8 +25,6 @@ export default function Info() {
   const t = useTranslations("Lawyer.Dashboard");
   const format = useFormatters();
 
-  console.log(user);
-
   const nextSectionToFill = lawyer?.review_items.find(
     (item) => !item.is_complete,
   );

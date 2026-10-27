@@ -56,8 +56,6 @@ export default async function Page({
     },
   });
 
-  console.log(data.data);
-
   return (
     <LawyerBrowseCasesFiltersProvider>
       <div className="space-y-6 px-4 sm:px-6 py-10">

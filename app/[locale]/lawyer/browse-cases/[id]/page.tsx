@@ -67,8 +67,6 @@ export default async function Page({
   const { hire } = await searchParams;
   const data = await getCaseDetails(id);
 
-  console.log(data);
-
   if (!data) {
     notFound();
   }
