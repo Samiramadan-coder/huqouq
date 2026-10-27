@@ -1875,6 +1875,8 @@
       "cancel": "Cancel",
       "client": "Client",
       "contactInformationHidden": "Full contact details are shared once you are hired on this case.",
+      "CaseWorkspace": "Case Workspace",
+      "AgreedFee": "Agreed Fee",
       "Fields": {
         "WinPercentage": {
           "Label": "Win Percentage",

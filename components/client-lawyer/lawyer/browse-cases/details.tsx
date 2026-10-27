@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import UrgencyBadge from "../../reusable/urgency-label";
+import CaseStatusLabel from "../../reusable/case-status-label";
 import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
 import { getFormatters } from "@/lib/format.server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -44,8 +45,8 @@ export default async function Details({
   const format = await getFormatters();
   const { client } = caseDetails;
   const documents = caseDetails.documents ?? [];
-
-  console.log(caseDetails);
+  const { isHired } = caseDetails;
+  const agreedFee = caseDetails.agreement?.agreed_amount;
 
   return (
     <div className="space-y-4">
@@ -74,7 +75,8 @@ export default async function Details({
 
               {caseDetails.case_type !== "new_case" && (
                 <Badge className="rounded-xs text-xs font-normal py-2.5 border border-yellow-200 bg-yellow-50 text-yellow-700">
-                  {caseDetails.court_type_label || caseDetails.execution_type_label}
+                  {caseDetails.court_type_label ||
+                    caseDetails.execution_type_label}
                 </Badge>
               )}
             </>
@@ -84,30 +86,37 @@ export default async function Details({
 
       <div className="flex flex-col lg:flex-row gap-5">
         <div className="flex-1 min-w-0 space-y-3 order-2 lg:order-1">
-          <Card className="p-0 rounded-xs ring-0! border border-secondary">
-            <div className="p-5">
-              <p className="text-[10px] text-primary/35 uppercase tracking-widest">
-                {t("client")}
-              </p>
-
-              <div className="flex items-center gap-2 mt-2">
-                <Avatar size="lg">
-                  <AvatarImage
-                    src={client.photo_url ?? undefined}
-                    alt={client.first_name ?? ""}
-                  />
-                  <AvatarFallback>{client.first_name?.[0]}</AvatarFallback>
-                </Avatar>
-
-                <div className="min-w-0">
-                  <p className="font-semibold wrap-break-word">
-                    {client.first_name}
-                    {client.contact_visible && client.city
-                      ? " — " + client.city
-                      : ""}
+          {isHired ? (
+            <Card className="p-0 rounded-xs ring-0! border border-secondary">
+              <div className="p-5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                    {t("CaseWorkspace")}
                   </p>
-                  {client.contact_visible && (
-                    <>
+                  <CaseStatusLabel
+                    status={caseDetails.status}
+                    statusLabel={caseDetails.status_label}
+                  />
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Avatar size="lg">
+                      <AvatarImage
+                        src={client.photo_url ?? undefined}
+                        alt={client.name ?? client.first_name ?? ""}
+                      />
+                      <AvatarFallback>{client.first_name?.[0]}</AvatarFallback>
+                    </Avatar>
+
+                    <div className="min-w-0">
+                      <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                        {t("client")}
+                      </p>
+                      <p className="font-semibold wrap-break-word">
+                        {client.name ?? client.first_name}
+                        {client.city ? " — " + client.city : ""}
+                      </p>
                       {client.email && (
                         <p className="text-xs text-primary/40 mt-0.5 break-all">
                           {client.email}
@@ -118,12 +127,45 @@ export default async function Details({
                           {client.phone}
                         </p>
                       )}
-                    </>
+                    </div>
+                  </div>
+
+                  {agreedFee != null && (
+                    <div className="sm:text-end">
+                      <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                        {t("AgreedFee")}
+                      </p>
+                      <p className="text-lg text-primary font-semibold ltr:font-lora">
+                        {format.money(agreedFee)}
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
+            </Card>
+          ) : (
+            <Card className="p-0 rounded-xs ring-0! border border-secondary">
+              <div className="p-5">
+                <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                  {t("client")}
+                </p>
 
-              {!client.contact_visible && (
+                <div className="flex items-center gap-2 mt-2">
+                  <Avatar size="lg">
+                    <AvatarImage
+                      src={client.photo_url ?? undefined}
+                      alt={client.first_name ?? ""}
+                    />
+                    <AvatarFallback>{client.first_name?.[0]}</AvatarFallback>
+                  </Avatar>
+
+                  <div className="min-w-0">
+                    <p className="font-semibold wrap-break-word">
+                      {client.first_name}
+                    </p>
+                  </div>
+                </div>
+
                 <div className="border border-secondary bg-background p-3 mt-4 flex items-center gap-2">
                   <Lock
                     className="size-4 shrink-0 text-primary/35"
@@ -133,10 +175,9 @@ export default async function Details({
                     {t("contactInformationHidden")}
                   </p>
                 </div>
-              )}
-            </div>
-          </Card>
-
+              </div>
+            </Card>
+          )}
           <Card className="p-0 rounded-xs ring-0! border border-secondary">
             <div className="p-5">
               <p className="text-[10px] text-primary/35 uppercase tracking-widest">
@@ -147,7 +188,6 @@ export default async function Details({
               </p>
             </div>
           </Card>
-
           {documents.length > 0 && (
             <Card className="p-0 rounded-xs ring-0! border border-secondary">
               <div className="p-5">
@@ -193,7 +233,6 @@ export default async function Details({
               </div>
             </Card>
           )}
-
           <Card className="p-0 rounded-xs bg-primary/4 ring-0! border border-primary/10">
             <div className="p-5 flex items-start gap-2">
               <Users
@@ -201,11 +240,11 @@ export default async function Details({
                 aria-hidden="true"
               />
               <p className="font-sans text-xs text-primary/55 leading-relaxed">
-                {format.number(caseDetails.offers_count)} {t("OffersSubmitted2")}
+                {format.number(caseDetails.offers_count)}{" "}
+                {t("OffersSubmitted2")}
               </p>
             </div>
           </Card>
-
           {!myOffer && (
             <Card className="p-0 rounded-xs ring-0! border border-secondary">
               <div className="p-5">
@@ -288,7 +327,10 @@ export default async function Details({
                           {t("Budget")}
                         </p>
                         <p className="text-sm text-accent font-semibold mt-1">
-                          {format.moneyRange(caseDetails.budget_min, caseDetails.budget_max)}
+                          {format.moneyRange(
+                            caseDetails.budget_min,
+                            caseDetails.budget_max,
+                          )}
                         </p>
                       </div>
                       <Separator className="bg-secondary" />
@@ -311,7 +353,8 @@ export default async function Details({
                     {t("Competition")}
                   </p>
                   <p className="text-sm text-primary/50 font-medium mt-1">
-                    {format.number(caseDetails.offers_count)} {t("OffersSubmitted")}
+                    {format.number(caseDetails.offers_count)}{" "}
+                    {t("OffersSubmitted")}
                   </p>
                 </div>
               </div>

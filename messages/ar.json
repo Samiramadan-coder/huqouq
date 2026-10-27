@@ -1875,6 +1875,8 @@
       "cancel": "إلغاء",
       "client": "العميل",
       "contactInformationHidden": "يتم مشاركة تفاصيل الاتصال الكاملة بمجرد توظيفك في هذه القضية.",
+      "CaseWorkspace": "مساحة عمل القضية",
+      "AgreedFee": "الرسوم المتفق عليها",
       "Fields": {
         "WinPercentage": {
           "Label": "نسبة الفوز",
