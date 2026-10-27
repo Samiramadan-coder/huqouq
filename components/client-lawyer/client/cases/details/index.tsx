@@ -18,6 +18,7 @@ import {
 
 import InfoRow from "./info-row";
 import CloseCase from "./close-case";
+import MarkAsComplete from "./mark-as-complete";
 import { Meta } from "@/types/shared";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -130,7 +131,14 @@ export default async function Index({
               </Button>
             )}
 
-            {caseDetails.can_close && <CloseCase caseId={caseDetails.id} />}
+            {caseDetails.display_status === "in_progress" && (
+              <MarkAsComplete caseId={caseDetails.id} />
+            )}
+
+            {caseDetails.display_status === "pending_closure" &&
+              caseDetails.closure_requested_by === "lawyer" && (
+                <CloseCase caseId={caseDetails.id} />
+              )}
 
             {caseDetails.display_status === "closed" &&
               caseDetails.is_reviewed === false && (
@@ -161,12 +169,21 @@ export default async function Index({
 
               {caseDetails.case_type !== "new_case" && (
                 <Badge className="rounded-xs text-xs font-normal py-2.5 border border-yellow-200 bg-yellow-50 text-yellow-700">
-                  {caseDetails.court_type_label || caseDetails.execution_type_label}
+                  {caseDetails.court_type_label ||
+                    caseDetails.execution_type_label}
                 </Badge>
               )}
             </>
           ) : null}
         </div>
+
+        {caseDetails.display_status === "pending_closure" && (
+          <div className="mt-3 border border-amber-200 bg-amber-50 rounded-xs px-4 py-3 text-xs font-semibold text-amber-800">
+            {caseDetails.closure_requested_by === "lawyer"
+              ? t("lawyerMarkedComplete")
+              : t("waitingLawyerConfirm")}
+          </div>
+        )}
       </div>
 
       <div className="grid items-start grid-cols-1 md:grid-cols-3 gap-4">
@@ -348,7 +365,10 @@ export default async function Index({
                 <InfoRow
                   icon={TriangleAlert}
                   label={t("Fields.budget.label")}
-                  value={format.moneyRange(caseDetails.budget_min, caseDetails.budget_max)}
+                  value={format.moneyRange(
+                    caseDetails.budget_min,
+                    caseDetails.budget_max,
+                  )}
                 />
               )}
             <Separator className="bg-secondary" />

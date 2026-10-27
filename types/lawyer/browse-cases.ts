@@ -54,7 +54,7 @@ export type CaseDetails = Case & {
   can_submit_offer: boolean;
   closure_note: null | string;
   closure_requested_at: null | string;
-  closure_requested_by: null | string;
+  closure_requested_by: null | "client" | "lawyer";
   is_hired: boolean;
   my_offer: null | {
     amount: number;

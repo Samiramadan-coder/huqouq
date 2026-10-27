@@ -17,6 +17,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ensureFirebaseAuth, sendTextMessage } from "@/features/chat";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import CloseCase from "../cases/details/close-case";
+import MarkAsComplete from "../cases/details/mark-as-complete";
 import { Case } from "@/types/client/my-cases";
 
 export default function SendMessage({
@@ -140,14 +141,28 @@ export default function SendMessage({
 
   return (
     <div className="shrink-0 space-y-3 px-3 md:px-5 py-3 md:py-4">
-      {activeCase?.can_close && (
+      {activeCase?.display_status === "pending_closure" &&
+        activeCase?.closure_requested_by === "lawyer" && (
+          <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
+            <p className="flex items-center gap-2 text-sm font-medium text-primary">
+              <CheckCheck className="size-3 text-accent" />
+              <span className="text-xs text-primary/70">
+                {t("LawyerMarkedComplete")}
+              </span>
+            </p>
+
+            <CloseCase caseId={+caseId} />
+          </Card>
+        )}
+
+      {activeCase?.display_status === "in_progress" && (
         <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
           <p className="flex items-center gap-2 text-sm font-medium text-primary">
             <CheckCheck className="size-3 text-accent" />
             <span className="text-xs text-primary/70">{t("IsResolved")}</span>
           </p>
 
-          <CloseCase caseId={+caseId} />
+          <MarkAsComplete caseId={+caseId} />
         </Card>
       )}
 
@@ -178,8 +193,7 @@ export default function SendMessage({
         </div>
       )}
 
-      {!activeCase?.can_close &&
-        activeCase?.display_status !== "pending_closure" &&
+      {activeCase?.display_status !== "pending_closure" &&
         activeCase?.display_status !== "closed" && (
           <>
             {recorder.isRecording ? (

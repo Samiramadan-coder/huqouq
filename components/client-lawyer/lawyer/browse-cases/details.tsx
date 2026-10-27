@@ -14,6 +14,7 @@ import OfferForm from "./offer-form";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import MarkAsComplete from "../messages/mark-as-complete";
+import ConfirmClosure from "../messages/confirm-closure";
 import Title from "../../reusable/title";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -169,6 +170,16 @@ export default async function Details({
                   <MarkAsComplete caseId={caseDetails.id} />
                 </div>
               )}
+
+              {caseDetails.status === "pending_closure" &&
+                caseDetails.closure_requested_by === "client" && (
+                  <div className="border-t border-amber-200 bg-amber-50 px-5 py-3 flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-xs font-semibold text-amber-800">
+                      {t("ClientMarkedComplete")}
+                    </p>
+                    <ConfirmClosure caseId={caseDetails.id} />
+                  </div>
+                )}
 
               {caseDetails.status === "pending_closure" &&
                 caseDetails.closure_requested_by === "lawyer" && (

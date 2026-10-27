@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { db, storage } from "@/lib/firebase";
 import MarkAsComplete from "./mark-as-complete";
+import ConfirmClosure from "./confirm-closure";
 import { useUser } from "@/providers/user-provider";
 import { toast } from "sonner";
 import { ArrowUp, CheckCheck, Mic, Paperclip } from "lucide-react";
@@ -146,6 +147,20 @@ export default function SendMessage({
               <span className="text-xs text-primary/70">{t("IsResolved")}</span>
             </p>
             <MarkAsComplete caseId={+caseId} />
+          </Card>
+        )}
+
+      {activeCase?.display_status === "pending_closure" &&
+        activeCase?.closure_requested_by === "client" && (
+          <Card className="flex-row items-center justify-between gap-4 rounded-xs border border-secondary px-4 py-2.5 ring-0!">
+            <p className="flex items-center gap-2 text-sm font-medium text-primary">
+              <CheckCheck className="size-3 text-accent" />
+              <span className="text-xs text-primary/70">
+                {t("ClientMarkedComplete")}
+              </span>
+            </p>
+
+            <ConfirmClosure caseId={+caseId} />
           </Card>
         )}
 

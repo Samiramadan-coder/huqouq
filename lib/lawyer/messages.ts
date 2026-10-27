@@ -5,8 +5,7 @@ import { http, ValidationError } from "../http";
 
 // Mark Case as Complete
 type MarkAsCompleteResponse =
-  | { success: true; message: string }
-  | { success: false; message?: string };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function markCaseAsComplete(
   caseId: number,
@@ -20,6 +19,26 @@ export async function markCaseAsComplete(
     return { success: true, message: data.message };
   } catch (error) {
     console.error("Error marking case as complete:", error);
+    if (error instanceof ValidationError) {
+      return { success: false, message: error.responseMessage };
+    }
+    return { success: false };
+  }
+}
+
+// Confirm Case Closure (requested by the client)
+export async function confirmCaseClosure(
+  caseId: number,
+): Promise<MarkAsCompleteResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/lawyer/my-cases/${caseId}/confirm-closure`,
+    );
+
+    updateTag("lawyer-my-cases");
+    return { success: true, message: data.message };
+  } catch (error) {
+    console.error("Error confirming case closure:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }

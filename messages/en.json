@@ -1082,6 +1082,11 @@
       }
     },
     "Cases": {
+      "markAsComplete": "Mark as Complete",
+      "markAsCompleteDescription": "By marking this case as complete once all work has been finished, you indicate that the case has been successfully concluded. The lawyer will be asked to confirm.",
+      "markAsCompleteFailed": "Failed to mark the case as complete",
+      "waitingLawyerConfirm": "You marked this case as complete. Waiting for the lawyer to confirm.",
+      "lawyerMarkedComplete": "The lawyer marked this case as complete. Close the case to confirm.",
       "myCases": "My Cases",
       "addNew": "Post a New Case",
       "view": "View",
@@ -1368,6 +1373,8 @@
       }
     },
     "Messages": {
+      "LawyerMarkedComplete": "The lawyer marked this case as complete.",
+      "ClientMarkedComplete": "The client marked this case as complete.",
       "Title": "Messages",
       "SearchPlaceholder": "Search conversations…",
       "Verified": "Verified",
@@ -1879,6 +1886,7 @@
       "PendingFeesNotice": "Waiting for the client to pay the platform fee — chat opens after payment",
       "OpenChat": "Open Chat",
       "WaitingClientConfirm": "You marked this case as complete. Waiting for the client to confirm.",
+      "ClientMarkedComplete": "The client marked this case as complete.",
       "CaseClosedNotice": "This case is closed.",
       "AgreedFee": "Agreed Fee",
       "Fields": {
@@ -2130,6 +2138,9 @@
       "MarkAsCompleteDescription": "By marking this case as complete once all work has been finished, you indicate that the case has been successfully concluded.",
       "Cancel": "Cancel",
       "MarkAsCompleteFailed": "Failed to mark the case as complete",
+      "ConfirmClosure": "Confirm Closure",
+      "ConfirmClosureDescription": "The client marked this case as complete. Confirming will close the case.",
+      "ConfirmClosureFailed": "Failed to confirm the case closure",
       "You": "You",
       "Back": "Back to conversations"
     },

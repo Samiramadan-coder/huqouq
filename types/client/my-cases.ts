@@ -141,7 +141,7 @@ export type Case = {
   closed_by: null | string;
   closing_note: null | string;
   closure_requested_at: null | string;
-  closure_requested_by: null | string;
+  closure_requested_by: null | "client" | "lawyer";
   created_at: string;
   description: string;
   display_status: CaseStatus;

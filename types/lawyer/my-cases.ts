@@ -25,6 +25,7 @@ export type CaseDetails = {
   closed_by: string | null;
   closing_note: string | null;
   closure_requested_at: string | null;
+  closure_requested_by: null | "client" | "lawyer";
   created_at: string;
   description: string;
   display_status: CaseStatus;
