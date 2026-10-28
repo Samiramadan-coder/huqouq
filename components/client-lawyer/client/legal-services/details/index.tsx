@@ -140,7 +140,7 @@ export default async function Index({
 
                     <span
                       className={cn(
-                        isCompleted && "text-primary/55 line-through",
+                        isCompleted && "text-primary/55",
                         isCurrent && "text-primary",
                         isPending && "text-primary/25",
                       )}
