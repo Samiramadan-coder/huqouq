@@ -41,6 +41,8 @@ export async function generateMetadata({
   const t = await getTranslations("Lawyer.ActiveServices.Details");
   const service = await getService(id);
 
+  console.log(service);
+
   return {
     title: `${service?.service_type_label ?? t("notFound")} | Huqouq`,
     robots: { index: false, follow: false },

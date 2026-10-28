@@ -127,6 +127,13 @@ export function OfferStatus({
         </Badge>
       );
 
+    case "refunded":
+      return (
+        <Badge className="rounded-xs text-xs py-3 font-normal bg-red-100 text-red-600 border-red-200">
+          {statusLabel}
+        </Badge>
+      );
+
     default:
       return (
         <Badge className="rounded-xs text-xs py-3 font-normal bg-[#F7F5F0] text-primary/40 border-[#EDE9E1]">

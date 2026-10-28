@@ -15,9 +15,6 @@ type Can = {
 };
 
 type Client = {
-  // first_name: string;
-  // name: string;
-  // photo_url: string;
   contact_visible: boolean;
   email: string | null;
   first_name: string;
@@ -76,29 +73,32 @@ type TimelineEntry = {
 };
 
 export type Service = {
+  agreed_fee: number;
+  can: Can;
+  client: Client;
+  completed_by: null | "client" | "admin";
   days_remaining: number | null;
   deadline: string | null;
   description: string;
   display_status_label: string;
   documents_count: number;
-  agreed_fee: number;
+  earnings: Earnings;
   emirate: string;
+  emirate_label: string;
   id: number;
   last_activity_at: string;
+  my_offer: MyOffer;
   offers_count: number;
   overdue: boolean;
+  review_deadline: string | null;
   service_type: string;
   service_type_label: string;
   start_date: string;
-  status: "in_progress" | "delivered" | "completed";
+  status: "in_progress" | "delivered" | "completed" | "refunded";
   status_label: string;
   submitted_at: string;
-  urgency: string;
+  urgency: "urgent" | "standard" | "very_urgent";
   urgency_label: string;
-  can: Can;
-  client: Client;
-  earnings: Earnings;
-  my_offer: MyOffer;
 };
 
 export type Revision = {
