@@ -2225,13 +2225,14 @@
             "required": "الرسوم المقترحة مطلوبة",
             "integer": "يجب أن تكون الأتعاب المقترحة عددًا صحيحًا"
           },
+          "feeBreakdown": "عمولة حقوق {percentage}٪: {fee} · ستستلم: {net}",
           "delivery_time": {
             "label": "مدة التسليم",
             "required": "عدد أيام التسليم مطلوب",
             "placeholder": "مثال: 7",
             "options": {
-              "days": "أيام",
-              "weeks": "أسابيع"
+              "days": "{count, plural, zero {أيام} one {يوم} two {يومان} few {أيام} many {يوماً} other {يوم}}",
+              "weeks": "{count, plural, zero {أسابيع} one {أسبوع} two {أسبوعان} few {أسابيع} many {أسبوعاً} other {أسبوع}}"
             },
             "integer": "يجب أن تكون مدة التسليم عددًا صحيحًا"
           },
@@ -2291,11 +2292,17 @@
         "backToServices": "العودة إلى الخدمات النشطة",
         "client": "العميل",
         "statusTimeline": "جدول الحالة",
-        "serviceSummary": "ملخص الخدمة",
-        "type": "النوع",
         "agreedFee": "الرسوم المتفق عليها",
-        "platformFee": "رسوم المنصة",
         "yourEarnings": "أرباحك",
+        "earnings": "الأرباح",
+        "huqouqFee": "عمولة حقوق ({percentage}٪)",
+        "payoutStatus": "حالة التحويل",
+        "payoutHint": {
+          "held": "يتم تحريره بعد موافقة العميل على التسليم.",
+          "pending": "يصبح جاهزاً بعد انتهاء فترة الانتظار.",
+          "cancelled": "هذه الخدمة تم إلغائها",
+          "paid": "تم التحويل إلى حسابك البنكي."
+        },
         "deliverWork": "تسليم العمل",
         "pleaseUploadAtLeastOneDocument": "يرجى تحميل مستند واحد على الأقل",
         "note": "ملاحظة التسليم (اختياري)",

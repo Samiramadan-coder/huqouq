@@ -24,9 +24,15 @@ type Client = {
   photo_url: string | null;
 };
 
-type Earnings = {
+export type PayoutStatus =
+  | "held"
+  | "cancelled"
+  | "pending_release"
+  | "released";
+
+export type Earnings = {
   fee_percentage: number;
-  payout_status: string;
+  payout_status: PayoutStatus;
   payout_status_label: string;
   platform_fee: number;
   total_service_fee: number;

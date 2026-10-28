@@ -1,20 +1,26 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { FieldLabel } from "@/components/ui/field";
-import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "@/components/public/shared/form/form-input";
-import SubmitBtn from "@/components/public/shared/form/submit-btn";
-import { useForm, SubmitHandler, useWatch } from "react-hook-form";
-import FormSelect from "@/components/public/shared/form/form-select";
-import FormTextarea from "@/components/public/shared/form/form-textarea";
 import {
   myOffer,
   OfferFormData,
   offerSchema,
 } from "@/types/lawyer/legal-services";
-import { submitOffer } from "@/lib/lawyer/legal-services";
+
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
+import { FieldLabel } from "@/components/ui/field";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { submitOffer } from "@/lib/lawyer/legal-services";
+import FormInput from "@/components/public/shared/form/form-input";
+import SubmitBtn from "@/components/public/shared/form/submit-btn";
+import { useForm, SubmitHandler, useWatch } from "react-hook-form";
+import FormSelect from "@/components/public/shared/form/form-select";
+import FormTextarea from "@/components/public/shared/form/form-textarea";
+
+// Huqouq's commission on legal services; the API does not return it before an offer is accepted
+// Waiting for end point from backend to return financial settings
+const HUQOUQ_FEE_PERCENTAGE = 10;
 
 export default function OfferForm({
   serviceId,
@@ -26,6 +32,7 @@ export default function OfferForm({
 }) {
   const t = useTranslations("Lawyer.LegalServices.Details.OfferForm");
   const tDetails = useTranslations("Lawyer.LegalServices.Details");
+  const format = useFormatters();
   const isUpdate = !!offer;
 
   const {
@@ -45,6 +52,13 @@ export default function OfferForm({
   });
 
   const message = useWatch({ control, name: "message" });
+  const fee = Number(useWatch({ control, name: "fee" })) || 0;
+  const deliveryAmount =
+    Number(useWatch({ control, name: "delivery_amount" })) || 0;
+
+  // Live breakdown of what the lawyer receives, rounded to fils
+  const huqouqFee = Math.round(fee * HUQOUQ_FEE_PERCENTAGE) / 100;
+  const lawyerReceives = fee - huqouqFee;
 
   const onSubmit: SubmitHandler<OfferFormData> = async (data) => {
     let result: Awaited<ReturnType<typeof submitOffer>>;
@@ -91,6 +105,16 @@ export default function OfferForm({
         inputClassName="bg-background border border-accent/20! placeholder:text-sm"
       />
 
+      {fee > 0 && (
+        <p className="-mt-2 text-xs text-primary/50" aria-live="polite">
+          {t("feeBreakdown", {
+            percentage: format.number(HUQOUQ_FEE_PERCENTAGE),
+            fee: format.money(huqouqFee),
+            net: format.money(lawyerReceives),
+          })}
+        </p>
+      )}
+
       <div className="space-y-2">
         <div>
           <FieldLabel
@@ -119,8 +143,18 @@ export default function OfferForm({
             name="delivery_unit"
             triggerClassName="bg-background border border-accent/20!"
             options={[
-              { label: t("delivery_time.options.days"), value: "days" },
-              { label: t("delivery_time.options.weeks"), value: "weeks" },
+              {
+                label: t("delivery_time.options.days", {
+                  count: deliveryAmount,
+                }),
+                value: "days",
+              },
+              {
+                label: t("delivery_time.options.weeks", {
+                  count: deliveryAmount,
+                }),
+                value: "weeks",
+              },
             ]}
           />
         </div>

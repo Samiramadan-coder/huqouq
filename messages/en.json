@@ -2225,13 +2225,14 @@
             "required": "Proposed fee is required",
             "integer": "Proposed fee must be a whole number"
           },
+          "feeBreakdown": "Huqouq fee {percentage}%: {fee} · You receive: {net}",
           "delivery_time": {
             "label": "Delivery Time",
             "required": "Delivery days is required",
             "placeholder": "e.g. 7",
             "options": {
-              "days": "Days",
-              "weeks": "Weeks"
+              "days": "{count, plural, one {Day} other {Days}}",
+              "weeks": "{count, plural, one {Week} other {Weeks}}"
             },
             "integer": "Delivery time must be a whole number"
           },
@@ -2291,11 +2292,17 @@
         "backToServices": "Back to Active Services",
         "client": "Client",
         "statusTimeline": "Status Timeline",
-        "serviceSummary": "Service Summary",
-        "type": "Type",
         "agreedFee": "Agreed Fee",
-        "platformFee": "Platform Fee",
         "yourEarnings": "Your Earnings",
+        "earnings": "Earnings",
+        "huqouqFee": "Huqouq fee ({percentage}%)",
+        "payoutStatus": "Payout Status",
+        "payoutHint": {
+          "held": "Released after the client approves the delivery.",
+          "pending": "Becomes ready once the holding period ends.",
+          "cancelled": "This service is cancelled",
+          "paid": "Paid out to your bank account."
+        },
         "deliverWork": "Deliver Work",
         "pleaseUploadAtLeastOneDocument": "Please upload at least one document",
         "note": "Delivery Note (optional)",

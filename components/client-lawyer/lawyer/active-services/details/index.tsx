@@ -2,6 +2,7 @@ import ChatRoom from "./chat-room";
 import DeadlineChip from "@/components/client-lawyer/reusable/deadline-chip";
 import { cookies } from "next/headers";
 import DeliverWork from "./deliver-work";
+import EarningsCard from "./earnings-card";
 import { OfferStatus } from "../data-preview";
 import { getTranslations } from "next-intl/server";
 import { getFormatters } from "@/lib/format.server";
@@ -230,42 +231,12 @@ export default async function Index({ service }: { service: ServiceDetails }) {
           </div>
         </div>
 
-        <div className="bg-white border border-secondary rounded-sm p-5">
-          <h2 className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-3">
-            {t("serviceSummary")}
-          </h2>
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-primary/50">{t("type")}</span>
-              <span className="text-xs font-semibold text-primary">
-                {service.service_type_label}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-primary/50">{t("agreedFee")}</span>
-              <span className="text-sm font-bold text-primary">
-                {format.money(service.agreed_fee)}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-primary/50">
-                {t("platformFee")}
-              </span>
-              <span className="text-xs text-primary/50">
-                − {format.money(service.earnings?.platform_fee)}
-              </span>
-            </div>
-            <div className="h-px bg-[#F7F5F0]"></div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-primary/60">
-                {t("yourEarnings")}
-              </span>
-              <span className="text-sm font-bold text-accent">
-                {format.money(service.earnings?.your_earnings)}
-              </span>
-            </div>
-          </div>
-        </div>
+        {service.earnings && (
+          <EarningsCard
+            agreedFee={service.agreed_fee}
+            earnings={service.earnings}
+          />
+        )}
       </div>
     </div>
   );
