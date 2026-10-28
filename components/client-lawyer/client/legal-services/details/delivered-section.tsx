@@ -55,6 +55,7 @@ export default async function DeliveredSection({
         <DeliveryHistory
           token={token}
           deliveries={service.deliveries}
+          revisions={service.revisions ?? []}
           awaitingReview
         />
       </div>

@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
 import DeliveredSection from "./delivered-section";
+import DeliveryHistory from "./delivery-history";
+import RevisionInProgress from "./revision-in-progress";
 import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 import { LegalServiceStatus } from "../list-of-services";
@@ -36,18 +38,27 @@ export default async function Index({
   return (
     <div className="grid items-start grid-cols-1 md:grid-cols-3 gap-4 mt-4">
       <div className="md:col-span-2 min-w-0 space-y-4">
-        {/* Accepted offer and hired lawyer section */}
-        {legalService.accepted_offer &&
-          legalService.hired_lawyer &&
-          legalService.display_status === "in_progress" && (
-            <div>
-              <OfferAccepted
-                offer={legalService.accepted_offer}
-                hiredLawyer={legalService.hired_lawyer}
-                serviceLabel={legalService.service_type_label}
-                canOpenChat={legalService.can.open_chat}
-              />
-            </div>
+        {/* In Progress */}
+        {legalService.display_status === "in_progress" &&
+          legalService.deliveries.length === 0 && (
+            <OfferAccepted service={legalService} />
+          )}
+
+        {/* In Progress and previous rounds */}
+        {legalService.display_status === "in_progress" &&
+          legalService.deliveries.length > 0 && (
+            <>
+              <RevisionInProgress service={legalService} />
+
+              <div className="bg-white border border-secondary rounded-sm">
+                <DeliveryHistory
+                  token={token}
+                  deliveries={legalService.deliveries}
+                  revisions={legalService.revisions ?? []}
+                  inPreparation
+                />
+              </div>
+            </>
           )}
 
         {/* Lawyers offers section */}

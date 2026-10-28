@@ -1,68 +1,47 @@
-import { Clock, MessageSquare } from "lucide-react";
+import { Clock } from "lucide-react";
+import DeadlineChip from "./deadline-chip";
+import HiredLawyerRow from "./hired-lawyer-row";
 import { getTranslations } from "next-intl/server";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AcceptedOffer, HiredLawyer } from "@/types/client/legal-services";
-import { getFormatters } from "@/lib/format.server";
-import { Button } from "@/components/ui/button";
+import { LegalServiceDetails } from "@/types/client/legal-services";
 
+// The lawyer is working on the first delivery
 export default async function OfferAccepted({
-  offer,
-  hiredLawyer,
-  serviceLabel,
-  canOpenChat,
+  service,
 }: {
-  offer: AcceptedOffer;
-  hiredLawyer: HiredLawyer;
-  serviceLabel: string;
-  canOpenChat: boolean;
+  service: LegalServiceDetails;
 }) {
   const t = await getTranslations("Client.LegalServices");
-  const format = await getFormatters();
+  const { accepted_offer, hired_lawyer, deadline } = service;
+
+  if (!accepted_offer || !hired_lawyer) return null;
 
   return (
     <div className="bg-white border border-secondary rounded-sm overflow-hidden">
       <div className="bg-[#EDF2F7] border-b border-[#bee3f8] px-5 py-4 flex items-start gap-3">
         <Clock className="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
-        <div>
-          <p className="text-sm font-semibold text-primary mb-0.5">
-            {t("inProgress")}
-          </p>
-          <p className="text-xs text-primary/55 leading-relaxed">
-            {t("inProgressMessage", {
-              name: hiredLawyer.name,
-              service: serviceLabel,
-            })}
-          </p>
+        <div className="flex flex-col gap-3">
+          <div>
+            <p className="text-sm font-semibold text-primary mb-0.5">
+              {t("inProgress")}
+            </p>
+            <p className="text-xs text-primary/55 leading-relaxed">
+              {t("inProgressMessage", {
+                name: hired_lawyer.name,
+                service: service.service_type_label,
+              })}
+            </p>
+          </div>
+          {deadline && (
+            <DeadlineChip deadline={deadline} className="text-amber-700" />
+          )}
         </div>
       </div>
 
-      <div className="px-5 py-4 flex flex-wrap items-center gap-3">
-        <Avatar className="size-10">
-          <AvatarImage src={hiredLawyer.photo_url} alt={hiredLawyer.name} />
-          <AvatarFallback>{hiredLawyer.name?.[0]}</AvatarFallback>
-        </Avatar>
-
-        <div className="flex-1 min-w-0">
-          <p className="font-sans text-sm font-semibold text-primary">
-            {hiredLawyer.name}
-          </p>
-          <p className="font-sans text-xs text-primary/40">
-            {t("agreedFee")}: {format.money(offer.fee)}
-          </p>
-        </div>
-
-        {canOpenChat && (
-          <Button
-            asChild
-            className="bg-accent text-primary rounded-sm hover:bg-accent/80"
-          >
-            <a href="#service-chat">
-              <MessageSquare aria-hidden="true" />
-              {t("openChat")}
-            </a>
-          </Button>
-        )}
-      </div>
+      <HiredLawyerRow
+        offer={accepted_offer}
+        hiredLawyer={hired_lawyer}
+        canOpenChat={service.can.open_chat}
+      />
     </div>
   );
 }

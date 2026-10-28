@@ -42,7 +42,11 @@ export default async function Completed({
         </div>
       </div>
 
-      <DeliveryHistory token={token} deliveries={service.deliveries} />
+      <DeliveryHistory
+        token={token}
+        deliveries={service.deliveries}
+        revisions={service.revisions ?? []}
+      />
 
       <div className="px-5 py-4">
         {service.review ? (

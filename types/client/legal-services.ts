@@ -196,11 +196,18 @@ type Payment = {
   reference: string;
 };
 
-type Delivery = {
+export type Delivery = {
   delivered_at: string;
   id: number;
   note: string | null;
   files: Attachment[];
+};
+
+export type Revision = {
+  delivery_id: number;
+  id: number;
+  note: string;
+  requested_at: string;
 };
 
 type Review = {
@@ -220,7 +227,7 @@ export type LegalServiceDetails = LegalService & {
   review: null | Review;
   timeline: TimelineEvent[];
   offers: Offer[];
-  revisions: [];
+  revisions: Revision[];
 };
 
 export type PaymentDetails = {

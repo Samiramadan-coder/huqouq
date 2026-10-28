@@ -1,4 +1,4 @@
-import { CircleAlert, FileText } from "lucide-react";
+import { CircleAlert, FileText, RotateCcw } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { LegalServiceDetails } from "@/types/client/legal-services";
 import DownloadFile from "@/components/client-lawyer/reusable/download-file";
@@ -12,6 +12,7 @@ export default async function DeliveredFiles({
   note,
   deliveredAt,
   awaitingReview = false,
+  revision,
 }: {
   roundNumber: number;
   token: string;
@@ -19,6 +20,8 @@ export default async function DeliveredFiles({
   note: string | null;
   deliveredAt: string;
   awaitingReview?: boolean;
+  // The revision the client requested on this round, if any
+  revision?: LegalServiceDetails["revisions"][number];
 }) {
   const t = await getTranslations("Client.LegalServices");
   const format = await getFormatters();
@@ -76,7 +79,27 @@ export default async function DeliveredFiles({
           </div>
         )}
 
-        {awaitingReview && (
+        {revision && (
+          <div className="bg-amber-50 border border-amber-200 rounded-sm px-4 py-3">
+            <p className=" text-[10px] font-semibold tracking-widest uppercase text-amber-700/60 mb-1">
+              {t("yourResponse")}
+            </p>
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <p className="flex items-center gap-1.5 text-sm font-semibold text-amber-800">
+                <RotateCcw className="size-4 shrink-0" aria-hidden="true" />
+                {t("revisionRequestedResponse")}
+              </p>
+              <span className="text-xs text-primary/45">
+                {format.date(revision.requested_at)}
+              </span>
+            </div>
+            <p className=" text-sm text-amber-900/80 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-amber-400 ps-3">
+              {revision.note}
+            </p>
+          </div>
+        )}
+
+        {awaitingReview && !revision && (
           <div className="bg-amber-50 border border-amber-200 rounded-sm px-4 py-3">
             <p className=" text-[10px] font-semibold tracking-widest uppercase text-amber-700/60 mb-1">
               {t("yourResponse")}
