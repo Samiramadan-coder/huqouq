@@ -85,15 +85,21 @@ export type HiredLawyer = {
 
 export type LegalService = {
   can_edit: boolean;
+  completed_by: null | "admin" | "client";
   created_at: string;
+  delivery_note: null | string;
   description: string;
   display_status: Status;
   display_status_label: string;
   emirate: string;
+  emirate_label: string;
   has_offers: boolean;
+  hired_lawyer: null | HiredLawyer;
   id: number;
+  lawyer_name: null | string;
   offers_count: number;
   rejection_reason: string | null;
+  review_deadline: null | string;
   reviewed_at: string | null;
   service_type: string;
   service_type_label: string;
@@ -102,7 +108,6 @@ export type LegalService = {
   submitted_at: string;
   urgency: "standard" | "urgent" | "very_urgent";
   urgency_label: string;
-  hired_lawyer: null | HiredLawyer;
 };
 
 type Attachment = {

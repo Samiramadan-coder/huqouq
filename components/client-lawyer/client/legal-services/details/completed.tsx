@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import RateService from "./rate-service";
-import DeliveredFiles from "./delivered-files";
+import DeliveryHistory from "./delivery-history";
 import { CircleCheck, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { getFormatters } from "@/lib/format.server";
@@ -42,7 +42,7 @@ export default async function Completed({
         </div>
       </div>
 
-      <DeliveredFiles service={service} token={token} />
+      <DeliveryHistory token={token} deliveries={service.deliveries} />
 
       <div className="px-5 py-4">
         {service.review ? (

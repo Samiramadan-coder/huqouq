@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { useRef } from "react";
 import { T } from "@/types/shared";
 import { useForm } from "react-hook-form";
-import { CircleCheck } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -70,7 +70,7 @@ export default function RequestRevision({ serviceId }: { serviceId: number }) {
           variant="ghost"
           className="h-10.5 inline-flex items-center gap-2 bg-white border border-amber-400 text-amber-700 text-sm font-semibold px-5 py-2.5 rounded-sm hover:bg-white hover:text-amber-700 transition-colors duration-200"
         >
-          <CircleCheck className="size-4 shrink-0" aria-hidden="true" />
+          <RotateCcw className="size-4 shrink-0" aria-hidden="true" />
           {t("requestRevision")}
         </Button>
       </DialogTrigger>
