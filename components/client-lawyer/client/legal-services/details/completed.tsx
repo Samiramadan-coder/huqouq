@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { cn } from "@/lib/utils";
 import RateService from "./rate-service";
-import DeliveryHistory from "./delivery-history";
+import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 import { CircleCheck, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { getFormatters } from "@/lib/format.server";
@@ -103,6 +103,7 @@ export default async function Completed({
 
       <div className="bg-white border border-secondary rounded-sm">
         <DeliveryHistory
+          viewer="client"
           token={token}
           deliveries={service.deliveries}
           revisions={service.revisions ?? []}

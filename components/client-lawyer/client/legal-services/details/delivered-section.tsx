@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { CircleAlert } from "lucide-react";
-import DeliveryHistory from "./delivery-history";
+import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 import ApproveDelivery from "./approve-delivery";
 import RequestRevision from "./request-revision";
 import ReviewCountdown from "./review-countdown";
@@ -53,6 +53,7 @@ export default async function DeliveredSection({
 
       <div className="bg-white border border-secondary rounded-sm">
         <DeliveryHistory
+          viewer="client"
           token={token}
           deliveries={service.deliveries}
           revisions={service.revisions ?? []}

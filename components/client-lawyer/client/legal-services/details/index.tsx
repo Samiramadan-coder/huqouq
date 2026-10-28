@@ -2,15 +2,14 @@ import ChatRoom from "./chat-room";
 import Completed from "./completed";
 import { cookies } from "next/headers";
 import { Link } from "@/i18n/navigation";
-import TimelineRail from "./timeline-radial";
+import ServiceProgress from "@/components/client-lawyer/reusable/service-progress";
 import CompareOffers from "./compare-offers";
 import OfferAccepted from "./accepted-offer";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
 import DeliveredSection from "./delivered-section";
-import DeliveryHistory from "./delivery-history";
+import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 import RevisionInProgress from "./revision-in-progress";
 import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
@@ -20,7 +19,7 @@ import { LegalServiceDetails } from "@/types/client/legal-services";
 import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 import { MapPin, Calendar, Clock, FileText, MessageSquare } from "lucide-react";
 import { getFormatters } from "@/lib/format.server";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default async function Index({
   legalService,
@@ -30,9 +29,6 @@ export default async function Index({
   const t = await getTranslations("Client.LegalServices");
   const format = await getFormatters();
   const token = (await cookies()).get("token")?.value || "";
-  const visibleSteps = legalService.timeline.filter(
-    (item) => item.state !== "skipped",
-  );
   const attachments = legalService.attachments ?? [];
 
   return (
@@ -52,6 +48,7 @@ export default async function Index({
 
               <div className="bg-white border border-secondary rounded-sm">
                 <DeliveryHistory
+                  viewer="client"
                   token={token}
                   deliveries={legalService.deliveries}
                   revisions={legalService.revisions ?? []}
@@ -112,47 +109,10 @@ export default async function Index({
         )}
 
         {/* Legal status timeline section */}
-        <Card className="w-full rounded-xs ring-0! border border-secondary">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold ltr:font-lora">
-              {t("legalStatusTimeLine")}
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="w-full space-y-4">
-              {visibleSteps.map((item, index) => {
-                const isCompleted = item.state === "done";
-                const isCurrent = item.state === "current";
-                const isPending = item.state === "upcoming";
-                const isLast = index === visibleSteps.length - 1;
-
-                return (
-                  <div
-                    key={item.key}
-                    className="grid grid-cols-[20px_minmax(0,1fr)] gap-x-3"
-                  >
-                    <TimelineRail
-                      completed={isCompleted}
-                      current={isCurrent}
-                      last={isLast}
-                    />
-
-                    <span
-                      className={cn(
-                        isCompleted && "text-primary/55",
-                        isCurrent && "text-primary",
-                        isPending && "text-primary/25",
-                      )}
-                    >
-                      {item.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
+        <ServiceProgress
+          title={t("legalStatusTimeLine")}
+          steps={legalService.timeline}
+        />
 
         {legalService.can.open_chat && (
           <div id="service-chat" className="scroll-mt-20">

@@ -1,27 +1,45 @@
 import { cn } from "@/lib/utils";
 import { RotateCcw } from "lucide-react";
-import DeliveredFiles from "./delivered-files";
+import DeliveryRound from "./delivery-round";
 import { getTranslations } from "next-intl/server";
 import { getFormatters } from "@/lib/format.server";
-import { LegalServiceDetails } from "@/types/client/legal-services";
+
+// Who is looking: the wording of the client's response differs
+export type DeliveryHistoryViewer = "client" | "lawyer";
+
+// The fields both the client and the lawyer APIs return for a delivery
+export type Round = {
+  id: number;
+  delivered_at: string;
+  note: string | null;
+  files: { id: number; name: string; size_bytes: number }[];
+};
+
+export type RoundRevision = {
+  delivery_id: number;
+  note: string;
+  requested_at: string;
+};
 
 // Every delivery of the request as its own round, oldest first, so files from different rounds never mix
 export default async function DeliveryHistory({
+  viewer,
   token,
   deliveries,
   revisions,
   awaitingReview = false,
   inPreparation = false,
 }: {
+  viewer: DeliveryHistoryViewer;
   token: string;
-  deliveries: LegalServiceDetails["deliveries"];
-  revisions: LegalServiceDetails["revisions"];
+  deliveries: Round[];
+  revisions: RoundRevision[];
   // The latest round is still waiting for the client's response
   awaitingReview?: boolean;
   // The lawyer is preparing the next round after a revision
   inPreparation?: boolean;
 }) {
-  const t = await getTranslations("Client.LegalServices");
+  const t = await getTranslations("Common.DeliveryHistory");
   const format = await getFormatters();
   const rounds = [...deliveries].sort(
     (a, b) =>
@@ -33,7 +51,7 @@ export default async function DeliveryHistory({
   return (
     <div className="px-5 py-5">
       <h2 className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-4">
-        {t("deliveryHistory")}
+        {t("title")}
       </h2>
 
       <ol>
@@ -74,12 +92,11 @@ export default async function DeliveryHistory({
               </div>
 
               <div className={cn((!isLast || inPreparation) && "pb-4")}>
-                <DeliveredFiles
+                <DeliveryRound
+                  viewer={viewer}
                   token={token}
-                  files={delivery.files || []}
+                  delivery={delivery}
                   roundNumber={index + 1}
-                  note={delivery.note}
-                  deliveredAt={delivery.delivered_at}
                   awaitingReview={isCurrent}
                   revision={revision}
                 />
@@ -105,7 +122,11 @@ export default async function DeliveryHistory({
                 })}
               </h3>
               <p className="text-xs text-primary/35 mt-1">
-                {t("roundInPreparationHint")}
+                {t(
+                  viewer === "client"
+                    ? "roundInPreparationHint"
+                    : "roundInPreparationHintLawyer",
+                )}
               </p>
             </div>
           </li>

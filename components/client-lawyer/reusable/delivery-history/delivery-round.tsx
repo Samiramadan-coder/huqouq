@@ -1,30 +1,32 @@
 import { CircleAlert, FileText, RotateCcw } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { LegalServiceDetails } from "@/types/client/legal-services";
 import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 import { getFormatters } from "@/lib/format.server";
+import { DeliveryHistoryViewer, Round, RoundRevision } from "./delivery-history";
 
 // One delivery round: its files, the lawyer's note and the client's response
-export default async function DeliveredFiles({
+export default async function DeliveryRound({
+  viewer,
   roundNumber,
   token,
-  files,
-  note,
-  deliveredAt,
+  delivery,
   awaitingReview = false,
   revision,
 }: {
+  viewer: DeliveryHistoryViewer;
   roundNumber: number;
   token: string;
-  files: LegalServiceDetails["deliveries"][number]["files"];
-  note: string | null;
-  deliveredAt: string;
+  delivery: Round;
   awaitingReview?: boolean;
   // The revision the client requested on this round, if any
-  revision?: LegalServiceDetails["revisions"][number];
+  revision?: RoundRevision;
 }) {
-  const t = await getTranslations("Client.LegalServices");
+  const t = await getTranslations("Common.DeliveryHistory");
   const format = await getFormatters();
+  const files = delivery.files ?? [];
+  const responseLabel = t(
+    viewer === "client" ? "yourResponse" : "clientResponse",
+  );
 
   return (
     <div className="border border-secondary rounded-sm overflow-hidden">
@@ -33,7 +35,7 @@ export default async function DeliveredFiles({
           {t("round", { number: format.number(roundNumber) })}
         </h3>
         <span className="text-xs text-primary/45">
-          {t("deliveredOn", { date: format.date(deliveredAt) })}
+          {t("deliveredOn", { date: format.date(delivery.delivered_at) })}
         </span>
       </div>
 
@@ -68,13 +70,13 @@ export default async function DeliveredFiles({
           </div>
         )}
 
-        {note && (
+        {delivery.note && (
           <div>
             <p className=" text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-2">
-              {t("noteFromLawyer")}
+              {t("lawyerNote")}
             </p>
             <p className=" text-sm text-primary/60 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-secondary ps-3">
-              {note}
+              {delivery.note}
             </p>
           </div>
         )}
@@ -82,12 +84,12 @@ export default async function DeliveredFiles({
         {revision && (
           <div className="bg-amber-50 border border-amber-200 rounded-sm px-4 py-3">
             <p className=" text-[10px] font-semibold tracking-widest uppercase text-amber-700/60 mb-1">
-              {t("yourResponse")}
+              {responseLabel}
             </p>
             <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
               <p className="flex items-center gap-1.5 text-sm font-semibold text-amber-800">
                 <RotateCcw className="size-4 shrink-0" aria-hidden="true" />
-                {t("revisionRequestedResponse")}
+                {t("revisionRequested")}
               </p>
               <span className="text-xs text-primary/45">
                 {format.date(revision.requested_at)}
@@ -102,7 +104,7 @@ export default async function DeliveredFiles({
         {awaitingReview && !revision && (
           <div className="bg-amber-50 border border-amber-200 rounded-sm px-4 py-3">
             <p className=" text-[10px] font-semibold tracking-widest uppercase text-amber-700/60 mb-1">
-              {t("yourResponse")}
+              {responseLabel}
             </p>
             <p className="flex items-center gap-1.5 text-sm font-semibold text-amber-800">
               <CircleAlert className="size-4 shrink-0" aria-hidden="true" />

@@ -1,14 +1,14 @@
-import { Check, Mail, Paperclip, Phone } from "lucide-react";
+import { Mail, Paperclip, Phone } from "lucide-react";
 import DownloadFile from "../../../reusable/download-file";
 import { OfferStatus } from "../data-preview";
 import { getTranslations } from "next-intl/server";
 import { ServiceDetails } from "@/types/lawyer/active-services";
 import DeliverWork from "./deliver-work";
-import Revisions from "./revisions";
-import Deliveries from "./deliveries";
+import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 import { cookies } from "next/headers";
 import { getFormatters } from "@/lib/format.server";
 import ChatRoom from "./chat-room";
+import ServiceProgress from "@/components/client-lawyer/reusable/service-progress";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const cookiesStore = await cookies();
@@ -20,11 +20,6 @@ export default async function Index({ service }: { service: ServiceDetails }) {
   const deliveries = service.deliveries ?? [];
   const attachments = service.attachments ?? [];
   const clientName = service.client?.name || service.client?.first_name || "";
-  const doneSteps = timeline.filter((item) => item.state === "done").length;
-  const progress =
-    timeline.length > 1
-      ? Math.min((doneSteps / (timeline.length - 1)) * 100, 100)
-      : 0;
   const latestDelivery = deliveries.reduce<(typeof deliveries)[number] | null>(
     (latest, d) =>
       !latest || new Date(d.delivered_at) > new Date(latest.delivered_at)
@@ -124,78 +119,19 @@ export default async function Index({ service }: { service: ServiceDetails }) {
           </div>
         )}
 
-        <div className="bg-white border border-secondary rounded-sm p-5">
-          <h2 className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-5">
-            {t("statusTimeline")}
-          </h2>
-
-          <div className="overflow-x-auto">
-            <ol className="relative flex min-w-120 items-start justify-between">
-              <div
-                aria-hidden="true"
-                className="absolute inset-x-6 top-4 h-px bg-primary/20"
-              >
-                <div
-                  className="h-full bg-accent"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-
-              {timeline.map((item) => (
-                <li
-                  key={item.key}
-                  aria-current={item.state === "current" ? "step" : undefined}
-                  className="relative z-10 flex flex-col items-center gap-3"
-                >
-                  <div
-                    className={`
-                    flex size-8 items-center justify-center rounded-full border-2
-                    ${
-                      item.state === "done"
-                        ? "border-accent bg-accent text-white"
-                        : ""
-                    }
-                    ${
-                      item.state === "current"
-                        ? "border-accent bg-white ring-4 ring-accent/10"
-                        : ""
-                    }
-                    ${item.state === "upcoming" ? "border-primary/15 bg-white" : ""}
-                    ${item.state === "skipped" ? "border-gray-200 bg-gray-50" : ""}
-                  `}
-                  >
-                    {item.state === "done" && (
-                      <Check className="size-4" aria-hidden="true" />
-                    )}
-                    {item.state === "current" && (
-                      <div className="size-2 rounded-full bg-accent" />
-                    )}
-                  </div>
-
-                  <p
-                    className={`
-                    text-[10px] text-center leading-tight max-w-15
-                    ${
-                      item.state === "done"
-                        ? "text-primary/55"
-                        : item.state === "current"
-                          ? "text-accent"
-                          : "text-primary/30"
-                    }
-                  `}
-                  >
-                    {item.label}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-
-        {revisions.length > 0 ? <Revisions revisions={revisions} /> : null}
+        <ServiceProgress title={t("statusTimeline")} steps={timeline} />
 
         {deliveries.length > 0 && token ? (
-          <Deliveries deliveries={deliveries} token={token} />
+          <div className="bg-white border border-secondary rounded-sm">
+            <DeliveryHistory
+              viewer="lawyer"
+              token={token}
+              deliveries={deliveries}
+              revisions={revisions}
+              awaitingReview={service.status === "delivered"}
+              inPreparation={pendingRevisionNote !== null}
+            />
+          </div>
         ) : null}
 
         {/* The API decides when work can still be delivered */}
@@ -204,6 +140,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             serviceId={service.id}
             mode="deliver"
             revisionNote={pendingRevisionNote}
+            roundNumber={deliveries.length + 1}
           />
         )}
 
