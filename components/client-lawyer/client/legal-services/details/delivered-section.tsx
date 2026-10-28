@@ -38,7 +38,7 @@ export default async function DeliveredSection({
           </div>
         )}
 
-        <div className="px-5 py-5 flex flex-wrap items-start gap-3">
+        <div className="px-5 py-5 flex flex-wrap items-center gap-3">
           {service.can.approve_delivery && (
             <ApproveDelivery serviceId={service.id} />
           )}
