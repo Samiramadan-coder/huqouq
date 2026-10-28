@@ -40,6 +40,8 @@ type DeliverWorkProps = { serviceId: number } & (
       // Delivered: waiting for the client, more files can still be added
       mode: "addFiles";
       deliveredAt: string | null;
+      // When the delivery is approved automatically; adding files does not move it
+      reviewDeadline: string | null;
       canAddFiles: boolean;
     }
 );
@@ -54,9 +56,16 @@ export default function DeliverWork(props: DeliverWorkProps) {
       <div className="bg-white border border-secondary rounded-sm p-5 flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <p className="text-sm text-primary/70">
-            {props.deliveredAt
-              ? t("deliveredWaiting", { date: format.date(props.deliveredAt) })
-              : t("waitingForClient")}
+            {props.deliveredAt && props.reviewDeadline
+              ? t("deliveredAutoApproval", {
+                  date: format.date(props.deliveredAt),
+                  autoApprovalDate: format.date(props.reviewDeadline),
+                })
+              : props.deliveredAt
+                ? t("deliveredWaiting", {
+                    date: format.date(props.deliveredAt),
+                  })
+                : t("waitingForClient")}
           </p>
           {props.canAddFiles && !showForm && (
             <Button

@@ -1,14 +1,14 @@
-import { Clock, Mail, Paperclip, Phone, RotateCcw } from "lucide-react";
-import DownloadFile from "../../../reusable/download-file";
+import ChatRoom from "./chat-room";
+import { cookies } from "next/headers";
+import DeliverWork from "./deliver-work";
 import { OfferStatus } from "../data-preview";
 import { getTranslations } from "next-intl/server";
-import { ServiceDetails } from "@/types/lawyer/active-services";
-import DeliverWork from "./deliver-work";
-import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
-import { cookies } from "next/headers";
 import { getFormatters } from "@/lib/format.server";
-import ChatRoom from "./chat-room";
+import DownloadFile from "../../../reusable/download-file";
+import { ServiceDetails } from "@/types/lawyer/active-services";
+import { Clock, Mail, Paperclip, Phone, RotateCcw } from "lucide-react";
 import ServiceProgress from "@/components/client-lawyer/reusable/service-progress";
+import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 
 export default async function Index({ service }: { service: ServiceDetails }) {
   const cookiesStore = await cookies();
@@ -66,14 +66,16 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             {t("client")}: {clientName} · {format.money(service.agreed_fee)}
           </p>
 
-          <span className="mt-2 inline-flex items-center gap-2 font-sans text-xs font-medium px-3 py-1.5 rounded-sm border bg-white border-secondary text-primary/65">
-            <Clock className="size-3" />
-            <span>Due {format.date(service.deadline)}</span>
-            <span aria-hidden="true" className="opacity-30">
-              |
+          {service.status !== "completed" && (
+            <span className="mt-2 inline-flex items-center gap-2 font-sans text-xs font-medium px-3 py-1.5 rounded-sm border bg-white border-secondary text-primary/65">
+              <Clock className="size-3" />
+              <span>Due {format.date(service.deadline)}</span>
+              <span aria-hidden="true" className="opacity-30">
+                |
+              </span>
+              <span className="text-accent font-semibold">{daysLabel}</span>
             </span>
-            <span className="text-accent font-semibold">{daysLabel}</span>
-          </span>
+          )}
         </div>
 
         {/* The client asked for changes on the latest round */}
@@ -178,6 +180,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             serviceId={service.id}
             mode="addFiles"
             deliveredAt={latestDelivery?.delivered_at ?? null}
+            reviewDeadline={service.review_deadline}
             canAddFiles={!!service.can?.add_files}
           />
         )}
