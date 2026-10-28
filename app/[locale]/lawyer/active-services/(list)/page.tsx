@@ -38,8 +38,6 @@ export default async function Page({
     },
   });
 
-  console.log(data.data);
-
   return (
     <div className="space-y-6">
       <FiltersControl counts={data.counts} />

@@ -54,8 +54,6 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const legalService = await getLegalService(id);
   const t = await getTranslations("Client.LegalServices");
 
-  console.log(legalService);
-
   if (!legalService) {
     notFound();
   }
