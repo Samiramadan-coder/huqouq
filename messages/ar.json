@@ -1937,6 +1937,8 @@
       "ClientMarkedComplete": "قام العميل بتحديد هذه القضية كمكتملة.",
       "CaseClosedNotice": "تم إغلاق هذه القضية.",
       "CaseClosedOn": "تم إغلاق هذه القضية في {date}.",
+      "ClientRating": "تقييم العميل",
+      "RatingOutOf": "التقييم {rating} من 5",
       "AgreedFee": "الرسوم المتفق عليها",
       "Fields": {
         "WinPercentage": {

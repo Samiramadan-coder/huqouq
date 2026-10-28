@@ -1937,6 +1937,8 @@
       "ClientMarkedComplete": "The client marked this case as complete.",
       "CaseClosedNotice": "This case is closed.",
       "CaseClosedOn": "This case was closed on {date}.",
+      "ClientRating": "Client Rating",
+      "RatingOutOf": "Rated {rating} out of 5",
       "AgreedFee": "Agreed Fee",
       "Fields": {
         "WinPercentage": {

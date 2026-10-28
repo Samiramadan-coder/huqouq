@@ -7,10 +7,12 @@ import {
   MapPin,
   MessageSquare,
   Scale,
+  Star,
   Users,
 } from "lucide-react";
 import React from "react";
 import OfferForm from "./offer-form";
+import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import MarkAsComplete from "../messages/mark-as-complete";
@@ -54,7 +56,7 @@ export default async function Details({
   const format = await getFormatters();
   const { client } = caseDetails;
   const documents = caseDetails.documents ?? [];
-  const { is_hired } = caseDetails;
+  const { is_hired, review } = caseDetails;
   const agreedFee = caseDetails.agreement?.agreed_amount;
   // The case response has no closed date, so it comes from the timeline
   const closedAt = timeline?.find((step) => step.key === "closed")?.at;
@@ -74,7 +76,9 @@ export default async function Details({
             urgency_label={caseDetails.urgency_label}
           />
 
-          {caseDetails.case_type ? (
+          {/* "New Case" reads as a status, so it is hidden once hired */}
+          {caseDetails.case_type &&
+          !(is_hired && caseDetails.case_type === "new_case") ? (
             <>
               <Badge className="rounded-xs text-xs font-normal py-2.5">
                 {caseDetails.case_type === "new_case" && <FilePlus />}
@@ -205,6 +209,39 @@ export default async function Details({
                     <p className="text-xs text-primary/50 mt-1 whitespace-pre-line wrap-break-word">
                       {caseDetails.closure_note}
                     </p>
+                  )}
+
+                  {review && (
+                    <div className="mt-3 border-t border-secondary pt-3">
+                      <p className="text-[10px] text-primary/35 uppercase tracking-widest">
+                        {t("ClientRating")}
+                      </p>
+                      <div
+                        className="flex items-center gap-0.5 mt-1"
+                        role="img"
+                        aria-label={t("RatingOutOf", {
+                          rating: format.number(review.rating),
+                        })}
+                      >
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <Star
+                            key={i}
+                            aria-hidden="true"
+                            className={cn(
+                              "size-3.5",
+                              i < review.rating
+                                ? "fill-amber-400 text-amber-400"
+                                : "text-primary/20",
+                            )}
+                          />
+                        ))}
+                      </div>
+                      {review.comment && (
+                        <p className="text-xs text-primary/60 mt-1.5 whitespace-pre-line wrap-break-word">
+                          “{review.comment}”
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               )}
@@ -441,20 +478,22 @@ export default async function Details({
             </div>
           </Card>
 
-          <Card className="p-0 rounded-xs bg-primary/4 ring-0! border border-primary/10">
-            <div className="p-5 flex items-start gap-2">
-              <CircleAlert
-                className="text-primary/35 size-4 min-w-4"
-                aria-hidden="true"
-              />
+          {!is_hired && (
+            <Card className="p-0 rounded-xs bg-primary/4 ring-0! border border-primary/10">
+              <div className="p-5 flex items-start gap-2">
+                <CircleAlert
+                  className="text-primary/35 size-4 min-w-4"
+                  aria-hidden="true"
+                />
 
-              <p className="font-sans text-xs text-primary/55 leading-relaxed">
-                {t("Prop1")}{" "}
-                <strong className="text-primary/70">{t("Prop2")}</strong>{" "}
-                {t("Prop3")}
-              </p>
-            </div>
-          </Card>
+                <p className="font-sans text-xs text-primary/55 leading-relaxed">
+                  {t("Prop1")}{" "}
+                  <strong className="text-primary/70">{t("Prop2")}</strong>{" "}
+                  {t("Prop3")}
+                </p>
+              </div>
+            </Card>
+          )}
         </div>
       </div>
     </div>

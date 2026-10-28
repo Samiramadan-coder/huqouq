@@ -21,11 +21,7 @@ export type Case = {
   posted_at: string;
   specialization: { id: number; name: string };
   status:
-    | "published"
-    | "in_progress"
-    | "pending_fees"
-    | "pending_closure"
-    | "closed";
+    "published" | "in_progress" | "pending_fees" | "pending_closure" | "closed";
   status_label: string;
   title: string;
   urgency: "urgent" | "standard" | "very_urgent";
@@ -56,15 +52,17 @@ export type CaseDetails = Case & {
   closure_requested_at: null | string;
   closure_requested_by: null | "client" | "lawyer";
   is_hired: boolean;
+  // The client's rating, once a closed case has been reviewed
+  review?: null | {
+    rating: number;
+    comment: string | null;
+    tags?: string[];
+  };
   my_offer: null | {
     amount: number;
     created_at: string;
     display_status:
-      | "in_progress"
-      | "pending"
-      | "cancelled"
-      | "pending_closure"
-      | "closed";
+      "in_progress" | "pending" | "cancelled" | "pending_closure" | "closed";
     display_status_label: string;
     expected_days: null;
     expected_timeline: null;
