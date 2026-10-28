@@ -25,6 +25,12 @@
       "roundInPreparation": "Round {number} — in preparation",
       "roundInPreparationHint": "The revised delivery will appear here once it is sent.",
       "roundInPreparationHintLawyer": "The revised delivery will appear here once you send it."
+    },
+    "DeadlineChip": {
+      "expectedDelivery": "Expected delivery {date}",
+      "due": "Due {date}",
+      "daysLeft": "{count, plural, =0 {Due today} one {{days} day left} other {{days} days left}}",
+      "overdueBy": "{count, plural, one {Overdue by {days} day} other {Overdue by {days} days}}"
     }
   },
   "Header": {
@@ -1466,9 +1472,6 @@
       },
       "revisionRequestedOn": "Revision requested on {date}: “{note}”. Waiting for {name} to send the revised work.",
       "waitingForRevision": "Revision requested. Waiting for {name} to send the revised work.",
-      "expectedDelivery": "Expected delivery {date}",
-      "daysLeft": "{count, plural, =0 {Due today} one {{days} day left} other {{days} days left}}",
-      "overdueBy": "{count, plural, one {Overdue by {days} day} other {Overdue by {days} days}}",
       "deliveredLegalNotice": "{lawyerName} has delivered your {service}. Please review and approve.",
       "deliveredFiles": "Delivered Files",
       "download": "Download",
@@ -2287,7 +2290,6 @@
       "Details": {
         "backToServices": "Back to Active Services",
         "client": "Client",
-        "daysRemaining": "{days} days remaining",
         "statusTimeline": "Status Timeline",
         "serviceSummary": "Service Summary",
         "type": "Type",
@@ -2306,14 +2308,12 @@
         "requestedOn": "Requested on {date}",
         "revisionRequestedRound": "Revision requested (Round {round})",
         "revisedDeliveryRound": "Revised delivery (Round {round})",
-        "deliveredOn": "Delivered on {date}",
         "deliveredWaiting": "Delivered on {date} — waiting for the client's response",
         "deliveredAutoApproval": "Delivered on {date} — auto-approval on {autoApprovalDate}",
         "waitingForClient": "Delivered — waiting for the client's response",
         "addMoreFiles": "Add more files to this delivery",
         "uploadFiles": "Upload files",
         "maxFiles": "You can upload up to 10 files",
-        "overdue": "Overdue by {days} days",
         "requestDetails": "Request Details",
         "clientDocuments": "Client Documents",
         "notFound": "Active service not found",

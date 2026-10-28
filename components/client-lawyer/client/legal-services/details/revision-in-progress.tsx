@@ -1,5 +1,5 @@
 import { RotateCcw } from "lucide-react";
-import DeadlineChip from "./deadline-chip";
+import DeadlineChip from "@/components/client-lawyer/reusable/deadline-chip";
 import HiredLawyerRow from "./hired-lawyer-row";
 import { getTranslations } from "next-intl/server";
 import { getFormatters } from "@/lib/format.server";
@@ -49,7 +49,7 @@ export default async function RevisionInProgress({
                 })
               : t("waitingForRevision", { name: hired_lawyer.name })}
           </p>
-          {deadline && <DeadlineChip deadline={deadline} />}
+          {deadline && <DeadlineChip viewer="client" deadline={deadline} />}
         </div>
       </div>
 

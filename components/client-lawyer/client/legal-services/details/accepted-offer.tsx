@@ -1,5 +1,5 @@
 import { Clock } from "lucide-react";
-import DeadlineChip from "./deadline-chip";
+import DeadlineChip from "@/components/client-lawyer/reusable/deadline-chip";
 import HiredLawyerRow from "./hired-lawyer-row";
 import { getTranslations } from "next-intl/server";
 import { LegalServiceDetails } from "@/types/client/legal-services";
@@ -32,7 +32,11 @@ export default async function OfferAccepted({
             </p>
           </div>
           {deadline && (
-            <DeadlineChip deadline={deadline} className="text-amber-700" />
+            <DeadlineChip
+              viewer="client"
+              deadline={deadline}
+              className="text-amber-700"
+            />
           )}
         </div>
       </div>

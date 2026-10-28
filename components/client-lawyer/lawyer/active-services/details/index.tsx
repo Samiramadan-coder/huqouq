@@ -1,4 +1,5 @@
 import ChatRoom from "./chat-room";
+import DeadlineChip from "@/components/client-lawyer/reusable/deadline-chip";
 import { cookies } from "next/headers";
 import DeliverWork from "./deliver-work";
 import { OfferStatus } from "../data-preview";
@@ -6,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 import { getFormatters } from "@/lib/format.server";
 import DownloadFile from "../../../reusable/download-file";
 import { ServiceDetails } from "@/types/lawyer/active-services";
-import { Clock, Mail, Paperclip, Phone, RotateCcw } from "lucide-react";
+import { Mail, Paperclip, Phone, RotateCcw } from "lucide-react";
 import ServiceProgress from "@/components/client-lawyer/reusable/service-progress";
 import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 
@@ -33,20 +34,6 @@ export default async function Index({ service }: { service: ServiceDetails }) {
   const isRevisionInProgress =
     service.status === "in_progress" && deliveries.length > 0;
 
-  // Countdown while the work is open; the delivery date once delivered
-  const daysLabel =
-    service.status === "delivered"
-      ? latestDelivery
-        ? t("deliveredOn", { date: format.date(latestDelivery.delivered_at) })
-        : null
-      : service.status === "completed" || service.days_remaining == null
-        ? null
-        : service.overdue || service.days_remaining < 0
-          ? t("overdue", {
-              days: format.number(Math.abs(service.days_remaining)),
-            })
-          : t("daysRemaining", { days: format.number(service.days_remaining) });
-
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
       <div className="flex-1 min-w-0 flex flex-col gap-5">
@@ -66,15 +53,16 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             {t("client")}: {clientName} · {format.money(service.agreed_fee)}
           </p>
 
-          {service.status !== "completed" && (
-            <span className="mt-2 inline-flex items-center gap-2 font-sans text-xs font-medium px-3 py-1.5 rounded-sm border bg-white border-secondary text-primary/65">
-              <Clock className="size-3" />
-              <span>Due {format.date(service.deadline)}</span>
-              <span aria-hidden="true" className="opacity-30">
-                |
-              </span>
-              <span className="text-accent font-semibold">{daysLabel}</span>
-            </span>
+          {/* Only while the lawyer still owes a delivery */}
+          {service.status === "in_progress" && service.deadline && (
+            <div className="mt-2">
+              <DeadlineChip
+                viewer="lawyer"
+                deadline={service.deadline}
+                daysRemaining={service.days_remaining}
+                className="text-accent"
+              />
+            </div>
           )}
         </div>
 
@@ -278,14 +266,6 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             </div>
           </div>
         </div>
-
-        {daysLabel && (
-          <div className="rounded-sm p-4 flex items-center gap-3 border bg-white border-secondary">
-            <span className="text-sm font-medium text-primary/60">
-              {daysLabel}
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );
