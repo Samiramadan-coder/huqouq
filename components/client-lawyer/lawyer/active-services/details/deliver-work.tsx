@@ -1,19 +1,17 @@
 "use client";
 
 import z from "zod";
-import { useState } from "react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { RotateCcw } from "lucide-react";
+import { useState } from "react";
 import { T } from "@/types/shared";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { addDeliveryFiles, deliverWork } from "@/lib/lawyer/legal-services";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
-import { useFormatters } from "@/lib/format";
+import { addDeliveryFiles, deliverWork } from "@/lib/lawyer/legal-services";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
 
 const MAX_FILES = 10;
@@ -35,8 +33,7 @@ type DeliverWorkProps = { serviceId: number } & (
   | {
       // In progress: first delivery, or a revised one after a revision request
       mode: "deliver";
-      revisionNote?: string | null;
-      // The round this delivery will be
+      isFirstRound: boolean;
       roundNumber: number;
     }
   | {
@@ -85,40 +82,11 @@ export default function DeliverWork(props: DeliverWorkProps) {
     );
   }
 
-  const isRevision = !!props.revisionNote;
-
   return (
-    <div
-      className={cn(
-        "bg-white border rounded-sm overflow-hidden",
-        isRevision ? "border-amber-200" : "border-secondary",
-      )}
-    >
-      {isRevision && (
-        <div className="bg-amber-50 border-b border-amber-200 px-5 py-4 flex items-start gap-3">
-          <RotateCcw
-            className="size-5 text-amber-600 shrink-0"
-            aria-hidden="true"
-          />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-amber-800 mb-3">
-              {t("revisionRequestedRound", {
-                round: format.number(props.roundNumber - 1),
-              })}
-            </p>
-            <p className="text-[10px] font-semibold tracking-widest uppercase text-amber-700/60 mb-1">
-              {t("clientRevisionNote")}
-            </p>
-            <p className="text-sm text-amber-900/80 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-amber-400 ps-3">
-              {props.revisionNote}
-            </p>
-          </div>
-        </div>
-      )}
-
+    <div className="bg-white border rounded-sm overflow-hidden border-secondary">
       <div className="p-5">
         <h2 className="font-sans text-[10px] font-semibold uppercase text-primary/35 mb-4">
-          {isRevision
+          {!props.isFirstRound
             ? t("revisedDeliveryRound", {
                 round: format.number(props.roundNumber),
               })
@@ -128,7 +96,9 @@ export default function DeliverWork(props: DeliverWorkProps) {
         <DeliveryForm
           serviceId={props.serviceId}
           action={deliverWork}
-          submitLabel={t(isRevision ? "sendRevisedDelivery" : "markAsDelivered")}
+          submitLabel={t(
+            !props.isFirstRound ? "sendRevisedDelivery" : "markAsDelivered",
+          )}
         />
       </div>
     </div>

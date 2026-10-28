@@ -1,4 +1,4 @@
-import { Mail, Paperclip, Phone } from "lucide-react";
+import { Clock, Mail, Paperclip, Phone, RotateCcw } from "lucide-react";
 import DownloadFile from "../../../reusable/download-file";
 import { OfferStatus } from "../data-preview";
 import { getTranslations } from "next-intl/server";
@@ -20,6 +20,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
   const deliveries = service.deliveries ?? [];
   const attachments = service.attachments ?? [];
   const clientName = service.client?.name || service.client?.first_name || "";
+
   const latestDelivery = deliveries.reduce<(typeof deliveries)[number] | null>(
     (latest, d) =>
       !latest || new Date(d.delivered_at) > new Date(latest.delivered_at)
@@ -27,21 +28,10 @@ export default async function Index({ service }: { service: ServiceDetails }) {
         : latest,
     null,
   );
-  const latestRevision = revisions.reduce<(typeof revisions)[number] | null>(
-    (latest, r) =>
-      !latest || new Date(r.requested_at) > new Date(latest.requested_at)
-        ? r
-        : latest,
-    null,
-  );
-  // A revision is pending when it was requested on the latest delivery
-  const pendingRevisionNote =
-    service.status === "in_progress" &&
-    latestRevision &&
-    latestDelivery &&
-    latestRevision.delivery_id === latestDelivery.id
-      ? latestRevision.note
-      : null;
+  // Revisions come ordered, and a revision always carries the client's note, so the last one is the pending request
+  const latestRevision = revisions.at(-1);
+  const isRevisionInProgress =
+    service.status === "in_progress" && deliveries.length > 0;
 
   // Countdown while the work is open; the delivery date once delivered
   const daysLabel =
@@ -52,7 +42,9 @@ export default async function Index({ service }: { service: ServiceDetails }) {
       : service.status === "completed" || service.days_remaining == null
         ? null
         : service.overdue || service.days_remaining < 0
-          ? t("overdue", { days: format.number(Math.abs(service.days_remaining)) })
+          ? t("overdue", {
+              days: format.number(Math.abs(service.days_remaining)),
+            })
           : t("daysRemaining", { days: format.number(service.days_remaining) });
 
   return (
@@ -69,11 +61,48 @@ export default async function Index({ service }: { service: ServiceDetails }) {
               statusLabel={service.status_label}
             />
           </div>
+
           <p className="text-sm text-primary/50">
             {t("client")}: {clientName} · {format.money(service.agreed_fee)}
-            {daysLabel ? ` · ${daysLabel}` : ""}
           </p>
+
+          <span className="mt-2 inline-flex items-center gap-2 font-sans text-xs font-medium px-3 py-1.5 rounded-sm border bg-white border-secondary text-primary/65">
+            <Clock className="size-3" />
+            <span>Due {format.date(service.deadline)}</span>
+            <span aria-hidden="true" className="opacity-30">
+              |
+            </span>
+            <span className="text-accent font-semibold">{daysLabel}</span>
+          </span>
         </div>
+
+        {/* The client asked for changes on the latest round */}
+        {isRevisionInProgress && latestRevision && (
+          <div className="bg-amber-50 border border-amber-300 rounded-sm px-5 py-4 flex items-start gap-3">
+            <RotateCcw
+              className="size-4 text-amber-600 shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-amber-800">
+                {t("revisionRequestedRound", {
+                  round: format.number(revisions.length),
+                })}
+              </p>
+              <p className="text-xs text-amber-700/70 mb-3">
+                {t("requestedOn", {
+                  date: format.date(latestRevision.requested_at),
+                })}
+              </p>
+              <p className="text-[10px] font-semibold tracking-widest uppercase text-amber-700/70 mb-1.5">
+                {t("clientRevisionNote")}
+              </p>
+              <p className="text-sm text-amber-950/80 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-amber-400 ps-3">
+                {latestRevision.note}
+              </p>
+            </div>
+          </div>
+        )}
 
         {service.description && (
           <div className="bg-white border border-secondary rounded-sm p-5">
@@ -129,7 +158,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
               deliveries={deliveries}
               revisions={revisions}
               awaitingReview={service.status === "delivered"}
-              inPreparation={pendingRevisionNote !== null}
+              inPreparation={isRevisionInProgress}
             />
           </div>
         ) : null}
@@ -139,7 +168,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
           <DeliverWork
             serviceId={service.id}
             mode="deliver"
-            revisionNote={pendingRevisionNote}
+            isFirstRound={service.deliveries.length === 0}
             roundNumber={deliveries.length + 1}
           />
         )}

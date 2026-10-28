@@ -77,7 +77,7 @@ export type Service = {
   can: Can;
   client: Client;
   completed_by: null | "client" | "admin";
-  days_remaining: number | null;
+  days_remaining: number;
   deadline: string | null;
   description: string;
   display_status_label: string;
