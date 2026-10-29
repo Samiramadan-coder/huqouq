@@ -63,7 +63,7 @@ export default async function Details({
               </dd>
             </div>
           </dl>
-          <p className="text-sm text-primary/70 leading-relaxed whitespace-pre-line wrap-break-word">
+          <p dir="auto" className="text-sm text-primary/70 leading-relaxed whitespace-pre-line wrap-break-word">
             {service.my_offer.message}
           </p>
         </div>
@@ -113,7 +113,7 @@ export default async function Details({
             <p className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-2">
               {t("Details.requestDetails")}
             </p>
-            <p className="text-sm text-primary leading-relaxed whitespace-pre-line wrap-break-word">
+            <p dir="auto" className="text-sm text-primary leading-relaxed whitespace-pre-line wrap-break-word">
               {service.description}
             </p>
           </div>

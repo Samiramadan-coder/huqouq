@@ -153,7 +153,7 @@ export default async function Index({
               <p className=" text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-1">
                 {t("Fields.description.label")}
               </p>
-              <p className="text-sm text-primary/55 leading-relaxed mb-4 whitespace-pre-line wrap-break-word">
+              <p dir="auto" className="text-sm text-primary/55 leading-relaxed mb-4 whitespace-pre-line wrap-break-word">
                 {legalService.description}
               </p>
             </div>

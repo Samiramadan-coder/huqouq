@@ -42,10 +42,12 @@ export default async function RevisionInProgress({
         <div className="flex-1 min-w-0 flex flex-col gap-3">
           <p className="text-sm font-semibold text-amber-800 leading-relaxed wrap-break-word">
             {pendingRevision
-              ? t("revisionRequestedOn", {
+              ? t.rich("revisionRequestedOn", {
                   date: format.date(pendingRevision.requested_at),
                   note: pendingRevision.note,
                   name: hired_lawyer.name,
+                  // Isolates the client's note so its own direction doesn't break the sentence
+                  isolate: (chunks) => <bdi>{chunks}</bdi>,
                 })
               : t("waitingForRevision", { name: hired_lawyer.name })}
           </p>

@@ -86,6 +86,7 @@ export default function LawyerOfferCard({
             </div>
 
             <p
+              dir="auto"
               className={cn(
                 "mt-4 text-sm leading-relaxed text-primary/65 wrap-break-word",
                 !showFullMessage && "line-clamp-2",

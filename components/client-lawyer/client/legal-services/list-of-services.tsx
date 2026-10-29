@@ -46,7 +46,7 @@ export default async function ListOfServices({
                     {service.service_type_label}
                   </p>
 
-                  <p className="mt-0.5 truncate text-xs text-primary/45">
+                  <p dir="auto" className="mt-0.5 truncate text-xs text-primary/45">
                     {service.description}
                   </p>
                 </div>

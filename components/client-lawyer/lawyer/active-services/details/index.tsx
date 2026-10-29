@@ -1,5 +1,4 @@
 import ChatRoom from "./chat-room";
-import DeadlineChip from "@/components/client-lawyer/reusable/deadline-chip";
 import { cookies } from "next/headers";
 import DeliverWork from "./deliver-work";
 import EarningsCard from "./earnings-card";
@@ -9,6 +8,7 @@ import { getFormatters } from "@/lib/format.server";
 import DownloadFile from "../../../reusable/download-file";
 import { ServiceDetails } from "@/types/lawyer/active-services";
 import { Mail, Paperclip, Phone, RotateCcw } from "lucide-react";
+import DeadlineChip from "@/components/client-lawyer/reusable/deadline-chip";
 import ServiceProgress from "@/components/client-lawyer/reusable/service-progress";
 import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 
@@ -88,7 +88,10 @@ export default async function Index({ service }: { service: ServiceDetails }) {
               <p className="text-[10px] font-semibold tracking-widest uppercase text-amber-700/70 mb-1.5">
                 {t("clientRevisionNote")}
               </p>
-              <p className="text-sm text-amber-950/80 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-amber-400 ps-3">
+              <p
+                dir="auto"
+                className="text-sm text-amber-950/80 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-amber-400 ps-3"
+              >
                 {latestRevision.note}
               </p>
             </div>
@@ -100,7 +103,10 @@ export default async function Index({ service }: { service: ServiceDetails }) {
             <h2 className="text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-2">
               {t("requestDetails")}
             </h2>
-            <p className="text-sm text-primary leading-relaxed whitespace-pre-line wrap-break-word">
+            <p
+              dir="auto"
+              className="text-sm text-primary leading-relaxed whitespace-pre-line wrap-break-word"
+            >
               {service.description}
             </p>
           </div>
@@ -199,7 +205,7 @@ export default async function Index({ service }: { service: ServiceDetails }) {
               <p className="text-sm font-semibold text-primary wrap-break-word">
                 {clientName}
               </p>
-              <p className="text-xs text-primary/40">{service.emirate}</p>
+              <p className="text-xs text-primary/40">{service.emirate_label}</p>
             </div>
           </div>
           <div className="flex flex-col gap-1.5">

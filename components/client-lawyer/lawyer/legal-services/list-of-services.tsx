@@ -61,7 +61,7 @@ export default async function ListOfLegalServices({
                         />
                       )}
                     </div>
-                    <p className="font-sans text-sm text-primary leading-relaxed line-clamp-2 mb-3 wrap-break-word">
+                    <p dir="auto" className="font-sans text-sm text-primary leading-relaxed line-clamp-2 mb-3 wrap-break-word">
                       {service.description}
                     </p>
                     <div className="flex items-center gap-4 flex-wrap">

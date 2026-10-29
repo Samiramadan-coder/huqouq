@@ -1,8 +1,12 @@
-import { CircleAlert, FileText, RotateCcw } from "lucide-react";
+import {
+  DeliveryHistoryViewer,
+  Round,
+  RoundRevision,
+} from "./delivery-history";
 import { getTranslations } from "next-intl/server";
-import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 import { getFormatters } from "@/lib/format.server";
-import { DeliveryHistoryViewer, Round, RoundRevision } from "./delivery-history";
+import { CircleAlert, FileText, RotateCcw } from "lucide-react";
+import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 
 // One delivery round: its files, the lawyer's note and the client's response
 export default async function DeliveryRound({
@@ -59,7 +63,7 @@ export default async function DeliveryRound({
                     <p className=" text-sm text-primary font-medium truncate">
                       {file.name}
                     </p>
-                    <p className=" text-xs text-primary/35" dir="ltr">
+                    <p className=" text-xs text-primary/35">
                       {(file.size_bytes / 1024).toFixed(2)} KB
                     </p>
                   </div>
@@ -75,7 +79,10 @@ export default async function DeliveryRound({
             <p className=" text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-2">
               {t("lawyerNote")}
             </p>
-            <p className=" text-sm text-primary/60 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-secondary ps-3">
+            <p
+              dir="auto"
+              className=" text-sm text-primary/60 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-secondary ps-3"
+            >
               {delivery.note}
             </p>
           </div>
@@ -95,7 +102,10 @@ export default async function DeliveryRound({
                 {format.date(revision.requested_at)}
               </span>
             </div>
-            <p className=" text-sm text-amber-900/80 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-amber-400 ps-3">
+            <p
+              dir="auto"
+              className=" text-sm text-amber-900/80 leading-relaxed whitespace-pre-line wrap-break-word border-s-2 border-amber-400 ps-3"
+            >
               {revision.note}
             </p>
           </div>

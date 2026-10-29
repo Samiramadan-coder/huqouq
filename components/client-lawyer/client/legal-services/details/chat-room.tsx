@@ -141,7 +141,7 @@ export default function ChatRoom({
                         )}
                       >
                         {isText && message.text && (
-                          <p className="whitespace-pre-wrap wrap-break-word">
+                          <p dir="auto" className="whitespace-pre-wrap wrap-break-word">
                             {message.text}
                           </p>
                         )}
@@ -224,6 +224,7 @@ function Caption({
 }) {
   return (
     <p
+      dir="auto"
       className={cn(
         "max-w-64 rounded-xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap wrap-break-word",
         sentByUser

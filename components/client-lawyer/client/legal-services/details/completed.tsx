@@ -89,7 +89,7 @@ export default async function Completed({
               </div>
               {service.review.comment && (
                 <blockquote className="border-s-2 border-accent ps-4">
-                  <p className="text-sm text-primary/70 leading-relaxed whitespace-pre-line wrap-break-word ltr:font-lora">
+                  <p dir="auto" className="text-sm text-primary/70 leading-relaxed whitespace-pre-line wrap-break-word ltr:font-lora">
                     {t("quotedComment", { comment: service.review.comment })}
                   </p>
                 </blockquote>

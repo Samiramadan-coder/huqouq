@@ -51,6 +51,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const { id } = await params;
   const service = await getService(id);
 
+  console.log(service);
+
   if (!service) {
     notFound();
   }

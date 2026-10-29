@@ -1470,7 +1470,7 @@
         "hours": "{count, plural, one {ساعة واحدة} two {ساعتان} few {{value} ساعات} many {{value} ساعة} other {{value} ساعة}}",
         "minutes": "{count, plural, one {دقيقة واحدة} two {دقيقتان} few {{value} دقائق} many {{value} دقيقة} other {{value} دقيقة}}"
       },
-      "revisionRequestedOn": "تم طلب تعديل في {date}: «{note}». بانتظار أن يرسل {name} العمل المعدّل.",
+      "revisionRequestedOn": "تم طلب تعديل في {date}: «<isolate>{note}</isolate>». بانتظار أن يرسل <isolate>{name}</isolate> العمل المعدّل.",
       "waitingForRevision": "تم طلب تعديل. بانتظار أن يرسل {name} العمل المعدّل.",
       "deliveredLegalNotice": "قام {lawyerName} بتسليم {service}. يرجى المراجعة والموافقة.",
       "deliveredFiles": "الملفات المسلمة",

@@ -1470,7 +1470,7 @@
         "hours": "{count, plural, one {{value} hour} other {{value} hours}}",
         "minutes": "{count, plural, one {{value} minute} other {{value} minutes}}"
       },
-      "revisionRequestedOn": "Revision requested on {date}: “{note}”. Waiting for {name} to send the revised work.",
+      "revisionRequestedOn": "Revision requested on {date}: “<isolate>{note}</isolate>”. Waiting for <isolate>{name}</isolate> to send the revised work.",
       "waitingForRevision": "Revision requested. Waiting for {name} to send the revised work.",
       "deliveredLegalNotice": "{lawyerName} has delivered your {service}. Please review and approve.",
       "deliveredFiles": "Delivered Files",
