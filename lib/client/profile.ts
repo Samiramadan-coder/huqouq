@@ -1,6 +1,7 @@
 import { User } from "@/types/shared";
 import { http } from "../http";
 import { UpdateProfileFormData } from "@/types/client/profile";
+import { AccountFieldFormData } from "@/types/client/settings";
 
 // Update profile photo
 type UpdateProfilePhotoResponse =
@@ -36,7 +37,7 @@ type UpdateProfileResponse =
   | { success: true; message: string; user: User };
 
 export async function updateProfile(
-  formData: UpdateProfileFormData,
+  formData: UpdateProfileFormData | AccountFieldFormData,
 ): Promise<UpdateProfileResponse> {
   try {
     const { data } = await http.patch<{ message: string; user: User }>(

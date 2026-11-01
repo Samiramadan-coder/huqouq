@@ -1,0 +1,112 @@
+import {
+  AccountField,
+  AccountFieldFormData,
+  accountFieldSchemas,
+} from "@/types/client/settings";
+
+import { toast } from "sonner";
+import { useState } from "react";
+import AreaButton from "./area-button";
+import { useUser } from "@/providers/user-provider";
+import { updateProfile } from "@/lib/client/profile";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import FormInput from "@/components/public/shared/form/form-input";
+
+export default function NormalElementControl({
+  type,
+  field,
+  label,
+}: {
+  type: "text" | "email" | "tel";
+  field: AccountField;
+  label: string;
+}) {
+  const { user } = useUser();
+  const [mode, setMode] = useState<"normal" | "edit">("normal");
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<AccountFieldFormData>({
+    resolver: zodResolver(
+      accountFieldSchemas[field],
+    ) as Resolver<AccountFieldFormData>,
+    defaultValues: { [field]: user?.[field] ?? "" },
+  });
+
+  if (!user) {
+    return null;
+  }
+
+  const startEditing = () => {
+    reset({ [field]: user[field] ?? "" });
+    setMode("edit");
+  };
+
+  const onSubmit: SubmitHandler<AccountFieldFormData> = async (data) => {
+    try {
+      const result = await updateProfile(data);
+      if (result.success) {
+        toast.success(result.message);
+      }
+    } catch (error) {
+      console.error("Error Updating Profile", error);
+      toast.error("Error Updating Profile");
+    }
+
+    setMode("normal");
+  };
+
+  return (
+    <div className="py-4 flex items-center justify-between gap-4">
+      <span className="font-sans text-sm text-primary">{label}</span>
+
+      {mode === "normal" && (
+        <div className="flex items-center gap-2">
+          <span className="font-sans text-sm text-primary/60 truncate">
+            {user[field]}
+          </span>
+          <AreaButton label="Edit" type="button" onClick={startEditing} />
+        </div>
+      )}
+
+      {mode === "edit" && (
+        <form
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex-1 flex items-start gap-3"
+        >
+          <FormInput
+            name={field}
+            type={type}
+            register={register}
+            errors={errors}
+            className="flex-1"
+            ariaLabel={label}
+            inputClassName="text-xs!"
+            {...(field === "email" && { autoComplete: "email" as const })}
+            {...(field === "phone" && {
+              prefix: "+971",
+              dir: "ltr" as const,
+              inputMode: "numeric" as const,
+              autoComplete: "tel-national" as const,
+            })}
+          />
+
+          <div className="flex items-center gap-3 h-11">
+            <AreaButton
+              label="Cancel"
+              type="button"
+              className="text-primary/60"
+              onClick={() => setMode("normal")}
+            />
+            <AreaButton disabled={isSubmitting} label="Save" type="submit" />
+          </div>
+        </form>
+      )}
+    </div>
+  );
+}
