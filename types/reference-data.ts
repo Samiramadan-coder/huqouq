@@ -35,6 +35,7 @@ export type Specialization = {
 
 export type City = {
   emirate: string;
+  emirate_label: string;
   cities: string[];
 };
 
