@@ -1615,6 +1615,48 @@
         "yourReview": "Your Review",
         "failed": "Failed to submit your review. Please try again."
       }
+    },
+    "Settings": {
+      "title": "Settings",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "updateFailed": "Error updating profile",
+      "Account": {
+        "title": "Account",
+        "fullName": "Full Name",
+        "email": "Email",
+        "phone": "Phone",
+        "phoneHint": "Changing requires OTP re-verification."
+      },
+      "Fields": {
+        "Name": {
+          "Required": "Full name is required",
+          "Min": "Full name must be at least 2 characters"
+        },
+        "Email": {
+          "Required": "Email is required",
+          "Invalid": "Please enter a valid email"
+        },
+        "Phone": {
+          "Invalid": "Please enter a valid UAE mobile number"
+        }
+      },
+      "Password": {
+        "label": "Password",
+        "change": "Change Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm New Password",
+        "Errors": {
+          "currentRequired": "Current password is required",
+          "newRequired": "New password is required",
+          "min": "Password must be at least 8 characters",
+          "confirmRequired": "Password confirmation is required",
+          "sameAsCurrent": "New password must be different from the current password",
+          "mismatch": "Passwords do not match"
+        }
+      }
     }
   },
   "Lawyer": {

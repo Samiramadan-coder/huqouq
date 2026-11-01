@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import Account from "@/components/client-lawyer/client/settings/account";
 import DangerZone from "@/components/client-lawyer/client/settings/danger-zone";
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Client.Settings");
+
   return {
-    title: "Settings",
+    title: `${t("title")} | Huqouq`,
+    robots: { index: false, follow: false },
   };
 }
 

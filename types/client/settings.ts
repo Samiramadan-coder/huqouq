@@ -5,25 +5,26 @@ import { emailSchema, T, uaePhoneSchema } from "@/types/shared";
 export type AccountField = "name" | "email" | "phone";
 
 // One schema per field so each row validates on its own
-export const accountFieldSchemas = {
-  name: z.object({
-    name: z
-      .string()
-      .trim()
-      .min(1, "Full name is required")
-      .min(2, "Full name must be at least 2 characters"),
-  }),
-  email: z.object({
-    email: z
-      .string()
-      .trim()
-      .min(1, "Email is required")
-      .pipe(emailSchema("Please enter a valid email")),
-  }),
-  phone: z.object({
-    phone: uaePhoneSchema("Please enter a valid UAE mobile number"),
-  }),
-} satisfies Record<AccountField, z.ZodType>;
+export const accountFieldSchemas = (t: T) =>
+  ({
+    name: z.object({
+      name: z
+        .string()
+        .trim()
+        .min(1, t("Fields.Name.Required"))
+        .min(2, t("Fields.Name.Min")),
+    }),
+    email: z.object({
+      email: z
+        .string()
+        .trim()
+        .min(1, t("Fields.Email.Required"))
+        .pipe(emailSchema(t("Fields.Email.Invalid"))),
+    }),
+    phone: z.object({
+      phone: uaePhoneSchema(t("Fields.Phone.Invalid")),
+    }),
+  }) satisfies Record<AccountField, z.ZodType>;
 
 export type AccountFieldFormData = Partial<Record<AccountField, string>>;
 
@@ -33,31 +34,36 @@ const PASSWORD_MIN = 8;
 export const changePasswordSchema = (t: T) =>
   z
     .object({
-      current_password: z.string().min(1, "Current Password Is Required"),
+      current_password: z
+        .string()
+        .min(1, t("Password.Errors.currentRequired")),
 
       new_password: z
         .string()
-        .min(1, "Password Is Required")
-        .min(PASSWORD_MIN, "Enter At Lease 8 Charecters"),
+        .min(1, t("Password.Errors.newRequired"))
+        .min(PASSWORD_MIN, t("Password.Errors.min")),
 
       new_password_confirmation: z
         .string()
-        .min(1, "Password Confirmation Is Required"),
+        .min(1, t("Password.Errors.confirmRequired")),
     })
     .superRefine((data, ctx) => {
-      if (data.new_password === data.current_password) {
+      if (data.new_password && data.new_password === data.current_password) {
         ctx.addIssue({
           code: "custom",
           path: ["new_password"],
-          message: "Validation password same as current",
+          message: t("Password.Errors.sameAsCurrent"),
         });
       }
 
-      if (data.new_password !== data.new_password_confirmation) {
+      if (
+        data.new_password_confirmation &&
+        data.new_password !== data.new_password_confirmation
+      ) {
         ctx.addIssue({
           code: "custom",
           path: ["new_password_confirmation"],
-          message: "two passwords not matches",
+          message: t("Password.Errors.mismatch"),
         });
       }
     });

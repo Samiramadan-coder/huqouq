@@ -7,6 +7,7 @@ import {
 import { toast } from "sonner";
 import { useState } from "react";
 import AreaButton from "./area-button";
+import { useTranslations } from "next-intl";
 import { useUser } from "@/providers/user-provider";
 import { updateProfile } from "@/lib/client/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +25,8 @@ export default function NormalElementControl({
   label: string;
   subtitle?: string;
 }) {
-  const { user } = useUser();
+  const t = useTranslations("Client.Settings");
+  const { user, setUser } = useUser();
   const [mode, setMode] = useState<"normal" | "edit">("normal");
 
   const {
@@ -34,7 +36,7 @@ export default function NormalElementControl({
     formState: { errors, isSubmitting },
   } = useForm<AccountFieldFormData>({
     resolver: zodResolver(
-      accountFieldSchemas[field],
+      accountFieldSchemas(t)[field],
     ) as Resolver<AccountFieldFormData>,
     defaultValues: { [field]: user?.[field] ?? "" },
   });
@@ -51,15 +53,18 @@ export default function NormalElementControl({
   const onSubmit: SubmitHandler<AccountFieldFormData> = async (data) => {
     try {
       const result = await updateProfile(data);
-      if (result.success) {
-        toast.success(result.message);
+      if (!result.success) {
+        toast.error(t("updateFailed"));
+        return;
       }
+
+      setUser(result.user);
+      toast.success(result.message);
+      setMode("normal");
     } catch (error) {
       console.error("Error Updating Profile", error);
-      toast.error("Error Updating Profile");
+      toast.error(t("updateFailed"));
     }
-
-    setMode("normal");
   };
 
   return (
@@ -78,7 +83,11 @@ export default function NormalElementControl({
           <span className="text-primary/60 truncate text-sm">
             {user[field]}
           </span>
-          <AreaButton label="Edit" type="button" onClick={startEditing} />
+          <AreaButton
+            label={t("edit")}
+            type="button"
+            onClick={startEditing}
+          />
         </div>
       )}
 
@@ -107,12 +116,16 @@ export default function NormalElementControl({
 
           <div className="flex items-center gap-3 h-11">
             <AreaButton
-              label="Cancel"
+              label={t("cancel")}
               type="button"
               className="text-primary/60"
               onClick={() => setMode("normal")}
             />
-            <AreaButton disabled={isSubmitting} label="Save" type="submit" />
+            <AreaButton
+              disabled={isSubmitting}
+              label={t("save")}
+              type="submit"
+            />
           </div>
         </form>
       )}
