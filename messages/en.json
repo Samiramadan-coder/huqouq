@@ -1618,6 +1618,23 @@
     },
     "Settings": {
       "title": "Settings",
+      "DangerZone": {
+        "title": "Danger Zone",
+        "deleteAccount": "Delete Account",
+        "deleteAccountHint": "Permanently removes your profile, credentials, and all associated data.",
+        "Dialog": {
+          "description": "Deleting your account is permanent and cannot be undone. The following will be removed:",
+          "items": {
+            "profile": "Your profile and personal information",
+            "cases": "All submitted cases and received offers",
+            "consultations": "Consultation bookings and payment history",
+            "messages": "Messages and lawyer contact history",
+            "documents": "Your uploaded documents and files"
+          },
+          "cancel": "Cancel",
+          "continue": "Continue"
+        }
+      },
       "edit": "Edit",
       "save": "Save",
       "cancel": "Cancel",

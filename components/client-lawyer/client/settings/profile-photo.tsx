@@ -1,18 +1,18 @@
 "use client";
 
 import {
-  ProfilePhotoFormValues,
   profilePhotoSchema,
+  ProfilePhotoFormValues,
 } from "@/types/client/settings";
 
 import { toast } from "sonner";
-import { ChangeEvent, useRef } from "react";
 import AreaButton from "./area-button";
+import { ChangeEvent, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useUser } from "@/providers/user-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updateProfilePhoto } from "@/lib/client/profile";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { updateProfilePhoto } from "@/lib/client/profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ProfilePhoto() {
