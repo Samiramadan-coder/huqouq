@@ -1629,6 +1629,16 @@
         "phone": "Phone",
         "phoneHint": "Changing requires OTP re-verification."
       },
+      "Photo": {
+        "change": "Change Photo",
+        "hint": "Image files only, up to 2MB.",
+        "failed": "Failed to update profile photo",
+        "Errors": {
+          "required": "Please choose a photo",
+          "type": "Only image files are allowed",
+          "maxSize": "Image size must not exceed 2MB"
+        }
+      },
       "Fields": {
         "Name": {
           "Required": "Full name is required",

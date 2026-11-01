@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AccountField,
   AccountFieldFormData,
@@ -83,11 +85,7 @@ export default function NormalElementControl({
           <span className="text-primary/60 truncate text-sm">
             {user[field]}
           </span>
-          <AreaButton
-            label={t("edit")}
-            type="button"
-            onClick={startEditing}
-          />
+          <AreaButton label={t("edit")} type="button" onClick={startEditing} />
         </div>
       )}
 

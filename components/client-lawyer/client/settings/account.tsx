@@ -1,11 +1,10 @@
-"use client";
-
-import { useTranslations } from "next-intl";
 import ChangingPassword from "./changing-password";
 import NormalElementControl from "./normal-element-control";
+import ProfilePhoto from "./profile-photo";
+import { getTranslations } from "next-intl/server";
 
-export default function Account() {
-  const t = useTranslations("Client.Settings.Account");
+export default async function Account() {
+  const t = await getTranslations("Client.Settings.Account");
 
   return (
     <div>
@@ -14,7 +13,7 @@ export default function Account() {
       </h2>
 
       <div className="bg-white px-5 border border-secondary rounded-[5px] divide-y divide-secondary">
-        <div className="py-4"></div>
+        <ProfilePhoto />
 
         <NormalElementControl type="text" field="name" label={t("fullName")} />
 

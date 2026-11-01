@@ -28,15 +28,31 @@ export const accountFieldSchemas = (t: T) =>
 
 export type AccountFieldFormData = Partial<Record<AccountField, string>>;
 
+// Profile Photo
+export const PHOTO_MAX_SIZE = 2 * 1024 * 1024; // 2MB
+
+export const profilePhotoSchema = (t: T) =>
+  z.object({
+    photo: z
+      .custom<File>(
+        (value) => value instanceof File,
+        t("Photo.Errors.required"),
+      )
+      .refine((file) => file.type.startsWith("image/"), t("Photo.Errors.type"))
+      .refine((file) => file.size <= PHOTO_MAX_SIZE, t("Photo.Errors.maxSize")),
+  });
+
+export type ProfilePhotoFormValues = z.infer<
+  ReturnType<typeof profilePhotoSchema>
+>;
+
 // Changing Password
 const PASSWORD_MIN = 8;
 
 export const changePasswordSchema = (t: T) =>
   z
     .object({
-      current_password: z
-        .string()
-        .min(1, t("Password.Errors.currentRequired")),
+      current_password: z.string().min(1, t("Password.Errors.currentRequired")),
 
       new_password: z
         .string()
