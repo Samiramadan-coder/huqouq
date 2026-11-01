@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { http } from "@/lib/http";
 import type { PayoutDetailsType } from "@/types/lawyer/settings";
 import PayoutDetails from "@/components/client-lawyer/lawyer/settings/payout-details";
+import Account from "@/components/client-lawyer/client/settings/account";
+import DangerZone from "@/components/client-lawyer/client/settings/danger-zone";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Lawyer.Settings");
@@ -20,5 +22,13 @@ export default async function Page() {
     { next: { tags: ["payout-details"] } },
   );
 
-  return <PayoutDetails payoutDetails={data.data} />;
+  return (
+    <div className="space-y-6">
+      <Account />
+
+      <DangerZone />
+
+      <PayoutDetails payoutDetails={data.data} />
+    </div>
+  );
 }
