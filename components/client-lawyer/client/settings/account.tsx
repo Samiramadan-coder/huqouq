@@ -1,5 +1,6 @@
 "use client";
 
+import ChangingPassword from "./changing-password";
 import NormalElementControl from "./normal-element-control";
 
 export default function Account() {
@@ -16,9 +17,14 @@ export default function Account() {
 
         <NormalElementControl type="email" field="email" label="Email" />
 
-        <NormalElementControl type="tel" field="phone" label="Phone" />
+        <NormalElementControl
+          type="tel"
+          field="phone"
+          label="Phone"
+          subtitle="Changing requires OTP re-verification."
+        />
 
-        <div className="py-4"></div>
+        <ChangingPassword />
       </div>
     </div>
   );

@@ -17,10 +17,12 @@ export default function NormalElementControl({
   type,
   field,
   label,
+  subtitle,
 }: {
   type: "text" | "email" | "tel";
   field: AccountField;
   label: string;
+  subtitle?: string;
 }) {
   const { user } = useUser();
   const [mode, setMode] = useState<"normal" | "edit">("normal");
@@ -62,11 +64,18 @@ export default function NormalElementControl({
 
   return (
     <div className="py-4 flex items-center justify-between gap-4">
-      <span className="font-sans text-sm text-primary">{label}</span>
+      <div>
+        <span className="text-sm text-primary">{label}</span>
+        {subtitle && (
+          <p className="text-[11px] text-primary/40 mt-0.5 leading-snug">
+            {subtitle}
+          </p>
+        )}
+      </div>
 
       {mode === "normal" && (
         <div className="flex items-center gap-2">
-          <span className="font-sans text-sm text-primary/60 truncate">
+          <span className="text-primary/60 truncate text-sm">
             {user[field]}
           </span>
           <AreaButton label="Edit" type="button" onClick={startEditing} />

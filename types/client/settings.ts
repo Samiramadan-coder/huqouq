@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { emailSchema, uaePhoneSchema } from "@/types/shared";
+import { emailSchema, T, uaePhoneSchema } from "@/types/shared";
 
 export type AccountField = "name" | "email" | "phone";
 
@@ -26,3 +26,42 @@ export const accountFieldSchemas = {
 } satisfies Record<AccountField, z.ZodType>;
 
 export type AccountFieldFormData = Partial<Record<AccountField, string>>;
+
+// Changing Password
+const PASSWORD_MIN = 8;
+
+export const changePasswordSchema = (t: T) =>
+  z
+    .object({
+      current_password: z.string().min(1, "Current Password Is Required"),
+
+      new_password: z
+        .string()
+        .min(1, "Password Is Required")
+        .min(PASSWORD_MIN, "Enter At Lease 8 Charecters"),
+
+      new_password_confirmation: z
+        .string()
+        .min(1, "Password Confirmation Is Required"),
+    })
+    .superRefine((data, ctx) => {
+      if (data.new_password === data.current_password) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["new_password"],
+          message: "Validation password same as current",
+        });
+      }
+
+      if (data.new_password !== data.new_password_confirmation) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["new_password_confirmation"],
+          message: "two passwords not matches",
+        });
+      }
+    });
+
+export type ChangePasswordFormValues = z.infer<
+  ReturnType<typeof changePasswordSchema>
+>;
