@@ -21,6 +21,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
+import { changePassword } from "@/lib/client/settings";
+import { toast } from "sonner";
 
 const labelClassName = "text-primary/60 text-xs font-normal";
 const inputClassName = "border border-secondary";
@@ -38,8 +40,8 @@ export default function ChangingPassword() {
     resolver: zodResolver(changePasswordSchema(t)),
     defaultValues: {
       current_password: "",
-      new_password: "",
-      new_password_confirmation: "",
+      password: "",
+      password_confirmation: "",
     },
   });
 
@@ -51,7 +53,18 @@ export default function ChangingPassword() {
   };
 
   const onSubmit: SubmitHandler<ChangePasswordFormValues> = async (data) => {
-    console.log(data);
+    try {
+      const result = await changePassword(data);
+
+      if (result.success) {
+        toast.success(result.message);
+        return setOpen(false);
+      }
+
+      toast.error("");
+    } catch (error) {
+      toast.error("");
+    }
   };
 
   return (
@@ -97,7 +110,7 @@ export default function ChangingPassword() {
 
                 <FormInput
                   register={register}
-                  name="new_password"
+                  name="password"
                   required
                   errors={errors}
                   label={t("Password.newPassword")}
@@ -109,7 +122,7 @@ export default function ChangingPassword() {
 
                 <FormInput
                   register={register}
-                  name="new_password_confirmation"
+                  name="password_confirmation"
                   required
                   errors={errors}
                   label={t("Password.confirmPassword")}

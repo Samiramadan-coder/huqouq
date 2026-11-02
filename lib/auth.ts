@@ -1,4 +1,4 @@
-// "use server";
+"use server";
 
 import { unstable_rethrow } from "next/navigation";
 import {
@@ -14,10 +14,10 @@ import { AuthFormActionsResponse, GuestType, User } from "@/types/shared";
 
 // Convert a failed request into a form response. Validation errors (422) are
 // expected and returned to the form; anything else is logged.
-export function toFailure<T>(
+export async function toFailure<T>(
   error: unknown,
   context: string,
-): Extract<AuthFormActionsResponse<T>, { success: false }> {
+): Promise<Extract<AuthFormActionsResponse<T>, { success: false }>> {
   if (error instanceof ValidationError) {
     const errors = Object.fromEntries(
       Object.entries(error.errors).map(([field, messages]) => [

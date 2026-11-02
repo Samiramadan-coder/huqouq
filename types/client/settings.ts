@@ -54,31 +54,31 @@ export const changePasswordSchema = (t: T) =>
     .object({
       current_password: z.string().min(1, t("Password.Errors.currentRequired")),
 
-      new_password: z
+      password: z
         .string()
         .min(1, t("Password.Errors.newRequired"))
         .min(PASSWORD_MIN, t("Password.Errors.min")),
 
-      new_password_confirmation: z
+      password_confirmation: z
         .string()
         .min(1, t("Password.Errors.confirmRequired")),
     })
     .superRefine((data, ctx) => {
-      if (data.new_password && data.new_password === data.current_password) {
+      if (data.password && data.password === data.current_password) {
         ctx.addIssue({
           code: "custom",
-          path: ["new_password"],
+          path: ["password"],
           message: t("Password.Errors.sameAsCurrent"),
         });
       }
 
       if (
-        data.new_password_confirmation &&
-        data.new_password !== data.new_password_confirmation
+        data.password_confirmation &&
+        data.password !== data.password_confirmation
       ) {
         ctx.addIssue({
           code: "custom",
-          path: ["new_password_confirmation"],
+          path: ["password_confirmation"],
           message: t("Password.Errors.mismatch"),
         });
       }
