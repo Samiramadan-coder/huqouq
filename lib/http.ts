@@ -3,8 +3,10 @@ import { getServerLanguage, getTokenHeaders } from "./cookies";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
+type QueryParams = Record<string, string | number | boolean | null | undefined>;
+
 interface RequestConfig extends Omit<RequestInit, "method" | "body"> {
-  params?: Record<string, string | number | boolean>;
+  params?: QueryParams;
 }
 
 interface HttpResponse<T = unknown> {
@@ -13,205 +15,170 @@ interface HttpResponse<T = unknown> {
   ok: boolean;
 }
 
-class HttpError extends Error {
-  status: number;
-  data: unknown;
+const LOGOUT_URL = "/api/auth/logout?next=/sign-in";
 
-  constructor(message: string, status: number, data: unknown) {
-    super(message);
+function readField(data: unknown, key: string): unknown {
+  return data !== null && typeof data === "object"
+    ? (data as Record<string, unknown>)[key]
+    : undefined;
+}
+
+class HttpError extends Error {
+  readonly status: number;
+  readonly data: unknown;
+  /** The API's `message`, safe to show to the user. */
+  readonly responseMessage?: string;
+
+  constructor(status: number, data: unknown) {
+    const message = readField(data, "message");
+    const responseMessage = typeof message === "string" ? message : undefined;
+
+    super(responseMessage ?? `Request failed with status ${status}`);
     this.name = "HttpError";
     this.status = status;
     this.data = data;
+    this.responseMessage = responseMessage;
   }
 }
 
-class ValidationError extends Error {
-  status: 422 | 403 | 401;
-  errors: Record<string, string[]>;
-  responseMessage?: string;
+type UserFacingStatus = 401 | 403 | 422;
 
-  constructor(data: unknown) {
-    const message = ValidationError.parseMessage(data);
-    super(message || "Validation failed");
+// An error whose message the user should see: validation errors (422) and
+// 401/403 messages. Server actions return `errors` / `responseMessage` from
+// their `instanceof ValidationError` branch, and the UI shows them in a toast.
+class ValidationError extends HttpError {
+  declare readonly status: UserFacingStatus;
+  readonly errors: Record<string, string[]>;
+
+  constructor(status: UserFacingStatus, data: unknown) {
+    super(status, data);
     this.name = "ValidationError";
-    this.status = 422;
-    this.errors = ValidationError.parseErrors(data);
-    this.responseMessage = message;
-  }
 
-  protected static parseMessage(data: unknown): string | undefined {
-    if (
-      data !== null &&
-      typeof data === "object" &&
-      "message" in data &&
-      typeof (data as Record<string, unknown>).message === "string"
-    ) {
-      return (data as { message: string }).message;
-    }
-    return undefined;
-  }
-
-  private static parseErrors(data: unknown): Record<string, string[]> {
-    if (
-      data !== null &&
-      typeof data === "object" &&
-      "errors" in data &&
-      typeof (data as Record<string, unknown>).errors === "object"
-    ) {
-      return (data as { errors: Record<string, string[]> }).errors;
-    }
-    return {};
+    const errors = readField(data, "errors");
+    this.errors =
+      errors !== null && typeof errors === "object"
+        ? (errors as Record<string, string[]>)
+        : {};
   }
 }
 
-// 401/403 responses carry a user-facing message. Extending ValidationError lets
-// every action's existing `instanceof ValidationError` branch return
-// `responseMessage`, which the UI then shows in a toast.
-class MessageError extends ValidationError {
-  constructor(status: 401 | 403, data: unknown) {
-    super(data);
-    this.name = "MessageError";
-    this.status = status;
-    this.errors = {};
-    this.message = this.responseMessage || `Request failed with status ${status}`;
-  }
-}
-
-function buildUrl(
-  baseURL: string,
-  path: string,
-  params?: Record<string, string | number | boolean>,
-): string {
+function buildUrl(baseURL: string, path: string, params?: QueryParams) {
   const url = new URL(path, baseURL);
-  if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.set(key, String(value));
-    });
-  }
+
+  Object.entries(params ?? {}).forEach(([key, value]) => {
+    if (value != null) url.searchParams.set(key, String(value));
+  });
+
   return url.toString();
 }
 
+async function buildHeaders(extraHeaders?: HeadersInit): Promise<Headers> {
+  const [tokenHeaders, language] = await Promise.all([
+    getTokenHeaders(),
+    getServerLanguage(),
+  ]);
+
+  const headers = new Headers({ Accept: "application/json" });
+
+  // Skip the empty Authorization header returned when there is no token
+  Object.entries(tokenHeaders).forEach(([key, value]) => {
+    if (value) headers.set(key, value);
+  });
+
+  if (language) headers.set("Accept-Language", language);
+
+  new Headers(extraHeaders).forEach((value, key) => headers.set(key, value));
+
+  return headers;
+}
+
+function isBodyInit(body: unknown): body is BodyInit {
+  return (
+    body instanceof URLSearchParams ||
+    body instanceof Blob ||
+    body instanceof ArrayBuffer ||
+    ArrayBuffer.isView(body) ||
+    body instanceof ReadableStream ||
+    typeof body === "string"
+  );
+}
+
+// Parse JSON when the API says so; empty bodies (e.g. 204) and non-JSON
+// responses come back as text.
+async function parseBody(response: Response): Promise<unknown> {
+  const text = await response.text();
+  const isJson = response.headers
+    .get("Content-Type")
+    ?.includes("application/json");
+
+  if (!isJson || !text) return text;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+}
+
+function handleUnauthorized(): Promise<never> {
+  if (typeof window === "undefined") redirect(LOGOUT_URL);
+
+  window.location.replace(LOGOUT_URL);
+
+  // Keep the caller waiting while the browser navigates away
+  return new Promise<never>(() => {});
+}
+
 function createHttp(baseURL: string) {
-  const defaultHeaders: Record<string, string> = {
-    Accept: "application/json",
-  };
-
-  async function handleUnauthorized(): Promise<never> {
-    const logoutUrl = "/api/auth/logout?next=/sign-in";
-
-    if (typeof window === "undefined") {
-      redirect(logoutUrl);
-    }
-
-    window.location.replace(logoutUrl);
-
-    return new Promise<never>(() => {});
-  }
-
-  function isSerializableBody(body: unknown): body is BodyInit {
-    return (
-      body instanceof FormData ||
-      body instanceof URLSearchParams ||
-      body instanceof Blob ||
-      body instanceof ArrayBuffer ||
-      ArrayBuffer.isView(body) ||
-      body instanceof ReadableStream ||
-      typeof body === "string"
-    );
-  }
-
   async function request<T = unknown>(
     method: HttpMethod,
     path: string,
     body?: unknown,
     config: RequestConfig = {},
   ): Promise<HttpResponse<T>> {
-    const { params, headers: extraHeaders, ...restConfig } = config;
-
-    const url = buildUrl(baseURL, path, params);
-
-    const headers = new Headers();
-    Object.entries(defaultHeaders).forEach(([key, value]) => {
-      headers.set(key, value);
-    });
-
-    const tokenHeaders = await getTokenHeaders();
-    const language = await getServerLanguage();
-
-    Object.entries(tokenHeaders).forEach(([key, value]) => {
-      headers.set(key, value);
-    });
-
-    if (language) {
-      headers.set("Accept-Language", language);
-    }
-
-    if (extraHeaders) {
-      new Headers(extraHeaders).forEach((value, key) => {
-        headers.set(key, value);
-      });
-    }
+    const { params, headers: extraHeaders, ...init } = config;
+    const headers = await buildHeaders(extraHeaders);
 
     let requestBody: BodyInit | undefined;
 
-    if (body !== undefined) {
-      if (isSerializableBody(body)) {
-        requestBody = body;
-      } else {
-        requestBody = JSON.stringify(body);
-        if (!headers.has("Content-Type")) {
-          headers.set("Content-Type", "application/json");
-        }
-      }
-
-      if (body instanceof FormData) {
-        // Let fetch set multipart boundaries automatically.
-        headers.delete("Content-Type");
+    if (body instanceof FormData) {
+      // Let fetch set the multipart boundary
+      headers.delete("Content-Type");
+      requestBody = body;
+    } else if (isBodyInit(body)) {
+      requestBody = body;
+    } else if (body != null) {
+      requestBody = JSON.stringify(body);
+      if (!headers.has("Content-Type")) {
+        headers.set("Content-Type", "application/json");
       }
     }
 
-    const response = await fetch(url, {
+    const response = await fetch(buildUrl(baseURL, path, params), {
+      ...init,
       method,
       headers,
       body: requestBody,
-      ...restConfig,
     });
 
-    let data: unknown;
-    const contentType = response.headers.get("Content-Type") ?? "";
-    if (contentType.includes("application/json")) {
-      data = await response.json();
-    } else {
-      data = await response.text();
+    const data = await parseBody(response);
+
+    if (response.ok) {
+      return { data: data as T, status: response.status, ok: true };
     }
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        // Without a token (login, register...) a 401 is a user-facing error,
-        // e.g. wrong credentials. With a token the session is no longer valid.
-        if (!headers.get("Authorization")) {
-          throw new MessageError(401, data);
-        }
-
-        await handleUnauthorized();
-      }
-
-      if (response.status === 422) {
-        throw new ValidationError(data);
-      }
-
-      if (response.status === 403) {
-        throw new MessageError(403, data);
-      }
-
-      throw new HttpError(
-        `Request failed with status ${response.status}`,
-        response.status,
-        data,
-      );
+    switch (response.status) {
+      case 401:
+        // With a token the session is no longer valid. Without one (login,
+        // register...) it's a user-facing error such as wrong credentials.
+        if (headers.has("Authorization")) return handleUnauthorized();
+        throw new ValidationError(401, data);
+      case 403:
+      case 422:
+        throw new ValidationError(response.status, data);
+      default:
+        throw new HttpError(response.status, data);
     }
-
-    return { data: data as T, status: response.status, ok: response.ok };
   }
 
   return {
@@ -230,18 +197,10 @@ function createHttp(baseURL: string) {
     delete<T = unknown>(path: string, config?: RequestConfig) {
       return request<T>("DELETE", path, undefined, config);
     },
-    /** Set or update a default header (e.g. Authorization token) */
-    setHeader(key: string, value: string) {
-      defaultHeaders[key] = value;
-    },
-    /** Remove a default header */
-    removeHeader(key: string) {
-      delete defaultHeaders[key];
-    },
   };
 }
 
 const http = createHttp(process.env.NEXT_PUBLIC_API_URL ?? "");
 
-export { http, createHttp, HttpError, ValidationError, MessageError };
+export { http, createHttp, HttpError, ValidationError };
 export type { HttpResponse, RequestConfig };

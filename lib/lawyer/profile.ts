@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { http } from "../http";
 import { User } from "@/types/shared";
 
@@ -26,6 +27,7 @@ export async function updateProfilePhoto(
       user: data.user,
     };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Failed to update profile photo:", error);
     return { result: false };
   }

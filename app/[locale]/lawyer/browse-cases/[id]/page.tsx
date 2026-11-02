@@ -1,6 +1,6 @@
 import { cache } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, unstable_rethrow } from "next/navigation";
 import { http, HttpError } from "@/lib/http";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails, MyOffer } from "@/types/lawyer/browse-cases";
@@ -97,6 +97,7 @@ async function getTimeline(id: string) {
 
     return data.data.steps;
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error fetching the case timeline:", error);
     return null;
   }

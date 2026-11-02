@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { User } from "@/types/shared";
 import { http } from "../http";
 import { UpdateProfileFormData } from "@/types/client/profile";
@@ -26,6 +27,7 @@ export async function updateProfilePhoto(
       user: data.user,
     };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Failed to update profile photo:", error);
     return { result: false };
   }
@@ -51,6 +53,7 @@ export async function updateProfile(
       user: data.user,
     };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Failed to update profile:", error);
     return { success: false };
   }

@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { PayoutDetailsFormValues } from "@/types/lawyer/settings";
@@ -29,6 +30,7 @@ export async function updatePayoutDetails(
     updateTag("payout-details");
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(error.errors).map(([field, messages]) => [

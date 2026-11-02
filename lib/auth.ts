@@ -1,5 +1,6 @@
 // "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import {
   SignInWithEmailFormValues,
   SignInWithPhoneFormValues,
@@ -52,6 +53,7 @@ export async function signUp(
       user: data.user,
     };
   } catch (error) {
+    unstable_rethrow(error);
     return toFailure(error, "Error signing up with email and password:");
   }
 }
@@ -76,6 +78,7 @@ export async function login(
       user: data.user,
     };
   } catch (error) {
+    unstable_rethrow(error);
     return toFailure(error, "Error logging in with email and password:");
   }
 }
@@ -97,6 +100,7 @@ export async function loginWithPhone(
       message: data.message,
     };
   } catch (error) {
+    unstable_rethrow(error);
     return toFailure(error, "Error requesting phone sign-in code:");
   }
 }
@@ -119,6 +123,7 @@ export async function verifyPhoneOtp(
     });
     return { success: true, token: data.token, user: data.user };
   } catch (error) {
+    unstable_rethrow(error);
     return toFailure(error, "Error verifying OTP:");
   }
 }
@@ -137,6 +142,7 @@ export async function forgotPassword(
 
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     return toFailure(error, "Error sending forgot password request:");
   }
 }
@@ -159,6 +165,7 @@ export async function resetPassword(
       user: data.user,
     };
   } catch (error) {
+    unstable_rethrow(error);
     return toFailure(error, "Error resetting password:");
   }
 }
@@ -171,6 +178,7 @@ export async function signOut(): Promise<SignOutResponse> {
     await http.post("/api/auth/logout");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error signing out:", error);
     return { success: false };
   }
@@ -191,6 +199,7 @@ export async function verifyOtp(
     });
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     return toFailure(error, "Error verifying OTP:");
   }
 }
@@ -207,6 +216,7 @@ export async function resendOtp(token: string): Promise<ResendOtpResponse> {
     });
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error resending OTP:", error);
     return { success: false };
   }

@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { PostLegalServiceFormData } from "@/types/client/legal-services";
@@ -53,6 +54,7 @@ export async function postLegalService(
     if (serviceId) updateTag(`client-legal-service-${serviceId}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       // Per-file errors arrive as "documents.0"; show them on the documents field
       const errors = Object.fromEntries(
@@ -93,6 +95,7 @@ export async function acceptServiceOffer({
     updateTag(`client-legal-service-${serviceId}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error accepting case offer:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -115,6 +118,7 @@ export async function approveDelivery(
     updateTag(`client-legal-service-${serviceId}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error approving delivery:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -140,6 +144,7 @@ export async function rateService(
     updateTag(`client-legal-service-${serviceId}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error rating the lawyer:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -165,6 +170,7 @@ export async function requestRevision(
     updateTag(`client-legal-service-${serviceId}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error requesting revision:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };

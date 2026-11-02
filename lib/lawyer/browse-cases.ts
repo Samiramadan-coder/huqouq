@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { OfferFormData } from "@/types/lawyer/browse-cases";
@@ -30,6 +31,7 @@ export async function submitOffer(
     );
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(error.errors).map(([field, messages]) => [
@@ -67,6 +69,7 @@ export async function declineOffer(
     updateTag("lawyer-hire-requests");
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }

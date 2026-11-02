@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import {
   EducationFormValues,
   ExperiencesFormValues,
@@ -24,6 +25,7 @@ export async function updateProfessionalInfo(
     updateTag("lawyer-profile");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error updating professional info:", error);
 
     if (error instanceof ValidationError) {
@@ -53,6 +55,7 @@ export async function updateSpecializationsServices(
     updateTag("lawyer-profile");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error updating specializations & services:", error);
 
     if (error instanceof ValidationError) {
@@ -81,6 +84,7 @@ export async function updateLanguagesBio(
     updateTag("lawyer-profile");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error updating languages & bio:", error);
 
     if (error instanceof ValidationError) {
@@ -136,6 +140,7 @@ export async function updateEducation(
     updateTag("lawyer-profile");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error updating education:", error);
 
     if (error instanceof ValidationError) {
@@ -203,6 +208,7 @@ export async function updateExperiences(
     updateTag("lawyer-profile");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error updating experiences:", error);
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -237,6 +243,7 @@ export async function updateCertificate(
     updateTag("lawyer-profile");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error updating certificate:", error);
 
     if (error instanceof ValidationError) {
@@ -271,6 +278,7 @@ export async function sendForReview(): Promise<SendForReviewResponse> {
       message: data.message,
     };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error sending for review:", error);
     return { success: false };
   }

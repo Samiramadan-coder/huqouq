@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { OfferFormData } from "@/types/lawyer/legal-services";
@@ -33,6 +34,7 @@ export async function submitOffer(
     updateTag(`lawyer-legal-service-${id}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (!(error instanceof ValidationError)) {
       console.error("Error submitting offer:", error);
     }
@@ -103,6 +105,7 @@ async function uploadDelivery(
     updateTag(`lawyer-legal-service-${id}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       // Per-file errors arrive as "files.0"; show them on the files field
       const errors = Object.fromEntries(

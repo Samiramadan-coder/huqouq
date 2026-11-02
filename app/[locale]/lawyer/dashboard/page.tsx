@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { http } from "@/lib/http";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -25,6 +26,7 @@ export default async function Page() {
     );
     consultations = data.data ?? [];
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Failed to fetch consultations:", error);
   }
 

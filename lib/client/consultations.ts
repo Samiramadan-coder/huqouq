@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { RateLawyerForm } from "@/types/client/my-cases";
@@ -27,6 +28,7 @@ export async function rescheduleConsultation(
     updateTag(`consultations`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(error.errors).map(([field, messages]) => [
@@ -56,6 +58,7 @@ export async function cancelConsultation(
     updateTag(`consultations`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }
@@ -81,6 +84,7 @@ export async function rateConsultation(
     updateTag(`consultations`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
     }

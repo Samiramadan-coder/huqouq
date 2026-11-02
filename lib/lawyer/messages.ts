@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 
@@ -19,6 +20,7 @@ export async function markCaseAsComplete(
     updateTag(`case-${caseId}-timeline`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error marking case as complete:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -40,6 +42,7 @@ export async function confirmCaseClosure(
     updateTag(`case-${caseId}-timeline`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error confirming case closure:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };

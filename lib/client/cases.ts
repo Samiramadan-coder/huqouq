@@ -1,5 +1,6 @@
 "use server";
 
+import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { PostCaseFormData, RateLawyerForm } from "@/types/client/my-cases";
@@ -55,6 +56,7 @@ export async function postCase(
     if (caseId) updateTag(`case-${caseId}`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ValidationError) {
       // Per-file errors arrive as "documents.0"; show them on the documents field
       const errors = Object.fromEntries(
@@ -90,6 +92,7 @@ export async function acceptCaseOffer({
     updateTag(`case-${caseId}`);
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error accepting case offer:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -114,6 +117,7 @@ export async function declineCaseOffer({
     updateTag(`case-${caseId}-offers`);
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error declining case offer:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -131,6 +135,7 @@ export async function payCase(caseId: number): Promise<PayCaseResponse> {
     updateTag(`case-${caseId}`);
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error paying for the case:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -154,6 +159,7 @@ export async function publishCase(
     updateTag(`cases`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error publishing the case:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -175,6 +181,7 @@ export async function closeCase(caseId: number): Promise<CloseCaseResponse> {
     updateTag(`case-${caseId}-timeline`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error closing the case:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
@@ -202,6 +209,7 @@ export async function rateLawyer({
     updateTag(`cases`);
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error rating the lawyer:", error);
     if (error instanceof ValidationError) {
       return { success: false, message: error.responseMessage };
