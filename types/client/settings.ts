@@ -124,7 +124,7 @@ export const DELETE_REASONS = [
 
 export const deleteAccountSchema = (t: T) =>
   z.object({
-    reason: z.enum(DELETE_REASONS, t("Dialog.Confirm.Errors.reasonRequired")),
+    reason: z.enum(DELETE_REASONS).optional(),
     password: z.string().trim().min(1, t("Dialog.Confirm.Errors.codeRequired")),
   });
 

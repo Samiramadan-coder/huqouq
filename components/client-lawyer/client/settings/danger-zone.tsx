@@ -60,7 +60,7 @@ export default async function DangerZone(props: Props) {
               <span className="sr-only">{t("Dialog.cancel")}</span>
             </AlertDialogCancel>
 
-            {!isBlocked ? (
+            {isBlocked ? (
               props.type === "client" ? (
                 <BlockReasons type="client" blockers={props.data.blockers} />
               ) : (

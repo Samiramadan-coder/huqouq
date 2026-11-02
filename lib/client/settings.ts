@@ -13,6 +13,7 @@ type ChangePasswordResponse =
     }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof ChangePasswordFormValues, string>>;
     };
 

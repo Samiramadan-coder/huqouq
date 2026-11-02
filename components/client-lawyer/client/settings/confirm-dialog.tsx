@@ -18,6 +18,9 @@ import {
 import { toast } from "sonner";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { auth } from "@/lib/firebase";
+import { signOut as firebaseSignOut } from "firebase/auth";
+import { useUser } from "@/providers/user-provider";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -37,7 +40,7 @@ const REMOVED_ITEMS = [
   "documents",
 ] as const;
 
-const LOGOUT_URL = "/api/auth/logout?next=/sign-in";
+const LOGOUT_URL = "/api/auth/logout?next=/";
 
 export default function ConfirmDialog({
   reasons,
@@ -45,6 +48,7 @@ export default function ConfirmDialog({
   reasons: WhyDeleteReason[];
 }) {
   const t = useTranslations("Client.Settings.DangerZone");
+  const { setUser } = useUser();
   const [step, setStep] = useState<"warning" | "confirm">("warning");
   const [isSendingCode, setIsSendingCode] = useState(false);
 
@@ -82,10 +86,14 @@ export default function ConfirmDialog({
     const result = await deleteAccount(data);
 
     if (result.success) {
-      const message = result.message ?? t("Dialog.Confirm.success");
-      // Clear the session and show the message on the sign-in page
+      await firebaseSignOut(auth).catch((error) =>
+        console.error("Error signing out of Firebase", error),
+      );
+      setUser(null);
+
+      // Clear the token cookie, go home and show the message as a toast
       window.location.replace(
-        `${LOGOUT_URL}&message=${encodeURIComponent(message)}`,
+        `${LOGOUT_URL}&message=${encodeURIComponent(t("Dialog.Confirm.success"))}`,
       );
       return;
     }
@@ -223,15 +231,6 @@ export default function ConfirmDialog({
             autoComplete="one-time-code"
             disabled={isSubmitting}
           />
-
-          {/* <button
-            type="button"
-            onClick={sendCode}
-            disabled={isBusy}
-            className="text-xs text-primary/50 hover:text-primary underline-offset-4 hover:underline cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {t("Dialog.Confirm.resend")}
-          </button> */}
         </div>
 
         <AlertDialogFooter className="m-0 p-0 pt-1 border-none bg-transparent grid! grid-cols-2 gap-3">

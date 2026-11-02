@@ -38,6 +38,7 @@ export default function ChangingPassword() {
     register,
     control,
     reset,
+    setError,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ChangePasswordFormValues>({
@@ -75,11 +76,25 @@ export default function ChangingPassword() {
       const result = await changePassword(data);
 
       if (result.success) {
-        toast.success(result.message);
+        toast.success(result.message || t("Password.changed"));
         return setOpen(false);
       }
 
-      toast.error(t("commonError"));
+      // Show API validation errors under their fields
+      const fieldErrors = Object.entries(result.errors ?? {}).filter(
+        ([, message]) => message,
+      );
+
+      fieldErrors.forEach(([field, message]) =>
+        setError(field as keyof ChangePasswordFormValues, {
+          type: "server",
+          message,
+        }),
+      );
+
+      if (!fieldErrors.length) {
+        toast.error(result.message ?? t("commonError"));
+      }
     } catch (error) {
       console.error(error);
       toast.error(t("commonError"));
