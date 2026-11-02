@@ -23,6 +23,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut } from "@/lib/auth";
 import { deleteToken } from "@/lib/cookies";
+import { signOutOfFirebase } from "@/features/chat";
 import { useUser } from "@/providers/user-provider";
 
 export default function HeaderControl() {
@@ -121,6 +122,7 @@ export default function HeaderControl() {
                   const result = await signOut();
                   if (result.success) {
                     await deleteToken();
+                    await signOutOfFirebase();
                     setUser(null);
                     router.push("/");
                   }

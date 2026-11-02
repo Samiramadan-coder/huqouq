@@ -32,12 +32,15 @@ export default function ChatMembers({
   caseId: string;
 }) {
   const t = useTranslations("Lawyer.Messages");
+  const { user } = useUser();
   const [firebaseReady, setFirebaseReady] = useState(false);
 
   useEffect(() => {
+    if (!user?.id) return;
+
     const initFirebase = async () => {
       try {
-        await ensureFirebaseAuth();
+        await ensureFirebaseAuth(user.id);
 
         setFirebaseReady(true);
       } catch (error) {
@@ -46,7 +49,7 @@ export default function ChatMembers({
     };
 
     initFirebase();
-  }, []);
+  }, [user?.id]);
 
   return (
     <div className="flex h-full flex-col">

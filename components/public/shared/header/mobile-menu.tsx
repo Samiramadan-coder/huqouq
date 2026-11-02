@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { Link, useRouter } from "@/i18n/navigation";
 import { signOut } from "@/lib/auth";
 import { deleteToken } from "@/lib/cookies";
+import { signOutOfFirebase } from "@/features/chat";
 import LanguageSwitcher from "./language-switcher";
 import { useState } from "react";
 
@@ -127,6 +128,7 @@ export default function MobileMenu() {
                   const result = await signOut();
                   if (result.success) {
                     await deleteToken();
+                    await signOutOfFirebase();
                     setUser(null);
                     router.push("/");
                   }

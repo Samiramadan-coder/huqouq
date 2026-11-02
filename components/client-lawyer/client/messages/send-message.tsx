@@ -305,7 +305,7 @@ async function sendFileMessage({
   text?: string;
   caseTitle?: string | null;
 }) {
-  await ensureFirebaseAuth();
+  const { senderId } = await ensureFirebaseAuth(userId);
 
   const chatRef = doc(db, "chats", String(caseId));
 
@@ -326,7 +326,7 @@ async function sendFileMessage({
   const cleanText = text.trim();
 
   await setDoc(messageRef, {
-    senderId: String(userId),
+    senderId,
 
     type: "file",
 
@@ -360,7 +360,7 @@ async function sendFileMessage({
 
       lastMessageAt: serverTimestamp(),
 
-      lastMessageSenderId: String(userId),
+      lastMessageSenderId: senderId,
     },
     {
       merge: true,

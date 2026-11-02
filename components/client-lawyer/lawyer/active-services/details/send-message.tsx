@@ -263,7 +263,7 @@ async function sendFileMessage({
   text?: string;
   caseTitle?: string | null;
 }) {
-  await ensureFirebaseAuth();
+  const { senderId } = await ensureFirebaseAuth(userId);
 
   const chatRef = doc(db, "chats", String(caseId));
 
@@ -284,7 +284,7 @@ async function sendFileMessage({
   const cleanText = text.trim();
 
   await setDoc(messageRef, {
-    senderId: String(userId),
+    senderId,
     type: "file",
     text: cleanText || null,
     fileUrl,
@@ -307,7 +307,7 @@ async function sendFileMessage({
             ? "Voice message"
             : "File"),
       lastMessageAt: serverTimestamp(),
-      lastMessageSenderId: String(userId),
+      lastMessageSenderId: senderId,
     },
     {
       merge: true,

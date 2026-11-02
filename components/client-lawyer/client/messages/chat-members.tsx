@@ -86,7 +86,7 @@ function ChatMember({ caseItem, caseId }: { caseItem: Case; caseId: string }) {
 
     const startListener = async () => {
       try {
-        await ensureFirebaseAuth();
+        await ensureFirebaseAuth(user.id);
 
         const chatRef = doc(db, "chats", String(caseItem.id));
 

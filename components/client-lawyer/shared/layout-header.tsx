@@ -14,6 +14,7 @@ import { ChevronDown, LogOutIcon, Settings, UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut } from "@/lib/auth";
 import { deleteToken } from "@/lib/cookies";
+import { signOutOfFirebase } from "@/features/chat";
 import { useRouter } from "@/i18n/navigation";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -85,6 +86,7 @@ export default function LayoutHeader() {
                 const result = await signOut();
                 if (result.success) {
                   await deleteToken();
+                  await signOutOfFirebase();
                   setUser(null);
                   router.push("/");
                 }

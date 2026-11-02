@@ -9,34 +9,83 @@ import {
   setDoc,
 } from "firebase/firestore";
 
-import { signInAnonymously, type User } from "firebase/auth";
+import { signInWithCustomToken, signOut, type User } from "firebase/auth";
 
 import { auth, db } from "@/lib/firebase";
+import { getFirebaseToken } from "@/lib/auth";
 
 import type { ChatMessage, SendTextMessageParams } from "@/types/chat";
 
-let firebaseAuthPromise: Promise<User> | null = null;
+type FirebaseSession = {
+  user: User;
+  // The `userId` claim from the custom token. Firestore rules require
+  // message senderId to equal it, type included.
+  senderId: string | number;
+};
 
-export async function ensureFirebaseAuth(): Promise<User> {
+let pendingSignIn: {
+  userId: string;
+  promise: Promise<FirebaseSession>;
+} | null = null;
+
+async function readSession(user: User): Promise<FirebaseSession | null> {
+  const { claims } = await user.getIdTokenResult();
+  const senderId = claims.userId;
+
+  return typeof senderId === "string" || typeof senderId === "number"
+    ? { user, senderId }
+    : null;
+}
+
+// Sign in to Firebase as the given app user with a custom token from the API.
+// Reuses the persisted session when it already belongs to that user.
+export async function ensureFirebaseAuth(
+  userId: string | number,
+): Promise<FirebaseSession> {
+  const appUserId = String(userId);
+
+  await auth.authStateReady();
+
   if (auth.currentUser) {
-    return auth.currentUser;
+    const session = await readSession(auth.currentUser);
+
+    if (session && String(session.senderId) === appUserId) {
+      return session;
+    }
   }
 
-  if (firebaseAuthPromise) {
-    return firebaseAuthPromise;
+  if (pendingSignIn?.userId === appUserId) {
+    return pendingSignIn.promise;
   }
 
-  firebaseAuthPromise = signInAnonymously(auth)
-    .then((result) => {
-      return result.user;
+  const promise = getFirebaseToken()
+    .then((token) => signInWithCustomToken(auth, token))
+    .then(async ({ user }) => {
+      const session = await readSession(user);
+
+      if (!session || String(session.senderId) !== appUserId) {
+        throw new Error("Firebase token does not match the logged-in user");
+      }
+
+      return session;
     })
-    .catch((error) => {
-      firebaseAuthPromise = null;
-
-      throw error;
+    .finally(() => {
+      if (pendingSignIn?.promise === promise) {
+        pendingSignIn = null;
+      }
     });
 
-  return firebaseAuthPromise;
+  pendingSignIn = { userId: appUserId, promise };
+
+  return promise;
+}
+
+export async function signOutOfFirebase() {
+  pendingSignIn = null;
+
+  await signOut(auth).catch((error) =>
+    console.error("Error signing out of Firebase", error),
+  );
 }
 
 export function subscribeToMessages(
@@ -51,7 +100,7 @@ export function subscribeToMessages(
 
   const startListener = async () => {
     try {
-      await ensureFirebaseAuth();
+      await ensureFirebaseAuth(currentUserId);
 
       if (cancelled) {
         return;
@@ -137,14 +186,14 @@ export async function sendTextMessage({
     return;
   }
 
-  await ensureFirebaseAuth();
+  const { senderId } = await ensureFirebaseAuth(userId);
 
   const chatRef = doc(db, "chats", String(caseId));
 
   const messagesRef = collection(chatRef, "messages");
 
   await addDoc(messagesRef, {
-    senderId: String(userId),
+    senderId,
 
     type: "text",
 
@@ -172,7 +221,7 @@ export async function sendTextMessage({
 
       lastMessageAt: serverTimestamp(),
 
-      lastMessageSenderId: String(userId),
+      lastMessageSenderId: senderId,
     },
     {
       merge: true,
@@ -181,7 +230,7 @@ export async function sendTextMessage({
 }
 
 export async function markChatAsRead(caseId: string, userId: string) {
-  await ensureFirebaseAuth();
+  await ensureFirebaseAuth(userId);
 
   const chatRef = doc(db, "chats", String(caseId));
 

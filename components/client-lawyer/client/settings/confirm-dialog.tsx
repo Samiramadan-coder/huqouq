@@ -18,8 +18,7 @@ import {
 import { toast } from "sonner";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { auth } from "@/lib/firebase";
-import { signOut as firebaseSignOut } from "firebase/auth";
+import { signOutOfFirebase } from "@/features/chat";
 import { useUser } from "@/providers/user-provider";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -86,9 +85,7 @@ export default function ConfirmDialog({
     const result = await deleteAccount(data);
 
     if (result.success) {
-      await firebaseSignOut(auth).catch((error) =>
-        console.error("Error signing out of Firebase", error),
-      );
+      await signOutOfFirebase();
       setUser(null);
 
       // Clear the token cookie, go home and show the message as a toast
