@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
+import { FlashToast } from "@/components/ui/flash-toast";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Inter, Lora, Cairo } from "next/font/google";
@@ -93,6 +94,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                 <DirectionProvider dir={dir}>
                   {children}
                   <Toaster richColors position="top-center" />
+                  <FlashToast />
                 </DirectionProvider>
               </NextIntlClientProvider>
             </UserProvider>

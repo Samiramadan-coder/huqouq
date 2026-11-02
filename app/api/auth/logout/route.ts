@@ -11,5 +11,15 @@ export async function GET(request: NextRequest) {
 
   response.cookies.delete("token");
 
+  // Shown as a toast on the next page by <FlashToast />
+  const message = request.nextUrl.searchParams.get("message");
+  if (message) {
+    response.cookies.set("flash_message", message.slice(0, 300), {
+      path: "/",
+      maxAge: 60,
+      sameSite: "lax",
+    });
+  }
+
   return response;
 }

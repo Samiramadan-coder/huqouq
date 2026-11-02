@@ -120,10 +120,16 @@ async function parseBody(response: Response): Promise<unknown> {
   }
 }
 
-function handleUnauthorized(): Promise<never> {
-  if (typeof window === "undefined") redirect(LOGOUT_URL);
+// Log out and go to sign-in. The API message is passed along so it can be
+// shown as a toast once the sign-in page loads.
+function handleUnauthorized(message?: string): Promise<never> {
+  const url = message
+    ? `${LOGOUT_URL}&message=${encodeURIComponent(message)}`
+    : LOGOUT_URL;
 
-  window.location.replace(LOGOUT_URL);
+  if (typeof window === "undefined") redirect(url);
+
+  window.location.replace(url);
 
   // Keep the caller waiting while the browser navigates away
   return new Promise<never>(() => {});
@@ -168,11 +174,15 @@ function createHttp(baseURL: string) {
     }
 
     switch (response.status) {
-      case 401:
+      case 401: {
         // With a token the session is no longer valid. Without one (login,
         // register...) it's a user-facing error such as wrong credentials.
-        if (headers.has("Authorization")) return handleUnauthorized();
-        throw new ValidationError(401, data);
+        const error = new ValidationError(401, data);
+        if (headers.has("Authorization")) {
+          return handleUnauthorized(error.responseMessage);
+        }
+        throw error;
+      }
       case 403:
       case 422:
         throw new ValidationError(response.status, data);
