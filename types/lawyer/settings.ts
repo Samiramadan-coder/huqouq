@@ -1,5 +1,6 @@
 import z from "zod";
 import { T } from "../shared";
+import { CantDeleteReason } from "../client/settings";
 
 export type PayoutDetailsType = {
   provided: boolean;
@@ -53,3 +54,18 @@ export const payoutDetailsSchema = (t: T) =>
 export type PayoutDetailsFormValues = z.infer<
   ReturnType<typeof payoutDetailsSchema>
 >;
+
+// Client DangerZone Body
+export type LawyerDangerZone = {
+  blockers: {
+    code:
+      | "assigned_case"
+      | "active_legal_service"
+      | "upcoming_consultation"
+      | "unpaid_earnings";
+    label: string;
+    count: number;
+  }[];
+  can_delete: boolean;
+  reasons: CantDeleteReason[];
+};

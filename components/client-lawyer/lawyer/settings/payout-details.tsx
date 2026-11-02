@@ -15,7 +15,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { updatePayoutDetails } from "@/lib/lawyer/settings";
 import FormInput from "@/components/public/shared/form/form-input";
 import SubmitBtn from "@/components/public/shared/form/submit-btn";
-import SectionCard from "@/components/client-lawyer/lawyer/consultations/section-card";
 
 // Groups an IBAN into blocks of four for readability
 const formatIban = (iban: string) => iban.replace(/(.{4})(?=.)/g, "$1 ");
@@ -77,8 +76,12 @@ export default function PayoutDetails({
   };
 
   return (
-    <SectionCard title={t("Title")}>
-      <div className="flex flex-col-reverse sm:flex-row sm:items-start gap-4 sm:gap-6">
+    <div>
+      <h2 className="ltr:font-lora text-[15px] text-primary tracking-wide mb-4">
+        {t("Title")}
+      </h2>
+
+      <div className="bg-white p-5 border border-secondary rounded-xs flex flex-col-reverse sm:flex-row sm:items-start gap-4 sm:gap-6">
         {isEditMode ? (
           <form
             noValidate
@@ -176,6 +179,6 @@ export default function PayoutDetails({
           )}
         </div>
       </div>
-    </SectionCard>
+    </div>
   );
 }

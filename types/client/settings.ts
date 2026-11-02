@@ -89,3 +89,25 @@ export const changePasswordSchema = (t: T) =>
 export type ChangePasswordFormValues = z.infer<
   ReturnType<typeof changePasswordSchema>
 >;
+
+// Client DangerZone Body
+export type CantDeleteReason = {
+  value:
+    | "no_longer_needed"
+    | "privacy"
+    | "found_alternative"
+    | "too_expensive"
+    | "technical"
+    | "other";
+  label: string;
+};
+
+export type ClientDangerZone = {
+  blockers: {
+    code: "hired_case" | "active_legal_service" | "upcoming_consultation";
+    label: string;
+    count: number;
+  }[];
+  can_delete: boolean;
+  reasons: CantDeleteReason[];
+};

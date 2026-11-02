@@ -1634,6 +1634,13 @@
           },
           "cancel": "Cancel",
           "continue": "Continue"
+        },
+        "Blocked": {
+          "hint": "Resolve the pending items below before deleting your account.",
+          "title": "You can't delete your account yet",
+          "description": "Your account has active items that must be completed or resolved first:",
+          "footer": "Once these are resolved, you'll be able to delete your account.",
+          "gotIt": "Got it"
         }
       },
       "edit": "Edit",

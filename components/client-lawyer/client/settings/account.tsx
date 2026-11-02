@@ -12,7 +12,7 @@ export default async function Account() {
         {t("title")}
       </h2>
 
-      <div className="bg-white px-5 border border-secondary rounded-[5px] divide-y divide-secondary">
+      <div className="bg-white px-5 border border-secondary rounded-xs divide-y divide-secondary">
         <ProfilePhoto />
 
         <NormalElementControl type="text" field="name" label={t("fullName")} />
