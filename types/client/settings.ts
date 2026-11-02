@@ -91,7 +91,7 @@ export type ChangePasswordFormValues = z.infer<
 >;
 
 // Client DangerZone Body
-export type CantDeleteReason = {
+export type WhyDeleteReason = {
   value:
     | "no_longer_needed"
     | "privacy"
@@ -109,5 +109,25 @@ export type ClientDangerZone = {
     count: number;
   }[];
   can_delete: boolean;
-  reasons: CantDeleteReason[];
+  reasons: WhyDeleteReason[];
 };
+
+// Delete account confirmation
+export const DELETE_REASONS = [
+  "no_longer_needed",
+  "privacy",
+  "found_alternative",
+  "too_expensive",
+  "technical",
+  "other",
+] as const satisfies readonly WhyDeleteReason["value"][];
+
+export const deleteAccountSchema = (t: T) =>
+  z.object({
+    reason: z.enum(DELETE_REASONS, t("Dialog.Confirm.Errors.reasonRequired")),
+    password: z.string().trim().min(1, t("Dialog.Confirm.Errors.codeRequired")),
+  });
+
+export type DeleteAccountFormValues = z.infer<
+  ReturnType<typeof deleteAccountSchema>
+>;

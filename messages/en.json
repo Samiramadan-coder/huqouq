@@ -1633,7 +1633,24 @@
             "documents": "Your uploaded documents and files"
           },
           "cancel": "Cancel",
-          "continue": "Continue"
+          "continue": "Continue",
+          "sendCodeError": "We couldn't send the confirmation code. Please try again.",
+          "Confirm": {
+            "title": "Confirm account deletion",
+            "description": "We've sent you a confirmation code. Tell us why you're leaving and enter the code to permanently delete your account.",
+            "reasonLabel": "Why are you leaving?",
+            "codeLabel": "Password",
+            "codePlaceholder": "Enter Your Password",
+            "resend": "Resend code",
+            "resendSuccess": "A new code has been sent",
+            "back": "Back",
+            "delete": "Delete my account",
+            "success": "Your account has been deleted",
+            "Errors": {
+              "reasonRequired": "Please choose a reason",
+              "codeRequired": "Please enter the confirmation code"
+            }
+          }
         },
         "Blocked": {
           "hint": "Resolve the pending items below before deleting your account.",

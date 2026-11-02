@@ -1,6 +1,6 @@
 import z from "zod";
 import { T } from "../shared";
-import { CantDeleteReason } from "../client/settings";
+import { WhyDeleteReason } from "../client/settings";
 
 export type PayoutDetailsType = {
   provided: boolean;
@@ -67,5 +67,5 @@ export type LawyerDangerZone = {
     count: number;
   }[];
   can_delete: boolean;
-  reasons: CantDeleteReason[];
+  reasons: WhyDeleteReason[];
 };

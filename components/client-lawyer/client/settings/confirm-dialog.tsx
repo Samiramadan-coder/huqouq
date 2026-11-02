@@ -1,17 +1,33 @@
 "use client";
 
 import {
-  AlertDialogCancel,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogMedia,
   AlertDialogTitle,
+  AlertDialogCancel,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
 
-import { CircleAlert } from "lucide-react";
+import {
+  WhyDeleteReason,
+  deleteAccountSchema,
+  DeleteAccountFormValues,
+} from "@/types/client/settings";
+
+import { toast } from "sonner";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { FieldError } from "@/components/ui/field";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleAlert, ShieldAlert } from "lucide-react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import FormInput from "@/components/public/shared/form/form-input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { deleteAccount, requestDeletionCode } from "@/lib/client/settings";
 
 const REMOVED_ITEMS = [
   "profile",
@@ -21,49 +37,224 @@ const REMOVED_ITEMS = [
   "documents",
 ] as const;
 
-export default function ConfirmDialog() {
+const LOGOUT_URL = "/api/auth/logout?next=/sign-in";
+
+export default function ConfirmDialog({
+  reasons,
+}: {
+  reasons: WhyDeleteReason[];
+}) {
   const t = useTranslations("Client.Settings.DangerZone");
+  const [step, setStep] = useState<"warning" | "confirm">("warning");
+  const [isSendingCode, setIsSendingCode] = useState(false);
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<DeleteAccountFormValues>({
+    resolver: zodResolver(deleteAccountSchema(t)),
+    defaultValues: { password: "" },
+  });
+
+  const sendCode = async () => {
+    setIsSendingCode(true);
+
+    const result = await requestDeletionCode();
+
+    setIsSendingCode(false);
+
+    if (!result.success) {
+      return toast.error(result.message ?? t("Dialog.sendCodeError"));
+    }
+
+    if (step === "warning") {
+      if (result.message) toast.success(result.message);
+      return setStep("confirm");
+    }
+
+    toast.success(result.message ?? t("Dialog.Confirm.resendSuccess"));
+  };
+
+  const onSubmit: SubmitHandler<DeleteAccountFormValues> = async (data) => {
+    const result = await deleteAccount(data);
+
+    if (result.success) {
+      const message = result.message ?? t("Dialog.Confirm.success");
+      // Clear the session and show the message on the sign-in page
+      window.location.replace(
+        `${LOGOUT_URL}&message=${encodeURIComponent(message)}`,
+      );
+      return;
+    }
+
+    const fieldErrors = Object.entries(result.errors ?? {}).filter(
+      ([, message]) => message,
+    );
+
+    fieldErrors.forEach(([field, message]) =>
+      setError(field as keyof DeleteAccountFormValues, {
+        type: "server",
+        message,
+      }),
+    );
+
+    if (!fieldErrors.length) {
+      toast.error(result.message ?? t("commonError"));
+    }
+  };
+
+  if (step === "warning") {
+    return (
+      <>
+        <AlertDialogHeader className="flex! flex-row items-center gap-3 text-start">
+          <AlertDialogMedia className="mb-0 size-9 shrink-0 rounded-full bg-destructive/10">
+            <CircleAlert className="size-4! text-destructive" />
+          </AlertDialogMedia>
+          <AlertDialogTitle className="font-normal text-lg text-primary ltr:font-lora">
+            {t("deleteAccount")}
+          </AlertDialogTitle>
+        </AlertDialogHeader>
+
+        <div className="space-y-4">
+          <AlertDialogDescription className="text-sm text-primary/60 leading-relaxed text-start">
+            {t("Dialog.description")}
+          </AlertDialogDescription>
+
+          <ul className="space-y-2">
+            {REMOVED_ITEMS.map((item) => (
+              <li
+                key={item}
+                className="flex items-center gap-3 text-sm text-primary/60"
+              >
+                <span className="size-1 rounded-full bg-destructive/60 shrink-0" />
+                {t(`Dialog.items.${item}`)}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <AlertDialogFooter className="m-0 p-0 pt-1 border-none bg-transparent grid! grid-cols-2 gap-3">
+          <AlertDialogCancel className="h-10 rounded-sm border-secondary bg-transparent font-normal text-primary/70 hover:bg-transparent hover:text-primary">
+            {t("Dialog.cancel")}
+          </AlertDialogCancel>
+
+          <Button
+            type="button"
+            disabled={isSendingCode}
+            onClick={sendCode}
+            className="h-10 rounded-sm border border-destructive/20 bg-destructive/10 font-normal text-destructive hover:bg-destructive/15"
+          >
+            {isSendingCode && <Spinner />}
+            {t("Dialog.continue")}
+          </Button>
+        </AlertDialogFooter>
+      </>
+    );
+  }
+
+  const isBusy = isSubmitting || isSendingCode;
+
   return (
     <>
       <AlertDialogHeader className="flex! flex-row items-center gap-3 text-start">
         <AlertDialogMedia className="mb-0 size-9 shrink-0 rounded-full bg-destructive/10">
-          <CircleAlert className="size-4! text-destructive" />
+          <ShieldAlert className="size-4! text-destructive" />
         </AlertDialogMedia>
         <AlertDialogTitle className="font-normal text-lg text-primary ltr:font-lora">
-          {t("deleteAccount")}
+          {t("Dialog.Confirm.title")}
         </AlertDialogTitle>
       </AlertDialogHeader>
 
-      <div className="space-y-4">
+      <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <AlertDialogDescription className="text-sm text-primary/60 leading-relaxed text-start">
-          {t("Dialog.description")}
+          {t("Dialog.Confirm.description")}
         </AlertDialogDescription>
 
-        <ul className="space-y-2">
-          {REMOVED_ITEMS.map((item) => (
-            <li
-              key={item}
-              className="flex items-center gap-3 text-sm text-primary/60"
-            >
-              <span className="size-1 rounded-full bg-destructive/60 shrink-0" />
-              {t(`Dialog.items.${item}`)}
-            </li>
-          ))}
-        </ul>
-      </div>
+        <div className="space-y-2">
+          <p className="text-primary/60 text-xs">
+            {t("Dialog.Confirm.reasonLabel")}
+          </p>
 
-      <AlertDialogFooter className="m-0 p-0 pt-1 border-none bg-transparent grid! grid-cols-2 gap-3">
-        <AlertDialogCancel className="h-10 rounded-sm border-secondary bg-transparent font-normal text-primary/70 hover:bg-transparent hover:text-primary">
-          {t("Dialog.cancel")}
-        </AlertDialogCancel>
+          <Controller
+            control={control}
+            name="reason"
+            render={({ field }) => (
+              <RadioGroup
+                value={field.value ?? ""}
+                onValueChange={field.onChange}
+                disabled={isSubmitting}
+                className="gap-2"
+              >
+                {reasons.map((reason) => (
+                  <label
+                    key={reason.value}
+                    className={cn(
+                      "flex items-center gap-3 rounded-sm border px-3 py-2.5 text-sm cursor-pointer transition-colors",
+                      field.value === reason.value
+                        ? "border-destructive/40 bg-destructive/5 text-primary"
+                        : "border-secondary text-primary/70 hover:border-primary/20",
+                    )}
+                  >
+                    <RadioGroupItem value={reason.value} />
+                    {reason.label}
+                  </label>
+                ))}
+              </RadioGroup>
+            )}
+          />
 
-        <Button
-          type="button"
-          className="h-10 rounded-sm border border-destructive/20 bg-destructive/10 font-normal text-destructive hover:bg-destructive/15"
-        >
-          {t("Dialog.continue")}
-        </Button>
-      </AlertDialogFooter>
+          <FieldError errors={[errors.reason]} />
+        </div>
+
+        <div className="space-y-1.5">
+          <FormInput
+            register={register}
+            name="password"
+            type="password"
+            required
+            errors={errors}
+            label={t("Dialog.Confirm.codeLabel")}
+            placeholder={t("Dialog.Confirm.codePlaceholder")}
+            labelClassName="text-primary/60 text-xs font-normal"
+            inputClassName="border border-secondary"
+            autoComplete="one-time-code"
+            disabled={isSubmitting}
+          />
+
+          {/* <button
+            type="button"
+            onClick={sendCode}
+            disabled={isBusy}
+            className="text-xs text-primary/50 hover:text-primary underline-offset-4 hover:underline cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {t("Dialog.Confirm.resend")}
+          </button> */}
+        </div>
+
+        <AlertDialogFooter className="m-0 p-0 pt-1 border-none bg-transparent grid! grid-cols-2 gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            disabled={isBusy}
+            onClick={() => setStep("warning")}
+            className="h-10 rounded-sm border-secondary bg-transparent font-normal text-primary/70 hover:bg-transparent hover:text-primary"
+          >
+            {t("Dialog.Confirm.back")}
+          </Button>
+
+          <Button
+            type="submit"
+            disabled={isBusy}
+            className="h-10 rounded-sm bg-destructive font-normal text-white hover:bg-destructive/90"
+          >
+            {isSubmitting && <Spinner />}
+            {t("Dialog.Confirm.delete")}
+          </Button>
+        </AlertDialogFooter>
+      </form>
     </>
   );
 }
