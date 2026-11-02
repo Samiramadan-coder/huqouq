@@ -2,24 +2,24 @@ import ChatRoom from "./chat-room";
 import Completed from "./completed";
 import { cookies } from "next/headers";
 import { Link } from "@/i18n/navigation";
-import ServiceProgress from "@/components/client-lawyer/reusable/service-progress";
 import CompareOffers from "./compare-offers";
 import OfferAccepted from "./accepted-offer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LawyerOfferCard from "./lawyer-offer-card";
 import DeliveredSection from "./delivered-section";
-import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
-import RevisionInProgress from "./revision-in-progress";
 import { getTranslations } from "next-intl/server";
+import { getFormatters } from "@/lib/format.server";
 import { Separator } from "@/components/ui/separator";
+import RevisionInProgress from "./revision-in-progress";
 import { LegalServiceStatus } from "../list-of-services";
+import { Card, CardContent } from "@/components/ui/card";
 import BackBtn from "@/components/client-lawyer/reusable/back-btn";
 import { LegalServiceDetails } from "@/types/client/legal-services";
 import DownloadFile from "@/components/client-lawyer/reusable/download-file";
 import { MapPin, Calendar, Clock, FileText, MessageSquare } from "lucide-react";
-import { getFormatters } from "@/lib/format.server";
-import { Card, CardContent } from "@/components/ui/card";
+import ServiceProgress from "@/components/client-lawyer/reusable/service-progress";
+import DeliveryHistory from "@/components/client-lawyer/reusable/delivery-history/delivery-history";
 
 export default async function Index({
   legalService,
@@ -153,7 +153,10 @@ export default async function Index({
               <p className=" text-[10px] font-semibold tracking-widest uppercase text-primary/35 mb-1">
                 {t("Fields.description.label")}
               </p>
-              <p dir="auto" className="text-sm text-primary/55 leading-relaxed mb-4 whitespace-pre-line wrap-break-word">
+              <p
+                dir="auto"
+                className="text-sm text-primary/55 leading-relaxed mb-4 whitespace-pre-line wrap-break-word"
+              >
                 {legalService.description}
               </p>
             </div>
@@ -194,7 +197,7 @@ export default async function Index({
 
               <span className="flex items-center gap-2 text-xs text-primary/45">
                 <MapPin className="size-4" aria-hidden="true" />
-                {legalService.emirate}
+                {legalService.emirate_label}
               </span>
 
               <span className="flex items-center gap-2 text-xs text-primary/45">
