@@ -1,12 +1,12 @@
 // "use server";
 
-import { OtpFormValues } from "@/types/otp";
-import { http, ValidationError } from "./http";
-import { SignUpFormValues } from "@/types/sign-up";
 import {
   SignInWithEmailFormValues,
   SignInWithPhoneFormValues,
 } from "@/types/sign-in";
+import { OtpFormValues } from "@/types/otp";
+import { http, ValidationError } from "./http";
+import { SignUpFormValues } from "@/types/sign-up";
 import { ResetPasswordFormValues } from "@/types/reset-password";
 import { ForgotPasswordFormValues } from "@/types/forgot-password";
 import { AuthFormActionsResponse, GuestType, User } from "@/types/shared";
@@ -67,6 +67,8 @@ export async function login(
       token: string;
       user: User;
     }>("/api/auth/login", formData);
+
+    console.log(data);
 
     return {
       success: true,

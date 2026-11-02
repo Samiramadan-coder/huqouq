@@ -26,7 +26,7 @@ class HttpError extends Error {
 }
 
 class ValidationError extends Error {
-  status: 422;
+  status: 422 | 403 | 401;
   errors: Record<string, string[]>;
   responseMessage?: string;
 
@@ -39,7 +39,7 @@ class ValidationError extends Error {
     this.responseMessage = message;
   }
 
-  private static parseMessage(data: unknown): string | undefined {
+  protected static parseMessage(data: unknown): string | undefined {
     if (
       data !== null &&
       typeof data === "object" &&
@@ -61,6 +61,19 @@ class ValidationError extends Error {
       return (data as { errors: Record<string, string[]> }).errors;
     }
     return {};
+  }
+}
+
+// 401/403 responses carry a user-facing message. Extending ValidationError lets
+// every action's existing `instanceof ValidationError` branch return
+// `responseMessage`, which the UI then shows in a toast.
+class MessageError extends ValidationError {
+  constructor(status: 401 | 403, data: unknown) {
+    super(data);
+    this.name = "MessageError";
+    this.status = status;
+    this.errors = {};
+    this.message = this.responseMessage || `Request failed with status ${status}`;
   }
 }
 
@@ -174,11 +187,21 @@ function createHttp(baseURL: string) {
 
     if (!response.ok) {
       if (response.status === 401) {
+        // Without a token (login, register...) a 401 is a user-facing error,
+        // e.g. wrong credentials. With a token the session is no longer valid.
+        if (!headers.get("Authorization")) {
+          throw new MessageError(401, data);
+        }
+
         await handleUnauthorized();
       }
 
       if (response.status === 422) {
         throw new ValidationError(data);
+      }
+
+      if (response.status === 403) {
+        throw new MessageError(403, data);
       }
 
       throw new HttpError(
@@ -220,5 +243,5 @@ function createHttp(baseURL: string) {
 
 const http = createHttp(process.env.NEXT_PUBLIC_API_URL ?? "");
 
-export { http, createHttp, HttpError, ValidationError };
+export { http, createHttp, HttpError, ValidationError, MessageError };
 export type { HttpResponse, RequestConfig };
