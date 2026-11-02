@@ -53,12 +53,14 @@ export const changePasswordSchema = (t: T) =>
   z
     .object({
       current_password: z.string().min(1, t("Password.Errors.currentRequired")),
-
       password: z
         .string()
         .min(1, t("Password.Errors.newRequired"))
-        .min(PASSWORD_MIN, t("Password.Errors.min")),
-
+        .min(PASSWORD_MIN, t("Password.Errors.min"))
+        .regex(/[a-z]/, t("Password.Errors.lowercase"))
+        .regex(/[A-Z]/, t("Password.Errors.uppercase"))
+        .regex(/[0-9]/, t("Password.Errors.number"))
+        .regex(/[!@#$%^&*(),.?":{}|<>]/, t("Password.Errors.special")),
       password_confirmation: z
         .string()
         .min(1, t("Password.Errors.confirmRequired")),

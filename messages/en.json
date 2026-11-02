@@ -1617,6 +1617,7 @@
       }
     },
     "Settings": {
+      "commonError": "Something went wrong",
       "title": "Settings",
       "DangerZone": {
         "title": "Danger Zone",
@@ -1675,10 +1676,21 @@
         "currentPassword": "Current Password",
         "newPassword": "New Password",
         "confirmPassword": "Confirm New Password",
+        "showPassword": "Show password",
+        "hidePassword": "Hide password",
+        "Strength": {
+          "weak": "Weak",
+          "medium": "Medium",
+          "strong": "Strong"
+        },
         "Errors": {
           "currentRequired": "Current password is required",
           "newRequired": "New password is required",
           "min": "Password must be at least 8 characters",
+          "lowercase": "Password must contain at least one lowercase letter",
+          "uppercase": "Password must contain at least one uppercase letter",
+          "number": "Password must contain at least one number",
+          "special": "Password must contain at least one special character",
           "confirmRequired": "Password confirmation is required",
           "sameAsCurrent": "New password must be different from the current password",
           "mismatch": "Passwords do not match"

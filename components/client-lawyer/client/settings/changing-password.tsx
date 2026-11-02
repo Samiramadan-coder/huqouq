@@ -13,16 +13,18 @@ import {
   changePasswordSchema,
 } from "@/types/client/settings";
 
+import { toast } from "sonner";
 import { useState } from "react";
 import AreaButton from "./area-button";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import FormInput from "@/components/public/shared/form/form-input";
 import { changePassword } from "@/lib/client/settings";
-import { toast } from "sonner";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import FormInput from "@/components/public/shared/form/form-input";
+import PasswordToggle from "@/components/auth/shared/password-toggle";
+import PasswordStrength from "@/components/auth/shared/password-strength";
 
 const labelClassName = "text-primary/60 text-xs font-normal";
 const inputClassName = "border border-secondary";
@@ -30,9 +32,11 @@ const inputClassName = "border border-secondary";
 export default function ChangingPassword() {
   const t = useTranslations("Client.Settings");
   const [open, setOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
+    control,
     reset,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -45,12 +49,26 @@ export default function ChangingPassword() {
     },
   });
 
+  const password = useWatch({ control, name: "password" });
+
   // Clear typed passwords and errors whenever the dialog closes
   const handleOpenChange = (value: boolean) => {
     if (isSubmitting) return;
     setOpen(value);
-    if (!value) reset();
+    if (!value) {
+      reset();
+      setShowPassword(false);
+    }
   };
+
+  const passwordToggle = (
+    <PasswordToggle
+      visible={showPassword}
+      onToggle={() => setShowPassword((visible) => !visible)}
+      showLabel={t("Password.showPassword")}
+      hideLabel={t("Password.hidePassword")}
+    />
+  );
 
   const onSubmit: SubmitHandler<ChangePasswordFormValues> = async (data) => {
     try {
@@ -61,9 +79,10 @@ export default function ChangingPassword() {
         return setOpen(false);
       }
 
-      toast.error("");
+      toast.error(t("commonError"));
     } catch (error) {
-      toast.error("");
+      console.error(error);
+      toast.error(t("commonError"));
     }
   };
 
@@ -108,17 +127,28 @@ export default function ChangingPassword() {
                   autoComplete="current-password"
                 />
 
-                <FormInput
-                  register={register}
-                  name="password"
-                  required
-                  errors={errors}
-                  label={t("Password.newPassword")}
-                  labelClassName={labelClassName}
-                  inputClassName={inputClassName}
-                  type="password"
-                  autoComplete="new-password"
-                />
+                <div>
+                  <FormInput
+                    register={register}
+                    name="password"
+                    required
+                    errors={errors}
+                    label={t("Password.newPassword")}
+                    labelClassName={labelClassName}
+                    inputClassName={inputClassName}
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    suffix={passwordToggle}
+                  />
+                  <PasswordStrength
+                    password={password}
+                    labels={{
+                      weak: t("Password.Strength.weak"),
+                      medium: t("Password.Strength.medium"),
+                      strong: t("Password.Strength.strong"),
+                    }}
+                  />
+                </div>
 
                 <FormInput
                   register={register}
@@ -128,8 +158,9 @@ export default function ChangingPassword() {
                   label={t("Password.confirmPassword")}
                   labelClassName={labelClassName}
                   inputClassName={inputClassName}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
+                  suffix={passwordToggle}
                 />
               </div>
 
