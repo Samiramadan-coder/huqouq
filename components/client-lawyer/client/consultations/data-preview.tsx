@@ -1,14 +1,15 @@
-import Details, { NeedsNewTimeNotice } from "./details";
-import RateConsultation from "./rate-consultation";
 import { Meta } from "@/types/shared";
 import StatusBadge from "./status-badge";
 import { useTranslations } from "next-intl";
+import RateConsultation from "./rate-consultation";
+import ReportConsultation from "./report-consultation";
 import JoinCall from "../../reusable/call/join-call";
 import { Calendar, Clock, Phone } from "lucide-react";
+import Details, { NeedsNewTimeNotice } from "./details";
 import { toCallType } from "../../reusable/call/config";
 import { Consultation } from "@/types/client/consultation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PaginationTemplate from "../../reusable/pagination-template";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function DataPreview({
   data,
@@ -74,6 +75,9 @@ export default function DataPreview({
                 {consultation.can.rate && !consultation.review && (
                   <RateConsultation consultation={consultation} />
                 )}
+                {consultation.can.report && (
+                  <ReportConsultation consultation={consultation} />
+                )}
                 {consultation.can.join_call && (
                   <JoinCall
                     consultationId={consultation.id}
@@ -104,6 +108,7 @@ export default function DataPreview({
       ) : (
         <span className="text-primary/55">{t("noConsultations")}</span>
       )}
+
       {pagination.last_page > 1 && (
         <PaginationTemplate
           currentPage={pagination.current_page}

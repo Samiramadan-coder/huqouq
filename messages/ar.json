@@ -1618,6 +1618,22 @@
         "trigger": "قيّم هذه الاستشارة",
         "yourReview": "تقييمك",
         "failed": "فشل إرسال تقييمك. يرجى المحاولة مرة أخرى."
+      },
+      "Report": {
+        "trigger": "إبلاغ",
+        "title": "الإبلاغ عن هذه الاستشارة",
+        "reasonLabel": "السبب",
+        "reasonPlaceholder": "اختر سببًا",
+        "reasonRequired": "يرجى اختيار سبب",
+        "detailsLabel": "التفاصيل",
+        "detailsPlaceholder": "أخبرنا بما حدث",
+        "detailsRequired": "يرجى وصف ما حدث",
+        "submit": "إرسال البلاغ",
+        "cancel": "إلغاء",
+        "failed": "فشل إرسال البلاغ. يرجى المحاولة مرة أخرى.",
+        "reasons": {
+          "lawyer_no_show": "لم يحضر المحامي"
+        }
       }
     },
     "Settings": {

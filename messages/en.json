@@ -1618,6 +1618,22 @@
         "trigger": "Rate this consultation",
         "yourReview": "Your Review",
         "failed": "Failed to submit your review. Please try again."
+      },
+      "Report": {
+        "trigger": "Report",
+        "title": "Report this consultation",
+        "reasonLabel": "Reason",
+        "reasonPlaceholder": "Choose a reason",
+        "reasonRequired": "Please choose a reason",
+        "detailsLabel": "Details",
+        "detailsPlaceholder": "Tell us what happened",
+        "detailsRequired": "Please describe what happened",
+        "submit": "Submit Report",
+        "cancel": "Cancel",
+        "failed": "Failed to submit your report. Please try again.",
+        "reasons": {
+          "lawyer_no_show": "Lawyer did not show up"
+        }
       }
     },
     "Settings": {
