@@ -1,5 +1,7 @@
-import { http } from "../http";
+"use server";
+
 import { toFailure } from "../auth";
+import { http, HttpError } from "../http";
 import { unstable_rethrow } from "next/navigation";
 import {
   ChangePasswordFormValues,
@@ -63,13 +65,21 @@ export async function deleteAccount(
   values: DeleteAccountFormValues,
 ): Promise<DeleteAccountResponse> {
   try {
+    // Sent as a JSON body so the code and reason never end up in URLs/logs
     const { data } = await http.delete<{ message?: string }>(
-      `/api/account?password=${values.password}&reason=${values.reason}`,
+      "/api/account",
+      values,
     );
 
     return { success: true, message: data?.message };
   } catch (error) {
     unstable_rethrow(error);
+
+    // 409: blockers appeared after the page loaded (e.g. a new hired case)
+    if (error instanceof HttpError && error.status === 409) {
+      return { success: false, message: error.responseMessage };
+    }
+
     return toFailure(error, "Error deleting account");
   }
 }

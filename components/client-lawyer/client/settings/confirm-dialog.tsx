@@ -11,6 +11,7 @@ import {
 
 import {
   WhyDeleteReason,
+  REASON_TEXT_MAX,
   deleteAccountSchema,
   DeleteAccountFormValues,
 } from "@/types/client/settings";
@@ -24,9 +25,10 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, ShieldAlert } from "lucide-react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import FormInput from "@/components/public/shared/form/form-input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { deleteAccount, requestDeletionCode } from "@/lib/client/settings";
@@ -59,8 +61,10 @@ export default function ConfirmDialog({
     formState: { errors, isSubmitting },
   } = useForm<DeleteAccountFormValues>({
     resolver: zodResolver(deleteAccountSchema(t)),
-    defaultValues: { password: "" },
+    defaultValues: { code: "", reason_text: "" },
   });
+
+  const isOther = useWatch({ control, name: "reason" }) === "other";
 
   const sendCode = async () => {
     setIsSendingCode(true);
@@ -82,7 +86,10 @@ export default function ConfirmDialog({
   };
 
   const onSubmit: SubmitHandler<DeleteAccountFormValues> = async (data) => {
-    const result = await deleteAccount(data);
+    // reason_text only applies to "other"; drop leftovers from switching reason
+    const result = await deleteAccount(
+      data.reason === "other" ? data : { ...data, reason_text: undefined },
+    );
 
     if (result.success) {
       await signOutOfFirebase();
@@ -212,13 +219,28 @@ export default function ConfirmDialog({
           />
 
           <FieldError errors={[errors.reason]} />
+
+          {isOther && (
+            <>
+              <Textarea
+                {...register("reason_text")}
+                aria-label={t("Dialog.Confirm.reasonTextLabel")}
+                aria-invalid={!!errors.reason_text}
+                placeholder={t("Dialog.Confirm.reasonTextPlaceholder")}
+                maxLength={REASON_TEXT_MAX}
+                disabled={isSubmitting}
+                className="min-h-20 rounded-sm border-secondary text-sm"
+              />
+              <FieldError errors={[errors.reason_text]} />
+            </>
+          )}
         </div>
 
         <div className="space-y-1.5">
           <FormInput
             register={register}
-            name="password"
-            type="password"
+            name="code"
+            inputMode="numeric"
             required
             errors={errors}
             label={t("Dialog.Confirm.codeLabel")}
@@ -228,6 +250,15 @@ export default function ConfirmDialog({
             autoComplete="one-time-code"
             disabled={isSubmitting}
           />
+
+          <button
+            type="button"
+            onClick={sendCode}
+            disabled={isBusy}
+            className="text-xs text-primary/60 hover:text-primary hover:underline disabled:opacity-50 cursor-pointer"
+          >
+            {t("Dialog.Confirm.resend")}
+          </button>
         </div>
 
         <AlertDialogFooter className="m-0 p-0 pt-1 border-none bg-transparent grid! grid-cols-2 gap-3">

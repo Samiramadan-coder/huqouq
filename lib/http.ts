@@ -204,8 +204,8 @@ function createHttp(baseURL: string) {
     patch<T = unknown>(path: string, body?: unknown, config?: RequestConfig) {
       return request<T>("PATCH", path, body, config);
     },
-    delete<T = unknown>(path: string, config?: RequestConfig) {
-      return request<T>("DELETE", path, undefined, config);
+    delete<T = unknown>(path: string, body?: unknown, config?: RequestConfig) {
+      return request<T>("DELETE", path, body, config);
     },
   };
 }

@@ -1638,15 +1638,19 @@
             "title": "تأكيد حذف الحساب",
             "description": "أرسلنا إليك رمز تأكيد. أخبرنا بسبب المغادرة وأدخل الرمز لحذف حسابك نهائيًا.",
             "reasonLabel": "لماذا تغادر؟ (اختياري)",
-            "codeLabel": "كلمة المرور",
-            "codePlaceholder": "أدخل كلمة المرور الخاصة بك",
+            "reasonTextLabel": "أخبرنا المزيد",
+            "reasonTextPlaceholder": "أخبرنا بسبب مغادرتك",
+            "codeLabel": "رمز التأكيد",
+            "codePlaceholder": "أدخل الرمز الذي أرسلناه إليك",
             "resend": "إعادة إرسال الرمز",
             "resendSuccess": "تم إرسال رمز جديد",
             "back": "رجوع",
             "delete": "حذف حسابي",
             "success": "تم حذف حسابك",
             "Errors": {
-              "codeRequired": "يرجى إدخال رمز التأكيد"
+              "codeRequired": "يرجى إدخال رمز التأكيد",
+              "reasonTextRequired": "يرجى كتابة سبب المغادرة",
+              "reasonTextMax": "يجب ألا يتجاوز السبب 500 حرف"
             }
           }
         },

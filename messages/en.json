@@ -1639,15 +1639,19 @@
             "title": "Confirm account deletion",
             "description": "We've sent you a confirmation code. Tell us why you're leaving and enter the code to permanently delete your account.",
             "reasonLabel": "Why are you leaving? (optional)",
-            "codeLabel": "Password",
-            "codePlaceholder": "Enter Your Password",
+            "reasonTextLabel": "Tell us more",
+            "reasonTextPlaceholder": "Tell us why you're leaving",
+            "codeLabel": "Confirmation code",
+            "codePlaceholder": "Enter the code we sent you",
             "resend": "Resend code",
             "resendSuccess": "A new code has been sent",
             "back": "Back",
             "delete": "Delete my account",
             "success": "Your account has been deleted",
             "Errors": {
-              "codeRequired": "Please enter the confirmation code"
+              "codeRequired": "Please enter the confirmation code",
+              "reasonTextRequired": "Please tell us your reason",
+              "reasonTextMax": "Reason must not exceed 500 characters"
             }
           }
         },

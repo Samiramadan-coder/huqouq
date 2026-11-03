@@ -122,11 +122,29 @@ export const DELETE_REASONS = [
   "other",
 ] as const satisfies readonly WhyDeleteReason["value"][];
 
+export const REASON_TEXT_MAX = 500;
+
 export const deleteAccountSchema = (t: T) =>
-  z.object({
-    reason: z.enum(DELETE_REASONS).optional(),
-    password: z.string().trim().min(1, t("Dialog.Confirm.Errors.codeRequired")),
-  });
+  z
+    .object({
+      reason: z.enum(DELETE_REASONS).optional(),
+      reason_text: z
+        .string()
+        .trim()
+        .max(REASON_TEXT_MAX, t("Dialog.Confirm.Errors.reasonTextMax"))
+        .optional(),
+      code: z.string().trim().min(1, t("Dialog.Confirm.Errors.codeRequired")),
+    })
+    // The API requires reason_text when the reason is "other"
+    .superRefine((data, ctx) => {
+      if (data.reason === "other" && !data.reason_text) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["reason_text"],
+          message: t("Dialog.Confirm.Errors.reasonTextRequired"),
+        });
+      }
+    });
 
 export type DeleteAccountFormValues = z.infer<
   ReturnType<typeof deleteAccountSchema>
