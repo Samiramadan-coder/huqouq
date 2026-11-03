@@ -9,9 +9,7 @@ export type CallCredentials = {
 export type CallSchedule = {
   startsAt: string;
   durationMinutes: number;
-  // From the booking payload; falls back to the admin "join opens" setting.
   joinOpensAt?: string;
-  // Extra time after the end; defaults to the admin "call grace" setting.
   bufferMinutes?: number;
 };
 
@@ -24,7 +22,6 @@ export type CallEndResult = {
 };
 
 // A "time almost up" warning shows when this many minutes are left.
-// Join-opens and call-grace times come from Admin Settings (usePublicSettings).
 export const ENDING_SOON_MINUTES = 5;
 
 // Testing only. When set, it OVERRIDES the schedule passed to the call: every

@@ -15,7 +15,6 @@ import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { addDeliveryFiles, deliverWork } from "@/lib/lawyer/legal-services";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
 
-// `maxFiles` is the admin "max delivery files" setting (usePublicSettings).
 const deliverWorkSchema = (t: T, maxFiles: FileLimit) =>
   z.object({
     files: z

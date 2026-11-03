@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePublicSettings } from "@/providers/public-settings.provider";
 
-// Seconds left before a verification code can be resent, using the admin
 // "resend cooldown" setting. Starts counting when the code is first sent
 // (on mount) and again on every `restart()`.
 export function useResendCooldown(startOnMount = true) {

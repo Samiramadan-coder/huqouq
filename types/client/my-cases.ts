@@ -22,7 +22,6 @@ const EXECUTION_TYPES = [
   "execution_dispute",
 ] as const satisfies readonly ExecutionType[];
 
-// `maxFiles` is the admin "max case documents" setting (usePublicSettings).
 export const postCaseShema = (t: T, maxFiles: FileLimit) =>
   z
     .object({

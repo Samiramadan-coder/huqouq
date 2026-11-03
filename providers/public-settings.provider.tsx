@@ -5,7 +5,6 @@ import { PublicSettings } from "@/types/public-settings";
 
 const PublicSettingsContext = createContext<PublicSettings | null>(null);
 
-// Admin-controlled business numbers, loaded once per request in the root layout.
 export function PublicSettingsProvider({
   settings,
   children,

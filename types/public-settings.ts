@@ -1,4 +1,3 @@
-// Business numbers controlled from Admin Settings (HUQ-169), served by
 // GET /api/settings/public. Never hard-code these in the UI.
 export type PublicSettings = {
   consultations: {

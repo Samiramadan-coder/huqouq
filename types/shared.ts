@@ -97,6 +97,6 @@ export type Meta = {
   total: number;
 };
 
-// An admin-controlled file count limit, with the number already formatted for
+// HUQ-169: an admin-controlled file count limit, with the number already formatted for
 // the locale (Arabic-Indic digits in Arabic).
 export type FileLimit = { max: number; label: string };

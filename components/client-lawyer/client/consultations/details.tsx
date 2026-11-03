@@ -129,7 +129,9 @@ export default function Details({
             </DetailItem>
 
             <DetailItem label={t("duration")}>
-              {t("minutes", { count: format.number(consultation.duration_minutes) })}
+              {t("minutes", {
+                count: format.number(consultation.duration_minutes),
+              })}
             </DetailItem>
 
             <div className="col-span-2">

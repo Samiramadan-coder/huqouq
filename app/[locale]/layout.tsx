@@ -61,7 +61,6 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   const dir = locale === "ar" ? "rtl" : "ltr";
 
-  // Reference data and the admin-controlled business settings (HUQ-169)
   const [
     { data: referenceData, ok: referenceDataOk },
     { data: publicSettings, ok: publicSettingsOk },

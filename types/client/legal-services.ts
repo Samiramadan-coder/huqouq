@@ -11,7 +11,6 @@ export const SERVICE_DOCUMENT_EXTENSIONS = [
 ];
 export const SERVICE_DOCUMENT_MAX_BYTES = 5 * 1024 * 1024;
 
-// `maxFiles` is the admin "max request files" setting (usePublicSettings).
 export const postLegalServiceShema = (t: T, maxFiles: FileLimit) =>
   z.object({
     service_type: z.string().min(1, t("type.required")),
