@@ -70,8 +70,6 @@ export async function login(
       user: User;
     }>("/api/auth/login", formData);
 
-    console.log(data);
-
     return {
       success: true,
       token: data.token,
