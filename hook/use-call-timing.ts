@@ -6,13 +6,12 @@ import {
   MOCK_SCHEDULE,
   getMockStartsAt,
   ENDING_SOON_MINUTES,
-  DEFAULT_BUFFER_MINUTES,
-  JOIN_OPENS_BEFORE_MINUTES,
 } from "@/components/client-lawyer/reusable/call/config";
+import { usePublicSettings } from "@/providers/public-settings.provider";
 
 export type CallPhase =
   | "loading" // before mount, the clock isn't known yet
-  | "tooEarly" // more than JOIN_OPENS_BEFORE_MINUTES before start
+  | "tooEarly" // before join opens (admin "join opens" setting)
   | "lobby" // join is open, scheduled start not reached
   | "inProgress" // between start and endsAt
   | "extraTime" // between endsAt and hardEndAt
@@ -32,6 +31,7 @@ const MINUTE = 60_000;
 // Times are based on the scheduled start, not when anyone joins:
 // endsAt = start + duration, hardEndAt = endsAt + buffer.
 export function useCallTiming(schedule: CallSchedule): CallTiming {
+  const { consultations } = usePublicSettings();
   const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
@@ -56,10 +56,15 @@ export function useCallTiming(schedule: CallSchedule): CallTiming {
   const startsAt = MOCK_SCHEDULE
     ? getMockStartsAt()
     : new Date(schedule.startsAt).getTime();
-  const { durationMinutes, bufferMinutes = DEFAULT_BUFFER_MINUTES } =
-    MOCK_SCHEDULE ?? schedule;
+  const {
+    durationMinutes,
+    bufferMinutes = consultations.consultations_call_grace_minutes,
+  } = MOCK_SCHEDULE ?? schedule;
 
-  const opensAt = startsAt - JOIN_OPENS_BEFORE_MINUTES * MINUTE;
+  const opensAt =
+    !MOCK_SCHEDULE && schedule.joinOpensAt
+      ? new Date(schedule.joinOpensAt).getTime()
+      : startsAt - consultations.consultations_join_early_minutes * MINUTE;
   const endsAt = startsAt + durationMinutes * MINUTE;
   const hardEndAt = endsAt + bufferMinutes * MINUTE;
 

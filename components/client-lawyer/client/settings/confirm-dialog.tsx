@@ -22,6 +22,8 @@ import { cn } from "@/lib/utils";
 import { signOutOfFirebase } from "@/features/chat";
 import { useUser } from "@/providers/user-provider";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
+import { useResendCooldown } from "@/hook/use-resend-cooldown";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
@@ -49,6 +51,8 @@ export default function ConfirmDialog({
   reasons: WhyDeleteReason[];
 }) {
   const t = useTranslations("Client.Settings.DangerZone");
+  const format = useFormatters();
+  const { secondsLeft, restart } = useResendCooldown(false);
   const { setUser } = useUser();
   const [step, setStep] = useState<"warning" | "confirm">("warning");
   const [isSendingCode, setIsSendingCode] = useState(false);
@@ -76,6 +80,8 @@ export default function ConfirmDialog({
     if (!result.success) {
       return toast.error(result.message ?? t("Dialog.sendCodeError"));
     }
+
+    restart();
 
     if (step === "warning") {
       if (result.message) toast.success(result.message);
@@ -254,10 +260,15 @@ export default function ConfirmDialog({
           <button
             type="button"
             onClick={sendCode}
-            disabled={isBusy}
+            disabled={isBusy || secondsLeft > 0}
             className="text-xs text-primary/60 hover:text-primary hover:underline disabled:opacity-50 cursor-pointer"
           >
-            {t("Dialog.Confirm.resend")}
+            {secondsLeft > 0
+              ? t("Dialog.Confirm.resendIn", {
+                  count: secondsLeft,
+                  seconds: format.number(secondsLeft),
+                })
+              : t("Dialog.Confirm.resend")}
           </button>
         </div>
 

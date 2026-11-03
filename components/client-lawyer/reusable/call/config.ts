@@ -9,6 +9,9 @@ export type CallCredentials = {
 export type CallSchedule = {
   startsAt: string;
   durationMinutes: number;
+  // From the booking payload; falls back to the admin "join opens" setting.
+  joinOpensAt?: string;
+  // Extra time after the end; defaults to the admin "call grace" setting.
   bufferMinutes?: number;
 };
 
@@ -20,13 +23,9 @@ export type CallEndResult = {
   remoteName: string;
 };
 
-// Join opens this many minutes before the scheduled start.
-export const JOIN_OPENS_BEFORE_MINUTES = 5;
 // A "time almost up" warning shows when this many minutes are left.
+// Join-opens and call-grace times come from Admin Settings (usePublicSettings).
 export const ENDING_SOON_MINUTES = 5;
-// Extra time after the scheduled end. Bookings don't expose a buffer yet, so
-// pass `bufferMinutes` in the schedule once the API returns it.
-export const DEFAULT_BUFFER_MINUTES = 0;
 
 // Testing only. When set, it OVERRIDES the schedule passed to the call: every
 // booking starts when the page loads and uses these durations, ignoring

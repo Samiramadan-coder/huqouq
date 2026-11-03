@@ -8,7 +8,10 @@ import {
 } from "./lawyer/profile";
 import { Service, Specialization } from "./reference-data";
 
-export type T = (key: string) => string;
+export type T = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
 
 // UAE mobile number without the +971 prefix; spaces are ignored
 export const uaePhoneSchema = (message: string) =>
@@ -93,3 +96,7 @@ export type Meta = {
   to: number;
   total: number;
 };
+
+// An admin-controlled file count limit, with the number already formatted for
+// the locale (Arabic-Indic digits in Arabic).
+export type FileLimit = { max: number; label: string };

@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "@/types/shared";
+import { FileLimit, T } from "@/types/shared";
 
 // Upload rules enforced by the API for request documents
 export const SERVICE_DOCUMENT_EXTENSIONS = [
@@ -11,7 +11,8 @@ export const SERVICE_DOCUMENT_EXTENSIONS = [
 ];
 export const SERVICE_DOCUMENT_MAX_BYTES = 5 * 1024 * 1024;
 
-export const postLegalServiceShema = (t: T) =>
+// `maxFiles` is the admin "max request files" setting (usePublicSettings).
+export const postLegalServiceShema = (t: T, maxFiles: FileLimit) =>
   z.object({
     service_type: z.string().min(1, t("type.required")),
     description: z
@@ -26,6 +27,10 @@ export const postLegalServiceShema = (t: T) =>
     documents: z
       .array(z.instanceof(File).or(z.string()))
       .min(1, t("documents.required"))
+      .max(
+        maxFiles.max,
+        t("documents.tooMany", { count: maxFiles.max, max: maxFiles.label }),
+      )
       .refine(
         (items) =>
           items.every(

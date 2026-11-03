@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "@/types/shared";
+import { FileLimit, T } from "@/types/shared";
 import { CaseType, CourtType, ExecutionType } from "../reference-data";
 
 // Upload rules enforced by the API for case documents
@@ -22,7 +22,8 @@ const EXECUTION_TYPES = [
   "execution_dispute",
 ] as const satisfies readonly ExecutionType[];
 
-export const postCaseShema = (t: T) =>
+// `maxFiles` is the admin "max case documents" setting (usePublicSettings).
+export const postCaseShema = (t: T, maxFiles: FileLimit) =>
   z
     .object({
       title: z
@@ -55,6 +56,10 @@ export const postCaseShema = (t: T) =>
       documents: z
         .array(z.instanceof(File).or(z.string()))
         .min(1, t("documents.required"))
+        .max(
+          maxFiles.max,
+          t("documents.tooMany", { count: maxFiles.max, max: maxFiles.label }),
+        )
         .refine(
           (items) =>
             items.every(

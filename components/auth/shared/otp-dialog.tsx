@@ -25,6 +25,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { OtpFormValues, otpSchema } from "@/types/otp";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useUser } from "@/providers/user-provider";
+import { useFormatters } from "@/lib/format";
+import { useResendCooldown } from "@/hook/use-resend-cooldown";
+import { usePublicSettings } from "@/providers/public-settings.provider";
 
 export default function OtpDialog({
   token,
@@ -36,6 +39,9 @@ export default function OtpDialog({
   const router = useRouter();
   const { setUser } = useUser();
   const t = useTranslations("OTP");
+  const format = useFormatters();
+  const { security } = usePublicSettings();
+  const { secondsLeft, restart } = useResendCooldown();
 
   const {
     control,
@@ -120,6 +126,13 @@ export default function OtpDialog({
 
         <FieldError errors={[errors.code]} />
 
+        <p className="text-xs text-muted-foreground">
+          {t("expiresIn", {
+            count: security.otp_expiry_minutes,
+            minutes: format.number(security.otp_expiry_minutes),
+          })}
+        </p>
+
         <div className="flex justify-center gap-2">
           <Button
             type="submit"
@@ -134,10 +147,12 @@ export default function OtpDialog({
             type="button"
             className="text-sm rounded-sm h-9 min-w-20 bg-transparent text-accent border-accent/30"
             variant="outline"
+            disabled={secondsLeft > 0}
             onClick={async () => {
               const result = await resendOtp(token);
 
               if (result.success) {
+                restart();
                 toast.success(t("ResendSuccess"));
                 return;
               }
@@ -145,7 +160,12 @@ export default function OtpDialog({
               toast.error(t("ResendError"));
             }}
           >
-            {t("resend")}
+            {secondsLeft > 0
+              ? t("resendIn", {
+                  count: secondsLeft,
+                  seconds: format.number(secondsLeft),
+                })
+              : t("resend")}
           </Button>
         </div>
       </form>

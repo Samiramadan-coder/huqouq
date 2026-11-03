@@ -181,6 +181,7 @@ export default function Details({
               schedule={{
                 startsAt: consultation.starts_at,
                 durationMinutes: consultation.duration_minutes,
+                joinOpensAt: consultation.join_call_opens_at,
               }}
               remoteName={lawyer.name}
               remotePhoto={lawyer.photo_url ?? undefined}

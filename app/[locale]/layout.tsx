@@ -15,6 +15,8 @@ import { ReferenceData } from "@/types/reference-data";
 import { UserProvider } from "@/providers/user-provider";
 import { DirectionProvider } from "@/components/ui/direction";
 import { ReferenceDataProvider } from "@/providers/reference-data.provider";
+import { PublicSettings } from "@/types/public-settings";
+import { PublicSettingsProvider } from "@/providers/public-settings.provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 type Props = {
@@ -59,12 +61,21 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   const dir = locale === "ar" ? "rtl" : "ltr";
 
-  // Fetch the reference data from the API
-  const { data: referenceData, ok: referenceDataOk } =
-    await http.get<ReferenceData>("/api/reference-data");
+  // Reference data and the admin-controlled business settings (HUQ-169)
+  const [
+    { data: referenceData, ok: referenceDataOk },
+    { data: publicSettings, ok: publicSettingsOk },
+  ] = await Promise.all([
+    http.get<ReferenceData>("/api/reference-data"),
+    http.get<{ data: PublicSettings }>("/api/settings/public"),
+  ]);
 
   if (!referenceDataOk) {
     throw new Error("Failed to fetch reference data");
+  }
+
+  if (!publicSettingsOk) {
+    throw new Error("Failed to fetch public settings");
   }
 
   // Fetch the authenticated user's data if a token is present
@@ -89,15 +100,17 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body className="min-h-full flex flex-col">
         <NuqsAdapter>
           <ReferenceDataProvider initialReferenceData={referenceData}>
-            <UserProvider initialUser={user}>
-              <NextIntlClientProvider>
-                <DirectionProvider dir={dir}>
-                  {children}
-                  <Toaster richColors position="top-center" />
-                  <FlashToast />
-                </DirectionProvider>
-              </NextIntlClientProvider>
-            </UserProvider>
+            <PublicSettingsProvider settings={publicSettings.data}>
+              <UserProvider initialUser={user}>
+                <NextIntlClientProvider>
+                  <DirectionProvider dir={dir}>
+                    {children}
+                    <Toaster richColors position="top-center" />
+                    <FlashToast />
+                  </DirectionProvider>
+                </NextIntlClientProvider>
+              </UserProvider>
+            </PublicSettingsProvider>
           </ReferenceDataProvider>
         </NuqsAdapter>
       </body>

@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import Hint from "../../reusable/hint";
 import Title from "../../reusable/title";
 import { useTranslations } from "next-intl";
+import { usePublicSettings } from "@/providers/public-settings.provider";
+import { useFormatters } from "@/lib/format";
 import BackBtn from "../../reusable/back-btn";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -40,6 +42,10 @@ export default function Form({
   const { referenceData } = useReferenceData();
   const t = useTranslations("Client.LegalServices");
   const tFields = useTranslations("Client.LegalServices.Fields");
+  const format = useFormatters();
+  const max =
+    usePublicSettings().legal_services.legal_services_max_request_files;
+  const maxFiles = { max, label: format.number(max) };
 
   const {
     control,
@@ -48,7 +54,7 @@ export default function Form({
     setError,
     formState: { isSubmitting, errors },
   } = useForm<PostLegalServiceFormData>({
-    resolver: zodResolver(postLegalServiceShema(tFields)),
+    resolver: zodResolver(postLegalServiceShema(tFields, maxFiles)),
     defaultValues: {
       service_type: legalServiceItem?.service_type ?? serviceType ?? "",
       description: legalServiceItem?.description ?? "",
@@ -230,7 +236,10 @@ export default function Form({
           multiple
           required
           accept={SERVICE_DOCUMENT_EXTENSIONS.map((ext) => `.${ext}`).join(",")}
-          description={tFields("documents.formats")}
+          description={tFields("documents.formats", {
+            count: max,
+            max: maxFiles.label,
+          })}
           getFileLabel={(url) =>
             legalServiceItem?.attachments.find(
               (doc) => doc.download_url === url,

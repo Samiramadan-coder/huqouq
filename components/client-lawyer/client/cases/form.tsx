@@ -12,6 +12,8 @@ import Hint from "../../reusable/hint";
 import Title from "../../reusable/title";
 import { CircleCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { usePublicSettings } from "@/providers/public-settings.provider";
+import { useFormatters } from "@/lib/format";
 import { postCase } from "@/lib/client/cases";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,6 +42,9 @@ export default function Form({
   const t = useTranslations("Client.Cases");
   const tCommon = useTranslations("Common");
   const tFields = useTranslations("Client.Cases.Fields");
+  const format = useFormatters();
+  const max = usePublicSettings().cases.cases_max_documents;
+  const maxFiles = { max, label: format.number(max) };
   const availableSpecializations = referenceData?.specializations || [];
   const selectedSpecializations =
     specializations?.split(",").map((s) => +s) || [];
@@ -58,7 +63,7 @@ export default function Form({
     setError,
     formState: { isSubmitting, errors },
   } = useForm<PostCaseFormData>({
-    resolver: zodResolver(postCaseShema(tFields)),
+    resolver: zodResolver(postCaseShema(tFields, maxFiles)),
     defaultValues: {
       title: caseItem?.title ?? "",
       specialization_id: caseItem?.specialization.id ?? undefined,
@@ -329,7 +334,10 @@ export default function Form({
           multiple
           required
           accept={CASE_DOCUMENT_EXTENSIONS.map((ext) => `.${ext}`).join(",")}
-          description={tFields("documents.formats")}
+          description={tFields("documents.formats", {
+            count: max,
+            max: maxFiles.label,
+          })}
           getFileLabel={(url) =>
             caseItem?.documents.find((doc) => doc.url === url)?.name ?? url
           }

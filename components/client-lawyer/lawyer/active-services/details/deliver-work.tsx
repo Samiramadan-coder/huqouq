@@ -3,8 +3,9 @@
 import z from "zod";
 import { toast } from "sonner";
 import { useState } from "react";
-import { T } from "@/types/shared";
+import { FileLimit, T } from "@/types/shared";
 import { useTranslations } from "next-intl";
+import { usePublicSettings } from "@/providers/public-settings.provider";
 import { useFormatters } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,14 +15,16 @@ import FormTextarea from "@/components/public/shared/form/form-textarea";
 import { addDeliveryFiles, deliverWork } from "@/lib/lawyer/legal-services";
 import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
 
-const MAX_FILES = 10;
-
-const deliverWorkSchema = (t: T) =>
+// `maxFiles` is the admin "max delivery files" setting (usePublicSettings).
+const deliverWorkSchema = (t: T, maxFiles: FileLimit) =>
   z.object({
     files: z
       .array(z.instanceof(File))
       .min(1, t("pleaseUploadAtLeastOneDocument"))
-      .max(MAX_FILES, t("maxFiles")),
+      .max(
+        maxFiles.max,
+        t("maxFiles", { count: maxFiles.max, max: maxFiles.label }),
+      ),
     note: z.string().optional(),
   });
 
@@ -126,6 +129,10 @@ function DeliveryForm({
   onDone?: () => void;
 }) {
   const t = useTranslations("Lawyer.ActiveServices.Details");
+  const format = useFormatters();
+  const max =
+    usePublicSettings().legal_services.legal_services_max_delivery_files;
+  const maxFiles = { max, label: format.number(max) };
 
   const {
     control,
@@ -135,7 +142,7 @@ function DeliveryForm({
     reset,
     formState: { isSubmitting, errors },
   } = useForm<DeliverWorkFormValues>({
-    resolver: zodResolver(deliverWorkSchema(t)),
+    resolver: zodResolver(deliverWorkSchema(t, maxFiles)),
     defaultValues: {
       files: [],
       note: "",
@@ -182,6 +189,7 @@ function DeliveryForm({
         control={control}
         name="files"
         label={t("deliveries")}
+        description={t("maxFiles", { count: max, max: maxFiles.label })}
         required
         multiple
         uploadButtonClassName="bg-white"

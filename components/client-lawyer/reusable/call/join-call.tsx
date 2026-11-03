@@ -9,12 +9,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-import {
-  CallType,
-  CallSchedule,
-  CallEndResult,
-  JOIN_OPENS_BEFORE_MINUTES,
-} from "./config";
+import { CallType, CallSchedule, CallEndResult } from "./config";
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
@@ -26,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useCallTiming } from "@/hook/use-call-timing";
 import { useFormatters } from "@/lib/format";
+import { usePublicSettings } from "@/providers/public-settings.provider";
 
 // The Agora SDK touches browser APIs on import, so it must never render on the server.
 const AgoraCall = dynamic(() => import("./agora-call"), {
@@ -62,12 +58,18 @@ export default function JoinCall({
   const format = useFormatters();
   const router = useRouter();
   const timing = useCallTiming(schedule);
+  const { consultations } = usePublicSettings();
   const [open, setOpen] = useState(false);
   const [endResult, setEndResult] = useState<CallEndResult | null>(null);
 
   const joinHint =
     timing.phase === "tooEarly"
-      ? t("joinNotOpen", { minutes: format.number(JOIN_OPENS_BEFORE_MINUTES) })
+      ? t("joinNotOpen", {
+          count: consultations.consultations_join_early_minutes,
+          minutes: format.number(
+            consultations.consultations_join_early_minutes,
+          ),
+        })
       : timing.phase === "ended"
         ? t("joinClosed")
         : undefined;

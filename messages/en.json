@@ -294,7 +294,9 @@
     "ResendError": "An error occurred while resending the OTP. Please try again.",
     "LoginSuccess": "OTP verified successfully. You are now logged in.",
     "OtpError": "Invalid OTP. Please check and try again.",
-    "phone": "phone"
+    "phone": "phone",
+    "expiresIn": "{count, plural, one {The code expires in {minutes} minute.} other {The code expires in {minutes} minutes.}}",
+    "resendIn": "{count, plural, one {Resend in {seconds} second} other {Resend in {seconds} seconds}}"
   },
   "Home": {
     "Hero": {
@@ -1278,10 +1280,11 @@
           "optional": "optional",
           "dropText": "Drag files here or",
           "browse": "browse",
-          "formats": "PDF, JPG, PNG, WEBP — up to 5 MB each",
+          "formats": "PDF, JPG, PNG, WEBP — {count, plural, one {up to {max} file} other {up to {max} files}}, 5 MB each",
           "required": "At least one document is required",
           "invalidType": "Only PDF, JPG, PNG and WEBP files are allowed",
-          "tooLarge": "Each file must be 5 MB or smaller"
+          "tooLarge": "Each file must be 5 MB or smaller",
+          "tooMany": "{count, plural, one {You can upload up to {max} document} other {You can upload up to {max} documents}}"
         },
         "caseType": {
           "label": "Case Type"
@@ -1551,10 +1554,11 @@
           "optional": "optional",
           "dropText": "Drag files here or",
           "browse": "browse",
-          "formats": "PDF, JPG, PNG, WEBP — up to 5 MB each",
+          "formats": "PDF, JPG, PNG, WEBP — {count, plural, one {up to {max} file} other {up to {max} files}}, 5 MB each",
           "required": "At least one document is required",
           "invalidType": "Only PDF, JPG, PNG and WEBP files are allowed",
-          "tooLarge": "Each file must be 5 MB or smaller"
+          "tooLarge": "Each file must be 5 MB or smaller",
+          "tooMany": "{count, plural, one {You can upload up to {max} file} other {You can upload up to {max} files}}"
         },
         "submit": {
           "button": "Submit Request",
@@ -1652,7 +1656,8 @@
               "codeRequired": "Please enter the confirmation code",
               "reasonTextRequired": "Please tell us your reason",
               "reasonTextMax": "Reason must not exceed 500 characters"
-            }
+            },
+            "resendIn": "{count, plural, one {Resend code in {seconds} second} other {Resend code in {seconds} seconds}}"
           }
         },
         "Blocked": {
@@ -2431,7 +2436,7 @@
         "waitingForClient": "Delivered — waiting for the client's response",
         "addMoreFiles": "Add more files to this delivery",
         "uploadFiles": "Upload files",
-        "maxFiles": "You can upload up to 10 files",
+        "maxFiles": "{count, plural, one {You can upload up to {max} file} other {You can upload up to {max} files}}",
         "requestDetails": "Request Details",
         "clientDocuments": "Client Documents",
         "notFound": "Active service not found",
@@ -2467,7 +2472,7 @@
     "timeLeft": "{time} left",
     "endingSoon": "Less than {minutes} minutes left in this consultation.",
     "extraTime": "Extra time: the call will end automatically in {time}.",
-    "joinNotOpen": "You can join {minutes} minutes before the start time.",
+    "joinNotOpen": "{count, plural, =0 {You can join at the start time.} one {You can join {minutes} minute before the start time.} other {You can join {minutes} minutes before the start time.}}",
     "joinClosed": "The time for this consultation has ended.",
     "Errors": {
       "permissionDenied": "Access to your {device} was blocked. Allow access to join the call.",

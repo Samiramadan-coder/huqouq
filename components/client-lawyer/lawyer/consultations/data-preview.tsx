@@ -81,6 +81,7 @@ export default function DataPreview({
                     schedule={{
                       startsAt: consultation.starts_at,
                       durationMinutes: consultation.duration_minutes,
+                      joinOpensAt: consultation.join_call_opens_at,
                     }}
                     remoteName={client.display_name}
                     remotePhoto={client.photo_url}
