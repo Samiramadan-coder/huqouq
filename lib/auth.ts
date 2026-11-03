@@ -186,16 +186,15 @@ export async function signOut(): Promise<SignOutResponse> {
 
 // Firebase custom token for the logged-in user
 export async function getFirebaseToken(): Promise<string> {
-  console.log("Hello");
-  const { data } = await http.post<{ token?: string; expiresIn?: number }>(
-    "/api/firebase/token",
-  );
+  const { data } = await http.post<{
+    data: { token?: string; expiresIn?: number; uid: string };
+  }>("/api/firebase/token");
 
-  if (!data?.token) {
+  if (!data?.data.token) {
     throw new Error("Firebase token missing from response");
   }
 
-  return data.token;
+  return data.data.token;
 }
 
 // Verify Otp
