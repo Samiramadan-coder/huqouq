@@ -93,6 +93,7 @@ export const reportFormSchema = (t: T) =>
   z.object({
     reason: z.enum(REPORT_REASONS, t("reasonRequired")),
     details: z.string().trim().min(1, t("detailsRequired")),
+    files: z.array(z.instanceof(File)).optional(),
   });
 
 export type ReportConsultationForm = z.infer<

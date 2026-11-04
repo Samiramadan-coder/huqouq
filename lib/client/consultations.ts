@@ -108,10 +108,17 @@ export async function reportConsultation(
   consultationId: number,
   values: ReportConsultationForm,
 ): Promise<ReportConsultationResponse> {
+  const formData = new FormData();
+  formData.append("reason", values.reason);
+  formData.append("details", values.details);
+  values.files?.forEach((file) => {
+    formData.append("files[]", file);
+  });
+
   try {
     const { data } = await http.post<{ message: string }>(
       `/api/consultations/${consultationId}/report`,
-      values,
+      formData,
     );
 
     updateTag(`consultations`);
@@ -120,8 +127,9 @@ export async function reportConsultation(
     unstable_rethrow(error);
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
+        // "files.0" style keys belong to the files field
         Object.entries(error.errors).map(([field, messages]) => [
-          field,
+          field.split(".")[0],
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof ReportConsultationForm, string>>;

@@ -1633,7 +1633,8 @@
         "failed": "Failed to submit your report. Please try again.",
         "reasons": {
           "lawyer_no_show": "Lawyer did not show up"
-        }
+        },
+        "filesLabel": "Attachments (optional)"
       }
     },
     "Settings": {

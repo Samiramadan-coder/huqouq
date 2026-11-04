@@ -29,6 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { reportConsultation } from "@/lib/client/consultations";
 import FormSelect from "@/components/public/shared/form/form-select";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
+import SingleFormFileUploader from "@/components/public/shared/form/file-uploader";
 
 export default function ReportConsultation({
   consultation,
@@ -52,6 +53,7 @@ export default function ReportConsultation({
     defaultValues: {
       reason: undefined,
       details: "",
+      files: [],
     },
   });
 
@@ -93,7 +95,7 @@ export default function ReportConsultation({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-sm ring-0! rounded-sm">
+      <DialogContent className="sm:max-w-sm ring-0! rounded-sm max-h-[90vh] grid-cols-[minmax(0,1fr)] overflow-x-hidden overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription className="mt-1">
@@ -102,7 +104,7 @@ export default function ReportConsultation({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="min-w-0 space-y-4">
           <FormSelect
             control={control}
             name="reason"
@@ -123,6 +125,14 @@ export default function ReportConsultation({
             placeholder={t("detailsPlaceholder")}
             required
             textareaClassName="border border-secondary"
+          />
+
+          <SingleFormFileUploader
+            control={control}
+            name="files"
+            label={t("filesLabel")}
+            multiple
+            uploadButtonClassName="min-h-16"
           />
 
           <div>
