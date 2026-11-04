@@ -9,7 +9,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-import { CallType, CallSchedule, CallEndResult } from "./config";
+import { CallType, CallRole, CallSchedule, CallEndResult } from "./config";
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
@@ -51,7 +51,7 @@ export default function JoinCall({
   remotePhoto?: string | null;
   label: string;
   consultationsHref: string;
-  whoIsOnCall: "client" | "lawyer";
+  whoIsOnCall: CallRole;
   lawyerId?: number;
 }) {
   const t = useTranslations("Call");
@@ -120,11 +120,13 @@ export default function JoinCall({
             {open && (
               <AgoraCall
                 consultationId={consultationId}
+                role={whoIsOnCall}
                 callType={callType}
                 schedule={schedule}
                 remoteName={remoteName}
                 remotePhoto={remotePhoto}
                 onEnd={handleEnd}
+                onClose={() => setOpen(false)}
               />
             )}
           </div>

@@ -2482,6 +2482,7 @@
     "cameraOff": "Turn camera off",
     "cameraOn": "Turn camera on",
     "leave": "Leave",
+    "close": "Close",
     "microphone": "microphone",
     "camera": "camera",
     "startsIn": "Starts in {time}",
@@ -2497,7 +2498,8 @@
       "deviceInUse": "Your {device} is being used by another app. Close it and try again.",
       "deviceFailed": "We couldn't start your {device}. Please try again.",
       "joinFailed": "We couldn't connect to the call. Please try again.",
-      "missingConfig": "Calls aren't configured yet. Please contact support."
+      "notOpen": "This call isn't open yet.",
+      "cannotJoin": "You can't join this call."
     },
     "Ended": {
       "title": "Call ended",

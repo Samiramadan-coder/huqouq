@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import {
   CallSchedule,
-  MOCK_SCHEDULE,
-  getMockStartsAt,
   ENDING_SOON_MINUTES,
 } from "@/components/client-lawyer/reusable/call/config";
 import { usePublicSettings } from "@/providers/public-settings.provider";
@@ -29,7 +27,8 @@ export type CallTiming = {
 const MINUTE = 60_000;
 
 // Times are based on the scheduled start, not when anyone joins:
-// endsAt = start + duration, hardEndAt = endsAt + buffer.
+// endsAt = start + duration, hardEndAt = endsAt + buffer. When the API gives
+// the time the call closes (schedule.closesAt), that is the hard end instead.
 export function useCallTiming(schedule: CallSchedule): CallTiming {
   const { consultations } = usePublicSettings();
   const [now, setNow] = useState<number | null>(null);
@@ -53,20 +52,21 @@ export function useCallTiming(schedule: CallSchedule): CallTiming {
     };
   }
 
-  const startsAt = MOCK_SCHEDULE
-    ? getMockStartsAt()
-    : new Date(schedule.startsAt).getTime();
+  const startsAt = new Date(schedule.startsAt).getTime();
   const {
     durationMinutes,
     bufferMinutes = consultations.consultations_call_grace_minutes,
-  } = MOCK_SCHEDULE ?? schedule;
+  } = schedule;
 
-  const opensAt =
-    !MOCK_SCHEDULE && schedule.joinOpensAt
-      ? new Date(schedule.joinOpensAt).getTime()
-      : startsAt - consultations.consultations_join_early_minutes * MINUTE;
-  const endsAt = startsAt + durationMinutes * MINUTE;
-  const hardEndAt = endsAt + bufferMinutes * MINUTE;
+  const opensAt = schedule.joinOpensAt
+    ? new Date(schedule.joinOpensAt).getTime()
+    : startsAt - consultations.consultations_join_early_minutes * MINUTE;
+  const scheduledEndAt = startsAt + durationMinutes * MINUTE;
+  const hardEndAt = schedule.closesAt
+    ? new Date(schedule.closesAt).getTime()
+    : scheduledEndAt + bufferMinutes * MINUTE;
+  // Never count down past the moment the call closes.
+  const endsAt = Math.min(scheduledEndAt, hardEndAt);
 
   const phase: CallPhase =
     now < opensAt

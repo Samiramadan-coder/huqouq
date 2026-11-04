@@ -20,18 +20,15 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import {
-  useCallback,
-  useEffect,
-  useEffectEvent,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   CallType,
+  CallRole,
   CallSchedule,
   CallEndReason,
   CallEndResult,
+  CallCredentials,
+  CallTokenResult,
   formatSeconds,
   getCallCredentials,
   ENDING_SOON_MINUTES,
@@ -52,26 +49,111 @@ import { useFormatters } from "@/lib/format";
 
 export type AgoraCallProps = {
   consultationId: number;
+  role: CallRole;
   callType: CallType;
   schedule: CallSchedule;
   remoteName: string;
   remotePhoto?: string | null;
   onEnd: (result: CallEndResult) => void;
+  // Closes the dialog when the call couldn't start (no token).
+  onClose: () => void;
+};
+
+type CallRoomProps = Omit<AgoraCallProps, "consultationId" | "role" | "onClose"> & {
+  credentials: CallCredentials;
 };
 
 // Volume level (0-1) above which a participant is shown as speaking.
 const SPEAKING_THRESHOLD = 0.05;
 
-export default function AgoraCall(props: AgoraCallProps) {
+export default function AgoraCall({
+  consultationId,
+  role,
+  onClose,
+  schedule,
+  ...props
+}: AgoraCallProps) {
+  const t = useTranslations("Call");
   // Created once per call; the provider shares it with every hook below.
   const [client] = useState(() =>
     AgoraRTC.createClient({ mode: "rtc", codec: "vp8" }),
   );
+  const [tokenResult, setTokenResult] = useState<CallTokenResult | null>(null);
+
+  // The dialog mounts this only while open, so each opening gets a new token.
+  useEffect(() => {
+    let cancelled = false;
+    getCallCredentials(consultationId, role)
+      .catch((): CallTokenResult => ({ success: false }))
+      .then((result) => {
+        if (!cancelled) setTokenResult(result);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [consultationId, role]);
+
+  if (!tokenResult) {
+    return (
+      <div className="flex justify-center py-16">
+        <Spinner className="size-6 text-accent" />
+      </div>
+    );
+  }
+
+  if (!tokenResult.success) {
+    const title =
+      tokenResult.status === 403
+        ? t("Errors.notOpen")
+        : tokenResult.status === 422
+          ? t("Errors.cannotJoin")
+          : t("Errors.joinFailed");
+
+    return (
+      <div className="flex flex-col gap-5">
+        <CallError
+          message={title}
+          hint={
+            tokenResult.status === 403 || tokenResult.status === 422
+              ? tokenResult.message
+              : undefined
+          }
+        />
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            variant="outline"
+            className="rounded-sm border-secondary font-normal"
+            onClick={onClose}
+          >
+            {t("close")}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <AgoraRTCProvider client={client}>
-      <CallRoom {...props} />
+      <CallRoom
+        {...props}
+        credentials={tokenResult.credentials}
+        schedule={{ ...schedule, closesAt: tokenResult.endsAt }}
+      />
     </AgoraRTCProvider>
+  );
+}
+
+function CallError({ message, hint }: { message: string; hint?: string }) {
+  return (
+    <div
+      role="alert"
+      className="flex flex-col items-center gap-3 rounded-sm border border-destructive/20 bg-destructive/5 px-6 py-10 text-center"
+    >
+      <TriangleAlert className="size-6 text-destructive" />
+      <p className="max-w-sm text-sm text-primary">{message}</p>
+      {hint && <p className="max-w-sm text-xs text-primary/55">{hint}</p>}
+    </div>
   );
 }
 
@@ -83,13 +165,13 @@ function getErrorCode(error: AgoraRTCReactError | null) {
 }
 
 function CallRoom({
-  consultationId,
+  credentials,
   callType,
   schedule,
   remoteName,
   remotePhoto,
   onEnd,
-}: AgoraCallProps) {
+}: CallRoomProps) {
   const t = useTranslations("Call");
   const format = useFormatters();
   const client = useRTCClient();
@@ -103,11 +185,7 @@ function CallRoom({
   // Audio calls never create (or ask permission for) the camera.
   const { localCameraTrack, error: cameraError } = useLocalCameraTrack(isVideo);
 
-  const fetchArgs = useCallback(
-    () => getCallCredentials(consultationId),
-    [consultationId],
-  );
-  const { isConnected, error: joinError } = useJoin(fetchArgs, !leaving);
+  const { isConnected, error: joinError } = useJoin(credentials, !leaving);
 
   const tracks: ILocalTrack[] = [localMicrophoneTrack, localCameraTrack].filter(
     (track): track is NonNullable<typeof track> => track !== null,
@@ -171,12 +249,8 @@ function CallRoom({
 
   const mediaError = micError ?? cameraError;
   const mediaErrorCode = getErrorCode(mediaError);
-  const missingAppId = !process.env.NEXT_PUBLIC_AGORA_APP_ID;
-
   let errorMessage: string | null = null;
-  if (missingAppId) {
-    errorMessage = t("Errors.missingConfig");
-  } else if (mediaError) {
+  if (mediaError) {
     const device = micError ? t("microphone") : t("camera");
     if (mediaErrorCode === "PERMISSION_DENIED") {
       errorMessage = t("Errors.permissionDenied", { device });
@@ -252,18 +326,14 @@ function CallRoom({
       )}
 
       {errorMessage ? (
-        <div
-          role="alert"
-          className="flex flex-col items-center gap-3 rounded-sm border border-destructive/20 bg-destructive/5 px-6 py-10 text-center"
-        >
-          <TriangleAlert className="size-6 text-destructive" />
-          <p className="max-w-sm text-sm text-primary">{errorMessage}</p>
-          {mediaErrorCode === "PERMISSION_DENIED" && (
-            <p className="max-w-sm text-xs text-primary/55">
-              {t("Errors.permissionHint")}
-            </p>
-          )}
-        </div>
+        <CallError
+          message={errorMessage}
+          hint={
+            mediaErrorCode === "PERMISSION_DENIED"
+              ? t("Errors.permissionHint")
+              : undefined
+          }
+        />
       ) : isVideo ? (
         <div className="grid gap-3 sm:grid-cols-2">
           <VideoTile name={t("you")}>

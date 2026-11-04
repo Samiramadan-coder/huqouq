@@ -3,6 +3,7 @@
 import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
+import { fetchCallToken } from "../call-token";
 import { RateLawyerForm } from "@/types/client/my-cases";
 import { ReportConsultationForm } from "@/types/client/consultation";
 import { RescheduleFormValues } from "@/components/client-lawyer/client/consultations/rescheduale";
@@ -129,4 +130,9 @@ export async function reportConsultation(
     console.error("Error reporting consultation:", error);
     return { success: false };
   }
+}
+
+// Agora credentials for joining this consultation's call
+export async function requestClientCallToken(consultationId: number) {
+  return fetchCallToken(`/api/consultations/${consultationId}/call-token`);
 }

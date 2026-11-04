@@ -1,16 +1,38 @@
+import { requestClientCallToken } from "@/lib/client/consultations";
+import { requestLawyerCallToken } from "@/lib/lawyer/consultations";
+
 export type CallType = "video" | "audio";
 
+export type CallRole = "client" | "lawyer";
+
+// Shape passed to Agora's useJoin. The token is bound to this uid.
 export type CallCredentials = {
   appid: string;
   channel: string;
-  token: string | null;
+  token: string;
+  uid: number | string;
 };
+
+// Response of POST .../consultations/{id}/call-token
+export type CallTokenData = {
+  app_id: string;
+  channel: string;
+  token: string;
+  uid: number | string;
+  ends_at: string;
+};
+
+export type CallTokenResult =
+  | { success: true; credentials: CallCredentials; endsAt: string }
+  | { success: false; status?: number; message?: string };
 
 export type CallSchedule = {
   startsAt: string;
   durationMinutes: number;
   joinOpensAt?: string;
   bufferMinutes?: number;
+  // When the call closes (the call-token API's ends_at); auto-leave happens then.
+  closesAt?: string;
 };
 
 export type CallEndReason = "timeEnded" | "left";
@@ -24,33 +46,24 @@ export type CallEndResult = {
 // A "time almost up" warning shows when this many minutes are left.
 export const ENDING_SOON_MINUTES = 5;
 
-// Testing only. When set, it OVERRIDES the schedule passed to the call: every
-// booking starts when the page loads and uses these durations, ignoring
-// startsAt/durationMinutes. e.g. { durationMinutes: 2, bufferMinutes: 1 }
-export const MOCK_SCHEDULE: Omit<CallSchedule, "startsAt"> | null = null;
-
-let mockStartsAt: number | null = null;
-
-// Client-only: the mock start is fixed the first time it's read in the browser.
-export function getMockStartsAt() {
-  mockStartsAt ??= Date.now();
-  return mockStartsAt;
-}
-
-// Temporary values for the Agora test project. Replace getCallCredentials with
-// a request to the API (channel will be `booking_${id}`, token per booking).
-const CHANNEL = "test";
-const TOKEN =
-  "007eJxTYGB463QgPkLKiyP4dODZeqfbuRIK//ZlMsXdXzt98pGw8ysVGFIM0gwNTc2S0izNUk0SDU0TjdNSk1KTTU3NUlMTU9IsJzNfymoIZGSYwC3KwsgAgSA+C0NJanEJAwMAME0fRA==";
-
+// Asks the API for this consultation's Agora app id, channel, token and uid.
+// A new token is requested every time the call is opened.
 export async function getCallCredentials(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   consultationId: number,
-): Promise<CallCredentials> {
+  role: CallRole,
+): Promise<CallTokenResult> {
+  const result =
+    role === "lawyer"
+      ? await requestLawyerCallToken(consultationId)
+      : await requestClientCallToken(consultationId);
+
+  if (!result.success) return result;
+
+  const { app_id, channel, token, uid, ends_at } = result.data;
   return {
-    appid: process.env.NEXT_PUBLIC_AGORA_APP_ID ?? "",
-    channel: CHANNEL,
-    token: TOKEN,
+    success: true,
+    credentials: { appid: app_id, channel, token, uid },
+    endsAt: ends_at,
   };
 }
 

@@ -3,6 +3,7 @@
 import { unstable_rethrow } from "next/navigation";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
+import { fetchCallToken } from "../call-token";
 import {
   AvailabilitySettings,
   CancelConsultationFormValues,
@@ -87,4 +88,9 @@ export async function cancelConsultation(
     console.error("Error cancelling consultation:", error);
     return { success: false };
   }
+}
+
+// Agora credentials for joining this consultation's call
+export async function requestLawyerCallToken(id: number) {
+  return fetchCallToken(`/api/lawyer/consultations/${id}/call-token`);
 }
