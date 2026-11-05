@@ -32,7 +32,7 @@ export function PlanCard({
         )}
       </div>
 
-      <ActivatePlan isCurrent={isCurrent} isFree={isFree} />
+      <ActivatePlan plan={plan} isCurrent={isCurrent} isFree={isFree} />
     </div>
   );
 }

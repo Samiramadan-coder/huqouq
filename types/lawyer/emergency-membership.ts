@@ -1,5 +1,7 @@
+export type PlanId = "monthly" | "quarterly" | "yearly";
+
 export type Plan = {
-  id: "monthly" | "quarterly" | "yearly";
+  id: PlanId;
   label: string;
   months: number;
   price: number;
@@ -26,7 +28,7 @@ export type EmergencyMemberShip = {
   next_charge: null;
   next_plan: null;
   paused_until: null;
-  plan: null | Plan;
+  plan: null | PlanId;
   plans: Plan[];
   renews_at: null | string;
   started_at: null | string;

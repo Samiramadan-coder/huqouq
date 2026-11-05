@@ -34,7 +34,7 @@ export default async function MembershipPlans({
             key={plan.id}
             plan={plan}
             isFree={isFree}
-            isCurrent={false}
+            isCurrent={plan.id === membership.plan}
           />
         ))}
       </div>

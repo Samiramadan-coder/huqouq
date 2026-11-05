@@ -1809,6 +1809,14 @@
       "EmergencyMembership": "Emergency Membership"
     },
     "EmergencyMembership": {
+      "Activate": {
+        "title": "Activate {plan} membership",
+        "description": "You will start receiving emergency requests as soon as your membership is active.",
+        "confirm": "Confirm activation",
+        "cancel": "Cancel",
+        "success": "Your emergency membership is now active.",
+        "failed": "Failed to activate your membership. Please try again."
+      },
       "title": "Emergency Membership",
       "hint": "Join the network to receive urgent client requests.",
       "notMember": "Not a member",
