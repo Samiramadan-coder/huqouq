@@ -1807,6 +1807,27 @@
       "EmergencyHistory": "السجل الطارئ",
       "EmergencyMembership": "عضوية الطارئ"
     },
+    "EmergencyLive": {
+      "offline": "الطوارئ غير متصل",
+      "live": "الطوارئ متصل",
+      "notNow": "ليس الآن",
+      "minutes": "{count, plural, one {دقيقة واحدة} two {دقيقتان} few {{value} دقائق} other {{value} دقيقة}}",
+      "hours": "{count, plural, one {ساعة واحدة} two {ساعتان} few {{value} ساعات} other {{value} ساعة}}",
+      "liveSuccess": "أنت الآن متاح لطلبات الطوارئ.",
+      "offlineSuccess": "أنت الآن غير متاح لطلبات الطوارئ.",
+      "failed": "تعذّر تحديث حالة توفرك. يرجى المحاولة مرة أخرى.",
+      "Required": {
+        "title": "عضوية الطوارئ مطلوبة",
+        "description": "تحتاج إلى عضوية محامي طوارئ نشطة لاستقبال طلبات الطوارئ.",
+        "viewMembership": "عرض العضوية"
+      },
+      "GoLive": {
+        "title": "كن متاحًا للطوارئ",
+        "autoOff": "إيقاف تلقائي بعد",
+        "untilOff": "حتى أوقفه بنفسي",
+        "submit": "ابدأ الآن"
+      }
+    },
     "EmergencyMembership": {
       "Cancel": {
         "title": "إلغاء عضوية الطوارئ؟",

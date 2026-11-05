@@ -35,3 +35,15 @@ export type EmergencyMemberShip = {
   stats: Stats;
   status: "none" | "active" | "cancelled";
 };
+
+export type EmergencyLive = {
+  can_go_live: boolean;
+  is_live: boolean;
+  live_until: null | string;
+  office_emirate: string;
+  office_emirate_label: string;
+  reason: string;
+  reason_message: string;
+  auto_off_options: number[];
+  areas: [];
+};

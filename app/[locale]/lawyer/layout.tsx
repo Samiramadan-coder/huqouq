@@ -6,6 +6,8 @@ import {
   SidebarContent,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+
+import { http } from "@/lib/http";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -14,6 +16,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import LayoutHeader from "@/components/client-lawyer/shared/layout-header";
 import LayoutSidebarLogo from "@/components/client-lawyer/shared/layout-sidebar-logo";
 import LayoutSidebarNavLink from "@/components/client-lawyer/shared/layout-sidebar-nav-link";
+import { EmergencyLive } from "@/types/lawyer/emergency-membership";
 
 export default async function LawyerLayout({
   children,
@@ -28,6 +31,18 @@ export default async function LawyerLayout({
   if (!token) {
     return redirect("/sign-in");
   }
+
+  const { data } = await http.get<{ data: EmergencyLive }>(
+    "/api/lawyer/emergency/availability",
+  );
+
+  // console.log(data);
+
+  const { data: test } = await http.put("/api/lawyer/emergency/availability", {
+    can_go_live: true,
+  });
+
+  console.log("Test", test);
 
   return (
     <SidebarProvider defaultOpen>
@@ -64,7 +79,8 @@ export default async function LawyerLayout({
       </Sidebar>
 
       <SidebarInset className="flex-1 min-w-0 min-h-screen">
-        <LayoutHeader owner="lawyer" />
+        <LayoutHeader owner="lawyer" emergencyLive={data.data} />
+
         <div className="min-w-0 w-full overflow-x-clip">
           <div className="min-w-0 w-full">{children}</div>
         </div>

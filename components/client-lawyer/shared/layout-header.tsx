@@ -7,23 +7,31 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+
+import { signOut } from "@/lib/auth";
 import { useTranslations } from "next-intl";
+import { deleteToken } from "@/lib/cookies";
+import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { signOutOfFirebase } from "@/features/chat";
 import { useUser } from "@/providers/user-provider";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { ChevronDown, LogOutIcon, Settings, UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { signOut } from "@/lib/auth";
-import { deleteToken } from "@/lib/cookies";
-import { signOutOfFirebase } from "@/features/chat";
-import { useRouter } from "@/i18n/navigation";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import RequestEmergencyHelp from "../client/emergency/request-emergency-help";
+import { EmergencyLive } from "@/types/lawyer/emergency-membership";
+import SosControl from "../lawyer/emergency-membership/sos-header-control/sos-control";
 
-export default function LayoutHeader({
-  owner,
-}: {
-  owner: "client" | "lawyer";
-}) {
+type Props =
+  | {
+      owner: "client";
+    }
+  | {
+      owner: "lawyer";
+      emergencyLive: EmergencyLive;
+    };
+
+export default function LayoutHeader(props: Props) {
   const router = useRouter();
   const { user, setUser } = useUser();
   const t = useTranslations("Client.Sidebar");
@@ -35,7 +43,11 @@ export default function LayoutHeader({
       </div>
 
       <div className="flex items-center gap-3">
-        {owner === "client" && <RequestEmergencyHelp />}
+        {props.owner === "client" && <RequestEmergencyHelp />}
+
+        {props.owner === "lawyer" && (
+          <SosControl emergencyLive={props.emergencyLive} />
+        )}
 
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>

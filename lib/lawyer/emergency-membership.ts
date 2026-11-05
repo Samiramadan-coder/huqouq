@@ -19,6 +19,7 @@ export async function activatePlan(
     );
 
     updateTag("emergency-membership");
+    updateTag("emergency-availability");
     return { success: true, message: data.message };
   } catch (error) {
     unstable_rethrow(error);
@@ -45,6 +46,7 @@ export async function cancelMembership(): Promise<CancelMembershipResponse> {
     );
 
     updateTag("emergency-membership");
+    updateTag("emergency-availability");
     return { success: true, message: data.message };
   } catch (error) {
     unstable_rethrow(error);
@@ -56,6 +58,42 @@ export async function cancelMembership(): Promise<CancelMembershipResponse> {
       };
     }
     console.error("Error cancelling emergency membership:", error);
+    return { success: false };
+  }
+}
+
+// Emergency Availability (go live / go offline)
+export type UpdateAvailabilityPayload = {
+  is_live: boolean;
+  auto_off?: number | null;
+  areas?: number[];
+  office_emirate?: string;
+};
+
+type UpdateAvailabilityResponse =
+  { success: true; message?: string } | { success: false; message?: string };
+
+export async function updateAvailability(
+  values: UpdateAvailabilityPayload,
+): Promise<UpdateAvailabilityResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      "/api/lawyer/emergency/availability",
+      values,
+    );
+
+    updateTag("emergency-availability");
+    return { success: true, message: data.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const firstError = Object.values(error.errors)[0]?.[0];
+      return {
+        success: false,
+        message: error.responseMessage ?? firstError,
+      };
+    }
+    console.error("Error updating emergency availability:", error);
     return { success: false };
   }
 }

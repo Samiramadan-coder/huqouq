@@ -1808,6 +1808,27 @@
       "EmergencyHistory": "Emergency History",
       "EmergencyMembership": "Emergency Membership"
     },
+    "EmergencyLive": {
+      "offline": "SOS Offline",
+      "live": "SOS Live",
+      "notNow": "Not now",
+      "minutes": "{count, plural, one {{value} minute} other {{value} minutes}}",
+      "hours": "{count, plural, one {{value} hour} other {{value} hours}}",
+      "liveSuccess": "You are now live for emergencies.",
+      "offlineSuccess": "You are now offline for emergencies.",
+      "failed": "Failed to update your availability. Please try again.",
+      "Required": {
+        "title": "Emergency membership required",
+        "description": "You need an active Emergency Lawyer Membership to receive emergency requests.",
+        "viewMembership": "View membership"
+      },
+      "GoLive": {
+        "title": "Go live for emergencies",
+        "autoOff": "Turn off automatically",
+        "untilOff": "Until I turn it off",
+        "submit": "Go live"
+      }
+    },
     "EmergencyMembership": {
       "Cancel": {
         "title": "Cancel your emergency membership?",
