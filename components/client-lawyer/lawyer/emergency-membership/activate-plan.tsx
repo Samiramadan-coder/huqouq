@@ -12,14 +12,14 @@ import {
 
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useState, useTransition } from "react";
 import { ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
 import { Button } from "@/components/ui/button";
+import { useState, useTransition } from "react";
 import { Spinner } from "@/components/ui/spinner";
-import { activatePlan } from "@/lib/lawyer/emergency-membership";
 import { Plan } from "@/types/lawyer/emergency-membership";
+import { activatePlan } from "@/lib/lawyer/emergency-membership";
 
 export default function ActivatePlan({
   plan,

@@ -36,7 +36,7 @@ export default async function LawyerLayout({
     "/api/lawyer/emergency/availability",
   );
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <SidebarProvider defaultOpen>

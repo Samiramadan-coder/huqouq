@@ -20,6 +20,7 @@ export function PlanCard({
       <p className="text-xs font-semibold uppercase tracking-widest text-primary/45">
         {plan.label}
       </p>
+
       <p className="ltr:font-lora mt-1 text-3xl font-bold text-primary">
         {format.money(plan.price)}
       </p>
