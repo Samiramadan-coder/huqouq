@@ -14,6 +14,8 @@ import {
   CircleUserRound,
   CircleDollarSign,
   NotepadTextDashed,
+  Zap,
+  ShieldCheck,
 } from "lucide-react";
 import { T } from "@/types/shared";
 import { createElement } from "react";
@@ -191,15 +193,24 @@ export const lawyerSidebarLinks = (t: T): SidebarLink[] => [
     type: "link",
   },
   {
-    href: "/lawyer/settings",
-    label: t("Settings"),
-    icon: createElement(Settings, { className: "size-4" }),
+    href: "/lawyer/emergency-membership",
+    label: t("EmergencyMembership"),
+    icon: createElement(ShieldCheck, { className: "size-4" }),
     type: "link",
   },
   {
     href: "/lawyer/emergency-history",
     label: t("EmergencyHistory"),
-    icon: createElement(ShieldAlert, { className: "size-4" }),
+    icon: createElement(Zap, { className: "size-4" }),
+    type: "link",
+  },
+  {
+    type: "divider",
+  },
+  {
+    href: "/lawyer/settings",
+    label: t("Settings"),
+    icon: createElement(Settings, { className: "size-4" }),
     type: "link",
   },
 ];

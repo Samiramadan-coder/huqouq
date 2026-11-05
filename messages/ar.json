@@ -1804,7 +1804,39 @@
       "ActiveServices": "خدماتي النشطة",
       "Profile": "الملف الشخصي",
       "Settings": "الإعدادات",
-      "EmergencyHistory": "السجل الطارئ"
+      "EmergencyHistory": "السجل الطارئ",
+      "EmergencyMembership": "عضوية الطارئ"
+    },
+    "EmergencyMembership": {
+      "title": "عضوية الطوارئ",
+      "hint": "انضم إلى الشبكة لاستقبال طلبات العملاء العاجلة.",
+      "notMember": "لست عضوًا",
+      "notMemberHint": "فعّل إحدى الخطط أدناه لبدء استقبال طلبات الطوارئ.",
+      "activeTitle": "محامي طوارئ — مفعّل",
+      "planLabel": "الخطة: {plan}",
+      "renews": "تتجدد في {date}",
+      "cancelMembership": "إلغاء العضوية",
+      "launchBanner": "العضوية مجانية خلال فترة الإطلاق — انضم الآن لبدء استقبال طلبات الطوارئ.",
+      "mostPopular": "الأكثر طلبًا",
+      "freeDuringLaunch": "مجانًا خلال الإطلاق",
+      "save": "وفّر {percent}٪",
+      "currentPlan": "الخطة الحالية",
+      "activateFree": "فعّل العضوية المجانية",
+      "activate": "فعّل العضوية",
+      "benefitsTitle": "المزايا",
+      "benefits": {
+        "urgentClients": "استقبل عملاء عاجلين وجادّين",
+        "noCommission": "بدون عمولة على مكالمات الطوارئ",
+        "convertCalls": "حوّل المكالمات إلى قضايا مباشرة"
+      },
+      "rulesTitle": "القواعد",
+      "rules": {
+        "respondWithin": "يجب أن ترد خلال 30 ثانية.",
+        "missedLowerPriority": "الطلبات الفائتة تخفّض أولويتك.",
+        "identityHidden": "تبقى هويتك مخفية عن العميل أثناء المكالمة.",
+        "noCommission": "بدون عمولة على مكالمات الطوارئ.",
+        "normalCaseFees": "القضايا المحوّلة من المكالمات تخضع لرسوم القضايا المعتادة."
+      }
     },
     "Profile": {
       "SaveSection": "حفظ التغييرات",

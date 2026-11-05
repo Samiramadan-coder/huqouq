@@ -1805,7 +1805,39 @@
       "ActiveServices": "My Active Services",
       "Profile": "Profile",
       "Settings": "Settings",
-      "EmergencyHistory": "Emergency History"
+      "EmergencyHistory": "Emergency History",
+      "EmergencyMembership": "Emergency Membership"
+    },
+    "EmergencyMembership": {
+      "title": "Emergency Membership",
+      "hint": "Join the network to receive urgent client requests.",
+      "notMember": "Not a member",
+      "notMemberHint": "Activate a plan below to start receiving emergency requests.",
+      "activeTitle": "Emergency Lawyer — Active",
+      "planLabel": "Plan: {plan}",
+      "renews": "Renews {date}",
+      "cancelMembership": "Cancel membership",
+      "launchBanner": "Membership is free during launch — join now to start receiving emergency requests.",
+      "mostPopular": "Most popular",
+      "freeDuringLaunch": "Free during launch",
+      "save": "Save {percent}%",
+      "currentPlan": "Current plan",
+      "activateFree": "Activate free membership",
+      "activate": "Activate membership",
+      "benefitsTitle": "Benefits",
+      "benefits": {
+        "urgentClients": "Receive urgent, high-intent clients",
+        "noCommission": "No commission on emergency calls",
+        "convertCalls": "Convert calls into direct cases"
+      },
+      "rulesTitle": "Rules",
+      "rules": {
+        "respondWithin": "You must respond within 30 seconds.",
+        "missedLowerPriority": "Missed requests lower your priority.",
+        "identityHidden": "Your identity stays hidden from the client during the call.",
+        "noCommission": "No commission on emergency calls.",
+        "normalCaseFees": "Cases converted from calls follow the normal case fees."
+      }
     },
     "Profile": {
       "SaveSection": "Save Section",
