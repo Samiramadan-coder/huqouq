@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { CircleCheck, ShieldCheck } from "lucide-react";
-import { EmergencyMemberShip } from "@/types/client/emergency-membership";
+import { EmergencyMemberShip } from "@/types/lawyer/emergency-membership";
 
 export default function MembershipStatus({
   membership,

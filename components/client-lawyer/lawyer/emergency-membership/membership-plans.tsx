@@ -3,7 +3,7 @@ import { Sparkles } from "lucide-react";
 import BenifitsRules from "./benifits-rules";
 import { getTranslations } from "next-intl/server";
 import MembershipStatus from "./membership-status";
-import { EmergencyMemberShip } from "@/types/client/emergency-membership";
+import { EmergencyMemberShip } from "@/types/lawyer/emergency-membership";
 
 export default async function MembershipPlans({
   membership,

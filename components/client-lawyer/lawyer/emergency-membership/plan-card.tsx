@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { useFormatters } from "@/lib/format";
-import { cn } from "@/lib/utils";
-import { Plan } from "@/types/client/emergency-membership";
+import ActivatePlan from "./activate-plan";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
+import { Plan } from "@/types/lawyer/emergency-membership";
 
 export function PlanCard({
   plan,
@@ -33,22 +32,7 @@ export function PlanCard({
         )}
       </div>
 
-      {/* Design only for now; the activate action is wired up later */}
-      <Button
-        type="button"
-        disabled={isCurrent}
-        className={cn(
-          "mt-5 h-10 w-full rounded-sm",
-          isCurrent &&
-            "bg-secondary/50 text-primary/40 disabled:opacity-100 hover:bg-secondary/50",
-        )}
-      >
-        {isCurrent
-          ? t("currentPlan")
-          : isFree
-            ? t("activateFree")
-            : t("activate")}
-      </Button>
+      <ActivatePlan isCurrent={isCurrent} isFree={isFree} />
     </div>
   );
 }

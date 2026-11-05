@@ -2,7 +2,7 @@ import { http } from "@/lib/http";
 import { getTranslations } from "next-intl/server";
 import Hint from "@/components/client-lawyer/reusable/hint";
 import Title from "@/components/client-lawyer/reusable/title";
-import { EmergencyMemberShip } from "@/types/client/emergency-membership";
+import { EmergencyMemberShip } from "@/types/lawyer/emergency-membership";
 import MembershipPlans from "@/components/client-lawyer/lawyer/emergency-membership/membership-plans";
 
 export default async function Page() {
