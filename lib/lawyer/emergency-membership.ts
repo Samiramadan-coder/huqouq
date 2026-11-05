@@ -1,12 +1,13 @@
 "use server";
 
+import {
+  Plan,
+  ChangePlanFormValues,
+  UpdateAvailabilityPayload,
+} from "@/types/lawyer/emergency-membership";
 import { updateTag } from "next/cache";
 import { unstable_rethrow } from "next/navigation";
 import { http, ValidationError } from "../http";
-import {
-  Plan,
-  UpdateAvailabilityPayload,
-} from "@/types/lawyer/emergency-membership";
 
 // Activate Membership Plan
 type ActivatePlanResponse =
@@ -90,6 +91,78 @@ export async function updateAvailability(
       };
     }
     console.error("Error updating emergency availability:", error);
+    return { success: false };
+  }
+}
+
+// Change Plan (takes effect at the end of the current period)
+type ChangePlanResponse =
+  | { success: true; message?: string }
+  | {
+      success: false;
+      errors?: Partial<Record<keyof ChangePlanFormValues, string>>;
+      message?: string;
+    };
+
+export async function changePlan(
+  values: ChangePlanFormValues,
+): Promise<ChangePlanResponse> {
+  try {
+    const { data } = await http.put<{ message: string }>(
+      "/api/lawyer/emergency/membership/plan",
+      values,
+    );
+
+    updateTag("emergency-membership");
+    return { success: true, message: data.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof ChangePlanFormValues, string>>;
+      return { success: false, errors, message: error.responseMessage };
+    }
+    console.error("Error changing emergency membership plan:", error);
+    return { success: false };
+  }
+}
+
+// Auto Renew Plan
+type AutoRenewResponse =
+  | {
+      success: true;
+      message?: string;
+    }
+  | {
+      success: false;
+      message?: string;
+    };
+
+export async function autoRenewPlan(
+  value: boolean,
+): Promise<AutoRenewResponse> {
+  try {
+    const { data } = await http.put<{ message: string }>(
+      "/api/lawyer/emergency/membership/auto-renew",
+      { on: value },
+    );
+
+    updateTag("emergency-membership");
+    return { success: true, message: data.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const firstError = Object.values(error.errors)[0]?.[0];
+      return {
+        success: false,
+        message: error.responseMessage ?? firstError,
+      };
+    }
+    console.error("Error updating emergency membership auto-renew:", error);
     return { success: false };
   }
 }

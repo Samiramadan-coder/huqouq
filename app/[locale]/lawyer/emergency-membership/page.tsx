@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import Hint from "@/components/client-lawyer/reusable/hint";
 import Title from "@/components/client-lawyer/reusable/title";
 import { EmergencyMemberShip } from "@/types/lawyer/emergency-membership";
+import Stats from "@/components/client-lawyer/lawyer/emergency-membership/stats";
 import MembershipPlans from "@/components/client-lawyer/lawyer/emergency-membership/membership-plans";
 
 export default async function Page() {
@@ -27,6 +28,8 @@ export default async function Page() {
       </div>
 
       <MembershipPlans membership={data.data} />
+
+      <Stats stats={data.data.stats} />
     </div>
   );
 }

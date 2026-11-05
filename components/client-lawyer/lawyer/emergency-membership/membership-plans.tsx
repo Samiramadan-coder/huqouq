@@ -34,7 +34,9 @@ export default async function MembershipPlans({
             key={plan.id}
             plan={plan}
             isFree={isFree}
-            isCurrent={plan.id === membership.plan}
+            isCurrent={
+              plan.id === membership.plan && membership.status === "active"
+            }
           />
         ))}
       </div>

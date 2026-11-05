@@ -36,7 +36,7 @@ export type EmergencyMemberShip = {
   renews_at: null | string;
   started_at: null | string;
   stats: Stats;
-  status: "none" | "active" | "cancelled";
+  status: "none" | "active" | "expired";
 };
 
 export type EmergencyLive = {
@@ -66,3 +66,14 @@ export type GoLiveFormValues = z.infer<ReturnType<typeof goLiveSchema>>;
 export type UpdateAvailabilityPayload =
   | { is_live: false }
   | ({ is_live: true; office_emirate: string } & GoLiveFormValues);
+
+// Change Plan Form
+export const changePlanSchema = (t: T) =>
+  z.object({
+    plan: z.enum(
+      ["monthly", "quarterly", "yearly"],
+      t("ChangePlan.planRequired"),
+    ),
+  });
+
+export type ChangePlanFormValues = z.infer<ReturnType<typeof changePlanSchema>>;

@@ -1839,6 +1839,35 @@
       }
     },
     "EmergencyMembership": {
+      "Stats": {
+        "title": "Your stats this period",
+        "received": "Requests received",
+        "accepted": "Accepted",
+        "missed": "Missed",
+        "avgResponse": "Avg. response time",
+        "converted": "Converted to cases",
+        "seconds": "{value}s",
+        "minutes": "{value}m",
+        "minutesSeconds": "{minutes}m {seconds}s"
+      },
+      "AutoRenew": {
+        "label": "Auto-renew",
+        "on": "Auto-renew is on.",
+        "off": "Auto-renew is off.",
+        "failed": "Failed to update auto-renew. Please try again."
+      },
+      "ChangePlan": {
+        "trigger": "Change plan",
+        "title": "Change plan",
+        "planRequired": "Please choose a plan",
+        "startsOn": "The new plan starts when your current period ends on {date}.",
+        "startsNextPeriod": "The new plan starts when your current period ends.",
+        "notChargedToday": "You will not be charged today.",
+        "back": "Back",
+        "confirm": "Confirm change",
+        "success": "Your plan change has been scheduled.",
+        "failed": "Failed to change your plan. Please try again."
+      },
       "Cancel": {
         "title": "Cancel your emergency membership?",
         "description": "You will stop receiving emergency requests. You can activate a plan again at any time.",
