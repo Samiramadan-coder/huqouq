@@ -1032,6 +1032,27 @@
       "success": "تم إرسال طلبك. نبحث لك عن محامٍ الآن.",
       "failed": "تعذّر إرسال طلبك. يرجى المحاولة مرة أخرى."
     },
+    "EmergencyHistory": {
+      "Table": {
+        "dateTime": "التاريخ / الوقت",
+        "legalArea": "المجال القانوني",
+        "emirate": "الإمارة",
+        "lawyer": "المحامي",
+        "status": "الحالة",
+        "callLength": "مدة المكالمة",
+        "action": "الإجراء"
+      },
+      "noRequests": "لا توجد لديك طلبات طارئة بعد.",
+      "anonymousLawyer": "محامٍ مجهول الهوية",
+      "viewCase": "عرض القضية",
+      "reportedUnderReview": "تم الإبلاغ · قيد المراجعة",
+      "details": "التفاصيل",
+      "hide": "إخفاء",
+      "whatHappened": "ماذا حدث",
+      "noDetails": "لم يتم تقديم أي تفاصيل.",
+      "waitTime": "مدة الانتظار",
+      "yourRating": "تقييمك"
+    },
     "Dashboard": {
       "activeCases": "القضايا النشطة",
       "pendingOffers": "العروض المعلقة",

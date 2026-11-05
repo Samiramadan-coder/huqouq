@@ -120,3 +120,18 @@ export async function getAppUrl(requestUrl: string) {
   return process.env.APP_URL || new URL(requestUrl).origin;
 }
 
+/**
+ * Return Time From Date
+ */
+export function getTime(value: string, locale: string) {
+  const parsed = new Date(value);
+
+  if (Number.isNaN(parsed.getTime())) return "";
+
+  return new Intl.DateTimeFormat(locale, {
+    numberingSystem: locale === "ar" ? "arab" : "latn",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(parsed);
+}

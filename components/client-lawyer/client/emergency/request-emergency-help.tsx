@@ -152,7 +152,6 @@ export default function RequestEmergencyHelp() {
   }
 
   async function onSubmit(values: EmergencyRequestForm) {
-    console.log(values);
     const result = await requestEmergencyHelp(values);
 
     if (result.success) {

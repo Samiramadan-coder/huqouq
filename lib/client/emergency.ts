@@ -3,6 +3,7 @@
 import { http, ValidationError } from "../http";
 import { unstable_rethrow } from "next/navigation";
 import { EmergencyRequestForm } from "@/types/client/emergency";
+import { updateTag } from "next/cache";
 
 // Request Emergency Help
 type EmergencyRequestResponse =
@@ -25,6 +26,7 @@ export async function requestEmergencyHelp(
       },
     );
 
+    updateTag("emergencies");
     return { success: true, message: data.message };
   } catch (error) {
     unstable_rethrow(error);

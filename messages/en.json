@@ -1032,6 +1032,27 @@
       "success": "Your request has been sent. We are finding a lawyer for you.",
       "failed": "Failed to send your request. Please try again."
     },
+    "EmergencyHistory": {
+      "Table": {
+        "dateTime": "Date / Time",
+        "legalArea": "Legal area",
+        "emirate": "Emirate",
+        "lawyer": "Lawyer",
+        "status": "Status",
+        "callLength": "Call length",
+        "action": "Action"
+      },
+      "noRequests": "You have no emergency requests yet.",
+      "anonymousLawyer": "Anonymous lawyer",
+      "viewCase": "View case",
+      "reportedUnderReview": "Reported · Under review",
+      "details": "Details",
+      "hide": "Hide",
+      "whatHappened": "What happened",
+      "noDetails": "No details were provided.",
+      "waitTime": "Wait time",
+      "yourRating": "Your rating"
+    },
     "Dashboard": {
       "activeCases": "Active Cases",
       "pendingOffers": "Pending Offers",
