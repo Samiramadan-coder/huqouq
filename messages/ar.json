@@ -2174,6 +2174,19 @@
           "Price": "السعر",
           "ClientNote": "ملاحظة العميل",
           "Close": "إغلاق"
+        },
+        "RespondToReport": {
+          "Trigger": "الرد على البلاغ",
+          "Title": "الرد على بلاغ العميل",
+          "Description": "وضّح ما حدث من جهتك. سيراجع الفريق الطرفين قبل اتخاذ القرار.",
+          "DescriptionWithDeadline": "وضّح ما حدث من جهتك قبل {date}. سيراجع الفريق الطرفين قبل اتخاذ القرار.",
+          "ClientReport": "بلاغ العميل",
+          "DetailsLabel": "ردك",
+          "DetailsPlaceholder": "اشرح ما حدث من جهتك",
+          "DetailsRequired": "يرجى كتابة ردك",
+          "Submit": "إرسال الرد",
+          "Back": "رجوع",
+          "Failed": "فشل إرسال ردك. يرجى المحاولة مرة أخرى."
         }
       },
       "AvailabilitySettings": {

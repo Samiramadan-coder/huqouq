@@ -47,6 +47,15 @@ export type CancelConsultationFormValues = z.infer<
   ReturnType<typeof cancelConsultationSchema>
 >;
 
+export const respondToReportSchema = (t: T) =>
+  z.object({
+    details: z.string().trim().min(1, t("DetailsRequired")),
+  });
+
+export type RespondToReportFormValues = z.infer<
+  ReturnType<typeof respondToReportSchema>
+>;
+
 export type Options = {
   buffer_minutes: { value: number; label: string }[];
   days: { key: Weekday; label: string }[];
@@ -91,6 +100,8 @@ type Can = {
   join_call: boolean;
   rate: boolean;
   reschedule: boolean;
+  report: boolean;
+  respond_to_report: boolean;
 };
 
 type Client = {
@@ -112,14 +123,17 @@ type Payment = {
 export type Consultation = {
   brief: null | string;
   can: Can;
+  cancel_reason: null | string;
   cancellation: null | string;
   cancelled_at: null | string;
+  cancelled_by: null | string;
   client: Client;
   created_at: string;
   date: string;
   date_label: string;
   duration_minutes: number;
   ends_at: string;
+  free_cancel_until: string;
   id: number;
   is_reviewed: boolean;
   join_call_opens_at: string;
@@ -129,11 +143,31 @@ export type Consultation = {
   lawyer_cancelled_at: null | string;
   payment: Payment;
   reference: string;
+  report: null | {
+    lawyer_responded_at: null | string;
+    lawyer_response: null | string;
+    reason: "lawyer_no_show";
+    reason_label: string;
+    refund_amount: null | number;
+    reported_at: string;
+    respond_by: string;
+    status: string;
+    decided_at: null | string;
+    decision: null | string;
+    decision_label: null | string;
+    decision_note: null | string;
+    details: string;
+  };
   rescheduled: boolean;
   rescheduled_from: null | string;
   review: null | string;
   starts_at: string;
-  status: string;
+  status:
+    | "under_review"
+    | "cancelled"
+    | "completed"
+    | "upcoming"
+    | "needs_new_time";
   status_label: string;
   time: string;
   time_label: string;

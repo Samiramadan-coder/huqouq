@@ -1,15 +1,16 @@
 import { Meta } from "@/types/shared";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
 import { Calendar, Phone, Video } from "lucide-react";
 import ConsultationStatus from "./consultation-status";
 import CancelConsultation from "./cancel-consultation";
+import RespondToReport from "./respond-to-report";
 import ConsultationDetails from "./consultation-details";
 import { Consultation } from "@/types/lawyer/consultations";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 import JoinCall from "@/components/client-lawyer/reusable/call/join-call";
-import { useFormatters } from "@/lib/format";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toCallType } from "@/components/client-lawyer/reusable/call/config";
+import PaginationTemplate from "@/components/client-lawyer/reusable/pagination-template";
 
 export default function DataPreview({
   data,
@@ -70,6 +71,10 @@ export default function DataPreview({
 
                 {consultation.can.cancel && (
                   <CancelConsultation consultationId={consultation.id} />
+                )}
+
+                {consultation.can.respond_to_report && (
+                  <RespondToReport consultation={consultation} />
                 )}
 
                 <ConsultationStatus consultation={consultation} />

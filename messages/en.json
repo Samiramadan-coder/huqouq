@@ -2175,6 +2175,19 @@
           "Price": "Price",
           "ClientNote": "Client's Note",
           "Close": "Close"
+        },
+        "RespondToReport": {
+          "Trigger": "Respond to Report",
+          "Title": "Respond to the Client Report",
+          "Description": "Share your side of what happened. The team will review both sides before deciding.",
+          "DescriptionWithDeadline": "Share your side of what happened before {date}. The team will review both sides before deciding.",
+          "ClientReport": "Client report",
+          "DetailsLabel": "Your response",
+          "DetailsPlaceholder": "Explain what happened from your side",
+          "DetailsRequired": "Please enter your response",
+          "Submit": "Send Response",
+          "Back": "Back",
+          "Failed": "Failed to send your response. Please try again."
         }
       },
       "AvailabilitySettings": {

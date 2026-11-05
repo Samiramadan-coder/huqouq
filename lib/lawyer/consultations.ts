@@ -7,6 +7,7 @@ import { fetchCallToken } from "../call-token";
 import {
   AvailabilitySettings,
   CancelConsultationFormValues,
+  RespondToReportFormValues,
 } from "@/types/lawyer/consultations";
 
 // Update availability settings response type
@@ -86,6 +87,42 @@ export async function cancelConsultation(
     }
 
     console.error("Error cancelling consultation:", error);
+    return { success: false };
+  }
+}
+
+// Respond to the client's report on a consultation
+type RespondToReportResponse =
+  | { success: true; message: string }
+  | {
+      success: false;
+      message?: string;
+      errors?: Partial<Record<keyof RespondToReportFormValues, string>>;
+    };
+
+export async function respondToReport(
+  id: number,
+  values: RespondToReportFormValues,
+): Promise<RespondToReportResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/lawyer/consultations/${id}/report/respond`,
+      values,
+    );
+
+    updateTag("lawyer-consultations");
+    return { success: true, message: data.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      return {
+        success: false,
+        errors: { details: error.errors.details?.[0] },
+        message: error.responseMessage,
+      };
+    }
+
+    console.error("Error responding to report:", error);
     return { success: false };
   }
 }

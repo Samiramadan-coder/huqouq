@@ -7,10 +7,12 @@ import { useTranslations } from "next-intl";
 import { Consultation } from "@/types/lawyer/consultations";
 import { useFormatters } from "@/lib/format";
 
-const statusClassName: Record<string, string> = {
+const statusClassName: Record<Consultation["status"], string> = {
   cancelled: "border-destructive/20 bg-destructive/5 text-destructive/80",
   completed: "border-green-200 bg-green-50 text-green-700",
   needs_new_time: "border-amber-200 bg-amber-50 text-amber-700",
+  under_review: "border-amber-200 bg-amber-50 text-amber-700",
+  upcoming: "border-blue-200 bg-blue-50 text-blue-700",
 };
 
 const chipClassName =
