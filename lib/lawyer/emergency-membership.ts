@@ -33,3 +33,29 @@ export async function activatePlan(
     return { success: false };
   }
 }
+
+// Cancel Membership
+type CancelMembershipResponse =
+  { success: true; message?: string } | { success: false; message?: string };
+
+export async function cancelMembership(): Promise<CancelMembershipResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      "/api/lawyer/emergency/membership/cancel",
+    );
+
+    updateTag("emergency-membership");
+    return { success: true, message: data.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const firstError = Object.values(error.errors)[0]?.[0];
+      return {
+        success: false,
+        message: error.responseMessage ?? firstError,
+      };
+    }
+    console.error("Error cancelling emergency membership:", error);
+    return { success: false };
+  }
+}

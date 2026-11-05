@@ -1809,6 +1809,14 @@
       "EmergencyMembership": "Emergency Membership"
     },
     "EmergencyMembership": {
+      "Cancel": {
+        "title": "Cancel your emergency membership?",
+        "description": "You will stop receiving emergency requests. You can activate a plan again at any time.",
+        "confirm": "Yes, cancel membership",
+        "keep": "Keep membership",
+        "success": "Your emergency membership has been cancelled.",
+        "failed": "Failed to cancel your membership. Please try again."
+      },
       "Activate": {
         "title": "Activate {plan} membership",
         "description": "You will start receiving emergency requests as soon as your membership is active.",

@@ -33,6 +33,5 @@ export type EmergencyMemberShip = {
   renews_at: null | string;
   started_at: null | string;
   stats: Stats;
-  // "none" when the lawyer is not a member; other values come from the API
-  status: "none" | "active" | "cancelled" | (string & {});
+  status: "none" | "active" | "cancelled";
 };

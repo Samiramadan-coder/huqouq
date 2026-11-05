@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
-import { Button } from "@/components/ui/button";
+import { CancelMembership } from "./cancel-membership";
 import { CircleCheck, ShieldCheck } from "lucide-react";
 import { EmergencyMemberShip } from "@/types/lawyer/emergency-membership";
 
@@ -11,7 +11,7 @@ export default function MembershipStatus({
 }) {
   const t = useTranslations("Lawyer.EmergencyMembership");
   const format = useFormatters();
-  const isActive = membership.status === "active" && membership.plan;
+  const isActive = membership.status === "active";
 
   if (!isActive) {
     return (
@@ -29,6 +29,9 @@ export default function MembershipStatus({
     );
   }
 
+  const activePlanTitle =
+    membership.plans.find((p) => p.id === membership.plan)?.label || "";
+
   return (
     <div className="bg-white border rounded-sm flex flex-col sm:flex-row sm:items-center gap-4 p-5 border-green-200">
       <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-green-50 text-green-700">
@@ -40,7 +43,7 @@ export default function MembershipStatus({
           {t("activeTitle")}
         </p>
         <p className="text-sm text-primary/45">
-          {t("planLabel", { plan: membership.plan!.label })}
+          {t("planLabel", { plan: activePlanTitle })}
           {membership.renews_at &&
             ` · ${t("renews", { date: format.date(membership.renews_at) })}`}
         </p>
@@ -48,19 +51,5 @@ export default function MembershipStatus({
 
       <CancelMembership />
     </div>
-  );
-}
-
-function CancelMembership() {
-  const t = useTranslations("Lawyer.EmergencyMembership");
-
-  return (
-    <Button
-      type="button"
-      variant="outline"
-      className="rounded-sm border-destructive/30 bg-transparent text-xs font-normal text-destructive hover:bg-destructive/5 hover:text-destructive"
-    >
-      {t("cancelMembership")}
-    </Button>
   );
 }
