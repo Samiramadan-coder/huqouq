@@ -1,8 +1,9 @@
+import { Link } from "@/i18n/navigation";
+import { ShieldAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { DialogIconHeader } from "./dialog-icon-header";
-import { Link, ShieldAlert } from "lucide-react";
 import { DialogClose } from "@/components/ui/dialog";
+import { DialogIconHeader } from "./dialog-icon-header";
 
 export function MembershipRequired({
   message,

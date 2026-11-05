@@ -1808,6 +1808,13 @@
       "EmergencyMembership": "عضوية الطارئ"
     },
     "EmergencyLive": {
+      "GoOffline": {
+        "title": "إيقاف استقبال طلبات الطوارئ؟",
+        "description": "ستتوقف عن استقبال طلبات الطوارئ حتى تعود متاحًا مرة أخرى.",
+        "liveUntil": "أنت متاح حاليًا حتى {time}.",
+        "stayLive": "البقاء متاحًا",
+        "submit": "إيقاف الآن"
+      },
       "offline": "الطوارئ غير متصل",
       "live": "الطوارئ متصل",
       "notNow": "ليس الآن",
@@ -1822,6 +1829,8 @@
         "viewMembership": "عرض العضوية"
       },
       "GoLive": {
+        "specializations": "تخصصات الطوارئ",
+        "selectAtLeastOne": "اختر تخصصًا واحدًا على الأقل",
         "title": "كن متاحًا للطوارئ",
         "autoOff": "إيقاف تلقائي بعد",
         "untilOff": "حتى أوقفه بنفسي",

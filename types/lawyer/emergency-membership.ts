@@ -1,3 +1,6 @@
+import z from "zod";
+import { T } from "@/types/shared";
+
 export type PlanId = "monthly" | "quarterly" | "yearly";
 
 export type Plan = {
@@ -45,5 +48,21 @@ export type EmergencyLive = {
   reason: string;
   reason_message: string;
   auto_off_options: number[];
-  areas: [];
+  areas: number[];
 };
+
+// Go Live Form
+export const goLiveSchema = (t: T) =>
+  z.object({
+    auto_off: z.number().int().positive().nullable(),
+    areas: z
+      .array(z.number().int().positive())
+      .min(1, t("GoLive.selectAtLeastOne")),
+  });
+
+export type GoLiveFormValues = z.infer<ReturnType<typeof goLiveSchema>>;
+
+// Body for /api/lawyer/emergency/availability
+export type UpdateAvailabilityPayload =
+  | { is_live: false }
+  | ({ is_live: true; office_emirate: string } & GoLiveFormValues);

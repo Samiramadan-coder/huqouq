@@ -1809,6 +1809,13 @@
       "EmergencyMembership": "Emergency Membership"
     },
     "EmergencyLive": {
+      "GoOffline": {
+        "title": "Go offline for emergencies?",
+        "description": "You will stop receiving emergency requests until you go live again.",
+        "liveUntil": "You are currently live until {time}.",
+        "stayLive": "Stay live",
+        "submit": "Go offline"
+      },
       "offline": "SOS Offline",
       "live": "SOS Live",
       "notNow": "Not now",
@@ -1823,6 +1830,8 @@
         "viewMembership": "View membership"
       },
       "GoLive": {
+        "specializations": "Emergency specializations",
+        "selectAtLeastOne": "Select at least one",
         "title": "Go live for emergencies",
         "autoOff": "Turn off automatically",
         "untilOff": "Until I turn it off",

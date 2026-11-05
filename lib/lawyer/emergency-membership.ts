@@ -3,7 +3,10 @@
 import { updateTag } from "next/cache";
 import { unstable_rethrow } from "next/navigation";
 import { http, ValidationError } from "../http";
-import { Plan } from "@/types/lawyer/emergency-membership";
+import {
+  Plan,
+  UpdateAvailabilityPayload,
+} from "@/types/lawyer/emergency-membership";
 
 // Activate Membership Plan
 type ActivatePlanResponse =
@@ -63,13 +66,6 @@ export async function cancelMembership(): Promise<CancelMembershipResponse> {
 }
 
 // Emergency Availability (go live / go offline)
-export type UpdateAvailabilityPayload = {
-  is_live: boolean;
-  auto_off?: number | null;
-  areas?: number[];
-  office_emirate?: string;
-};
-
 type UpdateAvailabilityResponse =
   { success: true; message?: string } | { success: false; message?: string };
 
