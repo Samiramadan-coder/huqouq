@@ -17,8 +17,13 @@ import { deleteToken } from "@/lib/cookies";
 import { signOutOfFirebase } from "@/features/chat";
 import { useRouter } from "@/i18n/navigation";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import RequestEmergencyHelp from "../client/emergency/request-emergency-help";
 
-export default function LayoutHeader() {
+export default function LayoutHeader({
+  owner,
+}: {
+  owner: "client" | "lawyer";
+}) {
   const router = useRouter();
   const { user, setUser } = useUser();
   const t = useTranslations("Client.Sidebar");
@@ -29,7 +34,9 @@ export default function LayoutHeader() {
         <SidebarTrigger className="lg:hidden" />
       </div>
 
-      <div>
+      <div className="flex items-center gap-3">
+        {owner === "client" && <RequestEmergencyHelp />}
+
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button

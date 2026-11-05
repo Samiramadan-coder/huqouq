@@ -1011,6 +1011,27 @@
     }
   },
   "Client": {
+    "Emergency": {
+      "trigger": "مساعدة طارئة",
+      "title": "مساعدة قانونية طارئة",
+      "description": "مجانية لك. نوصلك بمحامٍ موثّق عبر مكالمة صوتية.",
+      "legalAreaLabel": "المجال القانوني",
+      "legalAreaPlaceholder": "اختر المجال القانوني",
+      "legalAreaRequired": "يرجى اختيار المجال القانوني",
+      "emirateLabel": "الإمارة / المدينة",
+      "emiratePlaceholder": "اختر إمارتك",
+      "emirateRequired": "يرجى اختيار إمارتك",
+      "useLocation": "استخدم موقعي الحالي",
+      "locationError": "تعذّر تحديد موقعك. يرجى اختيار إمارتك.",
+      "descriptionLabel": "ماذا حدث؟",
+      "optional": "اختياري",
+      "descriptionPlaceholder": "صف الموقف باختصار ليتمكن المحامي من الاستعداد.",
+      "acceptShortCall": "أفهم أن هذه مكالمة إرشادية أولية قصيرة (حتى 15 دقيقة)",
+      "acceptShortCallRequired": "يرجى التأكيد للمتابعة",
+      "submit": "صلني بمحامٍ الآن",
+      "success": "تم إرسال طلبك. نبحث لك عن محامٍ الآن.",
+      "failed": "تعذّر إرسال طلبك. يرجى المحاولة مرة أخرى."
+    },
     "Dashboard": {
       "activeCases": "القضايا النشطة",
       "pendingOffers": "العروض المعلقة",

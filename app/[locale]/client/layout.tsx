@@ -64,7 +64,8 @@ export default async function ClientLayout({
       </Sidebar>
 
       <SidebarInset className="flex-1 min-w-0 min-h-screen">
-        <LayoutHeader />
+        <LayoutHeader owner="client" />
+
         <div className="min-w-0 w-full overflow-x-clip">
           <div className="min-w-0 w-full">{children}</div>
         </div>

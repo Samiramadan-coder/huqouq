@@ -1011,6 +1011,27 @@
     }
   },
   "Client": {
+    "Emergency": {
+      "trigger": "Emergency Help",
+      "title": "Emergency Legal Help",
+      "description": "Free for you. We connect you to a verified lawyer by voice call.",
+      "legalAreaLabel": "Legal area",
+      "legalAreaPlaceholder": "Select a legal area",
+      "legalAreaRequired": "Please select a legal area",
+      "emirateLabel": "Emirate / city",
+      "emiratePlaceholder": "Select your emirate",
+      "emirateRequired": "Please select your emirate",
+      "useLocation": "Use my current location",
+      "locationError": "Could not get your location. Please choose your emirate.",
+      "descriptionLabel": "What happened?",
+      "optional": "optional",
+      "descriptionPlaceholder": "Briefly describe the situation so the lawyer can prepare.",
+      "acceptShortCall": "I understand this is a short first-guidance call (up to 15 minutes)",
+      "acceptShortCallRequired": "Please confirm to continue",
+      "submit": "Connect me to a lawyer now",
+      "success": "Your request has been sent. We are finding a lawyer for you.",
+      "failed": "Failed to send your request. Please try again."
+    },
     "Dashboard": {
       "activeCases": "Active Cases",
       "pendingOffers": "Pending Offers",
