@@ -25,13 +25,13 @@ export function PlanCard({
         {format.money(plan.price)}
       </p>
 
-      <div className="mt-2 flex flex-wrap gap-2">
-        {isFree && (
+      {isFree && (
+        <div className="mt-2 flex flex-wrap gap-2">
           <span className="border-green-200 bg-green-50 text-green-700 inline-flex items-center rounded-sm border px-2 py-0.5 text-[11px] font-medium">
             {t("freeDuringLaunch")}
           </span>
-        )}
-      </div>
+        </div>
+      )}
 
       <ActivatePlan plan={plan} isCurrent={isCurrent} isFree={isFree} />
     </div>

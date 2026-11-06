@@ -1839,6 +1839,24 @@
       }
     },
     "EmergencyMembership": {
+      "Subscribe": {
+        "title": "Checkout",
+        "plan": "Plan",
+        "period": "Period",
+        "total": "Total",
+        "name": "Name on card",
+        "number": "Card number",
+        "exp": "Expiry (MM/YY)",
+        "cvc": "CVC",
+        "autoRenew": "Renew automatically. You can turn this off anytime.",
+        "pay": "Pay {price}",
+        "nameRequired": "Please enter the name on the card",
+        "numberInvalid": "Please enter a valid card number",
+        "expInvalid": "Please enter a valid expiry date",
+        "cvcInvalid": "Please enter a valid CVC",
+        "success": "Your emergency membership is now active.",
+        "failed": "Payment failed. Please check your card details and try again."
+      },
       "Stats": {
         "title": "Your stats this period",
         "received": "Requests received",

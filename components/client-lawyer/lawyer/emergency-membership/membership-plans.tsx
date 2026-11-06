@@ -12,7 +12,8 @@ export default async function MembershipPlans({
 }) {
   const t = await getTranslations("Lawyer.EmergencyMembership");
   const { plans } = membership;
-  const isFree = membership.is_launch_free || membership.free_during_launch;
+  // const isFree = membership.is_launch_free || membership.free_during_launch;
+  const isFree = false;
 
   return (
     <div className="space-y-6">

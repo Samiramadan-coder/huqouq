@@ -77,3 +77,36 @@ export const changePlanSchema = (t: T) =>
   });
 
 export type ChangePlanFormValues = z.infer<ReturnType<typeof changePlanSchema>>;
+
+// Subscribe (paid checkout) Form
+// Expiry "MM/YY" that is not in the past
+function isValidExpiry(value: string) {
+  const match = /^(0[1-9]|1[0-2])\/(\d{2})$/.exec(value);
+  if (!match) return false;
+
+  const month = Number(match[1]);
+  const year = 2000 + Number(match[2]);
+  const now = new Date();
+  return (
+    year > now.getFullYear() ||
+    (year === now.getFullYear() && month >= now.getMonth() + 1)
+  );
+}
+
+export const subscribeSchema = (t: T) =>
+  z.object({
+    card: z.object({
+      name: z.string().trim().min(2, t("Subscribe.nameRequired")),
+      number: z
+        .string()
+        .refine(
+          (value) => /^\d{13,19}$/.test(value.replace(/\s/g, "")),
+          t("Subscribe.numberInvalid"),
+        ),
+      exp: z.string().refine(isValidExpiry, t("Subscribe.expInvalid")),
+      cvc: z.string().regex(/^\d{3,4}$/, t("Subscribe.cvcInvalid")),
+    }),
+    auto_renew: z.boolean(),
+  });
+
+export type SubscribeFormValues = z.infer<ReturnType<typeof subscribeSchema>>;

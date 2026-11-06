@@ -2,6 +2,7 @@
 
 import {
   Plan,
+  SubscribeFormValues,
   ChangePlanFormValues,
   UpdateAvailabilityPayload,
 } from "@/types/lawyer/emergency-membership";
@@ -163,6 +164,45 @@ export async function autoRenewPlan(
       };
     }
     console.error("Error updating emergency membership auto-renew:", error);
+    return { success: false };
+  }
+}
+
+// Subscribe to a paid plan
+type SubscribeResponse =
+  | { success: true; message?: string }
+  | {
+      success: false;
+      // Keys are field paths, e.g. "card.number"
+      errors?: Record<string, string>;
+      message?: string;
+    };
+
+export async function subscribePlan(
+  plan: Plan["id"],
+  values: SubscribeFormValues,
+): Promise<SubscribeResponse> {
+  try {
+    const { data } = await http.post<{ message: string }>(
+      "/api/lawyer/emergency/membership/subscribe",
+      { plan, ...values },
+    );
+
+    updateTag("emergency-membership");
+    updateTag("emergency-availability");
+    return { success: true, message: data.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      );
+      return { success: false, errors, message: error.responseMessage };
+    }
+    console.error("Error subscribing to emergency membership:", error);
     return { success: false };
   }
 }
