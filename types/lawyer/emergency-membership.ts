@@ -78,6 +78,11 @@ export type EmergencyLive = {
 export const goLiveSchema = (t: T) =>
   z.object({
     auto_off: z.number().int().positive().nullable(),
+    // snake_case emirate key, e.g. "abu_dhabi"
+    office_emirate: z
+      .string(t("GoLive.emirateRequired"))
+      .trim()
+      .min(1, t("GoLive.emirateRequired")),
     areas: z
       .array(z.number().int().positive())
       .min(1, t("GoLive.selectAtLeastOne")),
@@ -87,8 +92,7 @@ export type GoLiveFormValues = z.infer<ReturnType<typeof goLiveSchema>>;
 
 // Body for /api/lawyer/emergency/availability
 export type UpdateAvailabilityPayload =
-  | { is_live: false }
-  | ({ is_live: true; office_emirate: string } & GoLiveFormValues);
+  { is_live: false } | ({ is_live: true } & GoLiveFormValues);
 
 // Change Plan Form
 export const changePlanSchema = (t: T) =>

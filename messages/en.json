@@ -1830,6 +1830,9 @@
         "viewMembership": "View membership"
       },
       "GoLive": {
+        "emirateLabel": "Office emirate",
+        "emiratePlaceholder": "Select your emirate",
+        "emirateRequired": "Please select your office emirate",
         "specializations": "Emergency specializations",
         "selectAtLeastOne": "Select at least one",
         "title": "Go live for emergencies",

@@ -5,7 +5,8 @@ import {
 } from "@/types/lawyer/emergency-membership";
 
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, toSnakeCase } from "@/lib/utils";
+import FormSelect from "@/components/public/shared/form/form-select";
 import { Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
@@ -38,6 +39,14 @@ export function GoLiveForm({
   const t = useTranslations("Lawyer.EmergencyLive");
   const specializations = referenceData?.specializations ?? [];
 
+  // Emirate values are sent in snake_case, e.g. "Abu Dhabi" -> "abu_dhabi"
+  const emirates = (referenceData?.cities ?? []).map(
+    ({ emirate, emirate_label }) => ({
+      value: toSnakeCase(emirate),
+      label: emirate_label,
+    }),
+  );
+
   const {
     control,
     handleSubmit,
@@ -47,6 +56,9 @@ export function GoLiveForm({
     mode: "onChange",
     defaultValues: {
       auto_off: null,
+      office_emirate: emergencyLive.office_emirate
+        ? toSnakeCase(emergencyLive.office_emirate)
+        : "",
       areas: emergencyLive.areas,
     },
   });
@@ -71,7 +83,6 @@ export function GoLiveForm({
   async function onSubmit(values: GoLiveFormValues) {
     const result = await updateAvailability({
       is_live: true,
-      office_emirate: emergencyLive.office_emirate,
       ...values,
     });
 
@@ -135,6 +146,16 @@ export function GoLiveForm({
             </div>
           );
         }}
+      />
+
+      <FormSelect
+        control={control}
+        name="office_emirate"
+        label={t("GoLive.emirateLabel")}
+        placeholder={t("GoLive.emiratePlaceholder")}
+        required
+        options={emirates}
+        triggerClassName="h-11! min-h-11 rounded-sm border! border-secondary! px-3 aria-invalid:border-destructive!"
       />
 
       <Controller

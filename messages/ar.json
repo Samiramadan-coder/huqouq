@@ -1829,6 +1829,9 @@
         "viewMembership": "عرض العضوية"
       },
       "GoLive": {
+        "emirateLabel": "إمارة المكتب",
+        "emiratePlaceholder": "اختر إمارتك",
+        "emirateRequired": "يرجى اختيار إمارة المكتب",
         "specializations": "تخصصات الطوارئ",
         "selectAtLeastOne": "اختر تخصصًا واحدًا على الأقل",
         "title": "كن متاحًا للطوارئ",

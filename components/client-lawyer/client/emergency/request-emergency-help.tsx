@@ -29,6 +29,7 @@ import { AlertCircle, MapPin, TriangleAlert } from "lucide-react";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
+import { toSnakeCase } from "@/lib/utils";
 
 // Approximate center of each emirate, used to resolve the user's location
 const EMIRATE_CENTERS: Record<string, [number, number]> = {
@@ -55,15 +56,6 @@ function distanceKm(
     Math.sin(dLat / 2) ** 2 +
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
   return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
-function toSnakeCase(value: string) {
-  return value
-    .trim()
-    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
-    .replace(/[^a-zA-Z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "")
-    .toLowerCase();
 }
 
 const selectTriggerClassName =

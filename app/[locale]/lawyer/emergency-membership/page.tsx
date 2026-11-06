@@ -32,7 +32,9 @@ export default async function Page() {
 
       <Stats stats={data.data.stats} />
 
-      <BillingHistory billing={data.data.billing} card={data.data.card} />
+      {data.data.billing.length > 0 && (
+        <BillingHistory billing={data.data.billing} card={data.data.card} />
+      )}
     </div>
   );
 }

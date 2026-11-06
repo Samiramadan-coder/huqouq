@@ -53,17 +53,31 @@ export default function SosControl({
           <GoOffline liveUntil={emergencyLive.live_until} onDone={close} />
         )}
 
-        {emergencyLive.can_go_live && !emergencyLive.is_live && (
-          <GoLiveForm emergencyLive={emergencyLive} onDone={close} />
-        )}
+        {!emergencyLive.is_live &&
+          (emergencyLive.reason === "needs_area" ||
+            emergencyLive.reason === null) && (
+            <GoLiveForm emergencyLive={emergencyLive} onDone={close} />
+          )}
 
-        {!emergencyLive.can_go_live && !emergencyLive.is_live && (
+        {emergencyLive.reason === "not_approved" && (
           <MembershipRequired
             message={emergencyLive.reason_message}
-            reason={emergencyLive.reason}
             onClose={close}
           />
         )}
+
+        {/* {emergencyLive.can_go_live && !emergencyLive.is_live && (
+          <GoLiveForm emergencyLive={emergencyLive} onDone={close} />
+        )} */}
+
+        {/* {!emergencyLive.can_go_live && !emergencyLive.is_live && (
+          <MembershipRequired
+            message={emergencyLive.reason_message}
+            reason={emergencyLive.reason}
+            emergencyLive={emergencyLive}
+            onClose={close}
+          />
+        )} */}
       </DialogContent>
     </Dialog>
   );
