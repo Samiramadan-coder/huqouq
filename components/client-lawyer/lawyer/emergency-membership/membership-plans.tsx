@@ -36,7 +36,7 @@ export default async function MembershipPlans({
             plan={plan}
             isFree={isFree}
             isCurrent={
-              plan.id === membership.plan && membership.status === "active"
+              plan.id === membership.plan && membership.status !== "expired"
             }
           />
         ))}

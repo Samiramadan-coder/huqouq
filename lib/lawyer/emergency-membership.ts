@@ -3,6 +3,7 @@
 import {
   Plan,
   SubscribeFormValues,
+  UpdateCardFormValues,
   ChangePlanFormValues,
   UpdateAvailabilityPayload,
 } from "@/types/lawyer/emergency-membership";
@@ -203,6 +204,43 @@ export async function subscribePlan(
       return { success: false, errors, message: error.responseMessage };
     }
     console.error("Error subscribing to emergency membership:", error);
+    return { success: false };
+  }
+}
+
+// Update the saved payment card
+type UpdateCardResponse =
+  | { success: true; message?: string }
+  | {
+      success: false;
+      // Keys are field paths, e.g. "card.number"
+      errors?: Record<string, string>;
+      message?: string;
+    };
+
+export async function updateCard(
+  values: UpdateCardFormValues,
+): Promise<UpdateCardResponse> {
+  try {
+    const { data } = await http.put<{ message: string }>(
+      "/api/lawyer/emergency/membership/card",
+      values,
+    );
+
+    updateTag("emergency-membership");
+    return { success: true, message: data.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      );
+      return { success: false, errors, message: error.responseMessage };
+    }
+    console.error("Error updating emergency membership card:", error);
     return { success: false };
   }
 }

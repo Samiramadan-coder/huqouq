@@ -19,7 +19,6 @@ import { useState } from "react";
 import { Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -27,33 +26,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm, type Path } from "react-hook-form";
 import { subscribePlan } from "@/lib/lawyer/emergency-membership";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import CardFields from "./card-fields";
 
 const defaultValues: SubscribeFormValues = {
   card: { name: "", number: "", exp: "", cvc: "" },
   auto_renew: true,
 };
-
-// "4242424242424242" -> "4242 4242 4242 4242"
-const formatCardNumber = (value: string) =>
-  value
-    .replace(/\D/g, "")
-    .slice(0, 19)
-    .replace(/(\d{4})(?=\d)/g, "$1 ");
-
-// "1229" -> "12/29"
-const formatExpiry = (value: string) => {
-  const digits = value.replace(/\D/g, "").slice(0, 4);
-  return digits.length > 2
-    ? `${digits.slice(0, 2)}/${digits.slice(2)}`
-    : digits;
-};
-
-const onlyDigits = (max: number) => (value: string) =>
-  value.replace(/\D/g, "").slice(0, max);
-
-const inputClassName =
-  "h-11 rounded-sm border-secondary shadow-none focus-visible:border-primary focus-visible:ring-0";
 
 export default function SubscribeButton({ plan }: { plan: Plan }) {
   const format = useFormatters();
@@ -104,55 +82,6 @@ export default function SubscribeButton({ plan }: { plan: Plan }) {
     toast.error(result.message ?? t("Subscribe.failed"));
   }
 
-  function renderCardField({
-    name,
-    label,
-    placeholder,
-    autoComplete,
-    transform,
-    className,
-  }: {
-    name: Exclude<Path<SubscribeFormValues>, "card" | "auto_renew">;
-    label: string;
-    placeholder?: string;
-    autoComplete: string;
-    transform?: (value: string) => string;
-    className?: string;
-  }) {
-    return (
-      <Controller
-        control={control}
-        name={name}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid} className={className}>
-            <FieldLabel htmlFor={name} className="text-xs text-primary/55">
-              {label}
-            </FieldLabel>
-            <Input
-              {...field}
-              id={name}
-              dir="ltr"
-              placeholder={placeholder}
-              autoComplete={autoComplete}
-              inputMode={transform ? "numeric" : undefined}
-              aria-invalid={fieldState.invalid}
-              disabled={isSubmitting}
-              onChange={(event) =>
-                field.onChange(
-                  transform
-                    ? transform(event.target.value)
-                    : event.target.value,
-                )
-              }
-              className={inputClassName}
-            />
-            <FieldError errors={[fieldState.error]} />
-          </Field>
-        )}
-      />
-    );
-  }
-
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
@@ -192,36 +121,7 @@ export default function SubscribeButton({ plan }: { plan: Plan }) {
           className="space-y-4"
           noValidate
         >
-          {renderCardField({
-            name: "card.name",
-            label: t("Subscribe.name"),
-            autoComplete: "cc-name",
-          })}
-
-          {renderCardField({
-            name: "card.number",
-            label: t("Subscribe.number"),
-            placeholder: "4242 4242 4242 4242",
-            autoComplete: "cc-number",
-            transform: formatCardNumber,
-          })}
-
-          <div className="grid grid-cols-2 gap-4">
-            {renderCardField({
-              name: "card.exp",
-              label: t("Subscribe.exp"),
-              placeholder: "MM/YY",
-              autoComplete: "cc-exp",
-              transform: formatExpiry,
-            })}
-            {renderCardField({
-              name: "card.cvc",
-              label: t("Subscribe.cvc"),
-              placeholder: "123",
-              autoComplete: "cc-csc",
-              transform: onlyDigits(4),
-            })}
-          </div>
+          <CardFields control={control} disabled={isSubmitting} />
 
           <Controller
             control={control}

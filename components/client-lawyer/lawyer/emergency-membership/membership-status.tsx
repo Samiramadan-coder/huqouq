@@ -15,9 +15,15 @@ export default function MembershipStatus({
 }) {
   const t = useTranslations("Lawyer.EmergencyMembership");
   const format = useFormatters();
+
+  const noSubscriptionFounded =
+    membership.status === "none" || membership.status === "expired";
+
   const isActive = membership.status === "active";
 
-  if (!isActive) {
+  const isCancelled = membership.status === "cancelled";
+
+  if (noSubscriptionFounded) {
     return (
       <div className="bg-white border border-secondary rounded-sm flex items-center gap-4 p-5">
         <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary/50 text-primary/45">

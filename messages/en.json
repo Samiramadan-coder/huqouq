@@ -1839,6 +1839,35 @@
       }
     },
     "EmergencyMembership": {
+      "Billing": {
+        "title": "Billing history",
+        "paymentMethod": "Payment method",
+        "cardEnding": "Card ending {last4}",
+        "noCard": "No card on file",
+        "empty": "No payments yet.",
+        "description": "{plan} membership",
+        "downloadReceipt": "Download receipt",
+        "Table": {
+          "date": "Date",
+          "description": "Description",
+          "amount": "Amount",
+          "card": "Card",
+          "status": "Status",
+          "receipt": "Receipt"
+        },
+        "status": {
+          "paid": "Paid",
+          "refunded": "Refunded",
+          "failed": "Failed"
+        }
+      },
+      "UpdateCard": {
+        "trigger": "Update card",
+        "title": "Update payment method",
+        "save": "Save card",
+        "success": "Your payment card has been updated.",
+        "failed": "Failed to update your card. Please check the details and try again."
+      },
       "Subscribe": {
         "title": "Checkout",
         "plan": "Plan",

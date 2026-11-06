@@ -1838,6 +1838,35 @@
       }
     },
     "EmergencyMembership": {
+      "Billing": {
+        "title": "سجل الفواتير",
+        "paymentMethod": "وسيلة الدفع",
+        "cardEnding": "بطاقة تنتهي بـ {last4}",
+        "noCard": "لا توجد بطاقة محفوظة",
+        "empty": "لا توجد مدفوعات بعد.",
+        "description": "عضوية {plan}",
+        "downloadReceipt": "تحميل الإيصال",
+        "Table": {
+          "date": "التاريخ",
+          "description": "الوصف",
+          "amount": "المبلغ",
+          "card": "البطاقة",
+          "status": "الحالة",
+          "receipt": "الإيصال"
+        },
+        "status": {
+          "paid": "مدفوع",
+          "refunded": "مسترد",
+          "failed": "فشل"
+        }
+      },
+      "UpdateCard": {
+        "trigger": "تحديث البطاقة",
+        "title": "تحديث وسيلة الدفع",
+        "save": "حفظ البطاقة",
+        "success": "تم تحديث بطاقة الدفع الخاصة بك.",
+        "failed": "تعذّر تحديث بطاقتك. يرجى التحقق من البيانات والمحاولة مرة أخرى."
+      },
       "Subscribe": {
         "title": "الدفع",
         "plan": "الخطة",

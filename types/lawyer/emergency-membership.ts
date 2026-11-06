@@ -20,10 +20,34 @@ export type Stats = {
   received: number;
 };
 
+export type PaymentCard = {
+  brand: string;
+  last4: string;
+};
+
+export type Billing = {
+  card: null | PaymentCard;
+  amount: number;
+  created_at: string;
+  failure_reason: null | string;
+  id: number;
+  method: string;
+  paid_at: string;
+  period_end: string;
+  period_start: string;
+  plan: Plan;
+  receipt_number: string;
+  refunded_amount: number;
+  status: "paid" | "failed" | "refunded";
+  vat_amount: number;
+  vat_percentage: number;
+};
+
 export type EmergencyMemberShip = {
   auto_renew: boolean;
-  billing: [];
-  card: null;
+  billing: Billing[];
+  // Saved payment method; null when the lawyer has no card on file
+  card: null | (PaymentCard & { exp: string });
   free_during_launch: boolean;
   grace_days_left: null;
   is_launch_free: boolean;
@@ -36,7 +60,7 @@ export type EmergencyMemberShip = {
   renews_at: null | string;
   started_at: null | string;
   stats: Stats;
-  status: "none" | "active" | "expired";
+  status: "none" | "active" | "expired" | "cancelled";
 };
 
 export type EmergencyLive = {
@@ -93,20 +117,31 @@ function isValidExpiry(value: string) {
   );
 }
 
+// Card details, shared by checkout and "update payment method"
+export const cardSchema = (t: T) =>
+  z.object({
+    name: z.string().trim().min(2, t("Subscribe.nameRequired")),
+    number: z
+      .string()
+      .refine(
+        (value) => /^\d{13,19}$/.test(value.replace(/\s/g, "")),
+        t("Subscribe.numberInvalid"),
+      ),
+    exp: z.string().refine(isValidExpiry, t("Subscribe.expInvalid")),
+    cvc: z.string().regex(/^\d{3,4}$/, t("Subscribe.cvcInvalid")),
+  });
+
+export type CardValues = z.infer<ReturnType<typeof cardSchema>>;
+
 export const subscribeSchema = (t: T) =>
   z.object({
-    card: z.object({
-      name: z.string().trim().min(2, t("Subscribe.nameRequired")),
-      number: z
-        .string()
-        .refine(
-          (value) => /^\d{13,19}$/.test(value.replace(/\s/g, "")),
-          t("Subscribe.numberInvalid"),
-        ),
-      exp: z.string().refine(isValidExpiry, t("Subscribe.expInvalid")),
-      cvc: z.string().regex(/^\d{3,4}$/, t("Subscribe.cvcInvalid")),
-    }),
+    card: cardSchema(t),
     auto_renew: z.boolean(),
   });
 
 export type SubscribeFormValues = z.infer<ReturnType<typeof subscribeSchema>>;
+
+// Update Card Form
+export const updateCardSchema = (t: T) => z.object({ card: cardSchema(t) });
+
+export type UpdateCardFormValues = z.infer<ReturnType<typeof updateCardSchema>>;

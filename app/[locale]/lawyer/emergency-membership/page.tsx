@@ -5,6 +5,7 @@ import Title from "@/components/client-lawyer/reusable/title";
 import { EmergencyMemberShip } from "@/types/lawyer/emergency-membership";
 import Stats from "@/components/client-lawyer/lawyer/emergency-membership/stats";
 import MembershipPlans from "@/components/client-lawyer/lawyer/emergency-membership/membership-plans";
+import BillingHistory from "@/components/client-lawyer/lawyer/emergency-membership/billing-history";
 
 export default async function Page() {
   const t = await getTranslations("Lawyer.EmergencyMembership");
@@ -30,6 +31,8 @@ export default async function Page() {
       <MembershipPlans membership={data.data} />
 
       <Stats stats={data.data.stats} />
+
+      <BillingHistory billing={data.data.billing} card={data.data.card} />
     </div>
   );
 }
