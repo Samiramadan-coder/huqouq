@@ -1839,6 +1839,11 @@
       }
     },
     "EmergencyMembership": {
+      "Cancelled": {
+        "title": "Emergency Lawyer — Cancelled",
+        "activeUntil": "Active until {date}",
+        "hint": "You will keep receiving emergency requests until then. Choose a plan below to subscribe again."
+      },
       "Billing": {
         "title": "Billing history",
         "paymentMethod": "Payment method",
