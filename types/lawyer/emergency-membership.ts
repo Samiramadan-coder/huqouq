@@ -46,7 +46,6 @@ export type Billing = {
 export type EmergencyMemberShip = {
   auto_renew: boolean;
   billing: Billing[];
-  // Saved payment method; null when the lawyer has no card on file
   card: null | (PaymentCard & { exp: string });
   free_during_launch: boolean;
   grace_days_left: null;
@@ -69,7 +68,7 @@ export type EmergencyLive = {
   live_until: null | string;
   office_emirate: string;
   office_emirate_label: string;
-  reason: string;
+  reason: null | "not_approved" | "needs_area";
   reason_message: string;
   auto_off_options: number[];
   areas: number[];

@@ -60,6 +60,7 @@ export default function SosControl({
         {!emergencyLive.can_go_live && !emergencyLive.is_live && (
           <MembershipRequired
             message={emergencyLive.reason_message}
+            reason={emergencyLive.reason}
             onClose={close}
           />
         )}

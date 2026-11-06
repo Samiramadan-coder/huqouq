@@ -36,7 +36,7 @@ export default async function LawyerLayout({
     "/api/lawyer/emergency/availability",
   );
 
-  // console.log(data);
+  console.log(data);
 
   return (
     <SidebarProvider defaultOpen>
@@ -74,6 +74,7 @@ export default async function LawyerLayout({
 
       <SidebarInset className="flex-1 min-w-0 min-h-screen">
         <LayoutHeader owner="lawyer" emergencyLive={data.data} />
+
         <div className="min-w-0 w-full overflow-x-clip">
           <div className="min-w-0 w-full">{children}</div>
         </div>

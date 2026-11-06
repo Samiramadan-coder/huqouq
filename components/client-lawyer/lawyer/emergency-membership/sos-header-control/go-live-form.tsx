@@ -17,8 +17,8 @@ import { Controller, useForm } from "react-hook-form";
 import { DialogClose } from "@/components/ui/dialog";
 import { DialogIconHeader } from "./dialog-icon-header";
 import { updateAvailability } from "@/lib/lawyer/emergency-membership";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useReferenceData } from "@/providers/reference-data.provider";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 // Radio value for "until I turn it off" (auto_off: null)
 const UNTIL_OFF = "until_off";
@@ -47,7 +47,7 @@ export function GoLiveForm({
     mode: "onChange",
     defaultValues: {
       auto_off: null,
-      areas: [],
+      areas: emergencyLive.areas,
     },
   });
 
@@ -62,7 +62,10 @@ export function GoLiveForm({
       value: String(minutes),
       label: durationLabel(minutes),
     })),
-    { value: UNTIL_OFF, label: t("GoLive.untilOff") },
+    {
+      value: UNTIL_OFF,
+      label: t("GoLive.untilOff"),
+    },
   ];
 
   async function onSubmit(values: GoLiveFormValues) {
