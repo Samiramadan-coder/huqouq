@@ -2533,7 +2533,32 @@
       }
     },
     "EmergencyHistory": {
-      "Title": "Emergency History"
+      "Title": "Emergency Requests History",
+      "Subtitle": "Emergency requests you received",
+      "Tabs": {
+        "all": "All",
+        "accepted": "Completed",
+        "declined": "Declined",
+        "missed": "Missed"
+      },
+      "Table": {
+        "dateTime": "Date / Time",
+        "legalArea": "Legal area",
+        "emirate": "Emirate",
+        "client": "Client",
+        "status": "Status",
+        "callLength": "Call length",
+        "outcome": "Outcome"
+      },
+      "Results": {
+        "pending": "Pending",
+        "declined": "Declined",
+        "missed": "Missed",
+        "accepted": "Accepted"
+      },
+      "convertedToCase": "Converted to case",
+      "notConverted": "Not converted",
+      "noRequests": "You have not received any emergency requests yet."
     },
     "Messages": {
       "Title": "Messages",

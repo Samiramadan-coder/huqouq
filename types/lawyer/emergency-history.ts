@@ -21,12 +21,21 @@ export type Emergency = {
   emirate_label: string;
   expires_at: string;
   id: number;
-  my_result: string;
+  my_result: "pending" | "accepted" | "declined" | "missed";
   note: null | string;
   outcome: null | string;
   outcome_label: null | string;
   reference: string;
   server_time: string;
-  status: "searching";
+  legal_area: { id: number; name: string };
+  status: "searching" | "in_call" | "completed" | "dropped" | "no_lawyer";
   status_label: string;
+};
+
+// Tab counts returned with the requests list
+export type Counts = {
+  total: number;
+  accepted: number;
+  declined: number;
+  missed: number;
 };

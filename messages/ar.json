@@ -2532,7 +2532,32 @@
       }
     },
     "EmergencyHistory": {
-      "Title": "السجل الطارئ"
+      "Title": "سجل طلبات الطوارئ",
+      "Subtitle": "طلبات الطوارئ التي استلمتها",
+      "Tabs": {
+        "all": "الكل",
+        "accepted": "مكتملة",
+        "declined": "مرفوضة",
+        "missed": "فائتة"
+      },
+      "Table": {
+        "dateTime": "التاريخ / الوقت",
+        "legalArea": "المجال القانوني",
+        "emirate": "الإمارة",
+        "client": "العميل",
+        "status": "الحالة",
+        "callLength": "مدة المكالمة",
+        "outcome": "النتيجة"
+      },
+      "Results": {
+        "pending": "قيد الانتظار",
+        "declined": "مرفوض",
+        "missed": "فائت",
+        "accepted": "مقبول"
+      },
+      "convertedToCase": "تم التحويل إلى قضية",
+      "notConverted": "لم يتم التحويل",
+      "noRequests": "لم تستلم أي طلبات طوارئ بعد."
     },
     "Messages": {
       "Title": "الرسائل",
