@@ -24,6 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { signOut } from "@/lib/auth";
 import { deleteToken } from "@/lib/cookies";
 import { signOutOfFirebase } from "@/features/chat";
+import { unregisterPushNotifications } from "@/features/push-notifications";
 import { useUser } from "@/providers/user-provider";
 
 export default function HeaderControl() {
@@ -119,6 +120,8 @@ export default function HeaderControl() {
               <DropdownMenuItem
                 className="h-10 rounded-none cursor-pointer px-4 text-[#9b2c2c]"
                 onClick={async () => {
+                  // Before signOut: unregistering the device needs the auth cookie
+                  await unregisterPushNotifications();
                   const result = await signOut();
                   if (result.success) {
                     await deleteToken();

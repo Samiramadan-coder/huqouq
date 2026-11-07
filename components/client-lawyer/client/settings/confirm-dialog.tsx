@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { signOutOfFirebase } from "@/features/chat";
+import { unregisterPushNotifications } from "@/features/push-notifications";
 import { useUser } from "@/providers/user-provider";
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
@@ -98,6 +99,8 @@ export default function ConfirmDialog({
     );
 
     if (result.success) {
+      // The account (and its devices) is gone; only delete the FCM token
+      await unregisterPushNotifications({ notifyApi: false });
       await signOutOfFirebase();
       setUser(null);
 

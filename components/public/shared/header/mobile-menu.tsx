@@ -22,6 +22,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { signOut } from "@/lib/auth";
 import { deleteToken } from "@/lib/cookies";
 import { signOutOfFirebase } from "@/features/chat";
+import { unregisterPushNotifications } from "@/features/push-notifications";
 import LanguageSwitcher from "./language-switcher";
 import { useState } from "react";
 
@@ -125,6 +126,8 @@ export default function MobileMenu() {
               <p
                 className="text-[#9b2c2c] font-semibold cursor-pointer"
                 onClick={async () => {
+                  // Before signOut: unregistering the device needs the auth cookie
+                  await unregisterPushNotifications();
                   const result = await signOut();
                   if (result.success) {
                     await deleteToken();

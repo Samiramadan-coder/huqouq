@@ -31,6 +31,9 @@
       "due": "Due {date}",
       "daysLeft": "{count, plural, =0 {Due today} one {{days} day left} other {{days} days left}}",
       "overdueBy": "{count, plural, one {Overdue by {days} day} other {Overdue by {days} days}}"
+    },
+    "PushNotifications": {
+      "view": "View"
     }
   },
   "Header": {
@@ -1736,7 +1739,14 @@
         "fullName": "Full Name",
         "email": "Email",
         "phone": "Phone",
-        "phoneHint": "Changing requires OTP re-verification."
+        "phoneHint": "Changing requires OTP re-verification.",
+        "notifications": "Push notifications",
+        "notificationsHint": "Get notified in this browser about messages, offers and updates.",
+        "notificationsUnsupported": "This browser does not support push notifications. On iPhone/iPad, add the site to your Home Screen first.",
+        "notificationsDenied": "Notifications are blocked. Allow them in your browser's site settings, then try again.",
+        "notificationsEnabled": "Push notifications enabled",
+        "notificationsDisabled": "Push notifications turned off",
+        "notificationsError": "We couldn't enable push notifications. Please try again."
       },
       "Photo": {
         "change": "Change Photo",

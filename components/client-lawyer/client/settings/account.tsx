@@ -2,6 +2,7 @@ import ProfilePhoto from "./profile-photo";
 import ChangingPassword from "./changing-password";
 import { getTranslations } from "next-intl/server";
 import NormalElementControl from "./normal-element-control";
+import PushNotificationsControl from "./push-notifications-control";
 
 export default async function Account() {
   const t = await getTranslations("Client.Settings.Account");
@@ -27,6 +28,8 @@ export default async function Account() {
         />
 
         <ChangingPassword />
+
+        <PushNotificationsControl />
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
 import { FlashToast } from "@/components/ui/flash-toast";
+import { PushNotificationsSync } from "@/components/ui/push-notifications-sync";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Inter, Lora, Cairo } from "next/font/google";
@@ -106,6 +107,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                     {children}
                     <Toaster richColors position="top-center" />
                     <FlashToast />
+                    <PushNotificationsSync />
                   </DirectionProvider>
                 </NextIntlClientProvider>
               </UserProvider>

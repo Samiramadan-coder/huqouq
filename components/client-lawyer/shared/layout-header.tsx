@@ -14,6 +14,7 @@ import { deleteToken } from "@/lib/cookies";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { signOutOfFirebase } from "@/features/chat";
+import { unregisterPushNotifications } from "@/features/push-notifications";
 import { useUser } from "@/providers/user-provider";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { EmergencyLive } from "@/types/lawyer/emergency-membership";
@@ -102,6 +103,8 @@ export default function LayoutHeader(props: Props) {
               variant="destructive"
               className="h-10 rounded-none cursor-pointer px-4"
               onClick={async () => {
+                // Before signOut: unregistering the device needs the auth cookie
+                await unregisterPushNotifications();
                 const result = await signOut();
                 if (result.success) {
                   await deleteToken();
