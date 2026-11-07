@@ -26,6 +26,8 @@ export async function requestEmergencyHelp(
       },
     );
 
+    console.log(data);
+
     updateTag("emergencies");
     return { success: true, message: data.message };
   } catch (error) {

@@ -65,19 +65,6 @@ export default function SosControl({
             onClose={close}
           />
         )}
-
-        {/* {emergencyLive.can_go_live && !emergencyLive.is_live && (
-          <GoLiveForm emergencyLive={emergencyLive} onDone={close} />
-        )} */}
-
-        {/* {!emergencyLive.can_go_live && !emergencyLive.is_live && (
-          <MembershipRequired
-            message={emergencyLive.reason_message}
-            reason={emergencyLive.reason}
-            emergencyLive={emergencyLive}
-            onClose={close}
-          />
-        )} */}
       </DialogContent>
     </Dialog>
   );
