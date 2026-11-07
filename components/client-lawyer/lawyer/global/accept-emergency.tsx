@@ -3,7 +3,6 @@
 import { toast } from "sonner";
 import { useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Emergency } from "@/types/lawyer/emergency-history";
@@ -12,13 +11,13 @@ import { acceptEmergency } from "@/lib/lawyer/emergency-requests";
 export default function AcceptEmergency({
   emergencyId,
   disabled,
-  onDone,
+  onAccepted,
 }: {
   emergencyId: Emergency["id"];
   disabled?: boolean;
-  onDone: () => void;
+  // Called once accepted; the parent then opens the call
+  onAccepted: () => void;
 }) {
-  const router = useRouter();
   const t = useTranslations("Lawyer.EmergencyRequest");
   const [pending, startTransition] = useTransition();
 
@@ -32,8 +31,7 @@ export default function AcceptEmergency({
       }
 
       toast.success(result.message ?? t("acceptSuccess"));
-      onDone();
-      router.refresh();
+      onAccepted();
     });
   }
 

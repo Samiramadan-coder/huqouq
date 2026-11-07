@@ -1,5 +1,7 @@
 import { requestClientCallToken } from "@/lib/client/consultations";
 import { requestLawyerCallToken } from "@/lib/lawyer/consultations";
+import { requestEmergencyCallToken } from "@/lib/lawyer/emergency-requests";
+import type { CallTokenResponse } from "@/lib/call-token";
 
 export type CallType = "video" | "audio";
 
@@ -57,6 +59,17 @@ export async function getCallCredentials(
       ? await requestLawyerCallToken(consultationId)
       : await requestClientCallToken(consultationId);
 
+  return toCallTokenResult(result);
+}
+
+// Agora credentials for the lawyer's call on an accepted emergency request
+export async function getEmergencyCallCredentials(
+  emergencyRequestId: number,
+): Promise<CallTokenResult> {
+  return toCallTokenResult(await requestEmergencyCallToken(emergencyRequestId));
+}
+
+function toCallTokenResult(result: CallTokenResponse): CallTokenResult {
   if (!result.success) return result;
 
   const { app_id, channel, token, uid, ends_at } = result.data;

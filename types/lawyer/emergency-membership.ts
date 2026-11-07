@@ -68,7 +68,7 @@ export type EmergencyLive = {
   live_until: null | string;
   office_emirate: string;
   office_emirate_label: string;
-  reason: null | "not_approved" | "needs_area";
+  reason: null | "not_approved" | "needs_office_emirate";
   reason_message: string;
   auto_off_options: number[];
   areas: number[];
@@ -92,7 +92,8 @@ export type GoLiveFormValues = z.infer<ReturnType<typeof goLiveSchema>>;
 
 // Body for /api/lawyer/emergency/availability
 export type UpdateAvailabilityPayload =
-  { is_live: false } | ({ is_live: true } & GoLiveFormValues);
+  | { is_live: false }
+  | ({ is_live: true } & GoLiveFormValues);
 
 // Change Plan Form
 export const changePlanSchema = (t: T) =>

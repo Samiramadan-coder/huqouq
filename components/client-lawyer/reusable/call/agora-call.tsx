@@ -23,14 +23,12 @@ import { Spinner } from "@/components/ui/spinner";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   CallType,
-  CallRole,
   CallSchedule,
   CallEndReason,
   CallEndResult,
   CallCredentials,
   CallTokenResult,
   formatSeconds,
-  getCallCredentials,
   ENDING_SOON_MINUTES,
 } from "./config";
 import { useCallTiming } from "@/hook/use-call-timing";
@@ -48,8 +46,8 @@ import {
 import { useFormatters } from "@/lib/format";
 
 export type AgoraCallProps = {
-  consultationId: number;
-  role: CallRole;
+  // Fetches this call's Agora credentials; called once each time the call opens
+  getCredentials: () => Promise<CallTokenResult>;
   callType: CallType;
   schedule: CallSchedule;
   remoteName: string;
@@ -59,7 +57,7 @@ export type AgoraCallProps = {
   onClose: () => void;
 };
 
-type CallRoomProps = Omit<AgoraCallProps, "consultationId" | "role" | "onClose"> & {
+type CallRoomProps = Omit<AgoraCallProps, "getCredentials" | "onClose"> & {
   credentials: CallCredentials;
 };
 
@@ -67,8 +65,7 @@ type CallRoomProps = Omit<AgoraCallProps, "consultationId" | "role" | "onClose">
 const SPEAKING_THRESHOLD = 0.05;
 
 export default function AgoraCall({
-  consultationId,
-  role,
+  getCredentials,
   onClose,
   schedule,
   ...props
@@ -80,10 +77,12 @@ export default function AgoraCall({
   );
   const [tokenResult, setTokenResult] = useState<CallTokenResult | null>(null);
 
+  const requestCredentials = useEffectEvent(() => getCredentials());
+
   // The dialog mounts this only while open, so each opening gets a new token.
   useEffect(() => {
     let cancelled = false;
-    getCallCredentials(consultationId, role)
+    requestCredentials()
       .catch((): CallTokenResult => ({ success: false }))
       .then((result) => {
         if (!cancelled) setTokenResult(result);
@@ -91,7 +90,7 @@ export default function AgoraCall({
     return () => {
       cancelled = true;
     };
-  }, [consultationId, role]);
+  }, []);
 
   if (!tokenResult) {
     return (
@@ -285,7 +284,9 @@ function CallRoom({
         ) : timing.phase === "lobby" ? (
           <span className="flex items-center gap-1.5 tabular-nums text-primary/55">
             <Clock className="size-3" aria-hidden="true" />
-            {t("startsIn", { time: format.digits(formatSeconds(timing.secondsToStart)) })}
+            {t("startsIn", {
+              time: format.digits(formatSeconds(timing.secondsToStart)),
+            })}
           </span>
         ) : timing.phase === "inProgress" ? (
           <span
@@ -295,7 +296,9 @@ function CallRoom({
             )}
           >
             <Clock className="size-3" aria-hidden="true" />
-            {t("timeLeft", { time: format.digits(formatSeconds(timing.secondsToEnd)) })}
+            {t("timeLeft", {
+              time: format.digits(formatSeconds(timing.secondsToEnd)),
+            })}
           </span>
         ) : timing.phase === "extraTime" ? (
           <span className="flex items-center gap-1.5 font-semibold tabular-nums text-destructive">
@@ -321,7 +324,9 @@ function CallRoom({
           className="flex items-center gap-2 rounded-sm border border-destructive/20 bg-destructive/5 px-4 py-2.5 text-xs text-destructive"
         >
           <Hourglass className="size-3.5 shrink-0" aria-hidden="true" />
-          {t("extraTime", { time: format.digits(formatSeconds(timing.secondsToHardEnd)) })}
+          {t("extraTime", {
+            time: format.digits(formatSeconds(timing.secondsToHardEnd)),
+          })}
         </p>
       )}
 

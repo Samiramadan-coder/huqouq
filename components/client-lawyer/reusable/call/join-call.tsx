@@ -9,7 +9,13 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-import { CallType, CallRole, CallSchedule, CallEndResult } from "./config";
+import {
+  CallType,
+  CallRole,
+  CallSchedule,
+  CallEndResult,
+  getCallCredentials,
+} from "./config";
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
@@ -119,8 +125,9 @@ export default function JoinCall({
           <div className="p-6">
             {open && (
               <AgoraCall
-                consultationId={consultationId}
-                role={whoIsOnCall}
+                getCredentials={() =>
+                  getCallCredentials(consultationId, whoIsOnCall)
+                }
                 callType={callType}
                 schedule={schedule}
                 remoteName={remoteName}

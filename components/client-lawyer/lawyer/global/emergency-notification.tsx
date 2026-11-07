@@ -4,6 +4,7 @@ import { Siren } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import EmergencyCall from "./emergency-call";
 import AcceptEmergency from "./accept-emergency";
 import DeclineEmergency from "./decline-emergency";
 import { Emergency } from "@/types/lawyer/emergency-history";
@@ -21,8 +22,15 @@ export default function EmergencyNotification() {
   // Local clock minus server clock, so the countdown matches `expires_at`
   const [clockOffset, setClockOffset] = useState(0);
 
+  // The accepted request whose call is open
+  const [call, setCall] = useState<{
+    emergency: Emergency;
+    startsAt: string;
+  } | null>(null);
+
   async function showIncomingEmergency({ data }: PushNotification) {
-    if (data.type !== "emergency_alert") return;
+    // Don't interrupt a call in progress
+    if (data.type !== "emergency_alert" || call) return;
 
     const incoming = await getIncomingEmergency();
 
@@ -39,19 +47,36 @@ export default function EmergencyNotification() {
     // onClick: showIncomingEmergency,
   });
 
+  function startCall(accepted: Emergency) {
+    setOpen(false);
+    setCall({ emergency: accepted, startsAt: new Date().toISOString() });
+  }
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md">
-        {emergency && (
-          <EmergencyRequest
-            key={emergency.id}
-            emergency={emergency}
-            clockOffset={clockOffset}
-            onDone={() => setOpen(false)}
-          />
-        )}
-      </DialogContent>
-    </Dialog>
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-md">
+          {emergency && (
+            <EmergencyRequest
+              key={emergency.id}
+              emergency={emergency}
+              clockOffset={clockOffset}
+              onAccepted={() => startCall(emergency)}
+              onDone={() => setOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {call && (
+        <EmergencyCall
+          key={call.emergency.id}
+          emergency={call.emergency}
+          startsAt={call.startsAt}
+          onFinished={() => setCall(null)}
+        />
+      )}
+    </>
   );
 }
 
@@ -75,10 +100,12 @@ function useSecondsLeft(expiresAt: string, clockOffset: number) {
 function EmergencyRequest({
   emergency,
   clockOffset,
+  onAccepted,
   onDone,
 }: {
   emergency: Emergency;
   clockOffset: number;
+  onAccepted: () => void;
   onDone: () => void;
 }) {
   const t = useTranslations("Lawyer.EmergencyRequest");
@@ -136,7 +163,7 @@ function EmergencyRequest({
             <AcceptEmergency
               emergencyId={emergency.id}
               disabled={expired}
-              onDone={onDone}
+              onAccepted={onAccepted}
             />
           </div>
         </>

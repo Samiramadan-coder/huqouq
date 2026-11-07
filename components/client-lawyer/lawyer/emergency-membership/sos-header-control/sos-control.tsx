@@ -54,7 +54,7 @@ export default function SosControl({
         )}
 
         {!emergencyLive.is_live &&
-          (emergencyLive.reason === "needs_area" ||
+          (emergencyLive.reason === "needs_office_emirate" ||
             emergencyLive.reason === null) && (
             <GoLiveForm emergencyLive={emergencyLive} onDone={close} />
           )}

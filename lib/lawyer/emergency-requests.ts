@@ -2,6 +2,7 @@
 
 import { unstable_rethrow } from "next/navigation";
 import { http, ValidationError } from "../http";
+import { fetchCallToken } from "../call-token";
 import { Emergency } from "@/types/lawyer/emergency-history";
 
 type ActionResponse =
@@ -62,4 +63,9 @@ export async function declineEmergency(
     unstable_rethrow(error);
     return toFailure(error, "Error declining emergency request:");
   }
+}
+
+// Agora credentials (token, channel...) for the call on an accepted request
+export async function requestEmergencyCallToken(id: Emergency["id"]) {
+  return fetchCallToken(`/api/lawyer/emergency/requests/${id}/call`, "get");
 }
