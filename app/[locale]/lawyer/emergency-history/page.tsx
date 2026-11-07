@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Title from "@/components/client-lawyer/reusable/title";
+import { http } from "@/lib/http";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Lawyer.EmergencyHistory");
@@ -13,6 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const t = await getTranslations("Lawyer.EmergencyHistory");
+
+  const { data } = await http.get("/api/lawyer/emergency/requests");
+
+  console.log(data);
 
   return (
     <div className="container max-w-7xl py-10">

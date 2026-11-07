@@ -17,7 +17,7 @@ export async function fetchCallToken(
         ? await http.get<CallTokenData | { data: CallTokenData }>(path)
         : await http.post<CallTokenData | { data: CallTokenData }>(path);
 
-    console.log(data);
+    // console.log(data);
 
     // Accept both a bare object and a resource wrapped in `data`.
     const token = "data" in data ? data.data : data;
