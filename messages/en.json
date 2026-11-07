@@ -1036,6 +1036,8 @@
       "failed": "Failed to send your request. Please try again."
     },
     "EmergencyHistory": {
+      "Title": "Emergency History",
+      "Subtitle": "Your past emergency legal help requests",
       "Table": {
         "dateTime": "Date / Time",
         "legalArea": "Legal area",
