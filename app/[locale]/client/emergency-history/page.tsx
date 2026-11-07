@@ -13,7 +13,11 @@ export default async function Page() {
     },
   });
 
-  console.log(data);
+  // const { data: test } = await http.get("/api/emergency/requests/13/call");
+
+  // console.log(test);
+
+  // console.log(data);
 
   return (
     <div className="container py-10 max-w-7xl">

@@ -12,6 +12,7 @@ import { SDK_VERSION } from "firebase/app";
 
 import app from "@/lib/firebase";
 import { registerDevice, unregisterDevice } from "@/lib/devices";
+import type { PushNotificationData } from "@/types/push-notifications";
 
 const SW_PATH = "/firebase-messaging-sw.js";
 // Firebase's default push scope; keeps this worker from controlling pages
@@ -220,6 +221,114 @@ export async function unregisterPushNotifications({
 export async function disablePushNotifications() {
   localStorage.setItem(OPT_OUT_STORAGE_KEY, "1");
   await unregisterPushNotifications();
+}
+
+// Must match public/firebase-messaging-sw.js
+const CLICK_MESSAGE = "push-notification-click";
+const CLICK_READY_MESSAGE = "push-notification-click-ready";
+const RECEIVED_MESSAGE = "push-notification-received";
+const CLICK_HASH_PREFIX = "#push-click=";
+
+// A notification as components see it, received or clicked
+export type PushNotification = {
+  title?: string;
+  body?: string;
+  // The backend's payload, typed by `type` (see types/push-notifications.ts)
+  data: PushNotificationData;
+};
+
+export type PushEvent =
+  | { kind: "received"; notification: PushNotification; foreground: boolean }
+  | { kind: "clicked"; notification: PushNotification };
+
+export function toPushNotification(payload: MessagePayload): PushNotification {
+  const data = payload.data ?? {};
+
+  return {
+    title: payload.notification?.title ?? data.title,
+    body: payload.notification?.body ?? data.body,
+    // Shape is the backend's contract; not validated at runtime
+    data: data as PushNotificationData,
+  };
+}
+
+// Firebase allows a single onMessage handler, so PushNotificationsSync is the
+// only listener and fans events out to components through here
+// (usePushNotificationListener).
+const pushListeners = new Set<(event: PushEvent) => void>();
+
+export function emitPushEvent(event: PushEvent) {
+  pushListeners.forEach((listener) => listener(event));
+}
+
+export function onPushEvent(listener: (event: PushEvent) => void) {
+  pushListeners.add(listener);
+
+  return () => {
+    pushListeners.delete(listener);
+  };
+}
+
+// Clicks on system notifications, sent by the service worker. Covers a click
+// that focused this tab as well as one that opened it.
+export function subscribeToNotificationClicks(
+  onClick: (notification: PushNotification) => void,
+): () => void {
+  if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
+    return () => {};
+  }
+
+  const container = navigator.serviceWorker;
+
+  const onMessage = (event: MessageEvent) => {
+    if (event.data?.type === CLICK_MESSAGE) {
+      const { title, body, data } = event.data.notification;
+      onClick({ title, body, data: (data ?? {}) as PushNotificationData });
+    }
+  };
+
+  container.addEventListener("message", onMessage);
+
+  // This tab was opened by a notification click: ask for that click by id
+  const { hash, pathname, search } = window.location;
+
+  if (hash.startsWith(CLICK_HASH_PREFIX)) {
+    const id = hash.slice(CLICK_HASH_PREFIX.length);
+
+    // Drop the id from the address bar (and so from refreshes)
+    window.history.replaceState(window.history.state, "", pathname + search);
+
+    container
+      .getRegistration(SW_SCOPE)
+      .then((registration) =>
+        registration?.active?.postMessage({ type: CLICK_READY_MESSAGE, id }),
+      )
+      .catch(() => {});
+  }
+
+  return () => container.removeEventListener("message", onMessage);
+}
+
+// Messages received while no tab of the app was visible, forwarded by the
+// service worker to tabs that are open in the background
+export function subscribeToBackgroundMessages(
+  onPayload: (payload: MessagePayload) => void,
+): () => void {
+  if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
+    return () => {};
+  }
+
+  const container = navigator.serviceWorker;
+
+  const onMessage = (event: MessageEvent) => {
+    if (event.data?.type === RECEIVED_MESSAGE) {
+      onPayload(event.data.payload as MessagePayload);
+    }
+  };
+
+  container.addEventListener("message", onMessage);
+
+  return () => container.removeEventListener("message", onMessage);
 }
 
 // Messages received while a tab of the app is visible

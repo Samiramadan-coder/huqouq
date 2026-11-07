@@ -2690,6 +2690,31 @@
         "chatWith": "الدردشة مع {name}",
         "you": "أنت"
       }
+    },
+    "EmergencyRequest": {
+      "title": "طلب طوارئ جديد",
+      "description": "عميل يحتاج إلى مساعدة قانونية عاجلة.",
+      "client": "العميل",
+      "emirate": "الإمارة",
+      "reference": "الرقم المرجعي",
+      "details": "ماذا حدث",
+      "noDetails": "لا توجد تفاصيل",
+      "secondsLeft": "{count, plural, one {متبقٍ ثانية واحدة للرد} two {متبقٍ ثانيتان للرد} few {متبقٍ # ثوانٍ للرد} other {متبقٍ # ثانية للرد}}",
+      "expired": "انتهت صلاحية هذا الطلب.",
+      "accept": "قبول",
+      "decline": "رفض",
+      "acceptSuccess": "تم قبول طلب الطوارئ.",
+      "acceptFailed": "تعذر قبول الطلب. يرجى المحاولة مرة أخرى.",
+      "Decline": {
+        "title": "رفض طلب الطوارئ",
+        "reasonLabel": "السبب",
+        "reasonPlaceholder": "مثال: في المحكمة",
+        "reasonRequired": "يرجى إدخال السبب",
+        "back": "رجوع",
+        "submit": "رفض الطلب",
+        "success": "تم رفض طلب الطوارئ.",
+        "failed": "تعذر رفض الطلب. يرجى المحاولة مرة أخرى."
+      }
     }
   },
   "Call": {

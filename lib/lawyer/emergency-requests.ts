@@ -1,0 +1,65 @@
+"use server";
+
+import { unstable_rethrow } from "next/navigation";
+import { http, ValidationError } from "../http";
+import { Emergency } from "@/types/lawyer/emergency-history";
+
+type ActionResponse =
+  { success: true; message?: string } | { success: false; message?: string };
+
+function toFailure(error: unknown, context: string): ActionResponse {
+  if (error instanceof ValidationError) {
+    const firstError = Object.values(error.errors)[0]?.[0];
+    return { success: false, message: error.responseMessage ?? firstError };
+  }
+
+  console.error(context, error);
+  return { success: false };
+}
+
+// The emergency request currently offered to this lawyer, if any
+export async function getIncomingEmergency(): Promise<Emergency | null> {
+  try {
+    const { data } = await http.get<{ data: Emergency | null }>(
+      "/api/lawyer/emergency/requests/incoming",
+    );
+
+    return data?.data ?? null;
+  } catch (error) {
+    unstable_rethrow(error);
+    console.error("Error fetching incoming emergency request:", error);
+    return null;
+  }
+}
+
+export async function acceptEmergency(
+  id: Emergency["id"],
+): Promise<ActionResponse> {
+  try {
+    const { data } = await http.post<{ message?: string }>(
+      `/api/lawyer/emergency/requests/${id}/accept`,
+    );
+
+    return { success: true, message: data?.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    return toFailure(error, "Error accepting emergency request:");
+  }
+}
+
+export async function declineEmergency(
+  id: Emergency["id"],
+  reason: string,
+): Promise<ActionResponse> {
+  try {
+    const { data } = await http.post<{ message?: string }>(
+      `/api/lawyer/emergency/requests/${id}/decline`,
+      { reason },
+    );
+
+    return { success: true, message: data?.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    return toFailure(error, "Error declining emergency request:");
+  }
+}

@@ -2691,6 +2691,31 @@
         "chatWith": "Chat with {name}",
         "you": "You"
       }
+    },
+    "EmergencyRequest": {
+      "title": "New emergency request",
+      "description": "A client needs urgent legal help.",
+      "client": "Client",
+      "emirate": "Emirate",
+      "reference": "Reference",
+      "details": "What happened",
+      "noDetails": "No details provided",
+      "secondsLeft": "{count, plural, one {# second left to respond} other {# seconds left to respond}}",
+      "expired": "This request has expired.",
+      "accept": "Accept",
+      "decline": "Decline",
+      "acceptSuccess": "You accepted the emergency request.",
+      "acceptFailed": "We couldn't accept the request. Please try again.",
+      "Decline": {
+        "title": "Decline emergency request",
+        "reasonLabel": "Reason",
+        "reasonPlaceholder": "e.g. In court",
+        "reasonRequired": "Please enter a reason",
+        "back": "Back",
+        "submit": "Decline request",
+        "success": "You declined the emergency request.",
+        "failed": "We couldn't decline the request. Please try again."
+      }
     }
   },
   "Call": {
