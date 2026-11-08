@@ -1,4 +1,5 @@
 import z from "zod";
+import type { EmergencyStatus } from "@/components/client-lawyer/reusable/emergency-status-styles";
 import { T } from "@/types/shared";
 
 // Emergency Request Schema
@@ -43,23 +44,22 @@ type Area = {
   name: string;
 };
 
+// Anonymous until the client continues with the lawyer: then the API adds
+// id, name and photo_url (and drops experience_range)
 type Lawyer = {
   based_in: string;
-  experience_range: string;
   legal_area: string;
   verified: boolean;
+  experience_range?: string;
+  id?: number;
+  name?: string;
+  photo_url?: string | null;
 };
 
 export type Emergency = {
   id: number;
   reference: string;
-  status:
-    | "no_lawyer"
-    | "in_call"
-    | "dropped"
-    | "cancelled"
-    | "completed"
-    | "under_review";
+  status: EmergencyStatus;
   status_label: string;
   created_at: string;
   server_time: string;

@@ -1,44 +1,23 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Emergency } from "@/types/client/emergency";
-import { CircleCheck, CircleX, Flag, PhoneMissed } from "lucide-react";
+import { Flag } from "lucide-react";
+import {
+  neutralBadgeStyle,
+  emergencyStatusStyles,
+} from "../../reusable/emergency-status-styles";
 import { useTranslations } from "next-intl";
-
-const statusStyles: Record<
-  string,
-  { className: string; Icon: typeof CircleCheck }
-> = {
-  completed: {
-    className: "border-green-200 bg-green-50 text-green-700",
-    Icon: CircleCheck,
-  },
-  no_lawyer: {
-    className: "border-secondary bg-secondary/40 text-primary/50",
-    Icon: CircleX,
-  },
-  cancelled: {
-    className: "border-secondary bg-secondary/40 text-primary/50",
-    Icon: PhoneMissed,
-  },
-  under_review: {
-    className: "border-amber-200 bg-amber-50 text-amber-700",
-    Icon: Flag,
-  },
-};
 
 export function StatusBadge({ emergency }: { emergency: Emergency }) {
   const t = useTranslations("Client.EmergencyHistory");
-  const style = statusStyles[emergency.status];
-  const Icon = style?.Icon ?? CircleCheck;
+  const style = emergencyStatusStyles[emergency.status] ?? neutralBadgeStyle;
+  const Icon = style.Icon;
 
   return (
     <div className="flex flex-col items-start gap-1.5">
       <Badge
         variant="outline"
-        className={cn(
-          "rounded-sm px-2.5 py-3 font-medium",
-          style?.className ?? "border-secondary bg-secondary/40 text-primary",
-        )}
+        className={cn("rounded-sm px-2.5 py-3 font-medium", style.className)}
       >
         <Icon className="size-3.5" aria-hidden="true" />
         {emergency.status_label}

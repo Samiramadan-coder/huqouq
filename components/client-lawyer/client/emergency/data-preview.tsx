@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   ChevronDown,
 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function LawyerCell({ emergency }: { emergency: Emergency }) {
   const t = useTranslations("Client.EmergencyHistory");
@@ -26,15 +27,32 @@ function LawyerCell({ emergency }: { emergency: Emergency }) {
 
   if (!lawyer) return <span className="text-primary/30">—</span>;
 
-  // The API keeps the emergency lawyer anonymous; show what it shares
+  // Named once the client continued with the lawyer; anonymous before that
+  const name = lawyer.name || t("anonymousLawyer");
+  const details = [lawyer.based_in, lawyer.experience_range]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
     <div className="flex items-center gap-2.5">
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-accent">
-        <ShieldCheck className="size-4" aria-hidden="true" />
-      </span>
+      <Avatar className="size-8 shrink-0 bg-primary">
+        {lawyer.photo_url && <AvatarImage src={lawyer.photo_url} alt={name} />}
+        <AvatarFallback className="bg-primary text-accent">
+          {lawyer.name ? (
+            lawyer.name[0]
+          ) : (
+            <ShieldCheck className="size-4" aria-hidden="true" />
+          )}
+        </AvatarFallback>
+      </Avatar>
       <div className="space-y-0.5">
-        <p className="flex items-center gap-1 text-sm text-primary/70">
-          {t("anonymousLawyer")}
+        <p
+          className={cn(
+            "flex items-center gap-1 text-sm",
+            lawyer.name ? "font-semibold text-primary" : "text-primary/70",
+          )}
+        >
+          {name}
           {lawyer.verified && (
             <BadgeCheck
               className="size-3.5 text-green-700"
@@ -42,9 +60,7 @@ function LawyerCell({ emergency }: { emergency: Emergency }) {
             />
           )}
         </p>
-        <p className="text-xs text-primary/40">
-          {lawyer.based_in} · {lawyer.experience_range}
-        </p>
+        {details && <p className="text-xs text-primary/40">{details}</p>}
         {emergency.case_id && (
           <Link
             href={`/client/my-cases/${emergency.case_id}`}

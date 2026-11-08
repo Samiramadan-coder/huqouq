@@ -1,3 +1,5 @@
+import type { EmergencyStatus } from "@/components/client-lawyer/reusable/emergency-status-styles";
+
 export type Emergency = {
   call: {
     call_ends_at: null | string;
@@ -28,7 +30,7 @@ export type Emergency = {
   reference: string;
   server_time: string;
   legal_area: { id: number; name: string };
-  status: "searching" | "in_call" | "completed" | "dropped" | "no_lawyer";
+  status: EmergencyStatus;
   status_label: string;
 };
 

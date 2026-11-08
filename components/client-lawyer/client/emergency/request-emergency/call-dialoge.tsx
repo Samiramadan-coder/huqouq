@@ -210,7 +210,10 @@ function LawyerFound({
         <dl className="grid grid-cols-3 gap-4 rounded-sm border border-secondary p-4 text-start">
           <Info label={t("legalArea")} value={lawyer.legal_area} />
           <Info label={t("basedIn")} value={lawyer.based_in} />
-          <Info label={t("experience")} value={lawyer.experience_range} />
+          <Info
+            label={t("experience")}
+            value={lawyer.experience_range ?? "—"}
+          />
           {lawyer.verified && (
             <p className="col-span-3 flex items-center gap-1.5 text-xs font-medium text-green-700">
               <BadgeCheck className="size-4" aria-hidden="true" />

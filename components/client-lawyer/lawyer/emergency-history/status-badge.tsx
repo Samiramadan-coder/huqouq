@@ -1,18 +1,19 @@
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
+import { CircleAlert, CircleX, Clock } from "lucide-react";
 import { Emergency } from "@/types/lawyer/emergency-history";
-import { CircleAlert, CircleCheck, CircleX, Clock } from "lucide-react";
+import {
+  BadgeStyle,
+  neutralBadgeStyle,
+  emergencyStatusStyles,
+} from "../../reusable/emergency-status-styles";
 
-// Styled by this lawyer's result on the request, not the request status
+// Requests this lawyer didn't take: styled by the lawyer's own result
 const resultStyles: Record<
-  Emergency["my_result"],
-  { className: string; Icon: typeof CircleCheck }
+  Exclude<Emergency["my_result"], "accepted">,
+  BadgeStyle
 > = {
-  accepted: {
-    className: "border-green-200 bg-green-50 text-green-700",
-    Icon: CircleCheck,
-  },
   declined: {
     className: "border-secondary bg-secondary/40 text-primary/50",
     Icon: CircleX,
@@ -29,14 +30,16 @@ const resultStyles: Record<
 
 export function StatusBadge({ emergency }: { emergency: Emergency }) {
   const t = useTranslations("Lawyer.EmergencyHistory.Results");
-  const style = resultStyles[emergency.my_result] ?? resultStyles.pending;
-  const Icon = style.Icon;
+  const accepted = emergency.my_result === "accepted";
 
-  // Accepted requests show the call state (In call / Completed / Dropped)
-  const label =
-    emergency.my_result === "accepted"
-      ? emergency.status_label
-      : t(emergency.my_result);
+  // Accepted requests show what happened to the call (In call / Converted /
+  // Dropped / Client didn't answer...), styled by that status
+  const style = accepted
+    ? (emergencyStatusStyles[emergency.status] ?? neutralBadgeStyle)
+    : (resultStyles[emergency.my_result as keyof typeof resultStyles] ??
+      neutralBadgeStyle);
+  const label = accepted ? emergency.status_label : t(emergency.my_result);
+  const Icon = style.Icon;
 
   return (
     <Badge
