@@ -41,6 +41,8 @@ export default async function Page({
     },
   });
 
+  console.log(data);
+
   return (
     <div className="container max-w-7xl py-10 space-y-6">
       <div>

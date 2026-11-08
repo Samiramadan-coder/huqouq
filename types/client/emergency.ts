@@ -44,15 +44,22 @@ type Area = {
 };
 
 type Lawyer = {
-  id: number;
-  name: null | string;
-  photo_url?: null | string;
+  based_in: string;
+  experience_range: string;
+  legal_area: string;
+  verified: boolean;
 };
 
 export type Emergency = {
   id: number;
   reference: string;
-  status: "no_lawyer" | "cancelled" | "completed" | "under_review";
+  status:
+    | "no_lawyer"
+    | "in_call"
+    | "dropped"
+    | "cancelled"
+    | "completed"
+    | "under_review";
   status_label: string;
   created_at: string;
   server_time: string;
