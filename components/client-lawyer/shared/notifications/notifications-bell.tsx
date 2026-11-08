@@ -46,7 +46,7 @@ export default function NotificationsBell() {
         >
           <Bell className="size-5 text-primary" />
           {unreadCount > 0 && (
-            <span className="absolute top-1 end-1 min-w-4 h-4 px-1 rounded-full bg-destructive text-white text-[10px] leading-4 font-medium text-center">
+            <span className="absolute top-1 inset-e-1 min-w-4 h-4 px-1 rounded-full bg-destructive text-white text-[10px] leading-4 font-medium text-center">
               {badge}
             </span>
           )}
