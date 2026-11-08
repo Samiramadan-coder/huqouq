@@ -1067,7 +1067,24 @@
         "createCaseHint": "Turn this into a full case so the lawyer can keep helping you.",
         "createCase": "Create a case",
         "close": "Close",
-        "failed": "Something went wrong. Please try again."
+        "failed": "Something went wrong. Please try again.",
+        "Case": {
+          "title": "Create a case",
+          "legalArea": "Legal area",
+          "city": "City",
+          "urgency": "Urgency",
+          "urgent": "Urgent",
+          "titleLabel": "Case title",
+          "titlePlaceholder": "e.g. Car impounded",
+          "descriptionLabel": "Description",
+          "descriptionPlaceholder": "Describe the situation so the lawyer can follow up.",
+          "titleRequired": "Please enter a case title",
+          "titleTooLong": "The title is too long",
+          "descriptionRequired": "Please describe the case",
+          "back": "Back",
+          "submit": "Create case",
+          "success": "Your case has been created."
+        }
       }
     },
     "EmergencyHistory": {

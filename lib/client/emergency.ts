@@ -4,7 +4,11 @@ import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { unstable_rethrow } from "next/navigation";
 import { fetchCallToken } from "../call-token";
-import { Emergency, EmergencyRequestForm } from "@/types/client/emergency";
+import {
+  Emergency,
+  EmergencyCaseForm,
+  EmergencyRequestForm,
+} from "@/types/client/emergency";
 
 // Request Emergency Help
 type EmergencyRequestResponse =
@@ -130,4 +134,50 @@ export async function rateEmergency(
     rating,
     "Error rating the emergency call:",
   );
+}
+
+// Turns the emergency into a full case with the same lawyer
+type ConvertToCaseResponse =
+  | { success: true; message?: string; caseId?: number }
+  | {
+      success: false;
+      message?: string;
+      errors?: Partial<Record<keyof EmergencyCaseForm, string>>;
+    };
+
+export async function convertEmergencyToCase(
+  id: Emergency["id"],
+  values: EmergencyCaseForm & {
+    specialization_id: number;
+    city: string;
+    urgency: "urgent";
+  },
+): Promise<ConvertToCaseResponse> {
+  try {
+    const { data } = await http.post<{
+      message?: string;
+      data?: { id?: number };
+      case_id?: number;
+    }>(`/api/emergency/requests/${id}/case`, values);
+
+    updateTag("emergencies");
+    return {
+      success: true,
+      message: data?.message,
+      caseId: data?.data?.id ?? data?.case_id,
+    };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof EmergencyCaseForm, string>>;
+      return { success: false, errors, message: error.responseMessage };
+    }
+    console.error("Error converting the emergency into a case:", error);
+    return { success: false };
+  }
 }

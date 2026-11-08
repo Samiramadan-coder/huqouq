@@ -93,7 +93,7 @@ export default function CallDialoge({
         onFinished={onClose}
         renderEnded={(result, onDone) => (
           <EmergencyCallEnded
-            emergencyId={emergency.id}
+            emergency={emergency}
             result={result}
             onDone={onDone}
           />

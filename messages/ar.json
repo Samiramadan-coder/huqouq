@@ -1067,7 +1067,24 @@
         "createCaseHint": "حوّلها إلى قضية كاملة ليواصل المحامي مساعدتك.",
         "createCase": "إنشاء قضية",
         "close": "إغلاق",
-        "failed": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+        "failed": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+        "Case": {
+          "title": "إنشاء قضية",
+          "legalArea": "المجال القانوني",
+          "city": "المدينة",
+          "urgency": "الأولوية",
+          "urgent": "عاجل",
+          "titleLabel": "عنوان القضية",
+          "titlePlaceholder": "مثال: حجز السيارة",
+          "descriptionLabel": "الوصف",
+          "descriptionPlaceholder": "اشرح الموقف ليتمكن المحامي من المتابعة.",
+          "titleRequired": "يرجى إدخال عنوان القضية",
+          "titleTooLong": "العنوان طويل جدًا",
+          "descriptionRequired": "يرجى وصف القضية",
+          "back": "رجوع",
+          "submit": "إنشاء القضية",
+          "success": "تم إنشاء قضيتك."
+        }
       }
     },
     "EmergencyHistory": {

@@ -80,3 +80,17 @@ export type Emergency = {
   can: Can;
   report: null;
 };
+
+// Convert an emergency into a case: the client writes only these; the legal
+// area, city and urgency come from the emergency request itself
+export const emergencyCaseSchema = (t: T) =>
+  z.object({
+    title: z
+      .string()
+      .trim()
+      .min(1, t("titleRequired"))
+      .max(255, t("titleTooLong")),
+    description: z.string().trim().min(1, t("descriptionRequired")),
+  });
+
+export type EmergencyCaseForm = z.infer<ReturnType<typeof emergencyCaseSchema>>;
