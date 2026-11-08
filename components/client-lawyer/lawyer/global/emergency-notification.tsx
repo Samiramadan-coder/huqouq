@@ -27,9 +27,27 @@ export default function EmergencyNotification() {
   const [call, setCall] = useState<{
     emergency: Emergency;
     startsAt: string;
+    // Set by the `emergency_client_joined` push; the timer shows from then on
+    // and `startsAt` moves to that moment
+    clientJoined: boolean;
   } | null>(null);
 
   async function showIncomingEmergency({ data }: PushNotification) {
+    // The client joined the open call -> show its timer, counting the full
+    // call length from this moment
+    if (data.type === "emergency_client_joined") {
+      setCall((current) =>
+        current && current.emergency.id === Number(data.id)
+          ? {
+              ...current,
+              clientJoined: true,
+              startsAt: new Date().toISOString(),
+            }
+          : current,
+      );
+      return;
+    }
+
     if (data.type !== "emergency_alert" || call) return;
 
     const incoming = await getIncomingEmergency();
@@ -48,7 +66,11 @@ export default function EmergencyNotification() {
 
   function startCall(accepted: Emergency) {
     setOpen(false);
-    setCall({ emergency: accepted, startsAt: new Date().toISOString() });
+    setCall({
+      emergency: accepted,
+      startsAt: new Date().toISOString(),
+      clientJoined: false,
+    });
   }
 
   return (
@@ -74,6 +96,7 @@ export default function EmergencyNotification() {
           role="lawyer"
           remoteName={call.emergency.client_first_name}
           startsAt={call.startsAt}
+          showTimer={call.clientJoined}
           onFinished={() => setCall(null)}
           renderEnded={(result, onDone) => (
             <EmergencyOutcome

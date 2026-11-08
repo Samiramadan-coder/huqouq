@@ -52,6 +52,8 @@ export type AgoraCallProps = {
   schedule: CallSchedule;
   remoteName: string;
   remotePhoto?: string | null;
+  // Hides the countdown (e.g. until the other side joins); defaults to shown
+  showTimer?: boolean;
   onEnd: (result: CallEndResult) => void;
   // Closes the dialog when the call couldn't start (no token).
   onClose: () => void;
@@ -169,6 +171,7 @@ function CallRoom({
   schedule,
   remoteName,
   remotePhoto,
+  showTimer = true,
   onEnd,
 }: CallRoomProps) {
   const t = useTranslations("Call");
@@ -281,7 +284,7 @@ function CallRoom({
             <Spinner className="size-3" />
             {t("connecting")}
           </span>
-        ) : timing.phase === "lobby" ? (
+        ) : !showTimer ? null : timing.phase === "lobby" ? (
           <span className="flex items-center gap-1.5 tabular-nums text-primary/55">
             <Clock className="size-3" aria-hidden="true" />
             {t("startsIn", {
@@ -308,7 +311,7 @@ function CallRoom({
         ) : null}
       </div>
 
-      {timing.isEndingSoon && (
+      {showTimer && timing.isEndingSoon && (
         <p
           role="status"
           className="flex items-center gap-2 rounded-sm border border-amber-200 bg-amber-50 px-4 py-2.5 text-xs text-amber-700"

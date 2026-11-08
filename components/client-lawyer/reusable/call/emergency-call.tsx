@@ -49,6 +49,7 @@ export default function EmergencyCall({
   startsAt,
   onFinished,
   renderEnded,
+  showTimer,
 }: {
   emergencyId: number;
   role: CallRole;
@@ -58,6 +59,8 @@ export default function EmergencyCall({
   // Replaces the default CallEnded content after the call (e.g. the client's
   // continue / rate steps)
   renderEnded?: (result: CallEndResult, onDone: () => void) => React.ReactNode;
+  // Hides the call countdown until set (defaults to shown)
+  showTimer?: boolean;
 }) {
   const router = useRouter();
   const t = useTranslations("Call");
@@ -131,6 +134,7 @@ export default function EmergencyCall({
                 callType="audio"
                 schedule={schedule}
                 remoteName={remoteName}
+                showTimer={showTimer}
                 onEnd={(result) => {
                   // Left the Agora channel (hung up or time ran out)
                   reportLeft();
