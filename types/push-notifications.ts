@@ -3,7 +3,10 @@
 // FCM delivers all data values as strings (e.g. id: "20", not 20).
 
 export type EmergencyAlertPushData = {
-  type: "emergency_alert" | "emergency_lawyer_accepted";
+  type:
+    | "emergency_alert"
+    | "emergency_lawyer_accepted"
+    | "emergency_client_joined";
   id: string;
   screen: string;
 };

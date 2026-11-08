@@ -10,16 +10,16 @@ import {
 import { http } from "@/lib/http";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getNotifications } from "@/lib/shared/notifications";
-import { NotificationsProvider } from "@/components/client-lawyer/shared/notifications/notifications-provider";
 import { Separator } from "@/components/ui/separator";
 import { lawyerSidebarLinks } from "@/constants/layout";
+import { getNotifications } from "@/lib/shared/notifications";
 import { getLocale, getTranslations } from "next-intl/server";
 import { EmergencyLive } from "@/types/lawyer/emergency-membership";
 import LayoutHeader from "@/components/client-lawyer/shared/layout-header";
 import LayoutSidebarLogo from "@/components/client-lawyer/shared/layout-sidebar-logo";
 import LayoutSidebarNavLink from "@/components/client-lawyer/shared/layout-sidebar-nav-link";
 import EmergencyNotification from "@/components/client-lawyer/lawyer/global/emergency-notification";
+import { NotificationsProvider } from "@/components/client-lawyer/shared/notifications/notifications-provider";
 
 export default async function LawyerLayout({
   children,
@@ -39,8 +39,6 @@ export default async function LawyerLayout({
     http.get<{ data: EmergencyLive }>("/api/lawyer/emergency/availability"),
     getNotifications(),
   ]);
-
-  // console.log(data);
 
   return (
     <NotificationsProvider role="lawyer" initialData={notifications}>

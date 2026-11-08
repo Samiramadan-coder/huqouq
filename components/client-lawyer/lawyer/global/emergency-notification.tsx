@@ -30,7 +30,6 @@ export default function EmergencyNotification() {
   } | null>(null);
 
   async function showIncomingEmergency({ data }: PushNotification) {
-    // Don't interrupt a call in progress
     if (data.type !== "emergency_alert" || call) return;
 
     const incoming = await getIncomingEmergency();
@@ -45,7 +44,6 @@ export default function EmergencyNotification() {
 
   usePushNotificationListener({
     onReceive: showIncomingEmergency,
-    // onClick: showIncomingEmergency,
   });
 
   function startCall(accepted: Emergency) {

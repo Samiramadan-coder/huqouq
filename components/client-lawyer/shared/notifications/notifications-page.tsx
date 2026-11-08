@@ -1,14 +1,16 @@
 import { getTranslations } from "next-intl/server";
+import NotificationsList from "./notifications-list";
 import Hint from "@/components/client-lawyer/reusable/hint";
 import Title from "@/components/client-lawyer/reusable/title";
 import { getNotifications } from "@/lib/shared/notifications";
-import NotificationsList from "./notifications-list";
 
 // Shared by /client/notifications and /lawyer/notifications; the role comes
 // from the NotificationsProvider in each layout
 export default async function NotificationsPage({ page }: { page?: string }) {
   const t = await getTranslations("Notifications");
   const data = await getNotifications(Number(page) || 1);
+
+  console.log(data);
 
   return (
     <div className="container py-10 max-w-4xl space-y-6">

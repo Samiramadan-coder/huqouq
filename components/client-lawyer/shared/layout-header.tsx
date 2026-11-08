@@ -14,15 +14,15 @@ import { deleteToken } from "@/lib/cookies";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { signOutOfFirebase } from "@/features/chat";
-import { unregisterPushNotifications } from "@/features/push-notifications";
 import { useUser } from "@/providers/user-provider";
-import NotificationsBell from "./notifications/notifications-bell";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import NotificationsBell from "./notifications/notifications-bell";
 import { EmergencyLive } from "@/types/lawyer/emergency-membership";
 import { ChevronDown, LogOutIcon, Settings, UserIcon } from "lucide-react";
+import { unregisterPushNotifications } from "@/features/push-notifications";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import RequestEmergencyHelp from "../client/emergency/request-emergency/request-emergency-help";
 import SosControl from "../lawyer/emergency-membership/sos-header-control/sos-control";
+import RequestEmergencyHelp from "../client/emergency/request-emergency/request-emergency-help";
 
 type Props =
   | {
