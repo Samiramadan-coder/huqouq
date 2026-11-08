@@ -20,7 +20,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { EmergencyLive } from "@/types/lawyer/emergency-membership";
 import { ChevronDown, LogOutIcon, Settings, UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import RequestEmergencyHelp from "../client/emergency/request-emergency-help";
+import RequestEmergencyHelp from "../client/emergency/request-emergency/request-emergency-help";
 import SosControl from "../lawyer/emergency-membership/sos-header-control/sos-control";
 
 type Props =

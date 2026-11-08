@@ -7,7 +7,6 @@ import { unstable_rethrow } from "next/navigation";
 export async function registerDevice(
   token: string,
 ): Promise<{ success: boolean }> {
-  console.log(token);
   try {
     await http.post("/api/devices", { token, platform: "web" });
     return { success: true };

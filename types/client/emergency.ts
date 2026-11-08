@@ -38,32 +38,38 @@ type Can = {
   start_case: boolean;
 };
 
-export type Emergency = {
-  all_busy: boolean;
-  call: Call;
-  can: Can;
-  case_id: null | number;
-  continue_answer: null | string;
-  conversion_expires_at: null | string;
-  created_at: string;
-  description: string;
-  elapsed_seconds: number;
-  emirate: string;
-  emirate_label: string;
+type Area = {
   id: number;
-  lawyers_tried: number;
-  legal_area: { id: number; name: string };
-  // Assumed shape; a null name means the lawyer stays anonymous
-  matched_lawyer: null | {
-    id: number;
-    name: null | string;
-    photo_url?: null | string;
-  };
-  rating: null | number;
-  rating_comment: null | string;
+  name: string;
+};
+
+type Lawyer = {
+  id: number;
+  name: null | string;
+  photo_url?: null | string;
+};
+
+export type Emergency = {
+  id: number;
   reference: string;
-  report: null;
-  server_time: string;
   status: "no_lawyer" | "cancelled" | "completed" | "under_review";
   status_label: string;
+  created_at: string;
+  server_time: string;
+  legal_area: Area;
+  emirate: string;
+  emirate_label: string;
+  description: string;
+  call: Call;
+  elapsed_seconds: number;
+  all_busy: boolean;
+  lawyers_tried: number;
+  matched_lawyer: null | Lawyer;
+  rating: null | number;
+  rating_comment: null | string;
+  continue_answer: null | string;
+  case_id: null | number;
+  conversion_expires_at: null | string;
+  can: Can;
+  report: null;
 };

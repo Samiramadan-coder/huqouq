@@ -1033,7 +1033,17 @@
       "acceptShortCallRequired": "Please confirm to continue",
       "submit": "Connect me to a lawyer now",
       "success": "Your request has been sent. We are finding a lawyer for you.",
-      "failed": "Failed to send your request. Please try again."
+      "failed": "Failed to send your request. Please try again.",
+      "Waiting": {
+        "title": "Finding an available lawyer for you…",
+        "description": "Looking for an available {area} lawyer near you",
+        "waitingTime": "Waiting time",
+        "keepWaiting": "Keep waiting",
+        "cancel": "Cancel",
+        "keepWaitingSuccess": "We'll keep looking for a lawyer for you.",
+        "cancelSuccess": "Your emergency request has been cancelled.",
+        "failed": "Something went wrong. Please try again."
+      }
     },
     "EmergencyHistory": {
       "Title": "Emergency History",
