@@ -87,3 +87,21 @@ export async function reportLawyerEmergencyCallEvent(
     return toFailure(error, `Error reporting the emergency call event "${event}":`);
   }
 }
+
+// After the call: what came out of it, plus a private note for the lawyer
+export async function recordEmergencyOutcome(
+  id: Emergency["id"],
+  values: { outcome: string; note?: string },
+): Promise<ActionResponse> {
+  try {
+    const { data } = await http.post<{ message?: string }>(
+      `/api/lawyer/emergency/requests/${id}/outcome`,
+      values,
+    );
+
+    return { success: true, message: data?.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    return toFailure(error, "Error recording the emergency call outcome:");
+  }
+}

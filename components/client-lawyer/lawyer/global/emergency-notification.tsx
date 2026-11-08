@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import AcceptEmergency from "./accept-emergency";
+import EmergencyOutcome from "./emergency-outcome";
 import DeclineEmergency from "./decline-emergency";
 import { Emergency } from "@/types/lawyer/emergency-history";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -76,6 +77,13 @@ export default function EmergencyNotification() {
           remoteName={call.emergency.client_first_name}
           startsAt={call.startsAt}
           onFinished={() => setCall(null)}
+          renderEnded={(result, onDone) => (
+            <EmergencyOutcome
+              emergencyId={call.emergency.id}
+              result={result}
+              onDone={onDone}
+            />
+          )}
         />
       )}
     </>

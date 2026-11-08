@@ -2779,6 +2779,22 @@
         "success": "You declined the emergency request.",
         "failed": "We couldn't decline the request. Please try again."
       }
+    },
+    "EmergencyOutcome": {
+      "title": "Call ended",
+      "callDuration": "Your call with {name} lasted",
+      "outcomeLabel": "What was the outcome?",
+      "Outcomes": {
+        "advice_given": "Advice given"
+      },
+      "noteLabel": "Private note",
+      "notePlaceholder": "Anything to remember about this call (optional)",
+      "noteHint": "Only you can see this note.",
+      "submit": "Save outcome",
+      "later": "Later",
+      "success": "Outcome saved.",
+      "failed": "Failed to save the outcome. Please try again.",
+      "outcomePlaceholder": "Select the outcome"
     }
   },
   "Call": {
