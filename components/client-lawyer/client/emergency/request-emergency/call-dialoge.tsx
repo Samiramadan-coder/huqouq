@@ -8,16 +8,16 @@ import {
 } from "@/components/ui/dialog";
 
 import { toast } from "sonner";
-import { BadgeCheck, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
 import { toDuration } from "../details-panal";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Emergency } from "@/types/client/emergency";
+import { getEmergency } from "@/lib/client/emergency";
+import { BadgeCheck, ShieldCheck } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { PushNotification } from "@/features/push-notifications";
-import { continueEmergency, getEmergency } from "@/lib/client/emergency";
 import { usePushNotificationListener } from "@/hook/use-push-notifications";
 import EmergencyCall from "@/components/client-lawyer/reusable/call/emergency-call";
 
@@ -37,22 +37,22 @@ function useWaitingSeconds(emergency: Emergency | null, loadedAt: number) {
 }
 
 export default function CallDialoge({
-  emergencyId,
+  initialEmergency,
+  // emergencyId,
   onClose,
 }: {
-  emergencyId: Emergency["id"];
-  // Called once the call is over
+  initialEmergency: Emergency;
+  // emergencyId: Emergency["id"];
   onClose: () => void;
 }) {
   const t = useTranslations("Client.Emergency.Waiting");
-  const [emergency, setEmergency] = useState<Emergency | null>(null);
+  const [emergency, setEmergency] = useState<Emergency>(initialEmergency);
   const [loadedAt, setLoadedAt] = useState(() => Date.now());
-  // When the client chose to continue; the call opens from then on
   const [callStartsAt, setCallStartsAt] = useState<string | null>(null);
 
   // Fetches the latest state of the request
   const loadEmergency = useCallback(async () => {
-    const data = await getEmergency(emergencyId);
+    const data = await getEmergency(emergency.id);
 
     if (!data) {
       toast.error(t("failed"));
@@ -61,23 +61,20 @@ export default function CallDialoge({
 
     setEmergency(data);
     setLoadedAt(Date.now());
-  }, [emergencyId, t]);
+  }, [emergency, t]);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- state is set after the fetch resolves
-    loadEmergency();
-  }, [loadEmergency]);
+  // useEffect(() => {
+  //   loadEmergency();
+  // }, [loadEmergency]);
 
   // A lawyer accepted this request -> re-fetch to get the lawyer and ask the client
   usePushNotificationListener({
     onReceive: ({ data }: PushNotification) => {
-      console.log(data);
       if (
         data.type === "emergency_lawyer_accepted" &&
-        Number(data.id) === emergencyId &&
+        Number(data.id) === emergency.id &&
         !callStartsAt
       ) {
-        console.log("Passsed");
         loadEmergency();
       }
     },
@@ -86,9 +83,8 @@ export default function CallDialoge({
   if (callStartsAt) {
     return (
       <EmergencyCall
-        emergencyId={emergencyId}
+        emergencyId={emergency.id}
         role="client"
-        // The lawyer stays anonymous during the emergency call
         remoteName={t("anonymousLawyer")}
         startsAt={callStartsAt}
         onFinished={onClose}
@@ -114,7 +110,6 @@ export default function CallDialoge({
           <LawyerFound
             emergency={emergency}
             onContinue={() => setCallStartsAt(new Date().toISOString())}
-            onRejected={loadEmergency}
           />
         ) : (
           <Searching emergency={emergency} loadedAt={loadedAt} />
@@ -181,35 +176,12 @@ function Searching({
 function LawyerFound({
   emergency,
   onContinue,
-  onRejected,
 }: {
   emergency: Emergency;
   onContinue: () => void;
-  onRejected: () => void;
 }) {
   const t = useTranslations("Client.Emergency.Waiting");
-  const [pending, setPending] = useState<"yes" | "no" | null>(null);
   const lawyer = emergency.matched_lawyer;
-
-  async function answer(value: "yes" | "no") {
-    setPending(value);
-    // TEMP (testing): "yes" skips the /continue endpoint and opens the call
-    // directly (the call fetches its token). Restore the line below after testing.
-    // const result = await continueEmergency(emergency.id, value);
-    const result =
-      value === "yes"
-        ? { success: true, message: undefined }
-        : await continueEmergency(emergency.id, value);
-    setPending(null);
-
-    if (!result.success) {
-      toast.error(result.message ?? t("failed"));
-      return;
-    }
-
-    if (value === "yes") onContinue();
-    else onRejected();
-  }
 
   return (
     <>
@@ -241,23 +213,10 @@ function LawyerFound({
       <div className="flex flex-wrap justify-center gap-3">
         <Button
           type="button"
-          onClick={() => answer("yes")}
-          disabled={pending !== null}
+          onClick={onContinue}
           className="rounded-sm h-10 px-6 bg-destructive text-white hover:bg-destructive/90"
         >
-          {pending === "yes" && <Spinner />}
           {t("continue")}
-        </Button>
-
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => answer("no")}
-          disabled={pending !== null}
-          className="rounded-sm h-10 px-6 border-secondary font-normal text-primary/60"
-        >
-          {pending === "no" && <Spinner />}
-          {t("reject")}
         </Button>
       </div>
     </>

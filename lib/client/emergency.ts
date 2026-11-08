@@ -11,7 +11,7 @@ type EmergencyRequestResponse =
   | {
       success: true;
       message?: string;
-      emergencyId: Emergency["id"];
+      emergency: Emergency;
     }
   | {
       success: false;
@@ -34,7 +34,7 @@ export async function requestEmergencyHelp(
     console.log(data);
 
     updateTag("emergencies");
-    return { success: true, message: data.message, emergencyId: data.data.id };
+    return { success: true, message: data.message, emergency: data.data };
   } catch (error) {
     unstable_rethrow(error);
     if (error instanceof ValidationError) {
@@ -66,43 +66,6 @@ export async function getEmergency(
     console.error("Error fetching emergency request:", error);
     return null;
   }
-}
-
-// Actions on an emergency request
-type EmergencyActionResponse = { success: boolean; message?: string };
-
-async function emergencyAction(
-  path: string,
-  body: unknown,
-  context: string,
-): Promise<EmergencyActionResponse> {
-  try {
-    const { data } = await http.post<{ message?: string }>(path, body);
-
-    updateTag("emergencies");
-    return { success: true, message: data?.message };
-  } catch (error) {
-    unstable_rethrow(error);
-    if (error instanceof ValidationError) {
-      const firstError = Object.values(error.errors)[0]?.[0];
-      return { success: false, message: error.responseMessage ?? firstError };
-    }
-    console.error(context, error);
-    return { success: false };
-  }
-}
-
-// The client's answer once a lawyer accepted: "yes" joins the call,
-// "no" sends the request back to searching for another lawyer
-export async function continueEmergency(
-  id: Emergency["id"],
-  answer: "yes" | "no",
-) {
-  return emergencyAction(
-    `/api/emergency/requests/${id}/continue`,
-    { answer },
-    "Error answering the emergency request:",
-  );
 }
 
 // Agora credentials (token, channel...) for the client's emergency call

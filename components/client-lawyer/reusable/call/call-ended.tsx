@@ -7,9 +7,9 @@ import {
 } from "@/components/ui/dialog";
 import { PhoneOff } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { CallEndResult, formatSeconds } from "./config";
-import { useFormatters } from "@/lib/format";
 
 export default function CallEnded({
   result,

@@ -12,10 +12,13 @@ import {
 import {
   emergencyRequestSchema,
   EmergencyRequestForm,
+  Emergency,
 } from "@/types/client/emergency";
 
 import { toast } from "sonner";
 import { useState } from "react";
+import { distanceKm } from "./utils";
+import CallDialoge from "./call-dialoge";
 import { toSnakeCase } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
@@ -25,39 +28,15 @@ import { FieldError } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+import { EMIRATE_CENTERS } from "@/constants/emergency";
 import { requestEmergencyHelp } from "@/lib/client/emergency";
 import { AlertCircle, MapPin, TriangleAlert } from "lucide-react";
 import FormSelect from "@/components/public/shared/form/form-select";
 import { useReferenceData } from "@/providers/reference-data.provider";
 import FormTextarea from "@/components/public/shared/form/form-textarea";
-import CallDialoge from "./call-dialoge";
-
-// Approximate center of each emirate, used to resolve the user's location
-const EMIRATE_CENTERS: Record<string, [number, number]> = {
-  abu_dhabi: [24.4539, 54.3773],
-  dubai: [25.2048, 55.2708],
-  sharjah: [25.3463, 55.4209],
-  ajman: [25.4052, 55.5136],
-  umm_al_quwain: [25.5647, 55.5552],
-  ras_al_khaimah: [25.8007, 55.9762],
-  fujairah: [25.1288, 56.3265],
-};
 
 // Beyond this distance (km) from every emirate center we treat it as outside the UAE
 const MAX_DISTANCE_KM = 250;
-
-function distanceKm(
-  [lat1, lng1]: [number, number],
-  [lat2, lng2]: [number, number],
-) {
-  const toRad = (deg: number) => (deg * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
 
 const selectTriggerClassName =
   "h-12! min-h-12 rounded-sm border! border-secondary! px-4 aria-invalid:border-destructive!";
@@ -68,9 +47,7 @@ export default function RequestEmergencyHelp() {
   const [open, setOpen] = useState(false);
   const [locating, setLocating] = useState(false);
   const [locationError, setLocationError] = useState(false);
-  const [requestedEmergencyId, setRequestedEmergencyId] = useState<
-    number | null
-  >(null);
+  const [emergency, setEmergency] = useState<Emergency | null>(null);
 
   const legalAreas = referenceData?.specializations ?? [];
   const emirates = (referenceData?.cities ?? []).map(
@@ -151,7 +128,7 @@ export default function RequestEmergencyHelp() {
     const result = await requestEmergencyHelp(values);
 
     if (result.success) {
-      setRequestedEmergencyId(result.emergencyId);
+      setEmergency(result.emergency);
       toast.success(result.message ?? t("success"));
       handleOpenChange(false);
       return;
@@ -287,11 +264,11 @@ export default function RequestEmergencyHelp() {
         </DialogContent>
       </Dialog>
 
-      {requestedEmergencyId && (
+      {emergency && (
         <CallDialoge
-          key={requestedEmergencyId}
-          emergencyId={requestedEmergencyId}
-          onClose={() => setRequestedEmergencyId(null)}
+          key={emergency?.id}
+          initialEmergency={emergency}
+          onClose={() => setEmergency(null)}
         />
       )}
     </>

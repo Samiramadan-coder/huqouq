@@ -50,9 +50,7 @@ export default function EmergencyCall({
 }: {
   emergencyId: number;
   role: CallRole;
-  // The other side's name shown in the call
   remoteName: string;
-  // When the call started; its countdown starts from here
   startsAt: string;
   onFinished: () => void;
 }) {
@@ -64,7 +62,6 @@ export default function EmergencyCall({
   const schedule: CallSchedule = {
     startsAt,
     durationMinutes: EMERGENCY_CALL_MINUTES,
-    // No extra time after the end, unlike consultations
     bufferMinutes: 0,
   };
 
