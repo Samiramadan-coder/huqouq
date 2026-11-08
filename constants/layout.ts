@@ -27,6 +27,8 @@ type SidebarLink =
       icon: React.ReactNode;
       type: "link";
       count?: number;
+      /** Count read live from a provider instead of `count` */
+      liveCount?: "notifications";
     }
   | {
       type: "divider";
@@ -83,7 +85,7 @@ export const clientSidebarLinks = (t: T): SidebarLink[] => [
     label: t("Notifications"),
     icon: createElement(Bell, { className: "size-4" }),
     type: "link",
-    // count: 3,
+    liveCount: "notifications",
   },
   {
     type: "divider",
@@ -167,6 +169,7 @@ export const lawyerSidebarLinks = (t: T): SidebarLink[] => [
     label: t("Notifications"),
     icon: createElement(Bell, { className: "size-4" }),
     type: "link",
+    liveCount: "notifications",
   },
   {
     type: "divider",

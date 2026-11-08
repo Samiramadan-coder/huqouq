@@ -3,19 +3,24 @@
 import { Link, usePathname } from "@/i18n/navigation";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { useFormatters } from "@/lib/format";
+import { useNotifications } from "./notifications/notifications-provider";
 
 export default function SidebarNavLink({
   href,
   label,
   icon,
   count,
+  liveCount,
 }: {
   href: string;
   label: string;
   icon: React.ReactNode;
   count?: number;
+  liveCount?: "notifications";
 }) {
   const format = useFormatters();
+  const { unreadCount } = useNotifications();
+  const value = liveCount === "notifications" ? unreadCount : count;
   const pathname = usePathname();
   const normalizedPathname = pathname.replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const isActive = normalizedPathname.startsWith(href);
@@ -29,9 +34,9 @@ export default function SidebarNavLink({
       <Link href={href} className="flex items-center gap-2 ">
         {icon}
         <span>{label}</span>
-        {count && (
-          <div className="ml-auto text-xs font-semibold text-white bg-accent w-5 h-5 rounded-full flex items-center justify-center">
-            {format.number(count)}
+        {!!value && value > 0 && (
+          <div className="ms-auto text-xs font-semibold text-white bg-accent min-w-5 h-5 px-1 rounded-full flex items-center justify-center">
+            {value > 99 ? `${format.number(99)}+` : format.number(value)}
           </div>
         )}
       </Link>

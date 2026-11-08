@@ -60,6 +60,7 @@ export default async function ClientLayout({
                       label={link.label}
                       icon={link.icon}
                       count={link.count}
+                      liveCount={link.liveCount}
                     />
                   );
                 })}

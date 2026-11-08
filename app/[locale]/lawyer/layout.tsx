@@ -71,6 +71,7 @@ export default async function LawyerLayout({
                       label={link.label}
                       icon={link.icon}
                       count={link.count}
+                      liveCount={link.liveCount}
                     />
                   );
                 })}

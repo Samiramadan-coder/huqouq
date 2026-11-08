@@ -1,17 +1,23 @@
 "use client";
 
 import {
+  useRef,
   useState,
   ReactNode,
+  useEffect,
   useContext,
   useCallback,
   createContext,
 } from "react";
 
 import {
+  getNotifications,
   markNotificationAsRead,
   markAllNotificationsAsRead,
 } from "@/lib/shared/notifications";
+
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { usePushNotificationListener } from "@/hook/use-push-notifications";
 
 import { GuestType } from "@/types/shared";
 import { Notification, NotificationsResponse } from "@/types/notifications";
@@ -23,9 +29,11 @@ type NotificationsContextValue = {
   /** Resolves to false when the request failed and the change was rolled back */
   markAsRead: (id: Notification["id"]) => Promise<boolean>;
   markAllAsRead: () => Promise<boolean>;
-  /** Prepends a notification received in real time */
-  addNotification: (notification: Notification) => void;
+  /** Re-fetches the latest notifications and the unread count */
+  refresh: () => Promise<void>;
 };
+
+const REFRESH_DEBOUNCE_MS = 800;
 
 const NotificationsContext = createContext<NotificationsContextValue | null>(
   null,
@@ -100,14 +108,34 @@ export function NotificationsProvider({ role, initialData, children }: Props) {
     return success;
   }, [notifications, unreadCount]);
 
-  const addNotification = useCallback((notification: Notification) => {
-    setNotifications((prev) =>
-      prev.some((n) => n.id === notification.id)
-        ? prev
-        : [notification, ...prev],
-    );
-    if (!notification.read_at) setUnreadCount((count) => count + 1);
+  const refresh = useCallback(async () => {
+    const data = await getNotifications();
+    if (!data) return;
+
+    setNotifications(data.data);
+    setUnreadCount(data.unread_count);
   }, []);
+
+  // Real time: a push carries no notification id or created_at, so instead of
+  // building one from it, re-fetch from the API. Debounced because related
+  // pushes arrive together (e.g. emergency "accepted" then "joined").
+  const router = useRouter();
+  const pathname = usePathname();
+  const refreshTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  usePushNotificationListener({
+    onReceive: () => {
+      clearTimeout(refreshTimer.current);
+      refreshTimer.current = setTimeout(() => {
+        // The notifications page renders server data, so refresh the route;
+        // that also resets this provider through initialData
+        if (pathname.endsWith("/notifications")) router.refresh();
+        else void refresh();
+      }, REFRESH_DEBOUNCE_MS);
+    },
+  });
+
+  useEffect(() => () => clearTimeout(refreshTimer.current), []);
 
   return (
     <NotificationsContext.Provider
@@ -117,7 +145,7 @@ export function NotificationsProvider({ role, initialData, children }: Props) {
         unreadCount,
         markAsRead,
         markAllAsRead,
-        addNotification,
+        refresh,
       }}
     >
       {children}
