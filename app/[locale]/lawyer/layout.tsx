@@ -10,6 +10,8 @@ import {
 import { http } from "@/lib/http";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getNotifications } from "@/lib/shared/notifications";
+import { NotificationsProvider } from "@/components/client-lawyer/shared/notifications/notifications-provider";
 import { Separator } from "@/components/ui/separator";
 import { lawyerSidebarLinks } from "@/constants/layout";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -33,14 +35,15 @@ export default async function LawyerLayout({
     return redirect("/sign-in");
   }
 
-  const { data } = await http.get<{ data: EmergencyLive }>(
-    "/api/lawyer/emergency/availability",
-  );
+  const [{ data }, notifications] = await Promise.all([
+    http.get<{ data: EmergencyLive }>("/api/lawyer/emergency/availability"),
+    getNotifications(),
+  ]);
 
   // console.log(data);
 
   return (
-    <>
+    <NotificationsProvider role="lawyer" initialData={notifications}>
       <EmergencyNotification />
 
       <SidebarProvider defaultOpen>
@@ -84,6 +87,6 @@ export default async function LawyerLayout({
           </div>
         </SidebarInset>
       </SidebarProvider>
-    </>
+    </NotificationsProvider>
   );
 }

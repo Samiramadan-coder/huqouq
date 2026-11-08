@@ -14,6 +14,8 @@ import LayoutSidebarLogo from "@/components/client-lawyer/shared/layout-sidebar-
 import LayoutSidebarNavLink from "@/components/client-lawyer/shared/layout-sidebar-nav-link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getNotifications } from "@/lib/shared/notifications";
+import { NotificationsProvider } from "@/components/client-lawyer/shared/notifications/notifications-provider";
 
 export default async function ClientLayout({
   children,
@@ -29,47 +31,51 @@ export default async function ClientLayout({
     return redirect("/sign-in");
   }
 
+  const notifications = await getNotifications();
+
   return (
-    <SidebarProvider defaultOpen>
-      <Sidebar
-        side={locale === "ar" ? "right" : "left"}
-        collapsible="icon"
-        className="border-e border-secondary!"
-      >
-        <SidebarContent className="bg-white">
-          <SidebarGroup className="p-0">
-            <LayoutSidebarLogo />
+    <NotificationsProvider role="client" initialData={notifications}>
+      <SidebarProvider defaultOpen>
+        <Sidebar
+          side={locale === "ar" ? "right" : "left"}
+          collapsible="icon"
+          className="border-e border-secondary!"
+        >
+          <SidebarContent className="bg-white">
+            <SidebarGroup className="p-0">
+              <LayoutSidebarLogo />
 
-            <SidebarMenu className="p-4">
-              {clientSidebarLinks(t).map((link, index) => {
-                if (link.type === "divider") {
+              <SidebarMenu className="p-4">
+                {clientSidebarLinks(t).map((link, index) => {
+                  if (link.type === "divider") {
+                    return (
+                      <Separator key={index} className="bg-accent/20 my-2" />
+                    );
+                  }
+
                   return (
-                    <Separator key={index} className="bg-accent/20 my-2" />
+                    <LayoutSidebarNavLink
+                      key={index}
+                      href={link.href}
+                      label={link.label}
+                      icon={link.icon}
+                      count={link.count}
+                    />
                   );
-                }
+                })}
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
 
-                return (
-                  <LayoutSidebarNavLink
-                    key={index}
-                    href={link.href}
-                    label={link.label}
-                    icon={link.icon}
-                    count={link.count}
-                  />
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
+        <SidebarInset className="flex-1 min-w-0 min-h-screen">
+          <LayoutHeader owner="client" />
 
-      <SidebarInset className="flex-1 min-w-0 min-h-screen">
-        <LayoutHeader owner="client" />
-
-        <div className="min-w-0 w-full overflow-x-clip">
-          <div className="min-w-0 w-full">{children}</div>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+          <div className="min-w-0 w-full overflow-x-clip">
+            <div className="min-w-0 w-full">{children}</div>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </NotificationsProvider>
   );
 }
