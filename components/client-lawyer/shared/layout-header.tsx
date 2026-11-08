@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { signOutOfFirebase } from "@/features/chat";
 import { unregisterPushNotifications } from "@/features/push-notifications";
 import { useUser } from "@/providers/user-provider";
-import { useNotifications } from "@/components/client-lawyer/shared/notifications/notifications-provider";
+import NotificationsBell from "./notifications/notifications-bell";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { EmergencyLive } from "@/types/lawyer/emergency-membership";
 import { ChevronDown, LogOutIcon, Settings, UserIcon } from "lucide-react";
@@ -37,8 +37,6 @@ export default function LayoutHeader(props: Props) {
   const router = useRouter();
   const { user, setUser } = useUser();
   const t = useTranslations("Client.Sidebar");
-  // TEMP (step 3): verify the provider; replaced by the bell in step 4
-  const { unreadCount } = useNotifications();
 
   return (
     <header className="h-14 z-20 flex items-center justify-between sticky top-0 bg-white px-4 border-b border-accent/20">
@@ -47,14 +45,13 @@ export default function LayoutHeader(props: Props) {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* TEMP (step 3) */}
-        <span className="text-sm">unread: {unreadCount}</span>
-
         {props.owner === "client" && <RequestEmergencyHelp />}
 
         {props.owner === "lawyer" && (
           <SosControl emergencyLive={props.emergencyLive} />
         )}
+
+        <NotificationsBell />
 
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>

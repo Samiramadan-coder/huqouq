@@ -66,7 +66,36 @@ export function createFormatters(locale: string) {
       : text;
   };
 
-  return { number, money, moneyRange, date, digits };
+  // e.g. "5 minutes ago" / "منذ ٥ دقائق"; empty when the value is unparsable
+  const relativeTime = (value: string | Date | null | undefined) => {
+    if (!value) return "";
+
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return "";
+
+    const seconds = Math.round((parsed.getTime() - Date.now()) / 1000);
+    const units: [Intl.RelativeTimeFormatUnit, number][] = [
+      ["year", 60 * 60 * 24 * 365],
+      ["month", 60 * 60 * 24 * 30],
+      ["week", 60 * 60 * 24 * 7],
+      ["day", 60 * 60 * 24],
+      ["hour", 60 * 60],
+      ["minute", 60],
+    ];
+    const [unit, size] = units.find(
+      ([, size]) => Math.abs(seconds) >= size,
+    ) ?? ["second", 1];
+
+    return new Intl.RelativeTimeFormat(locale, {
+      numeric: "auto",
+      numberingSystem,
+    } as Intl.RelativeTimeFormatOptions).format(
+      Math.round(seconds / size),
+      unit,
+    );
+  };
+
+  return { number, money, moneyRange, date, digits, relativeTime };
 }
 
 export type Formatters = ReturnType<typeof createFormatters>;

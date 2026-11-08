@@ -2845,5 +2845,12 @@
       "createCase": "Convert this consultation into a full case so Ahmad can continue helping you with documentation and follow-up.",
       "convert": "Convert to full case"
     }
+  },
+  "Notifications": {
+    "Title": "Notifications",
+    "MarkAllAsRead": "Mark all as read",
+    "ViewAll": "View all notifications",
+    "Empty": "No notifications yet",
+    "MarkAllError": "Couldn't mark notifications as read, please try again"
   }
 }
