@@ -1091,7 +1091,8 @@
       "whatHappened": "What happened",
       "noDetails": "No details were provided.",
       "waitTime": "Wait time",
-      "yourRating": "Your rating"
+      "yourRating": "Your rating",
+      "verified": "Verified lawyer"
     },
     "Dashboard": {
       "activeCases": "Active Cases",

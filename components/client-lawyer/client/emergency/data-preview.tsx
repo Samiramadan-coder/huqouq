@@ -12,8 +12,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { DetailsPanel, toDuration } from "./details-panal";
 import { TableCell, TableRow } from "@/components/ui/table";
 import PaginationTemplate from "../../reusable/pagination-template";
-import { Briefcase, ChevronDown, Phone, ShieldCheck } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Phone,
+  Briefcase,
+  BadgeCheck,
+  ShieldCheck,
+  ChevronDown,
+} from "lucide-react";
 
 function LawyerCell({ emergency }: { emergency: Emergency }) {
   const t = useTranslations("Client.EmergencyHistory");
@@ -21,11 +26,25 @@ function LawyerCell({ emergency }: { emergency: Emergency }) {
 
   if (!lawyer) return <span className="text-primary/30">—</span>;
 
-  // Named lawyer: shown once the client has started a case with them
-  if (lawyer.name) {
-    return (
-      <div className="space-y-1">
-        <p className="text-sm font-semibold text-primary">{lawyer.name}</p>
+  // The API keeps the emergency lawyer anonymous; show what it shares
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-accent">
+        <ShieldCheck className="size-4" aria-hidden="true" />
+      </span>
+      <div className="space-y-0.5">
+        <p className="flex items-center gap-1 text-sm text-primary/70">
+          {t("anonymousLawyer")}
+          {lawyer.verified && (
+            <BadgeCheck
+              className="size-3.5 text-green-700"
+              aria-label={t("verified")}
+            />
+          )}
+        </p>
+        <p className="text-xs text-primary/40">
+          {lawyer.based_in} · {lawyer.experience_range}
+        </p>
         {emergency.case_id && (
           <Link
             href={`/client/my-cases/${emergency.case_id}`}
@@ -36,18 +55,6 @@ function LawyerCell({ emergency }: { emergency: Emergency }) {
           </Link>
         )}
       </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center gap-2.5">
-      <Avatar className="size-8 bg-primary">
-        {lawyer.photo_url && <AvatarImage src={lawyer.photo_url} alt="" />}
-        <AvatarFallback className="bg-primary text-accent">
-          <ShieldCheck className="size-4" aria-hidden="true" />
-        </AvatarFallback>
-      </Avatar>
-      <span className="text-sm text-primary/55">{t("anonymousLawyer")}</span>
     </div>
   );
 }

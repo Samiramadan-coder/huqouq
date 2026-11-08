@@ -1091,7 +1091,8 @@
       "whatHappened": "ماذا حدث",
       "noDetails": "لم يتم تقديم أي تفاصيل.",
       "waitTime": "مدة الانتظار",
-      "yourRating": "تقييمك"
+      "yourRating": "تقييمك",
+      "verified": "محامٍ موثّق"
     },
     "Dashboard": {
       "activeCases": "القضايا النشطة",

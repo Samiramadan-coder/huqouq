@@ -16,7 +16,7 @@ import {
   reportEmergencyCallEventFor,
 } from "@/components/client-lawyer/reusable/call/config";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -63,6 +63,34 @@ export default function EmergencyCall({
   const t = useTranslations("Call");
   const [inCall, setInCall] = useState(true);
   const [endResult, setEndResult] = useState<CallEndResult | null>(null);
+  // "left" is reported once: on hang-up / time up, or when the tab closes
+  const leftReportedRef = useRef(false);
+
+  function reportLeft() {
+    if (leftReportedRef.current) return;
+    leftReportedRef.current = true;
+    reportEmergencyCallEventFor(emergencyId, role, "left");
+  }
+
+  // Closing or reloading the tab mid-call never reaches onEnd, so a beacon
+  // (which survives page unload) reports "left" through our own API route
+  useEffect(() => {
+    if (!inCall) return;
+
+    function onPageHide() {
+      if (leftReportedRef.current) return;
+      leftReportedRef.current = true;
+      navigator.sendBeacon(
+        "/api/emergency-call-events",
+        new Blob([JSON.stringify({ id: emergencyId, role, event: "left" })], {
+          type: "application/json",
+        }),
+      );
+    }
+
+    window.addEventListener("pagehide", onPageHide);
+    return () => window.removeEventListener("pagehide", onPageHide);
+  }, [inCall, emergencyId, role]);
 
   const schedule: CallSchedule = {
     startsAt,
@@ -105,7 +133,7 @@ export default function EmergencyCall({
                 remoteName={remoteName}
                 onEnd={(result) => {
                   // Left the Agora channel (hung up or time ran out)
-                  reportEmergencyCallEventFor(emergencyId, role, "left");
+                  reportLeft();
                   setInCall(false);
                   setEndResult(result);
                 }}
