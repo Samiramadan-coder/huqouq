@@ -21,39 +21,52 @@ export default function NotificationItem({
 }: Props) {
   const { role } = useNotifications();
   const { relativeTime } = useFormatters();
-  const { icon: Icon } = getNotificationConfig(notification, role);
+  const { icon: Icon, tone } = getNotificationConfig(notification, role);
   const unread = !notification.read_at;
 
   return (
-    <div className="flex items-start gap-3 w-full text-start">
-      <div className="size-9 shrink-0 rounded-full bg-accent/10 flex items-center justify-center">
-        <Icon className="size-4 text-primary" />
+    <div className="flex items-start gap-4 w-full text-start">
+      <div
+        className={cn(
+          "size-9 shrink-0 rounded-full flex items-center justify-center",
+          tone === "accent"
+            ? "bg-accent/15 text-accent"
+            : "bg-secondary text-primary",
+        )}
+      >
+        <Icon className="size-4" />
       </div>
 
-      <div className="flex-1 min-w-0 space-y-0.5">
+      <div className="flex-1 min-w-0">
         <p
           className={cn(
-            "text-sm text-primary",
-            unread ? "font-semibold" : "font-medium",
+            "text-sm",
+            unread
+              ? "font-semibold text-primary"
+              : "font-normal text-primary/80",
           )}
         >
           {notification.title}
         </p>
         <p
           className={cn(
-            "text-xs text-primary/60",
+            "mt-1 text-xs text-primary/50",
             variant === "compact" && "line-clamp-2",
           )}
         >
           {notification.body}
         </p>
-        <span className="text-[11px] text-primary/40">
+        {/* Server and client clocks differ slightly on the page's first render */}
+        <span
+          className="block mt-1.5 text-[11px] text-primary/40"
+          suppressHydrationWarning
+        >
           {relativeTime(notification.created_at)}
         </span>
       </div>
 
       {unread && (
-        <span className="mt-1.5 size-2 shrink-0 rounded-full bg-primary" />
+        <span className="self-center size-2 shrink-0 rounded-full bg-accent" />
       )}
     </div>
   );

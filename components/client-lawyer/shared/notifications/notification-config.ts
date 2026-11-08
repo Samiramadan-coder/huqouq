@@ -4,6 +4,8 @@ import { Notification } from "@/types/notifications";
 
 type ScreenConfig = {
   icon: LucideIcon;
+  /** Icon color: gold for activity on requests/cases, neutral for account events */
+  tone?: "accent" | "muted";
   /** Where the notification leads; omit for notifications with no page */
   href?: (role: GuestType, id: number) => string;
 };
@@ -14,6 +16,7 @@ const SCREENS: Record<string, ScreenConfig> = {
   // No emergency details page yet, so it opens the emergency history
   client_emergency_request: {
     icon: Siren,
+    tone: "accent",
     href: () => "/client/emergency-history",
   },
 };
@@ -30,6 +33,7 @@ export function getNotificationConfig(
 
   return {
     icon: config.icon,
+    tone: config.tone ?? "muted",
     href:
       config.href && notification.target
         ? config.href(role, notification.target.id)

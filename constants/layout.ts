@@ -163,6 +163,12 @@ export const lawyerSidebarLinks = (t: T): SidebarLink[] => [
     type: "link",
   },
   {
+    href: "/lawyer/notifications",
+    label: t("Notifications"),
+    icon: createElement(Bell, { className: "size-4" }),
+    type: "link",
+  },
+  {
     type: "divider",
   },
   {

@@ -66,7 +66,7 @@ export function createFormatters(locale: string) {
       : text;
   };
 
-  // e.g. "5 minutes ago" / "منذ ٥ دقائق"; empty when the value is unparsable
+  // e.g. "5h ago", "Yesterday" / "قبل ٥ ساعات", "أمس"; empty when the value is unparsable
   const relativeTime = (value: string | Date | null | undefined) => {
     if (!value) return "";
 
@@ -86,13 +86,17 @@ export function createFormatters(locale: string) {
       ([, size]) => Math.abs(seconds) >= size,
     ) ?? ["second", 1];
 
-    return new Intl.RelativeTimeFormat(locale, {
+    const text = new Intl.RelativeTimeFormat(locale, {
       numeric: "auto",
+      style: "narrow",
       numberingSystem,
     } as Intl.RelativeTimeFormatOptions).format(
       Math.round(seconds / size),
       unit,
     );
+
+    // "yesterday" → "Yesterday"; no effect on Arabic
+    return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
   return { number, money, moneyRange, date, digits, relativeTime };

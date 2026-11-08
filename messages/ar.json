@@ -1853,7 +1853,8 @@
       "Profile": "الملف الشخصي",
       "Settings": "الإعدادات",
       "EmergencyHistory": "السجل الطارئ",
-      "EmergencyMembership": "عضوية الطارئ"
+      "EmergencyMembership": "عضوية الطارئ",
+      "Notifications": "الإشعارات"
     },
     "EmergencyLive": {
       "GoOffline": {
@@ -2850,6 +2851,14 @@
     "MarkAllAsRead": "تحديد الكل كمقروء",
     "ViewAll": "عرض كل الإشعارات",
     "Empty": "لا توجد إشعارات",
-    "MarkAllError": "تعذّر تحديد الإشعارات كمقروءة، حاول مرة أخرى"
+    "MarkAllError": "تعذّر تحديد الإشعارات كمقروءة، حاول مرة أخرى",
+    "Subtitle": "تابع آخر التحديثات على طلباتك ونشاط حسابك",
+    "LoadError": "تعذّر تحميل الإشعارات، حاول مرة أخرى",
+    "Groups": {
+      "Today": "اليوم",
+      "Yesterday": "أمس",
+      "ThisWeek": "هذا الأسبوع",
+      "Earlier": "أقدم"
+    }
   }
 }

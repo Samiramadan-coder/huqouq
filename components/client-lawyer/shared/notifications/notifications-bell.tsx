@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { Bell } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -81,7 +82,10 @@ export default function NotificationsBell() {
               <DropdownMenuItem
                 key={notification.id}
                 onSelect={() => openNotification(notification)}
-                className="rounded-none cursor-pointer px-4 py-3 hover:bg-accent/10! focus:bg-accent/10!"
+                className={cn(
+                  "rounded-none cursor-pointer px-4 py-3 hover:bg-accent/10! focus:bg-accent/10!",
+                  !notification.read_at && "bg-accent/5",
+                )}
               >
                 <NotificationItem
                   notification={notification}
