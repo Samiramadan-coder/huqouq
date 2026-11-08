@@ -9,17 +9,14 @@ import {
 
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useState } from "react";
 import { useFormatters } from "@/lib/format";
 import { toDuration } from "../details-panal";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Emergency } from "@/types/client/emergency";
-import {
-  getEmergency,
-  cancelEmergency,
-  keepWaitingEmergency,
-} from "@/lib/client/emergency";
+import { getEmergency } from "@/lib/client/emergency";
+import { useCallback, useEffect, useState } from "react";
+import { usePushNotificationListener } from "@/hook/use-push-notifications";
+import { PushNotification } from "@/features/push-notifications";
 
 // Seconds since the request was created: the API's elapsed_seconds plus the
 // time passed since that response arrived. Re-syncs on every re-fetch.
@@ -38,10 +35,8 @@ function useWaitingSeconds(emergency: Emergency | null, loadedAt: number) {
 
 export default function CallDialoge({
   emergencyId,
-  onClose,
 }: {
   emergencyId: Emergency["id"];
-  onClose: () => void;
 }) {
   const t = useTranslations("Client.Emergency.Waiting");
   const format = useFormatters();
@@ -68,32 +63,17 @@ export default function CallDialoge({
     loadEmergency();
   }, [loadEmergency]);
 
-  const [pending, setPending] = useState<"keepWaiting" | "cancel" | null>(null);
-
-  async function handleKeepWaiting() {
-    setPending("keepWaiting");
-    const result = await keepWaitingEmergency(emergencyId);
-    setPending(null);
-
-    if (result.success) {
-      toast.success(result.message ?? t("keepWaitingSuccess"));
-    } else {
-      toast.error(result.message ?? t("failed"));
-    }
-  }
-
-  async function handleCancel() {
-    setPending("cancel");
-    const result = await cancelEmergency(emergencyId);
-    setPending(null);
-
-    if (result.success) {
-      toast.success(result.message ?? t("cancelSuccess"));
-      onClose();
-    } else {
-      toast.error(result.message ?? t("failed"));
-    }
-  }
+  usePushNotificationListener({
+    onReceive: (data: PushNotification) => {
+      // console.log(data);
+      if (data.data.type === "emergency_lawyer_accepted") {
+        // hit the ednd point again and show dialoge to accept or reject this call
+      }
+    },
+    // onClick: (data: PushNotification) => {
+    //   console.log(data);
+    // },
+  });
 
   return (
     // Stays open until the client cancels; outside clicks and Escape are ignored
@@ -138,29 +118,6 @@ export default function CallDialoge({
           >
             {format.digits(toDuration(waitingSeconds))}
           </p>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-3">
-          <Button
-            type="button"
-            onClick={handleKeepWaiting}
-            disabled={pending !== null}
-            className="rounded-sm h-10 px-6"
-          >
-            {pending === "keepWaiting" && <Spinner />}
-            {t("keepWaiting")}
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleCancel}
-            disabled={pending !== null}
-            className="rounded-sm h-10 px-6 border-destructive/30 bg-transparent text-destructive hover:bg-destructive/5 hover:text-destructive"
-          >
-            {pending === "cancel" && <Spinner />}
-            {t("cancel")}
-          </Button>
         </div>
       </DialogContent>
     </Dialog>

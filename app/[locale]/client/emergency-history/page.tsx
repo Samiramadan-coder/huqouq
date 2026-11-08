@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { http } from "@/lib/http";
+import type { Metadata } from "next";
 import { Meta } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
 import { Emergency } from "@/types/client/emergency";
@@ -28,9 +28,9 @@ export default async function Page() {
     },
   });
 
-  // console.log(data);
+  console.log(data);
   // const { data: test } = await http.post(
-  //   "/api/emergency/requests/37/continue",
+  //   "/api/emergency/requests/40/continue",
   //   {
   //     answer: "no",
   //   },

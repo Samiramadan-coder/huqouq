@@ -90,19 +90,3 @@ async function emergencyAction(
     return { success: false };
   }
 }
-
-export async function keepWaitingEmergency(id: Emergency["id"]) {
-  return emergencyAction(
-    `/api/emergency/requests/${id}/keep-waiting`,
-    undefined,
-    "Error keeping the emergency request waiting:",
-  );
-}
-
-export async function cancelEmergency(id: Emergency["id"]) {
-  return emergencyAction(
-    `/api/emergency/requests/${id}/cancel`,
-    { book_consultation: false },
-    "Error cancelling the emergency request:",
-  );
-}
