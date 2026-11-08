@@ -3,6 +3,7 @@
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "../http";
 import { unstable_rethrow } from "next/navigation";
+import { fetchCallToken } from "../call-token";
 import { Emergency, EmergencyRequestForm } from "@/types/client/emergency";
 
 // Request Emergency Help
@@ -67,7 +68,7 @@ export async function getEmergency(
   }
 }
 
-// Keep Waiting / Cancel an emergency request
+// Actions on an emergency request
 type EmergencyActionResponse = { success: boolean; message?: string };
 
 async function emergencyAction(
@@ -89,4 +90,22 @@ async function emergencyAction(
     console.error(context, error);
     return { success: false };
   }
+}
+
+// The client's answer once a lawyer accepted: "yes" joins the call,
+// "no" sends the request back to searching for another lawyer
+export async function continueEmergency(
+  id: Emergency["id"],
+  answer: "yes" | "no",
+) {
+  return emergencyAction(
+    `/api/emergency/requests/${id}/continue`,
+    { answer },
+    "Error answering the emergency request:",
+  );
+}
+
+// Agora credentials (token, channel...) for the client's emergency call
+export async function requestClientEmergencyCallToken(id: Emergency["id"]) {
+  return fetchCallToken(`/api/emergency/requests/${id}/call`, "get");
 }

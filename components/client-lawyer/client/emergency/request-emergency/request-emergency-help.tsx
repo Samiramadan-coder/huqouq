@@ -291,6 +291,7 @@ export default function RequestEmergencyHelp() {
         <CallDialoge
           key={requestedEmergencyId}
           emergencyId={requestedEmergencyId}
+          onClose={() => setRequestedEmergencyId(null)}
         />
       )}
     </>

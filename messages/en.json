@@ -1042,7 +1042,16 @@
         "cancel": "Cancel",
         "keepWaitingSuccess": "We'll keep looking for a lawyer for you.",
         "cancelSuccess": "Your emergency request has been cancelled.",
-        "failed": "Something went wrong. Please try again."
+        "failed": "Something went wrong. Please try again.",
+        "foundTitle": "A lawyer is ready to help you",
+        "foundDescription": "An anonymous lawyer accepted your request. Start the call now?",
+        "anonymousLawyer": "An anonymous lawyer",
+        "continue": "Start the call",
+        "reject": "Find another lawyer",
+        "legalArea": "Legal area",
+        "basedIn": "Based in",
+        "experience": "Experience",
+        "verified": "Verified lawyer"
       }
     },
     "EmergencyHistory": {

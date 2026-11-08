@@ -4,7 +4,6 @@ import { Siren } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import EmergencyCall from "./emergency-call";
 import AcceptEmergency from "./accept-emergency";
 import DeclineEmergency from "./decline-emergency";
 import { Emergency } from "@/types/lawyer/emergency-history";
@@ -12,6 +11,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { PushNotification } from "@/features/push-notifications";
 import { getIncomingEmergency } from "@/lib/lawyer/emergency-requests";
 import { usePushNotificationListener } from "@/hook/use-push-notifications";
+import EmergencyCall from "@/components/client-lawyer/reusable/call/emergency-call";
 import { DialogIconHeader } from "../emergency-membership/sos-header-control/dialog-icon-header";
 
 // Shows an incoming emergency request (announced by an `emergency_alert` push)
@@ -71,7 +71,9 @@ export default function EmergencyNotification() {
       {call && (
         <EmergencyCall
           key={call.emergency.id}
-          emergency={call.emergency}
+          emergencyId={call.emergency.id}
+          role="lawyer"
+          remoteName={call.emergency.client_first_name}
           startsAt={call.startsAt}
           onFinished={() => setCall(null)}
         />

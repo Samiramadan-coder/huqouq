@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 
 import {
+  CallRole,
   CallSchedule,
   CallEndResult,
   getEmergencyCallCredentials,
@@ -19,7 +20,6 @@ import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
-import { Emergency } from "@/types/lawyer/emergency-history";
 import CallEnded from "@/components/client-lawyer/reusable/call/call-ended";
 
 // The Agora SDK touches browser APIs on import, so it must never render on the server.
@@ -39,15 +39,20 @@ const AgoraCall = dynamic(
 // The call API's `ends_at`, when sent, takes precedence.
 const EMERGENCY_CALL_MINUTES = 15;
 
-// The lawyer's side of an accepted emergency request: joins the call right
-// away and waits there for the client.
+// Either side of an accepted emergency request: joins the voice call right
+// away (the lawyer after accepting, the client after choosing to continue).
 export default function EmergencyCall({
-  emergency,
+  emergencyId,
+  role,
+  remoteName,
   startsAt,
   onFinished,
 }: {
-  emergency: Emergency;
-  // When the lawyer accepted; the call's countdown starts from here
+  emergencyId: number;
+  role: CallRole;
+  // The other side's name shown in the call
+  remoteName: string;
+  // When the call started; its countdown starts from here
   startsAt: string;
   onFinished: () => void;
 }) {
@@ -56,7 +61,6 @@ export default function EmergencyCall({
   const [inCall, setInCall] = useState(true);
   const [endResult, setEndResult] = useState<CallEndResult | null>(null);
 
-  const remoteName = emergency.client_first_name;
   const schedule: CallSchedule = {
     startsAt,
     durationMinutes: EMERGENCY_CALL_MINUTES,
@@ -91,7 +95,9 @@ export default function EmergencyCall({
           <div className="p-6">
             {inCall && (
               <AgoraCall
-                getCredentials={() => getEmergencyCallCredentials(emergency.id)}
+                getCredentials={() =>
+                  getEmergencyCallCredentials(emergencyId, role)
+                }
                 callType="audio"
                 schedule={schedule}
                 remoteName={remoteName}

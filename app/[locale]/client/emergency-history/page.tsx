@@ -30,7 +30,7 @@ export default async function Page() {
 
   console.log(data);
   // const { data: test } = await http.post(
-  //   "/api/emergency/requests/40/continue",
+  //   "/api/emergency/requests/17/continue",
   //   {
   //     answer: "no",
   //   },
