@@ -11,7 +11,9 @@ import {
 import {
   CallRole,
   CallSchedule,
+  CallEndReason,
   CallEndResult,
+  CALL_SCREEN_CLASS,
   getEmergencyCallCredentials,
   reportEmergencyCallEventFor,
 } from "@/components/client-lawyer/reusable/call/config";
@@ -50,10 +52,18 @@ export default function EmergencyCall({
   onFinished,
   renderEnded,
   showTimer,
+  closesAt,
+  forceEnd,
+  remoteSubtitle,
+  remoteIcon,
 }: {
   emergencyId: number;
   role: CallRole;
   remoteName: string;
+  // Under the name on the call screen (e.g. the legal area)
+  remoteSubtitle?: string;
+  // Avatar content when there's no photo (e.g. the anonymous lawyer's shield)
+  remoteIcon?: React.ReactNode;
   startsAt: string;
   onFinished: () => void;
   // Replaces the default CallEnded content after the call (e.g. the client's
@@ -61,6 +71,10 @@ export default function EmergencyCall({
   renderEnded?: (result: CallEndResult, onDone: () => void) => React.ReactNode;
   // Hides the call countdown until set (defaults to shown)
   showTimer?: boolean;
+  // When the call closes, from the request itself (overrides the token's ends_at)
+  closesAt?: string;
+  // Set to leave the call from outside (e.g. the client never joined)
+  forceEnd?: CallEndReason | null;
 }) {
   const router = useRouter();
   const t = useTranslations("Call");
@@ -99,6 +113,7 @@ export default function EmergencyCall({
     startsAt,
     durationMinutes: EMERGENCY_CALL_MINUTES,
     bufferMinutes: 0,
+    closesAt,
   };
 
   function finish() {
@@ -114,18 +129,17 @@ export default function EmergencyCall({
           showCloseButton={false}
           onEscapeKeyDown={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
-          className="sm:max-w-3xl gap-0 p-0 rounded-sm ring-0!"
+          className={CALL_SCREEN_CLASS}
         >
-          <DialogHeader className="p-6 border-b border-secondary">
-            <DialogTitle className="ltr:font-lora text-sm font-semibold text-primary text-start">
-              {t("title", { name: remoteName })}
-            </DialogTitle>
-            <DialogDescription className="text-xs text-primary/45 text-start">
+          {/* Named for screen readers; the call screen shows the details */}
+          <DialogHeader className="sr-only">
+            <DialogTitle>{t("title", { name: remoteName })}</DialogTitle>
+            <DialogDescription>
               {t("audioDescription")}
             </DialogDescription>
           </DialogHeader>
 
-          <div className="p-6">
+          <div className="flex-1">
             {inCall && (
               <AgoraCall
                 getCredentials={() =>
@@ -134,7 +148,11 @@ export default function EmergencyCall({
                 callType="audio"
                 schedule={schedule}
                 remoteName={remoteName}
+                remoteSubtitle={remoteSubtitle}
+                remoteIcon={remoteIcon}
+                badge={{ label: t("emergencyBadge"), tone: "emergency" }}
                 showTimer={showTimer}
+                forceEnd={forceEnd}
                 onEnd={(result) => {
                   // Left the Agora channel (hung up or time ran out)
                   reportLeft();

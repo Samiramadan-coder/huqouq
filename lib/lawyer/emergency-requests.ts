@@ -105,3 +105,22 @@ export async function recordEmergencyOutcome(
     return toFailure(error, "Error recording the emergency call outcome:");
   }
 }
+
+// One of this lawyer's requests, for its live call state (connected_at,
+// call_ends_at, status). There's no single-request endpoint for lawyers, so
+// it's looked up in the list (newest first, so an active call is on page 1).
+export async function getLawyerEmergency(
+  id: Emergency["id"],
+): Promise<Emergency | null> {
+  try {
+    const { data } = await http.get<{ data: Emergency[] }>(
+      "/api/lawyer/emergency/requests",
+    );
+
+    return data?.data?.find((item) => item.id === id) ?? null;
+  } catch (error) {
+    unstable_rethrow(error);
+    console.error("Error fetching the emergency request:", error);
+    return null;
+  }
+}

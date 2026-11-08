@@ -187,6 +187,7 @@ export default function Details({
               }}
               remoteName={lawyer.name}
               remotePhoto={lawyer.photo_url ?? undefined}
+              remoteSubtitle={consultation.type_label}
               label={t("joinCall")}
               consultationsHref="/client/my-consultations"
               whoIsOnCall="client"

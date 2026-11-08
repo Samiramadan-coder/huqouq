@@ -2,7 +2,7 @@
 
 import { Siren } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import AcceptEmergency from "./accept-emergency";
 import EmergencyOutcome from "./emergency-outcome";
@@ -10,10 +10,16 @@ import DeclineEmergency from "./decline-emergency";
 import { Emergency } from "@/types/lawyer/emergency-history";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { PushNotification } from "@/features/push-notifications";
-import { getIncomingEmergency } from "@/lib/lawyer/emergency-requests";
+import {
+  getLawyerEmergency,
+  getIncomingEmergency,
+} from "@/lib/lawyer/emergency-requests";
 import { usePushNotificationListener } from "@/hook/use-push-notifications";
 import EmergencyCall from "@/components/client-lawyer/reusable/call/emergency-call";
 import { DialogIconHeader } from "../emergency-membership/sos-header-control/dialog-icon-header";
+
+// How often to check the request while the lawyer waits for the client
+const CLIENT_JOIN_POLL_MS = 10_000;
 
 // Shows an incoming emergency request (announced by an `emergency_alert` push)
 // so the lawyer can accept or decline it.
@@ -27,24 +33,59 @@ export default function EmergencyNotification() {
   const [call, setCall] = useState<{
     emergency: Emergency;
     startsAt: string;
-    // Set by the `emergency_client_joined` push; the timer shows from then on
-    // and `startsAt` moves to that moment
+    // From the request once the client joins: the timer shows from then on,
+    // counting from `connected_at` and closing at `call_ends_at`
     clientJoined: boolean;
+    closesAt?: string;
+    // The backend dropped the request before the client joined
+    clientNoShow: boolean;
   } | null>(null);
 
+  // Applies the request's live call state to the open call
+  const syncCall = useCallback(async (id: Emergency["id"]) => {
+    const latest = await getLawyerEmergency(id);
+    if (!latest) return;
+
+    setCall((current) => {
+      if (!current || current.emergency.id !== id || current.clientJoined) {
+        return current;
+      }
+
+      if (latest.call.connected_at) {
+        return {
+          ...current,
+          clientJoined: true,
+          startsAt: latest.call.connected_at,
+          closesAt: latest.call.call_ends_at ?? undefined,
+        };
+      }
+
+      // Still waiting while the call is open; anything else means it ended
+      return latest.status === "in_call"
+        ? current
+        : { ...current, clientNoShow: true };
+    });
+  }, []);
+
+  // While waiting for the client, check the request in case the
+  // `emergency_client_joined` push never arrives or the backend drops it
+  const waitingForClientId =
+    call && !call.clientJoined && !call.clientNoShow ? call.emergency.id : null;
+
+  useEffect(() => {
+    if (waitingForClientId === null) return;
+
+    const interval = setInterval(
+      () => syncCall(waitingForClientId),
+      CLIENT_JOIN_POLL_MS,
+    );
+    return () => clearInterval(interval);
+  }, [waitingForClientId, syncCall]);
+
   async function showIncomingEmergency({ data }: PushNotification) {
-    // The client joined the open call -> show its timer, counting the full
-    // call length from this moment
+    // The client joined the open call -> take its real start / end times
     if (data.type === "emergency_client_joined") {
-      setCall((current) =>
-        current && current.emergency.id === Number(data.id)
-          ? {
-              ...current,
-              clientJoined: true,
-              startsAt: new Date().toISOString(),
-            }
-          : current,
-      );
+      if (call?.emergency.id === Number(data.id)) syncCall(call.emergency.id);
       return;
     }
 
@@ -70,13 +111,20 @@ export default function EmergencyNotification() {
       emergency: accepted,
       startsAt: new Date().toISOString(),
       clientJoined: false,
+      clientNoShow: false,
     });
   }
 
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-md">
+      {/* Closes only by accepting, declining, or after it expires */}
+      <Dialog open={open}>
+        <DialogContent
+          showCloseButton={false}
+          onEscapeKeyDown={(event) => event.preventDefault()}
+          onInteractOutside={(event) => event.preventDefault()}
+          className="sm:max-w-md"
+        >
           {emergency && (
             <EmergencyRequest
               key={emergency.id}
@@ -95,8 +143,11 @@ export default function EmergencyNotification() {
           emergencyId={call.emergency.id}
           role="lawyer"
           remoteName={call.emergency.client_first_name}
+          remoteSubtitle={call.emergency.legal_area?.name}
           startsAt={call.startsAt}
           showTimer={call.clientJoined}
+          closesAt={call.closesAt}
+          forceEnd={call.clientNoShow ? "remoteNoShow" : null}
           onFinished={() => setCall(null)}
           renderEnded={(result, onDone) => (
             <EmergencyOutcome
@@ -198,6 +249,17 @@ function EmergencyRequest({
             />
           </div>
         </>
+      )}
+
+      {expired && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onDone}
+          className="h-11 w-full rounded-sm border-secondary font-normal text-primary/60"
+        >
+          {t("close")}
+        </Button>
       )}
 
       {step === "decline" && (

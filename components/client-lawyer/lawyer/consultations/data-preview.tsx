@@ -90,6 +90,7 @@ export default function DataPreview({
                     }}
                     remoteName={client.display_name}
                     remotePhoto={client.photo_url}
+                    remoteSubtitle={consultation.type_label}
                     label={t("joinCall")}
                     consultationsHref="/lawyer/consultations"
                     whoIsOnCall="lawyer"

@@ -44,13 +44,18 @@ export type CallSchedule = {
   closesAt?: string;
 };
 
-export type CallEndReason = "timeEnded" | "left";
+// "remoteNoShow": ended because the other side never joined (emergency calls)
+export type CallEndReason = "timeEnded" | "left" | "remoteNoShow";
 
 export type CallEndResult = {
   reason: CallEndReason;
   durationSeconds: number;
   remoteName: string;
 };
+
+// The full-screen dark dialog every call (consultation or emergency) opens in
+export const CALL_SCREEN_CLASS =
+  "top-0 inset-s-0 translate-x-0 rtl:translate-x-0 translate-y-0 flex h-dvh w-full max-w-none sm:max-w-none flex-col gap-0 overflow-y-auto rounded-none p-0 ring-0! text-white bg-[color-mix(in_oklab,var(--primary)_65%,black)]";
 
 // A "time almost up" warning shows when this many minutes are left.
 export const ENDING_SOON_MINUTES = 5;

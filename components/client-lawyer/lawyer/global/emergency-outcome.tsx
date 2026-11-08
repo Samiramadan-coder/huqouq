@@ -87,6 +87,15 @@ export default function EmergencyOutcome({
       </DialogHeader>
 
       <form onSubmit={onSubmit} className="p-6 space-y-5">
+        {result.reason === "remoteNoShow" && (
+          <p
+            role="status"
+            className="rounded-sm border border-amber-200 bg-amber-50 px-4 py-2.5 text-xs text-amber-700"
+          >
+            {t("clientNoShow")}
+          </p>
+        )}
+
         <div className="space-y-2">
           <Label htmlFor="outcome" className="text-sm text-primary">
             {t("outcomeLabel")}

@@ -18,7 +18,6 @@ import AgoraRTC, {
 } from "agora-rtc-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
@@ -34,7 +33,6 @@ import {
 import { useCallTiming } from "@/hook/use-call-timing";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Clock,
   Hourglass,
   Mic,
   MicOff,
@@ -42,6 +40,8 @@ import {
   TriangleAlert,
   Video,
   VideoOff,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { useFormatters } from "@/lib/format";
 
@@ -52,8 +52,16 @@ export type AgoraCallProps = {
   schedule: CallSchedule;
   remoteName: string;
   remotePhoto?: string | null;
+  // Shown under the other side's name (e.g. the legal area or consultation type)
+  remoteSubtitle?: string;
+  // Replaces the initial when there's no photo (e.g. an anonymous lawyer)
+  remoteIcon?: React.ReactNode;
+  // Tag in the top corner, e.g. "Emergency Legal Help"
+  badge?: { label: string; tone?: "emergency" | "default" };
   // Hides the countdown (e.g. until the other side joins); defaults to shown
   showTimer?: boolean;
+  // Set from outside to leave the call with this reason
+  forceEnd?: CallEndReason | null;
   onEnd: (result: CallEndResult) => void;
   // Closes the dialog when the call couldn't start (no token).
   onClose: () => void;
@@ -96,7 +104,7 @@ export default function AgoraCall({
 
   if (!tokenResult) {
     return (
-      <div className="flex justify-center py-16">
+      <div className="flex min-h-full items-center justify-center">
         <Spinner className="size-6 text-accent" />
       </div>
     );
@@ -111,7 +119,7 @@ export default function AgoraCall({
           : t("Errors.joinFailed");
 
     return (
-      <div className="flex flex-col gap-5">
+      <div className="flex min-h-full flex-col items-center justify-center gap-5 p-5">
         <CallError
           message={title}
           hint={
@@ -120,16 +128,13 @@ export default function AgoraCall({
               : undefined
           }
         />
-        <div className="flex justify-center">
-          <Button
-            type="button"
-            variant="outline"
-            className="rounded-sm border-secondary font-normal"
-            onClick={onClose}
-          >
-            {t("close")}
-          </Button>
-        </div>
+        <button
+          type="button"
+          className="rounded-sm border border-white/20 px-5 py-2 text-sm text-white hover:bg-white/10"
+          onClick={onClose}
+        >
+          {t("close")}
+        </button>
       </div>
     );
   }
@@ -139,7 +144,11 @@ export default function AgoraCall({
       <CallRoom
         {...props}
         credentials={tokenResult.credentials}
-        schedule={{ ...schedule, closesAt: tokenResult.endsAt }}
+        // A closesAt passed in (e.g. the request's own call_ends_at) wins
+        schedule={{
+          ...schedule,
+          closesAt: schedule.closesAt ?? tokenResult.endsAt,
+        }}
       />
     </AgoraRTCProvider>
   );
@@ -149,11 +158,11 @@ function CallError({ message, hint }: { message: string; hint?: string }) {
   return (
     <div
       role="alert"
-      className="flex flex-col items-center gap-3 rounded-sm border border-destructive/20 bg-destructive/5 px-6 py-10 text-center"
+      className="flex w-full max-w-md flex-col items-center gap-3 rounded-lg border border-red-400/30 bg-destructive/20 px-6 py-10 text-center"
     >
-      <TriangleAlert className="size-6 text-destructive" />
-      <p className="max-w-sm text-sm text-primary">{message}</p>
-      {hint && <p className="max-w-sm text-xs text-primary/55">{hint}</p>}
+      <TriangleAlert className="size-6 text-red-300" />
+      <p className="text-sm text-white">{message}</p>
+      {hint && <p className="text-xs text-white/60">{hint}</p>}
     </div>
   );
 }
@@ -171,7 +180,11 @@ function CallRoom({
   schedule,
   remoteName,
   remotePhoto,
+  remoteSubtitle,
+  remoteIcon,
+  badge,
   showTimer = true,
+  forceEnd,
   onEnd,
 }: CallRoomProps) {
   const t = useTranslations("Call");
@@ -181,6 +194,8 @@ function CallRoom({
 
   const [micOn, setMicOn] = useState(true);
   const [cameraOn, setCameraOn] = useState(true);
+  // Plays (or silences) the other side's audio
+  const [speakerOn, setSpeakerOn] = useState(true);
   const [leaving, setLeaving] = useState(false);
 
   const { localMicrophoneTrack, error: micError } = useLocalMicrophoneTrack();
@@ -196,11 +211,16 @@ function CallRoom({
     !!localMicrophoneTrack && (!isVideo || !!localCameraTrack);
   usePublish(tracks, isConnected && tracksReady && !leaving);
 
-  const localVolume = useVolumeLevel(localMicrophoneTrack ?? undefined);
-
   const remoteUsers = useRemoteUsers();
   const remoteUser = remoteUsers[0];
   const timing = useCallTiming(schedule);
+
+  const identity: IdentityProps = {
+    name: remoteName,
+    subtitle: remoteSubtitle,
+    photo: remotePhoto,
+    icon: remoteIcon,
+  };
 
   // Time spent in the call is measured from our own join, not the schedule.
   const joinedAtRef = useRef<number | null>(null);
@@ -243,6 +263,12 @@ function CallRoom({
     onEnd({ reason, durationSeconds, remoteName: remoteName ?? "" });
   }
 
+  // Leave when the parent asks (e.g. the other side never joined)
+  const onForceEnd = useEffectEvent((reason: CallEndReason) => endCall(reason));
+  useEffect(() => {
+    if (forceEnd) onForceEnd(forceEnd);
+  }, [forceEnd]);
+
   // Auto-leave once the extra time after the scheduled end runs out.
   const onTimeUp = useEffectEvent(() => endCall("timeEnded"));
   useEffect(() => {
@@ -268,332 +294,374 @@ function CallRoom({
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between gap-3 text-xs">
-        <span className="flex items-center gap-1.5 uppercase tracking-widest text-primary/45">
+    <div className="flex min-h-full flex-col">
+      {/* Top bar: what this call is, and its kind */}
+      <div className="flex items-center justify-between gap-3 px-5 pt-5 sm:px-10 sm:pt-8">
+        {badge ? (
+          <span
+            className={cn(
+              "rounded-sm border px-3 py-1.5 text-xs",
+              badge.tone === "emergency"
+                ? "border-red-400/40 bg-destructive/20 text-red-300"
+                : "border-accent/40 bg-accent/10 text-accent",
+            )}
+          >
+            {badge.label}
+          </span>
+        ) : (
+          <span />
+        )}
+
+        {isVideo && isConnected && showTimer && (
+          <CallTimer timing={timing} compact />
+        )}
+
+        <span className="flex items-center gap-1.5 text-xs text-white/60">
           {isVideo ? (
-            <Video className="size-3" aria-hidden="true" />
+            <Video className="size-3.5" aria-hidden="true" />
           ) : (
-            <Mic className="size-3" aria-hidden="true" />
+            <Mic className="size-3.5" aria-hidden="true" />
           )}
           {isVideo ? t("videoCall") : t("audioCall")}
         </span>
-
-        {!isConnected && !errorMessage ? (
-          <span className="flex items-center gap-1.5 text-primary/55">
-            <Spinner className="size-3" />
-            {t("connecting")}
-          </span>
-        ) : !showTimer ? null : timing.phase === "lobby" ? (
-          <span className="flex items-center gap-1.5 tabular-nums text-primary/55">
-            <Clock className="size-3" aria-hidden="true" />
-            {t("startsIn", {
-              time: format.digits(formatSeconds(timing.secondsToStart)),
-            })}
-          </span>
-        ) : timing.phase === "inProgress" ? (
-          <span
-            className={cn(
-              "flex items-center gap-1.5 font-semibold tabular-nums",
-              timing.isEndingSoon ? "text-amber-600" : "text-accent",
-            )}
-          >
-            <Clock className="size-3" aria-hidden="true" />
-            {t("timeLeft", {
-              time: format.digits(formatSeconds(timing.secondsToEnd)),
-            })}
-          </span>
-        ) : timing.phase === "extraTime" ? (
-          <span className="flex items-center gap-1.5 font-semibold tabular-nums text-destructive">
-            <Hourglass className="size-3" aria-hidden="true" />
-            {format.digits(formatSeconds(timing.secondsToHardEnd))}
-          </span>
-        ) : null}
       </div>
 
-      {showTimer && timing.isEndingSoon && (
-        <p
-          role="status"
-          className="flex items-center gap-2 rounded-sm border border-amber-200 bg-amber-50 px-4 py-2.5 text-xs text-amber-700"
-        >
-          <TriangleAlert className="size-3.5 shrink-0" aria-hidden="true" />
-          {t("endingSoon", { minutes: format.number(ENDING_SOON_MINUTES) })}
-        </p>
-      )}
-
-      {timing.phase === "extraTime" && (
-        <p
-          role="status"
-          className="flex items-center gap-2 rounded-sm border border-destructive/20 bg-destructive/5 px-4 py-2.5 text-xs text-destructive"
-        >
-          <Hourglass className="size-3.5 shrink-0" aria-hidden="true" />
-          {t("extraTime", {
-            time: format.digits(formatSeconds(timing.secondsToHardEnd)),
-          })}
-        </p>
-      )}
-
-      {errorMessage ? (
-        <CallError
-          message={errorMessage}
-          hint={
-            mediaErrorCode === "PERMISSION_DENIED"
-              ? t("Errors.permissionHint")
-              : undefined
-          }
-        />
-      ) : isVideo ? (
-        <div className="grid gap-3 sm:grid-cols-2">
-          <VideoTile name={t("you")}>
-            <LocalVideoTrack
-              track={localCameraTrack}
-              play
-              disabled={!cameraOn}
-              className="size-full"
-            />
-            {!cameraOn && <TileAvatar name={t("you")} />}
-          </VideoTile>
-
-          <VideoTile name={remoteName}>
+      <div className="flex flex-1 flex-col items-center justify-center gap-8 px-5 py-8">
+        {errorMessage ? (
+          <CallError
+            message={errorMessage}
+            hint={
+              mediaErrorCode === "PERMISSION_DENIED"
+                ? t("Errors.permissionHint")
+                : undefined
+            }
+          />
+        ) : isVideo ? (
+          <div className="relative aspect-video w-full max-w-4xl overflow-hidden rounded-lg bg-black/30">
             {remoteUser ? (
               <RemoteUser
                 user={remoteUser}
                 playVideo
-                playAudio
+                playAudio={speakerOn}
                 cover={() => (
-                  <TileAvatar name={remoteName} photo={remotePhoto} />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <RemoteIdentity {...identity} status="connected" />
+                  </div>
                 )}
                 className="size-full"
               />
             ) : (
-              <WaitingPlaceholder
-                name={remoteName}
-                photo={remotePhoto}
-                label={t("waiting")}
-              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <RemoteIdentity
+                  {...identity}
+                  status={isConnected ? "waiting" : "connecting"}
+                />
+              </div>
             )}
-          </VideoTile>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-3">
-          <LocalAudioParticipant
-            name={t("you")}
-            micOn={micOn}
-            level={localVolume}
-          />
 
-          {remoteUser ? (
-            <RemoteAudioParticipant
-              user={remoteUser}
-              name={remoteName}
-              photo={remotePhoto}
-            />
-          ) : (
-            <div className="flex flex-col items-center justify-center gap-3 rounded-sm border border-dashed border-secondary px-4 py-8 text-center">
-              <Avatar className="size-16 opacity-50">
-                <AvatarImage src={remotePhoto ?? undefined} alt={remoteName} />
-                <AvatarFallback>{remoteName[0]}</AvatarFallback>
-              </Avatar>
-              <p className="text-xs text-primary/55">{t("waiting")}</p>
+            {remoteUser && (
+              <span className="absolute bottom-3 inset-s-3 z-10 rounded-sm bg-black/50 px-2 py-1 text-xs text-white">
+                {remoteName}
+              </span>
+            )}
+
+            {/* Your own camera, picture-in-picture */}
+            <div className="absolute top-3 inset-e-3 z-10 aspect-video w-28 overflow-hidden rounded-md border border-white/20 bg-black/40 sm:w-44">
+              <LocalVideoTrack
+                track={localCameraTrack}
+                play
+                disabled={!cameraOn}
+                className="size-full"
+              />
+              {!cameraOn && (
+                <div className="absolute inset-0 flex items-center justify-center text-white/60">
+                  <VideoOff className="size-4" aria-hidden="true" />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        ) : remoteUser ? (
+          <RemoteAudioIdentity
+            user={remoteUser}
+            speakerOn={speakerOn}
+            identity={identity}
+          />
+        ) : (
+          <RemoteIdentity
+            {...identity}
+            status={isConnected ? "waiting" : "connecting"}
+          />
+        )}
 
-      <div className="flex items-center justify-center gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon-lg"
-          className={cn(
-            "rounded-full border-secondary",
-            !micOn &&
-              "bg-destructive/10 text-destructive border-destructive/20",
-          )}
+        {!isVideo && isConnected && showTimer && <CallTimer timing={timing} />}
+
+        {showTimer && timing.isEndingSoon && (
+          <p
+            role="status"
+            className="flex items-center gap-2 rounded-sm border border-amber-400/30 bg-amber-400/10 px-4 py-2.5 text-xs text-amber-200"
+          >
+            <TriangleAlert className="size-3.5 shrink-0" aria-hidden="true" />
+            {t("endingSoon", { minutes: format.number(ENDING_SOON_MINUTES) })}
+          </p>
+        )}
+
+        {timing.phase === "extraTime" && (
+          <p
+            role="status"
+            className="flex items-center gap-2 rounded-sm border border-red-400/30 bg-destructive/20 px-4 py-2.5 text-xs text-red-200"
+          >
+            <Hourglass className="size-3.5 shrink-0" aria-hidden="true" />
+            {t("extraTime", {
+              time: format.digits(formatSeconds(timing.secondsToHardEnd)),
+            })}
+          </p>
+        )}
+      </div>
+
+      {/* Controls */}
+      <div className="flex items-center justify-center gap-5 px-5 pb-8 sm:pb-12">
+        <ControlButton
+          label={micOn ? t("mute") : t("unmute")}
+          pressed={!micOn}
           disabled={!localMicrophoneTrack || leaving}
-          aria-pressed={!micOn}
-          aria-label={micOn ? t("mute") : t("unmute")}
-          title={micOn ? t("mute") : t("unmute")}
           onClick={() => setMicOn((on) => !on)}
         >
           {micOn ? <Mic /> : <MicOff />}
-        </Button>
+        </ControlButton>
 
         {isVideo && (
-          <Button
-            type="button"
-            variant="outline"
-            size="icon-lg"
-            className={cn(
-              "rounded-full border-secondary",
-              !cameraOn &&
-                "bg-destructive/10 text-destructive border-destructive/20",
-            )}
+          <ControlButton
+            label={cameraOn ? t("cameraOff") : t("cameraOn")}
+            pressed={!cameraOn}
             disabled={!localCameraTrack || leaving}
-            aria-pressed={!cameraOn}
-            aria-label={cameraOn ? t("cameraOff") : t("cameraOn")}
-            title={cameraOn ? t("cameraOff") : t("cameraOn")}
             onClick={() => setCameraOn((on) => !on)}
           >
             {cameraOn ? <Video /> : <VideoOff />}
-          </Button>
+          </ControlButton>
         )}
 
-        <Button
+        <button
           type="button"
-          className="rounded-sm bg-destructive font-normal text-white hover:bg-destructive/90"
           disabled={leaving}
           onClick={() => endCall("left")}
+          aria-label={t("leave")}
+          title={t("leave")}
+          className="flex size-16 items-center justify-center rounded-full bg-destructive text-white shadow-lg shadow-destructive/30 transition-colors hover:bg-destructive/90 disabled:opacity-60 [&_svg]:size-6"
         >
           {leaving ? <Spinner /> : <PhoneOff />}
-          {t("leave")}
-        </Button>
+        </button>
+
+        <ControlButton
+          label={speakerOn ? t("speakerOff") : t("speakerOn")}
+          pressed={!speakerOn}
+          onClick={() => setSpeakerOn((on) => !on)}
+        >
+          {speakerOn ? <Volume2 /> : <VolumeX />}
+        </ControlButton>
       </div>
     </div>
   );
 }
 
-function VideoTile({
-  name,
+// Round control on the dark call screen; "pressed" marks the off state
+function ControlButton({
+  label,
+  pressed,
+  disabled,
+  onClick,
   children,
 }: {
-  name: string;
+  label: string;
+  pressed: boolean;
+  disabled?: boolean;
+  onClick: () => void;
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative aspect-video overflow-hidden rounded-sm bg-primary">
+    <button
+      type="button"
+      aria-label={label}
+      aria-pressed={pressed}
+      title={label}
+      disabled={disabled}
+      onClick={onClick}
+      className={cn(
+        "flex size-14 items-center justify-center rounded-full transition-colors disabled:opacity-50 [&_svg]:size-5",
+        pressed
+          ? "bg-white text-primary hover:bg-white/90"
+          : "bg-white/10 text-white hover:bg-white/20",
+      )}
+    >
       {children}
-      <span className="absolute bottom-2 inset-s-2 z-10 rounded-sm bg-black/50 px-2 py-0.5 text-xs text-white">
-        {name}
-      </span>
-    </div>
+    </button>
   );
 }
 
-function TileAvatar({ name, photo }: { name: string; photo?: string | null }) {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center bg-primary">
-      <Avatar className="size-16">
-        <AvatarImage src={photo ?? undefined} alt={name} />
-        <AvatarFallback>{name[0]}</AvatarFallback>
-      </Avatar>
-    </div>
-  );
-}
-
-function WaitingPlaceholder({
-  name,
-  photo,
-  label,
+// The countdown: time left, time to start, or the extra time
+function CallTimer({
+  timing,
+  compact,
 }: {
-  name: string;
-  photo?: string | null;
-  label: string;
+  timing: ReturnType<typeof useCallTiming>;
+  compact?: boolean;
 }) {
+  const t = useTranslations("Call");
+  const format = useFormatters();
+
+  const view =
+    timing.phase === "lobby"
+      ? {
+          seconds: timing.secondsToStart,
+          label: t("startsInLabel"),
+          tone: "text-white/70",
+        }
+      : timing.phase === "inProgress"
+        ? {
+            seconds: timing.secondsToEnd,
+            label: t("timeLeftLabel"),
+            tone: timing.isEndingSoon ? "text-amber-300" : "text-white",
+          }
+        : timing.phase === "extraTime"
+          ? {
+              seconds: timing.secondsToHardEnd,
+              label: t("extraTimeLabel"),
+              tone: "text-red-300",
+            }
+          : null;
+
+  if (!view) return null;
+
+  const time = format.digits(formatSeconds(view.seconds));
+
+  if (compact) {
+    return (
+      <span
+        role="timer"
+        aria-label={view.label}
+        className={cn("font-mono text-sm tabular-nums", view.tone)}
+      >
+        {time}
+      </span>
+    );
+  }
+
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 text-center">
-      <Avatar className="size-14 opacity-60">
-        <AvatarImage src={photo ?? undefined} alt={name} />
-        <AvatarFallback>{name[0]}</AvatarFallback>
+    <div className="text-center">
+      <p
+        role="timer"
+        className={cn(
+          "font-mono text-5xl tracking-widest tabular-nums sm:text-6xl",
+          view.tone,
+        )}
+      >
+        {time}
+      </p>
+      <p className="mt-2 text-xs text-white/45">{view.label}</p>
+    </div>
+  );
+}
+
+type IdentityProps = {
+  name: string;
+  subtitle?: string;
+  photo?: string | null;
+  icon?: React.ReactNode;
+};
+
+type IdentityStatus =
+  | "connecting"
+  | "waiting"
+  | "connected"
+  | "speaking"
+  | "muted";
+
+// The other side: avatar, name, subtitle and connection status
+function RemoteIdentity({
+  name,
+  subtitle,
+  photo,
+  icon,
+  status,
+}: IdentityProps & { status: IdentityStatus }) {
+  const t = useTranslations("Call");
+
+  const statusView = {
+    connecting: { label: t("connecting"), className: "text-white/55" },
+    waiting: { label: t("waiting"), className: "text-amber-300" },
+    connected: { label: t("connected"), className: "text-emerald-400" },
+    speaking: { label: t("speaking"), className: "text-accent" },
+    muted: { label: t("muted"), className: "text-red-300" },
+  }[status];
+
+  return (
+    <div className="flex flex-col items-center gap-4 text-center">
+      <Avatar
+        className={cn(
+          "size-28 bg-white/10 ring-1 ring-white/15 transition-shadow",
+          status === "speaking" && "ring-4 ring-accent/60",
+          (status === "waiting" || status === "connecting") && "opacity-70",
+        )}
+      >
+        {photo && <AvatarImage src={photo} alt={name} />}
+        <AvatarFallback className="bg-white/10 text-3xl text-accent [&_svg]:size-12">
+          {icon ?? name[0]}
+        </AvatarFallback>
       </Avatar>
-      <p className="flex items-center gap-1.5 text-xs text-white/70">
-        <Spinner className="size-3" />
-        {label}
+
+      <div className="space-y-1">
+        <p className="ltr:font-lora text-xl font-semibold text-white">{name}</p>
+        {subtitle && <p className="text-sm text-white/55">{subtitle}</p>}
+      </div>
+
+      <p className={cn("flex items-center gap-2 text-sm", statusView.className)}>
+        {status === "connecting" ? (
+          <Spinner className="size-3.5" />
+        ) : status === "muted" ? (
+          <MicOff className="size-3.5" aria-hidden="true" />
+        ) : (
+          <span
+            className={cn(
+              "size-2 rounded-full bg-current",
+              status === "waiting" && "animate-pulse",
+            )}
+            aria-hidden="true"
+          />
+        )}
+        {statusView.label}
       </p>
     </div>
   );
 }
 
-function AudioParticipant({
-  name,
-  photo,
-  micOn,
-  speaking,
-}: {
-  name: string;
-  photo?: string | null;
-  micOn: boolean;
-  speaking: boolean;
-}) {
-  const t = useTranslations("Call");
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-3 rounded-sm border border-secondary px-4 py-8 text-center">
-      <Avatar
-        className={cn(
-          "size-16 ring-2 ring-transparent ring-offset-2 transition-shadow",
-          speaking && "ring-accent",
-        )}
-      >
-        <AvatarImage src={photo ?? undefined} alt={name} />
-        <AvatarFallback>{name[0]}</AvatarFallback>
-      </Avatar>
-      <div className="space-y-1">
-        <p className="ltr:font-lora text-sm font-semibold text-primary">
-          {name}
-        </p>
-        <p
-          className={cn(
-            "flex items-center justify-center gap-1 text-xs",
-            !micOn
-              ? "text-destructive"
-              : speaking
-                ? "text-accent"
-                : "text-primary/45",
-          )}
-        >
-          {micOn ? (
-            <Mic className="size-3" aria-hidden="true" />
-          ) : (
-            <MicOff className="size-3" aria-hidden="true" />
-          )}
-          {!micOn ? t("muted") : speaking ? t("speaking") : t("connected")}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function LocalAudioParticipant({
-  name,
-  micOn,
-  level,
-}: {
-  name: string;
-  micOn: boolean;
-  level: number;
-}) {
-  return (
-    <AudioParticipant
-      name={name}
-      micOn={micOn}
-      speaking={micOn && level > SPEAKING_THRESHOLD}
-    />
-  );
-}
-
-function RemoteAudioParticipant({
+// A joined remote in an audio call: plays its audio and shows its status
+function RemoteAudioIdentity({
   user,
-  name,
-  photo,
+  speakerOn,
+  identity,
 }: {
   user: IAgoraRTCRemoteUser;
-  name: string;
-  photo?: string | null;
+  speakerOn: boolean;
+  identity: IdentityProps;
 }) {
   const { track } = useRemoteUserTrack(user, "audio");
   const level = useVolumeLevel(track ?? undefined);
 
+  const status: IdentityStatus = !user.hasAudio
+    ? "muted"
+    : level > SPEAKING_THRESHOLD
+      ? "speaking"
+      : "connected";
+
   return (
     <>
       {/* Plays the remote audio; there is no video in an audio call. */}
-      <RemoteUser user={user} playAudio playVideo={false} className="hidden" />
-      <AudioParticipant
-        name={name}
-        photo={photo}
-        micOn={user.hasAudio}
-        speaking={user.hasAudio && level > SPEAKING_THRESHOLD}
+      <RemoteUser
+        user={user}
+        playAudio={speakerOn}
+        playVideo={false}
+        className="hidden"
       />
+      <RemoteIdentity {...identity} status={status} />
     </>
   );
 }

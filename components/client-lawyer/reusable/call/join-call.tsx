@@ -14,6 +14,7 @@ import {
   CallRole,
   CallSchedule,
   CallEndResult,
+  CALL_SCREEN_CLASS,
   getCallCredentials,
 } from "./config";
 
@@ -45,6 +46,7 @@ export default function JoinCall({
   schedule,
   remoteName,
   remotePhoto,
+  remoteSubtitle,
   label,
   consultationsHref,
   whoIsOnCall,
@@ -55,6 +57,8 @@ export default function JoinCall({
   schedule: CallSchedule;
   remoteName: string;
   remotePhoto?: string | null;
+  // Under the name on the call screen (e.g. the consultation type)
+  remoteSubtitle?: string;
   label: string;
   consultationsHref: string;
   whoIsOnCall: CallRole;
@@ -109,20 +113,19 @@ export default function JoinCall({
           showCloseButton={false}
           onEscapeKeyDown={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
-          className="sm:max-w-3xl gap-0 p-0 rounded-sm ring-0!"
+          className={CALL_SCREEN_CLASS}
         >
-          <DialogHeader className="p-6 border-b border-secondary">
-            <DialogTitle className="ltr:font-lora text-sm font-semibold text-primary text-start">
-              {t("title", { name: remoteName })}
-            </DialogTitle>
-            <DialogDescription className="text-xs text-primary/45 text-start">
+          {/* Named for screen readers; the call screen shows the details */}
+          <DialogHeader className="sr-only">
+            <DialogTitle>{t("title", { name: remoteName })}</DialogTitle>
+            <DialogDescription>
               {callType === "video"
                 ? t("videoDescription")
                 : t("audioDescription")}
             </DialogDescription>
           </DialogHeader>
 
-          <div className="p-6">
+          <div className="flex-1">
             {open && (
               <AgoraCall
                 getCredentials={() =>
@@ -132,6 +135,8 @@ export default function JoinCall({
                 schedule={schedule}
                 remoteName={remoteName}
                 remotePhoto={remotePhoto}
+                remoteSubtitle={remoteSubtitle}
+                badge={{ label: t("consultationBadge") }}
                 onEnd={handleEnd}
                 onClose={() => setOpen(false)}
               />

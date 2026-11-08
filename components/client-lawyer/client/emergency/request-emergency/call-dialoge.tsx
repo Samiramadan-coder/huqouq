@@ -87,6 +87,8 @@ export default function CallDialoge({
         emergencyId={emergency.id}
         role="client"
         remoteName={t("anonymousLawyer")}
+        remoteSubtitle={emergency.legal_area.name}
+        remoteIcon={<ShieldCheck aria-hidden="true" />}
         startsAt={callStartsAt}
         onFinished={onClose}
         renderEnded={(result, onDone) => (

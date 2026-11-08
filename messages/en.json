@@ -2779,7 +2779,8 @@
         "submit": "Decline request",
         "success": "You declined the emergency request.",
         "failed": "We couldn't decline the request. Please try again."
-      }
+      },
+      "close": "Close"
     },
     "EmergencyOutcome": {
       "title": "Call ended",
@@ -2795,7 +2796,8 @@
       "later": "Later",
       "success": "Outcome saved.",
       "failed": "Failed to save the outcome. Please try again.",
-      "outcomePlaceholder": "Select the outcome"
+      "outcomePlaceholder": "Select the outcome",
+      "clientNoShow": "The client didn't join the call, so it was closed."
     }
   },
   "Call": {
@@ -2845,7 +2847,14 @@
       "continue": "Continue?",
       "createCase": "Convert this consultation into a full case so Ahmad can continue helping you with documentation and follow-up.",
       "convert": "Convert to full case"
-    }
+    },
+    "emergencyBadge": "Emergency Legal Help",
+    "consultationBadge": "Consultation",
+    "speakerOn": "Turn speaker on",
+    "speakerOff": "Turn speaker off",
+    "startsInLabel": "Starts in",
+    "timeLeftLabel": "Time left",
+    "extraTimeLabel": "Extra time"
   },
   "Notifications": {
     "Title": "Notifications",
