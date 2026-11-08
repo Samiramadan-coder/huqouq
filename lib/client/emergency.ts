@@ -72,3 +72,62 @@ export async function getEmergency(
 export async function requestClientEmergencyCallToken(id: Emergency["id"]) {
   return fetchCallToken(`/api/emergency/requests/${id}/call`, "get");
 }
+
+// Actions on an emergency request
+type EmergencyActionResponse = { success: boolean; message?: string };
+
+async function emergencyAction(
+  path: string,
+  body: unknown,
+  context: string,
+): Promise<EmergencyActionResponse> {
+  try {
+    const { data } = await http.post<{ message?: string }>(path, body);
+
+    updateTag("emergencies");
+    return { success: true, message: data?.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    if (error instanceof ValidationError) {
+      const firstError = Object.values(error.errors)[0]?.[0];
+      return { success: false, message: error.responseMessage ?? firstError };
+    }
+    console.error(context, error);
+    return { success: false };
+  }
+}
+
+// Tells the API the client joined (once the Agora token arrives) or left the call
+export async function reportEmergencyCallEvent(
+  id: Emergency["id"],
+  event: "joined" | "left",
+) {
+  return emergencyAction(
+    `/api/emergency/requests/${id}/call-events`,
+    { event },
+    `Error reporting the emergency call event "${event}":`,
+  );
+}
+
+// After the call: whether the client continues with this lawyer
+export async function continueEmergency(
+  id: Emergency["id"],
+  answer: "yes" | "no",
+) {
+  return emergencyAction(
+    `/api/emergency/requests/${id}/continue`,
+    { answer },
+    "Error answering the emergency request:",
+  );
+}
+
+export async function rateEmergency(
+  id: Emergency["id"],
+  rating: { stars: number; comment?: string },
+) {
+  return emergencyAction(
+    `/api/emergency/requests/${id}/rating`,
+    rating,
+    "Error rating the emergency call:",
+  );
+}

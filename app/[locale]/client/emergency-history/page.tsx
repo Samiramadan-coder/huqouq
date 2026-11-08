@@ -28,14 +28,6 @@ export default async function Page() {
     },
   });
 
-  console.log(data);
-  // const { data: test } = await http.post(
-  //   "/api/emergency/requests/17/continue",
-  //   {
-  //     answer: "no",
-  //   },
-  // );
-
   return (
     <div className="container py-10 max-w-7xl space-y-6">
       <div>

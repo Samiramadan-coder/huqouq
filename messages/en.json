@@ -1052,6 +1052,22 @@
         "basedIn": "Based in",
         "experience": "Experience",
         "verified": "Verified lawyer"
+      },
+      "CallEnded": {
+        "title": "Call ended",
+        "callDuration": "Your call with the lawyer lasted",
+        "continueQuestion": "Do you want to continue with this lawyer?",
+        "yes": "Yes, continue",
+        "no": "No, thanks",
+        "rateTitle": "How was the call?",
+        "commentPlaceholder": "Tell us about the call (optional)",
+        "submitRating": "Submit rating",
+        "rateSuccess": "Thanks for rating the call.",
+        "thanks": "Thanks for your rating.",
+        "createCaseHint": "Turn this into a full case so the lawyer can keep helping you.",
+        "createCase": "Create a case",
+        "close": "Close",
+        "failed": "Something went wrong. Please try again."
       }
     },
     "EmergencyHistory": {

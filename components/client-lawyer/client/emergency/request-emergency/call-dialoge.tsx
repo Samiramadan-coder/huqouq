@@ -19,6 +19,7 @@ import { BadgeCheck, ShieldCheck } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { PushNotification } from "@/features/push-notifications";
 import { usePushNotificationListener } from "@/hook/use-push-notifications";
+import EmergencyCallEnded from "./emergency-call-ended";
 import EmergencyCall from "@/components/client-lawyer/reusable/call/emergency-call";
 
 // Seconds since the request was created: the API's elapsed_seconds plus the
@@ -88,6 +89,13 @@ export default function CallDialoge({
         remoteName={t("anonymousLawyer")}
         startsAt={callStartsAt}
         onFinished={onClose}
+        renderEnded={(result, onDone) => (
+          <EmergencyCallEnded
+            emergencyId={emergency.id}
+            result={result}
+            onDone={onDone}
+          />
+        )}
       />
     );
   }

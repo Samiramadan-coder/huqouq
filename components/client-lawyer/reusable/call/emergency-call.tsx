@@ -13,6 +13,7 @@ import {
   CallSchedule,
   CallEndResult,
   getEmergencyCallCredentials,
+  reportEmergencyCallEventFor,
 } from "@/components/client-lawyer/reusable/call/config";
 
 import { useState } from "react";
@@ -47,12 +48,16 @@ export default function EmergencyCall({
   remoteName,
   startsAt,
   onFinished,
+  renderEnded,
 }: {
   emergencyId: number;
   role: CallRole;
   remoteName: string;
   startsAt: string;
   onFinished: () => void;
+  // Replaces the default CallEnded content after the call (e.g. the client's
+  // continue / rate steps)
+  renderEnded?: (result: CallEndResult, onDone: () => void) => React.ReactNode;
 }) {
   const router = useRouter();
   const t = useTranslations("Call");
@@ -99,6 +104,8 @@ export default function EmergencyCall({
                 schedule={schedule}
                 remoteName={remoteName}
                 onEnd={(result) => {
+                  // Left the Agora channel (hung up or time ran out)
+                  reportEmergencyCallEventFor(emergencyId, role, "left");
                   setInCall(false);
                   setEndResult(result);
                 }}
@@ -120,7 +127,12 @@ export default function EmergencyCall({
           showCloseButton={false}
           className="sm:max-w-sm gap-0 p-0 rounded-sm ring-0!"
         >
-          {endResult && <CallEnded result={endResult} onDone={finish} />}
+          {endResult &&
+            (renderEnded ? (
+              renderEnded(endResult, finish)
+            ) : (
+              <CallEnded result={endResult} onDone={finish} />
+            ))}
         </DialogContent>
       </Dialog>
     </>

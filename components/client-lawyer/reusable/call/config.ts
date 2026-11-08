@@ -1,7 +1,13 @@
 import { requestClientCallToken } from "@/lib/client/consultations";
 import { requestLawyerCallToken } from "@/lib/lawyer/consultations";
-import { requestEmergencyCallToken } from "@/lib/lawyer/emergency-requests";
-import { requestClientEmergencyCallToken } from "@/lib/client/emergency";
+import {
+  requestEmergencyCallToken,
+  reportLawyerEmergencyCallEvent,
+} from "@/lib/lawyer/emergency-requests";
+import {
+  reportEmergencyCallEvent,
+  requestClientEmergencyCallToken,
+} from "@/lib/client/emergency";
 import type { CallTokenResponse } from "@/lib/call-token";
 
 export type CallType = "video" | "audio";
@@ -73,7 +79,24 @@ export async function getEmergencyCallCredentials(
       ? await requestEmergencyCallToken(emergencyRequestId)
       : await requestClientEmergencyCallToken(emergencyRequestId);
 
+  // Each side reports joining as soon as its token is issued; a failed
+  // report doesn't block the call
+  if (result.success) {
+    await reportEmergencyCallEventFor(emergencyRequestId, role, "joined");
+  }
+
   return toCallTokenResult(result);
+}
+
+// Sends a call event (joined / left) to the right side's emergency endpoint
+export async function reportEmergencyCallEventFor(
+  emergencyRequestId: number,
+  role: CallRole,
+  event: "joined" | "left",
+) {
+  return role === "lawyer"
+    ? reportLawyerEmergencyCallEvent(emergencyRequestId, event)
+    : reportEmergencyCallEvent(emergencyRequestId, event);
 }
 
 function toCallTokenResult(result: CallTokenResponse): CallTokenResult {

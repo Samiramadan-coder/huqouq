@@ -69,3 +69,21 @@ export async function declineEmergency(
 export async function requestEmergencyCallToken(id: Emergency["id"]) {
   return fetchCallToken(`/api/lawyer/emergency/requests/${id}/call`, "get");
 }
+
+// Tells the API the lawyer joined (once the Agora token arrives) or left the call
+export async function reportLawyerEmergencyCallEvent(
+  id: Emergency["id"],
+  event: "joined" | "left",
+): Promise<ActionResponse> {
+  try {
+    const { data } = await http.post<{ message?: string }>(
+      `/api/lawyer/emergency/requests/${id}/call-events`,
+      { event },
+    );
+
+    return { success: true, message: data?.message };
+  } catch (error) {
+    unstable_rethrow(error);
+    return toFailure(error, `Error reporting the emergency call event "${event}":`);
+  }
+}
