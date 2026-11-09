@@ -13,12 +13,14 @@ import {
   emergencyRequestSchema,
   EmergencyRequestForm,
   Emergency,
+  EMERGENCY_DESCRIPTION_MAX,
 } from "@/types/client/emergency";
 
 import { toast } from "sonner";
 import { useState } from "react";
 import { distanceKm } from "./utils";
 import CallDialoge from "./call-dialoge";
+import { DailyLimitReached } from "./emergency-states";
 import { toSnakeCase } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
@@ -27,7 +29,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { FieldError } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { EMIRATE_CENTERS } from "@/constants/emergency";
 import { requestEmergencyHelp } from "@/lib/client/emergency";
 import { AlertCircle, MapPin, TriangleAlert } from "lucide-react";
@@ -48,6 +50,10 @@ export default function RequestEmergencyHelp() {
   const [locating, setLocating] = useState(false);
   const [locationError, setLocationError] = useState(false);
   const [emergency, setEmergency] = useState<Emergency | null>(null);
+  // Set when the API refuses the request because of the daily limit
+  const [dailyLimit, setDailyLimit] = useState<{ message?: string } | null>(
+    null,
+  );
 
   const legalAreas = referenceData?.specializations ?? [];
   const emirates = (referenceData?.cities ?? []).map(
@@ -81,8 +87,12 @@ export default function RequestEmergencyHelp() {
     if (!next) {
       reset();
       setLocationError(false);
+      setDailyLimit(null);
     }
   }
+
+  const descriptionLength =
+    useWatch({ control, name: "description" })?.length ?? 0;
 
   function detectLocation() {
     setLocationError(false);
@@ -127,10 +137,21 @@ export default function RequestEmergencyHelp() {
   async function onSubmit(values: EmergencyRequestForm) {
     const result = await requestEmergencyHelp(values);
 
+    // The API may also accept the request but block it with this status
+    if (result.success && result.emergency.status === "blocked_daily_limit") {
+      setDailyLimit({ message: result.emergency.status_label });
+      return;
+    }
+
     if (result.success) {
       setEmergency(result.emergency);
       toast.success(result.message ?? t("success"));
       handleOpenChange(false);
+      return;
+    }
+
+    if (result.code === "daily_limit_reached") {
+      setDailyLimit({ message: result.message });
       return;
     }
 
@@ -167,100 +188,122 @@ export default function RequestEmergencyHelp() {
             </div>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="min-w-0 space-y-5">
-            <FormSelect
-              control={control}
-              name="legal_area_id"
-              label={t("legalAreaLabel")}
-              placeholder={t("legalAreaPlaceholder")}
-              required
-              triggerClassName={selectTriggerClassName}
-              options={legalAreas.map((area) => ({
-                value: area.id,
-                label: area.name,
-              }))}
+          {dailyLimit ? (
+            <DailyLimitReached
+              message={dailyLimit.message}
+              onClose={() => handleOpenChange(false)}
             />
-
-            <div className="space-y-2">
+          ) : (
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="min-w-0 space-y-5"
+            >
               <FormSelect
                 control={control}
-                name="emirate"
-                label={t("emirateLabel")}
-                placeholder={t("emiratePlaceholder")}
+                name="legal_area_id"
+                label={t("legalAreaLabel")}
+                placeholder={t("legalAreaPlaceholder")}
                 required
                 triggerClassName={selectTriggerClassName}
-                options={emirates}
+                options={legalAreas.map((area) => ({
+                  value: area.id,
+                  label: area.name,
+                }))}
               />
 
-              <button
-                type="button"
-                onClick={detectLocation}
-                disabled={locating}
-                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary disabled:opacity-60"
-              >
-                {locating ? (
-                  <Spinner className="size-3.5" />
-                ) : (
-                  <MapPin className="size-3.5" aria-hidden="true" />
-                )}
-                {t("useLocation")}
-              </button>
+              <div className="space-y-2">
+                <FormSelect
+                  control={control}
+                  name="emirate"
+                  label={t("emirateLabel")}
+                  placeholder={t("emiratePlaceholder")}
+                  required
+                  triggerClassName={selectTriggerClassName}
+                  options={emirates}
+                />
 
-              <FieldError
-                errors={locationError ? [{ message: t("locationError") }] : []}
+                <button
+                  type="button"
+                  onClick={detectLocation}
+                  disabled={locating}
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary disabled:opacity-60"
+                >
+                  {locating ? (
+                    <Spinner className="size-3.5" />
+                  ) : (
+                    <MapPin className="size-3.5" aria-hidden="true" />
+                  )}
+                  {t("useLocation")}
+                </button>
+
+                <FieldError
+                  errors={
+                    locationError ? [{ message: t("locationError") }] : []
+                  }
+                />
+              </div>
+
+              <FormTextarea
+                register={register}
+                errors={errors}
+                name="description"
+                label={`${t("descriptionLabel")} (${t("optional")})`}
+                placeholder={t("descriptionPlaceholder")}
+                textareaClassName="border border-secondary"
+                maxLength={EMERGENCY_DESCRIPTION_MAX}
+                description={
+                  <span className="block text-end" aria-live="polite">
+                    {descriptionLength}/{EMERGENCY_DESCRIPTION_MAX}
+                  </span>
+                }
               />
-            </div>
 
-            <FormTextarea
-              register={register}
-              errors={errors}
-              name="description"
-              label={`${t("descriptionLabel")} (${t("optional")})`}
-              placeholder={t("descriptionPlaceholder")}
-              textareaClassName="border border-secondary"
-            />
+              <Controller
+                control={control}
+                name="accept_short_call"
+                render={({ field, fieldState }) => (
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-3">
+                      <Checkbox
+                        id="accept_short_call"
+                        aria-invalid={fieldState.invalid}
+                        checked={field.value}
+                        onCheckedChange={(checked) =>
+                          field.onChange(checked === true)
+                        }
+                        className="size-4 rounded-[3px] border-border data-[state=checked]:border-destructive data-[state=checked]:bg-destructive"
+                      />
+                      <Label
+                        htmlFor="accept_short_call"
+                        className="cursor-pointer text-sm font-normal text-muted-foreground"
+                      >
+                        {t("acceptShortCall")}
+                      </Label>
+                    </div>
 
-            <Controller
-              control={control}
-              name="accept_short_call"
-              render={({ field, fieldState }) => (
-                <div className="space-y-1">
-                  <div className="flex items-center gap-3">
-                    <Checkbox
-                      id="accept_short_call"
-                      aria-invalid={fieldState.invalid}
-                      checked={field.value}
-                      onCheckedChange={(checked) =>
-                        field.onChange(checked === true)
-                      }
-                      className="size-4 rounded-[3px] border-border data-[state=checked]:border-destructive data-[state=checked]:bg-destructive"
-                    />
-                    <Label
-                      htmlFor="accept_short_call"
-                      className="cursor-pointer text-sm font-normal text-muted-foreground"
-                    >
-                      {t("acceptShortCall")}
-                    </Label>
+                    <FieldError errors={[fieldState.error]} />
                   </div>
+                )}
+              />
 
-                  <FieldError errors={[fieldState.error]} />
-                </div>
-              )}
-            />
+              <Button
+                className="w-full bg-destructive text-white rounded-sm h-12 hover:bg-destructive/90"
+                type="submit"
+                disabled={!isValid || isSubmitting}
+              >
+                {isSubmitting ? (
+                  <Spinner />
+                ) : (
+                  <TriangleAlert className="size-4" aria-hidden="true" />
+                )}
+                {t("submit")}
+              </Button>
 
-            <Button
-              className="w-full bg-destructive text-white rounded-sm h-12 hover:bg-destructive/90"
-              type="submit"
-              disabled={!isValid || isSubmitting}
-            >
-              {isSubmitting ? (
-                <Spinner />
-              ) : (
-                <TriangleAlert className="size-4" aria-hidden="true" />
-              )}
-              {t("submit")}
-            </Button>
-          </form>
+              <p className="text-center text-xs text-muted-foreground">
+                {t("freeNote")}
+              </p>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
 

@@ -1,7 +1,7 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http, ValidationError } from "../http";
+import { http, HttpError, ValidationError, apiErrorCode } from "../http";
 import { unstable_rethrow } from "next/navigation";
 import { fetchCallToken } from "../call-token";
 import {
@@ -21,6 +21,8 @@ type EmergencyRequestResponse =
       success: false;
       errors?: Partial<Record<keyof EmergencyRequestForm, string>>;
       message?: string;
+      // e.g. "daily_limit_reached"
+      code?: string;
     };
 
 export async function requestEmergencyHelp(
@@ -35,12 +37,18 @@ export async function requestEmergencyHelp(
       },
     );
 
-    console.log(data);
-
     updateTag("emergencies");
     return { success: true, message: data.message, emergency: data.data };
   } catch (error) {
     unstable_rethrow(error);
+    const code = apiErrorCode(error);
+    if (code === "daily_limit_reached") {
+      return {
+        success: false,
+        code,
+        message: error instanceof HttpError ? error.responseMessage : undefined,
+      };
+    }
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(error.errors).map(([field, messages]) => [
@@ -110,6 +118,27 @@ export async function reportEmergencyCallEvent(
     `/api/emergency/requests/${id}/call-events`,
     { event },
     `Error reporting the emergency call event "${event}":`,
+  );
+}
+
+// All lawyers are busy: the client stays in the queue
+export async function keepWaitingEmergency(id: Emergency["id"]) {
+  return emergencyAction(
+    `/api/emergency/requests/${id}/keep-waiting`,
+    undefined,
+    "Error keeping the emergency request waiting:",
+  );
+}
+
+// Stops searching; `bookConsultation` when the client books one instead
+export async function cancelEmergency(
+  id: Emergency["id"],
+  bookConsultation = false,
+) {
+  return emergencyAction(
+    `/api/emergency/requests/${id}/cancel`,
+    { book_consultation: bookConsultation },
+    "Error cancelling the emergency request:",
   );
 }
 

@@ -2,7 +2,8 @@
 
 import { Siren } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { playAlertSound } from "./alert-sound";
 import { Button } from "@/components/ui/button";
 import AcceptEmergency from "./accept-emergency";
 import EmergencyOutcome from "./emergency-outcome";
@@ -21,10 +22,18 @@ import { DialogIconHeader } from "../emergency-membership/sos-header-control/dia
 // How often to check the request while the lawyer waits for the client
 const CLIENT_JOIN_POLL_MS = 10_000;
 
-// Shows an incoming emergency request (announced by an `emergency_alert` push)
-// so the lawyer can accept or decline it.
-export default function EmergencyNotification() {
+// How often to check for an incoming request while live (in case a push is missed)
+const INCOMING_POLL_MS = 5_000;
+
+// How often the alert sound repeats while a request waits for an answer
+const ALERT_REPEAT_MS = 2_500;
+
+// Shows an incoming emergency request (announced by an `emergency_alert` push,
+// or found by polling while the lawyer is live) so they can accept or decline it.
+export default function EmergencyNotification({ isLive }: { isLive: boolean }) {
   const [open, setOpen] = useState(false);
+  // Requests already shown, so polling doesn't reopen a handled/expired one
+  const shownIds = useRef(new Set<Emergency["id"]>());
   const [emergency, setEmergency] = useState<Emergency | null>(null);
   // Local clock minus server clock, so the countdown matches `expires_at`
   const [clockOffset, setClockOffset] = useState(0);
@@ -82,28 +91,44 @@ export default function EmergencyNotification() {
     return () => clearInterval(interval);
   }, [waitingForClientId, syncCall]);
 
-  async function showIncomingEmergency({ data }: PushNotification) {
+  // Opens the request currently offered to this lawyer, if it's a new one
+  const checkIncoming = useCallback(async () => {
+    const incoming = await getIncomingEmergency();
+
+    if (!incoming || shownIds.current.has(incoming.id)) return;
+    shownIds.current.add(incoming.id);
+
+    const serverTime = new Date(incoming.server_time).getTime();
+    setClockOffset(Number.isNaN(serverTime) ? 0 : Date.now() - serverTime);
+    setEmergency(incoming);
+    setOpen(true);
+  }, []);
+
+  function onPush({ data }: PushNotification) {
     // The client joined the open call -> take its real start / end times
     if (data.type === "emergency_client_joined") {
       if (call?.emergency.id === Number(data.id)) syncCall(call.emergency.id);
       return;
     }
 
-    if (data.type !== "emergency_alert" || call) return;
+    if (data.type !== "emergency_alert" || call || open) return;
 
-    const incoming = await getIncomingEmergency();
-
-    if (!incoming) return;
-
-    const serverTime = new Date(incoming.server_time).getTime();
-    setClockOffset(Number.isNaN(serverTime) ? 0 : Date.now() - serverTime);
-    setEmergency(incoming);
-    setOpen(true);
+    checkIncoming();
   }
 
   usePushNotificationListener({
-    onReceive: showIncomingEmergency,
+    onReceive: onPush,
   });
+
+  // While live and free, poll for incoming requests as a fallback to the push
+  const shouldPollIncoming = isLive && !open && !call;
+
+  useEffect(() => {
+    if (!shouldPollIncoming) return;
+
+    const interval = setInterval(checkIncoming, INCOMING_POLL_MS);
+    return () => clearInterval(interval);
+  }, [shouldPollIncoming, checkIncoming]);
 
   function startCall(accepted: Emergency) {
     setOpen(false);
@@ -132,6 +157,7 @@ export default function EmergencyNotification() {
               clockOffset={clockOffset}
               onAccepted={() => startCall(emergency)}
               onDone={() => setOpen(false)}
+              onTaken={() => setOpen(false)}
             />
           )}
         </DialogContent>
@@ -184,17 +210,33 @@ function EmergencyRequest({
   clockOffset,
   onAccepted,
   onDone,
+  onTaken,
 }: {
   emergency: Emergency;
   clockOffset: number;
   onAccepted: () => void;
   onDone: () => void;
+  onTaken: () => void;
 }) {
   const t = useTranslations("Lawyer.EmergencyRequest");
   const [step, setStep] = useState<"details" | "decline">("details");
 
   const secondsLeft = useSecondsLeft(emergency.expires_at, clockOffset);
   const expired = secondsLeft === 0;
+
+  // Time's up -> the overlay closes on its own
+  useEffect(() => {
+    if (expired) onDone();
+  }, [expired, onDone]);
+
+  // Alert sound, repeated until the lawyer answers or the request expires
+  useEffect(() => {
+    if (expired) return;
+
+    playAlertSound();
+    const interval = setInterval(playAlertSound, ALERT_REPEAT_MS);
+    return () => clearInterval(interval);
+  }, [expired]);
 
   return (
     <>
@@ -221,9 +263,14 @@ function EmergencyRequest({
       {step === "details" && (
         <>
           <dl className="grid grid-cols-2 gap-4 rounded-sm border border-secondary p-4">
+            <div className="col-span-2">
+              <Info
+                label={t("legalArea")}
+                value={emergency.legal_area?.name ?? "—"}
+              />
+            </div>
             <Info label={t("client")} value={emergency.client_first_name} />
             <Info label={t("emirate")} value={emergency.emirate_label} />
-            <Info label={t("reference")} value={emergency.reference} />
             <div className="col-span-2">
               <Info
                 label={t("details")}
@@ -246,20 +293,10 @@ function EmergencyRequest({
               emergencyId={emergency.id}
               disabled={expired}
               onAccepted={onAccepted}
+              onTaken={onTaken}
             />
           </div>
         </>
-      )}
-
-      {expired && (
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onDone}
-          className="h-11 w-full rounded-sm border-secondary font-normal text-primary/60"
-        >
-          {t("close")}
-        </Button>
       )}
 
       {step === "decline" && (

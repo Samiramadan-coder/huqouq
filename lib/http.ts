@@ -210,7 +210,18 @@ function createHttp(baseURL: string) {
   };
 }
 
+// The API's machine-readable error code (`code`, `reason` or `error`), e.g.
+// "daily_limit_reached" or "already_taken"
+function apiErrorCode(error: unknown): string | undefined {
+  if (!(error instanceof HttpError)) return undefined;
+  const code =
+    readField(error.data, "code") ??
+    readField(error.data, "reason") ??
+    readField(error.data, "error");
+  return typeof code === "string" ? code : undefined;
+}
+
 const http = createHttp(process.env.NEXT_PUBLIC_API_URL ?? "");
 
-export { http, createHttp, HttpError, ValidationError };
+export { http, createHttp, HttpError, ValidationError, apiErrorCode };
 export type { HttpResponse, RequestConfig };

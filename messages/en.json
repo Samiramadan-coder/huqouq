@@ -1036,22 +1036,36 @@
       "failed": "Failed to send your request. Please try again.",
       "Waiting": {
         "title": "Finding an available lawyer for you…",
-        "description": "Looking for an available {area} lawyer near you",
+        "description": "Looking for an available {area} lawyer near you…",
         "waitingTime": "Waiting time",
         "keepWaiting": "Keep waiting",
         "cancel": "Cancel",
         "keepWaitingSuccess": "We'll keep looking for a lawyer for you.",
         "cancelSuccess": "Your emergency request has been cancelled.",
         "failed": "Something went wrong. Please try again.",
-        "foundTitle": "A lawyer is ready to help you",
-        "foundDescription": "An anonymous lawyer accepted your request. Start the call now?",
+        "foundTitle": "A verified lawyer accepted your request",
+        "foundDescription": "Your lawyer stays anonymous during the call",
         "anonymousLawyer": "An anonymous lawyer",
         "continue": "Start the call",
         "reject": "Find another lawyer",
         "legalArea": "Legal area",
-        "basedIn": "Based in",
+        "basedIn": "Based in {emirate}",
         "experience": "Experience",
-        "verified": "Verified lawyer"
+        "verified": "Verified UAE-licensed lawyer",
+        "queuePosition": "You are #{position} in the queue",
+        "close": "Close",
+        "callStartsIn": "Call starts in {seconds}",
+        "AllBusy": {
+          "title": "All lawyers are busy",
+          "description": "All emergency lawyers are on other calls right now. Keep waiting for the next available lawyer, or book a consultation instead. Nothing is charged for emergency help.",
+          "bookInstead": "Book a consultation instead",
+          "notCharged": "Nothing is charged for emergency help."
+        },
+        "NoLawyer": {
+          "title": "No lawyer available",
+          "description": "No emergency lawyer is available right now. Our team has been notified and may contact you.",
+          "tryAgain": "Try again"
+        }
       },
       "CallEnded": {
         "title": "Call ended",
@@ -1085,6 +1099,14 @@
           "submit": "Create case",
           "success": "Your case has been created."
         }
+      },
+      "descriptionTooLong": "Please keep it under 300 characters",
+      "freeNote": "Free · 24/7 · We connect you to the nearest available lawyer",
+      "bookConsultation": "Book a consultation",
+      "DailyLimit": {
+        "title": "Daily limit reached",
+        "description": "Daily limit reached — try again after midnight",
+        "close": "Close"
       }
     },
     "EmergencyHistory": {
@@ -1905,6 +1927,11 @@
         "autoOff": "Turn off automatically",
         "untilOff": "Until I turn it off",
         "submit": "Go live"
+      },
+      "OfficeEmirate": {
+        "title": "Office emirate required",
+        "description": "Add your office emirate in your profile to go live",
+        "goToProfile": "Go to profile"
       }
     },
     "EmergencyMembership": {
@@ -2797,7 +2824,9 @@
         "success": "You declined the emergency request.",
         "failed": "We couldn't decline the request. Please try again."
       },
-      "close": "Close"
+      "close": "Close",
+      "legalArea": "Legal area",
+      "alreadyTaken": "Another lawyer already took this request."
     },
     "EmergencyOutcome": {
       "title": "Call ended",

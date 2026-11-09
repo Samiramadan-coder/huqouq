@@ -30,9 +30,11 @@ const sectionLabelClassName =
 export function GoLiveForm({
   emergencyLive,
   onDone,
+  onNeedsOfficeEmirate,
 }: {
   emergencyLive: EmergencyLive;
   onDone: () => void;
+  onNeedsOfficeEmirate: () => void;
 }) {
   const format = useFormatters();
   const { referenceData } = useReferenceData();
@@ -89,6 +91,11 @@ export function GoLiveForm({
     if (result.success) {
       toast.success(result.message ?? t("liveSuccess"));
       onDone();
+      return;
+    }
+
+    if (result.code === "needs_office_emirate") {
+      onNeedsOfficeEmirate();
       return;
     }
 

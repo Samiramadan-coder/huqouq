@@ -42,7 +42,7 @@ export default async function LawyerLayout({
 
   return (
     <NotificationsProvider role="lawyer" initialData={notifications}>
-      <EmergencyNotification />
+      <EmergencyNotification isLive={data.data.is_live} />
 
       <SidebarProvider defaultOpen>
         <Sidebar

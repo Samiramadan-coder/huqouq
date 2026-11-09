@@ -2,6 +2,8 @@ import z from "zod";
 import type { EmergencyStatus } from "@/components/client-lawyer/reusable/emergency-status-styles";
 import { T } from "@/types/shared";
 
+export const EMERGENCY_DESCRIPTION_MAX = 300;
+
 // Emergency Request Schema
 export const emergencyRequestSchema = (t: T) =>
   z.object({
@@ -10,7 +12,11 @@ export const emergencyRequestSchema = (t: T) =>
       .int()
       .positive(t("legalAreaRequired")),
     emirate: z.string(t("emirateRequired")).trim().min(1, t("emirateRequired")),
-    description: z.string().trim().max(1000).optional(),
+    description: z
+      .string()
+      .trim()
+      .max(EMERGENCY_DESCRIPTION_MAX, t("descriptionTooLong"))
+      .optional(),
     accept_short_call: z.boolean().refine((value) => value === true, {
       message: t("acceptShortCallRequired"),
     }),
@@ -70,6 +76,8 @@ export type Emergency = {
   call: Call;
   elapsed_seconds: number;
   all_busy: boolean;
+  // Place in the queue while the client keeps waiting (if the API sends it)
+  queue_position?: null | number;
   lawyers_tried: number;
   matched_lawyer: null | Lawyer;
   rating: null | number;

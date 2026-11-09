@@ -1,14 +1,24 @@
 "use server";
 
 import { unstable_rethrow } from "next/navigation";
-import { http, ValidationError } from "../http";
+import { http, HttpError, ValidationError, apiErrorCode } from "../http";
 import { fetchCallToken } from "../call-token";
 import { Emergency } from "@/types/lawyer/emergency-history";
 
 type ActionResponse =
-  { success: true; message?: string } | { success: false; message?: string };
+  | { success: true; message?: string }
+  // `code` e.g. "already_taken" when another lawyer accepted first (409)
+  | { success: false; message?: string; code?: string };
 
 function toFailure(error: unknown, context: string): ActionResponse {
+  if (error instanceof HttpError && error.status === 409) {
+    return {
+      success: false,
+      code: apiErrorCode(error) ?? "already_taken",
+      message: error.responseMessage,
+    };
+  }
+
   if (error instanceof ValidationError) {
     const firstError = Object.values(error.errors)[0]?.[0];
     return { success: false, message: error.responseMessage ?? firstError };
@@ -84,7 +94,10 @@ export async function reportLawyerEmergencyCallEvent(
     return { success: true, message: data?.message };
   } catch (error) {
     unstable_rethrow(error);
-    return toFailure(error, `Error reporting the emergency call event "${event}":`);
+    return toFailure(
+      error,
+      `Error reporting the emergency call event "${event}":`,
+    );
   }
 }
 

@@ -8,6 +8,7 @@ import { GoLiveForm } from "./go-live-form";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { MembershipRequired } from "./membership-required";
+import { OfficeEmirateRequired } from "./office-emirate-required";
 import { EmergencyLive } from "@/types/lawyer/emergency-membership";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
@@ -16,12 +17,20 @@ export default function SosControl({
 }: {
   emergencyLive: EmergencyLive;
 }) {
-  const close = () => setOpen(false);
   const [open, setOpen] = useState(false);
+  // Going live was refused with `needs_office_emirate`
+  const [needsOfficeEmirate, setNeedsOfficeEmirate] = useState(false);
+
+  function handleOpenChange(next: boolean) {
+    setOpen(next);
+    if (!next) setNeedsOfficeEmirate(false);
+  }
+
+  const close = () => handleOpenChange(false);
   const t = useTranslations("Lawyer.EmergencyLive");
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button
           type="button"
@@ -55,9 +64,17 @@ export default function SosControl({
 
         {!emergencyLive.is_live &&
           (emergencyLive.reason === "needs_office_emirate" ||
-            emergencyLive.reason === null) && (
-            <GoLiveForm emergencyLive={emergencyLive} onDone={close} />
-          )}
+          needsOfficeEmirate ? (
+            <OfficeEmirateRequired onClose={close} />
+          ) : (
+            emergencyLive.reason === null && (
+              <GoLiveForm
+                emergencyLive={emergencyLive}
+                onDone={close}
+                onNeedsOfficeEmirate={() => setNeedsOfficeEmirate(true)}
+              />
+            )
+          ))}
 
         {emergencyLive.reason === "not_approved" && (
           <MembershipRequired

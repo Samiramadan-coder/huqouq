@@ -9,7 +9,7 @@ import {
 } from "@/types/lawyer/emergency-membership";
 import { updateTag } from "next/cache";
 import { unstable_rethrow } from "next/navigation";
-import { http, ValidationError } from "../http";
+import { http, HttpError, ValidationError, apiErrorCode } from "../http";
 
 // Activate Membership Plan
 type ActivatePlanResponse =
@@ -70,7 +70,9 @@ export async function cancelMembership(): Promise<CancelMembershipResponse> {
 
 // Emergency Availability (go live / go offline)
 type UpdateAvailabilityResponse =
-  { success: true; message?: string } | { success: false; message?: string };
+  | { success: true; message?: string }
+  // `code` e.g. "needs_office_emirate"
+  | { success: false; message?: string; code?: string };
 
 export async function updateAvailability(
   values: UpdateAvailabilityPayload,
@@ -85,11 +87,18 @@ export async function updateAvailability(
     return { success: true, message: data.message };
   } catch (error) {
     unstable_rethrow(error);
-    if (error instanceof ValidationError) {
-      const firstError = Object.values(error.errors)[0]?.[0];
+    const code = apiErrorCode(error);
+    if (error instanceof ValidationError || code) {
+      const firstError =
+        error instanceof ValidationError
+          ? Object.values(error.errors)[0]?.[0]
+          : undefined;
       return {
         success: false,
-        message: error.responseMessage ?? firstError,
+        code,
+        message:
+          (error instanceof HttpError ? error.responseMessage : undefined) ??
+          firstError,
       };
     }
     console.error("Error updating emergency availability:", error);

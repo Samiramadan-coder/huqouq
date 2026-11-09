@@ -34,6 +34,7 @@ type FormTextareaProps<T extends FieldValues> = {
   rows?: number;
   labelDescription?: ReactNode;
   labelClassName?: string;
+  maxLength?: number;
 };
 
 export default function FormTextarea<T extends FieldValues>({
@@ -50,6 +51,7 @@ export default function FormTextarea<T extends FieldValues>({
   rows = 4,
   labelDescription,
   labelClassName,
+  maxLength,
 }: FormTextareaProps<T>) {
   const error = get(errors, name);
   const errorId = `${name}-error`;
@@ -77,6 +79,7 @@ export default function FormTextarea<T extends FieldValues>({
             {...register(name)}
             id={name}
             rows={rows}
+            maxLength={maxLength}
             placeholder={placeholder}
             aria-invalid={!!error}
             aria-describedby={error ? errorId : undefined}
