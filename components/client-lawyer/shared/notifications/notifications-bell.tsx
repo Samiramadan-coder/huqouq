@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useNotifications } from "./notifications-provider";
 import NotificationItem, { useOpenNotification } from "./notification-item";
 
-const BELL_LIMIT = 10;
+const BELL_LIMIT = 8;
 
 export default function NotificationsBell() {
   const t = useTranslations("Notifications");
@@ -28,7 +28,7 @@ export default function NotificationsBell() {
     useNotifications();
 
   const latest = notifications.slice(0, BELL_LIMIT);
-  const badge = unreadCount > 9 ? `${number(9)}+` : number(unreadCount);
+  const badge = unreadCount > 99 ? `${number(99)}+` : number(unreadCount);
 
   const handleMarkAll = async () => {
     const success = await markAllAsRead();
