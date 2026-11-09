@@ -7,6 +7,7 @@ import {
   useEffect,
   useContext,
   useCallback,
+  useEffectEvent,
   createContext,
 } from "react";
 
@@ -34,6 +35,7 @@ type NotificationsContextValue = {
 };
 
 const REFRESH_DEBOUNCE_MS = 800;
+const POLL_INTERVAL_MS = 60_000;
 
 const NotificationsContext = createContext<NotificationsContextValue | null>(
   null,
@@ -116,26 +118,49 @@ export function NotificationsProvider({ role, initialData, children }: Props) {
     setUnreadCount(data.unread_count);
   }, []);
 
-  // Real time: a push carries no notification id or created_at, so instead of
-  // building one from it, re-fetch from the API. Debounced because related
-  // pushes arrive together (e.g. emergency "accepted" then "joined").
   const router = useRouter();
   const pathname = usePathname();
   const refreshTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  usePushNotificationListener({
-    onReceive: () => {
-      clearTimeout(refreshTimer.current);
-      refreshTimer.current = setTimeout(() => {
-        // The notifications page renders server data, so refresh the route;
-        // that also resets this provider through initialData
-        if (pathname.endsWith("/notifications")) router.refresh();
-        else void refresh();
-      }, REFRESH_DEBOUNCE_MS);
-    },
-  });
+  // Debounced so triggers that fire together (related pushes such as emergency
+  // "accepted" then "joined", or focus + visibilitychange) make one request
+  const scheduleSync = useCallback(() => {
+    clearTimeout(refreshTimer.current);
+    refreshTimer.current = setTimeout(() => {
+      // The notifications page renders server data, so refresh the route;
+      // that also resets this provider through initialData
+      if (pathname.endsWith("/notifications")) router.refresh();
+      else void refresh();
+    }, REFRESH_DEBOUNCE_MS);
+  }, [pathname, router, refresh]);
 
-  useEffect(() => () => clearTimeout(refreshTimer.current), []);
+  // Real time: a push carries no notification id or created_at, so instead of
+  // building one from it, re-fetch from the API
+  usePushNotificationListener({ onReceive: () => scheduleSync() });
+
+  // Polling fallback: every minute while the tab is visible, and right away
+  // when the user comes back to it
+  const syncFromEffect = useEffectEvent(() => scheduleSync());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") syncFromEffect();
+    }, POLL_INTERVAL_MS);
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") syncFromEffect();
+    };
+
+    window.addEventListener("focus", onVisible);
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(refreshTimer.current);
+      window.removeEventListener("focus", onVisible);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, []);
 
   return (
     <NotificationsContext.Provider
