@@ -1,6 +1,8 @@
 "use client";
 
 import { getTime } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
+import { Badge } from "@/components/ui/badge";
 import { Meta } from "@/types/shared";
 import { useFormatters } from "@/lib/format";
 import { StatusBadge } from "./status-badge";
@@ -20,13 +22,22 @@ function OutcomeCell({ emergency }: { emergency: Emergency }) {
   if (!emergency.outcome_label) return empty;
 
   return (
-    <div className="space-y-1">
-      <p className="text-sm text-primary/80">{emergency.outcome_label}</p>
+    <div className="space-y-1.5">
+      <Badge
+        variant="outline"
+        className="rounded-full border-secondary bg-secondary/30 px-2.5 text-xs font-medium text-primary/75"
+      >
+        {emergency.outcome_label}
+      </Badge>
       {emergency.converted ? (
-        <p className="flex items-center gap-1 text-xs font-semibold text-accent">
+        // There's no single-case page for lawyers; the list holds the case
+        <Link
+          href="/lawyer/my-cases"
+          className="flex items-center gap-1 text-xs font-semibold text-accent hover:underline"
+        >
           <Briefcase className="size-3" aria-hidden="true" />
           {t("convertedToCase")}
-        </p>
+        </Link>
       ) : (
         <p className="text-xs text-primary/30">{t("notConverted")}</p>
       )}

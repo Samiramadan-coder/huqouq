@@ -43,7 +43,12 @@ const MAX_DISTANCE_KM = 250;
 const selectTriggerClassName =
   "h-12! min-h-12 rounded-sm border! border-secondary! px-4 aria-invalid:border-destructive!";
 
-export default function RequestEmergencyHelp() {
+export default function RequestEmergencyHelp({
+  triggerLabel,
+}: {
+  // Text on the trigger button (defaults to "Emergency Help")
+  triggerLabel?: string;
+} = {}) {
   const t = useTranslations("Client.Emergency");
   const { referenceData } = useReferenceData();
   const [open, setOpen] = useState(false);
@@ -173,7 +178,9 @@ export default function RequestEmergencyHelp() {
             className="rounded-sm border-destructive/30 bg-transparent text-destructive hover:bg-destructive/5 hover:text-destructive"
           >
             <AlertCircle className="size-4" aria-hidden="true" />
-            <span className="text-xs font-normal">{t("trigger")}</span>
+            <span className="text-xs font-normal">
+              {triggerLabel ?? t("trigger")}
+            </span>
           </Button>
         </DialogTrigger>
 

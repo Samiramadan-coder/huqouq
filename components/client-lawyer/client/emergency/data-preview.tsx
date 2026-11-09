@@ -10,6 +10,7 @@ import DataTable from "../../reusable/data-table";
 import { Emergency } from "@/types/client/emergency";
 import { useLocale, useTranslations } from "next-intl";
 import { DetailsPanel, toDuration } from "./details-panal";
+import RequestEmergencyHelp from "./request-emergency/request-emergency-help";
 import { TableCell, TableRow } from "@/components/ui/table";
 import PaginationTemplate from "../../reusable/pagination-template";
 import {
@@ -23,11 +24,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function LawyerCell({ emergency }: { emergency: Emergency }) {
   const t = useTranslations("Client.EmergencyHistory");
-  const lawyer = emergency.matched_lawyer;
+  const matched = emergency.matched_lawyer;
 
-  if (!lawyer) return <span className="text-primary/30">—</span>;
+  if (!matched) return <span className="text-primary/30">—</span>;
 
-  // Named once the client continued with the lawyer; anonymous before that
+  // Anonymous until the emergency became a case; only then named
+  const lawyer = emergency.case_id
+    ? matched
+    : { ...matched, name: undefined, photo_url: undefined };
   const name = lawyer.name || t("anonymousLawyer");
   const details = [lawyer.based_in, lawyer.experience_range]
     .filter(Boolean)
@@ -102,8 +106,11 @@ export default function DataPreview({
       <DataTable columns={columns}>
         {emergency.length === 0 ? (
           <TableRow>
-            <TableCell className="px-5 py-3" colSpan={columns.length}>
-              <span className="text-primary/55">{t("noRequests")}</span>
+            <TableCell className="px-5 py-10" colSpan={columns.length}>
+              <div className="flex flex-col items-center gap-4 text-center">
+                <span className="text-primary/55">{t("noRequests")}</span>
+                <RequestEmergencyHelp triggerLabel={t("getEmergencyHelp")} />
+              </div>
             </TableCell>
           </TableRow>
         ) : (

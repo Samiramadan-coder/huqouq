@@ -8,7 +8,7 @@ import {
 
 import { toast } from "sonner";
 import { useState } from "react";
-import { PhoneOff } from "lucide-react";
+import { CircleCheck, PhoneOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
 import { Label } from "@/components/ui/label";
@@ -48,6 +48,8 @@ export default function EmergencyOutcome({
   const [outcome, setOutcome] = useState<string>("");
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  // Saved: tell the lawyer what happens next before closing
+  const [saved, setSaved] = useState(false);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -66,7 +68,30 @@ export default function EmergencyOutcome({
     }
 
     toast.success(response.message ?? t("success"));
-    onDone();
+    setSaved(true);
+  }
+
+  if (saved) {
+    return (
+      <div className="space-y-5 p-6 text-center">
+        <span className="mx-auto flex size-12 items-center justify-center rounded-full bg-green-50 text-green-700">
+          <CircleCheck className="size-5" aria-hidden="true" />
+        </span>
+        <DialogTitle className="ltr:font-lora text-xl font-bold text-primary">
+          {t("savedTitle")}
+        </DialogTitle>
+        <DialogDescription className="text-sm text-primary/55">
+          {t("clientWillBeAsked")}
+        </DialogDescription>
+        <Button
+          type="button"
+          onClick={onDone}
+          className="h-11 w-full rounded-sm bg-accent"
+        >
+          {t("done")}
+        </Button>
+      </div>
+    );
   }
 
   return (

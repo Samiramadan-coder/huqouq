@@ -16,13 +16,19 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const t = await getTranslations("Client.EmergencyHistory");
+  const { page } = await searchParams;
 
   const { data } = await http.get<{
     data: Emergency[];
     meta: Meta;
   }>("/api/emergency/requests", {
+    params: { page: page || "1" },
     next: {
       tags: ["emergencies"],
     },

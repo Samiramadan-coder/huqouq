@@ -8,39 +8,45 @@ import {
 
 import { toast } from "sonner";
 import { useState } from "react";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useFormatters } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { Briefcase, Hourglass, PhoneOff } from "lucide-react";
+import { Emergency } from "@/types/client/emergency";
 import Rating from "@/components/client-lawyer/reusable/rating";
-import { toSnakeCase } from "@/lib/utils";
-import { useForm } from "react-hook-form";
-import { useRouter } from "@/i18n/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "@/components/public/shared/form/form-input";
-import FormTextarea from "@/components/public/shared/form/form-textarea";
-import { useReferenceData } from "@/providers/reference-data.provider";
+import EmergencyCaseFormStep from "../emergency-case-form";
+import { BOOK_CONSULTATION_HREF } from "./emergency-states";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Emergency,
-  EmergencyCaseForm,
-  emergencyCaseSchema,
-} from "@/types/client/emergency";
+  BadgeCheck,
+  Hourglass,
+  PhoneOff,
+  ShieldCheck,
+  UserCheck,
+} from "lucide-react";
 import {
+  getEmergency,
   rateEmergency,
   continueEmergency,
-  convertEmergencyToCase,
 } from "@/lib/client/emergency";
 import {
   CallEndResult,
   formatSeconds,
 } from "@/components/client-lawyer/reusable/call/config";
 
-// The client's dialog after an emergency call, in two steps:
-// 1. continue with this lawyer or not  2. (if continuing) rate + create a case
+// Where the client posts a regular case
+const POST_CASE_HREF = "/client/my-cases/create";
+
+type Step = "timeUp" | "rate" | "continue" | "working" | "case" | "thanks";
+
+// The client's dialog after an emergency call:
+// (time's up) -> rate -> continue with this lawyer?
+//   yes -> "You're now working with Adv. {name}" -> set up the case
+//   no  -> thank you, with other ways to get help
 export default function EmergencyCallEnded({
-  emergency,
+  emergency: initialEmergency,
   result,
   onDone,
 }: {
@@ -50,17 +56,32 @@ export default function EmergencyCallEnded({
 }) {
   const t = useTranslations("Client.Emergency.CallEnded");
   const format = useFormatters();
-  const emergencyId = emergency.id;
-  // When the time limit ended the call, say so first, then continue
-  const [step, setStep] = useState<"timeUp" | "continue" | "rate" | "case">(
-    result.reason === "timeEnded" ? "timeUp" : "continue",
+  // Re-fetched after "yes": the API then reveals the lawyer's name and photo
+  const [emergency, setEmergency] = useState(initialEmergency);
+  const [step, setStep] = useState<Step>(
+    result.reason === "timeEnded" ? "timeUp" : "rate",
   );
+
+  const duration = format.digits(formatSeconds(result.durationSeconds));
+
+  const title =
+    step === "timeUp"
+      ? t("timeEndedTitle")
+      : result.reason === "connectionLost"
+        ? t("connectionLostTitle")
+        : t("title");
+
+  async function onContinued() {
+    const latest = await getEmergency(emergency.id);
+    if (latest) setEmergency(latest);
+    setStep("working");
+  }
 
   return (
     <>
       <DialogHeader className="p-6 border-b border-secondary items-center text-center">
         <span className="mb-2 flex size-12 items-center justify-center rounded-full bg-accent/10 text-accent">
-          {result.reason === "timeEnded" ? (
+          {step === "timeUp" ? (
             <Hourglass className="size-5" aria-hidden="true" />
           ) : (
             <PhoneOff className="size-5" aria-hidden="true" />
@@ -68,126 +89,73 @@ export default function EmergencyCallEnded({
         </span>
 
         <DialogTitle className="ltr:font-lora text-xl font-bold text-primary">
-          {result.reason === "timeEnded"
-            ? t("timeEndedTitle")
-            : result.reason === "connectionLost"
-              ? t("connectionLostTitle")
-              : t("title")}
+          {title}{" "}
+          <span className="font-mono text-base font-normal text-primary/50">
+            ({duration})
+          </span>
         </DialogTitle>
 
-        <DialogDescription className="text-sm text-primary/55">
-          {t("callDuration")}{" "}
-          {format.digits(formatSeconds(result.durationSeconds))}
+        <DialogDescription className="sr-only">
+          {t("callDuration")} {duration}
         </DialogDescription>
       </DialogHeader>
 
       <div className="p-6">
-        {step === "timeUp" ? (
+        {step === "timeUp" && (
           <Button
             type="button"
-            onClick={() => setStep("continue")}
+            onClick={() => setStep("rate")}
             className="h-11 w-full rounded-sm"
           >
             {t("next")}
           </Button>
-        ) : step === "continue" ? (
-          <ContinueStep
-            emergencyId={emergencyId}
-            onContinue={() => setStep("rate")}
-            onDone={onDone}
-          />
-        ) : step === "rate" ? (
+        )}
+
+        {step === "rate" && (
           <RateStep
-            emergencyId={emergencyId}
-            onCreateCase={() => setStep("case")}
-            onDone={onDone}
-          />
-        ) : (
-          <CreateCaseStep
-            emergency={emergency}
-            onBack={() => setStep("rate")}
-            onDone={onDone}
+            emergencyId={emergency.id}
+            onNext={() => setStep("continue")}
           />
         )}
+
+        {step === "continue" && (
+          <ContinueStep
+            emergencyId={emergency.id}
+            onYes={onContinued}
+            onNo={() => setStep("thanks")}
+          />
+        )}
+
+        {step === "working" && (
+          <WorkingWithStep
+            emergency={emergency}
+            onSetUpCase={() => setStep("case")}
+            onLater={onDone}
+          />
+        )}
+
+        {step === "case" && (
+          <EmergencyCaseFormStep emergency={emergency} onDone={onDone} />
+        )}
+
+        {step === "thanks" && <ThanksStep onDone={onDone} />}
       </div>
     </>
   );
 }
 
-// Step 1: continue with this lawyer?
-function ContinueStep({
-  emergencyId,
-  onContinue,
-  onDone,
-}: {
-  emergencyId: number;
-  onContinue: () => void;
-  onDone: () => void;
-}) {
-  const t = useTranslations("Client.Emergency.CallEnded");
-  const [pending, setPending] = useState<"yes" | "no" | null>(null);
-
-  async function answer(value: "yes" | "no") {
-    setPending(value);
-    const result = await continueEmergency(emergencyId, value);
-    setPending(null);
-
-    if (!result.success) {
-      toast.error(result.message ?? t("failed"));
-      return;
-    }
-
-    if (value === "yes") onContinue();
-    else onDone();
-  }
-
-  return (
-    <div className="space-y-5 text-center">
-      <p className="text-sm font-semibold text-primary">
-        {t("continueQuestion")}
-      </p>
-
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => answer("no")}
-          disabled={pending !== null}
-          className="h-11 rounded-sm border-secondary font-normal text-primary/60"
-        >
-          {pending === "no" && <Spinner />}
-          {t("no")}
-        </Button>
-
-        <Button
-          type="button"
-          onClick={() => answer("yes")}
-          disabled={pending !== null}
-          className="h-11 rounded-sm bg-accent"
-        >
-          {pending === "yes" && <Spinner />}
-          {t("yes")}
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-// Step 2: rate the call and create a case
+// Step 1: rate the call (5 stars + optional comment)
 function RateStep({
   emergencyId,
-  onCreateCase,
-  onDone,
+  onNext,
 }: {
   emergencyId: number;
-  onCreateCase: () => void;
-  onDone: () => void;
+  onNext: () => void;
 }) {
   const t = useTranslations("Client.Emergency.CallEnded");
   const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [rated, setRated] = useState(false);
 
   async function submitRating() {
     setSubmitting(true);
@@ -203,46 +171,193 @@ function RateStep({
     }
 
     toast.success(result.message ?? t("rateSuccess"));
-    setRated(true);
+    onNext();
   }
 
   return (
-    <div className="space-y-5">
-      {rated ? (
-        <p className="text-center text-sm text-primary/60">{t("thanks")}</p>
-      ) : (
-        <div className="space-y-3">
-          <p className="text-sm font-semibold text-primary">{t("rateTitle")}</p>
-          <Rating value={stars} onChange={setStars} />
-          <Textarea
-            value={comment}
-            onChange={(event) => setComment(event.target.value)}
-            placeholder={t("commentPlaceholder")}
-            maxLength={1000}
-            className="border border-secondary"
-          />
-          <Button
-            type="button"
-            onClick={submitRating}
-            disabled={stars === 0 || submitting}
-            className="w-full h-11 rounded-sm bg-accent"
-          >
-            {submitting && <Spinner />}
-            {t("submitRating")}
-          </Button>
-        </div>
-      )}
+    <div className="space-y-3">
+      <p className="text-sm font-semibold text-primary">{t("rateTitle")}</p>
+      <Rating value={stars} onChange={setStars} />
+      <Textarea
+        value={comment}
+        onChange={(event) => setComment(event.target.value)}
+        placeholder={t("commentPlaceholder")}
+        maxLength={1000}
+        className="border border-secondary"
+      />
+      <Button
+        type="button"
+        onClick={submitRating}
+        disabled={stars === 0 || submitting}
+        className="w-full h-11 rounded-sm bg-accent"
+      >
+        {submitting && <Spinner />}
+        {t("submitRating")}
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        onClick={onNext}
+        disabled={submitting}
+        className="w-full h-9 text-xs text-primary/50"
+      >
+        {t("skip")}
+      </Button>
+    </div>
+  );
+}
 
-      <div className="space-y-2 rounded-sm border border-secondary p-4">
-        <p className="text-sm text-primary/60">{t("createCaseHint")}</p>
+// Step 2: continue with this lawyer (as a case) or not
+function ContinueStep({
+  emergencyId,
+  onYes,
+  onNo,
+}: {
+  emergencyId: number;
+  onYes: () => Promise<void>;
+  onNo: () => void;
+}) {
+  const t = useTranslations("Client.Emergency.CallEnded");
+  const [pending, setPending] = useState<"yes" | "no" | null>(null);
+
+  async function answer(value: "yes" | "no") {
+    setPending(value);
+    const result = await continueEmergency(emergencyId, value);
+
+    if (!result.success) {
+      setPending(null);
+      toast.error(result.message ?? t("failed"));
+      return;
+    }
+
+    if (value === "yes") await onYes();
+    else onNo();
+    setPending(null);
+  }
+
+  return (
+    <div className="space-y-4 rounded-sm border border-secondary p-5 text-center">
+      <div className="space-y-1">
+        <p className="text-sm font-semibold text-primary">
+          {t("continueQuestion")}
+        </p>
+        <p className="text-xs text-primary/50">{t("nameRevealedHint")}</p>
+      </div>
+
+      <div className="space-y-2">
+        <Button
+          type="button"
+          onClick={() => answer("yes")}
+          disabled={pending !== null}
+          className="h-11 w-full rounded-sm bg-accent"
+        >
+          {pending === "yes" && <Spinner />}
+          {t("yes")}
+        </Button>
         <Button
           type="button"
           variant="outline"
-          onClick={onCreateCase}
-          className="w-full h-11 rounded-sm border-accent/40 text-accent hover:bg-accent/5 hover:text-accent"
+          onClick={() => answer("no")}
+          disabled={pending !== null}
+          className="h-11 w-full rounded-sm border-secondary font-normal text-primary/60"
         >
-          <Briefcase className="size-4" aria-hidden="true" />
-          {t("createCase")}
+          {pending === "no" && <Spinner />}
+          {t("no")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// Step 3 (yes): the lawyer is revealed
+function WorkingWithStep({
+  emergency,
+  onSetUpCase,
+  onLater,
+}: {
+  emergency: Emergency;
+  onSetUpCase: () => void;
+  onLater: () => void;
+}) {
+  const t = useTranslations("Client.Emergency.CallEnded");
+  const lawyer = emergency.matched_lawyer;
+  const name = lawyer?.name;
+
+  return (
+    <div className="space-y-5 text-center">
+      <Avatar className="mx-auto size-20 bg-primary">
+        {lawyer?.photo_url && (
+          <AvatarImage src={lawyer.photo_url} alt={name ?? ""} />
+        )}
+        <AvatarFallback className="bg-primary text-2xl text-accent">
+          {name ? (
+            name[0]
+          ) : (
+            <ShieldCheck className="size-8" aria-hidden="true" />
+          )}
+        </AvatarFallback>
+      </Avatar>
+
+      <div className="space-y-1">
+        <p className="flex items-center justify-center gap-1.5 text-base font-semibold text-primary">
+          <UserCheck className="size-4 text-accent" aria-hidden="true" />
+          {name ? t("workingWith", { name }) : t("workingWithLawyer")}
+        </p>
+        <p className="text-sm text-primary/55">
+          {lawyer?.legal_area || emergency.legal_area.name}
+        </p>
+        {lawyer?.verified && (
+          <p className="flex items-center justify-center gap-1 text-xs font-medium text-green-700">
+            <BadgeCheck className="size-3.5" aria-hidden="true" />
+            {t("verifiedLawyer")}
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Button
+          type="button"
+          onClick={onSetUpCase}
+          className="h-11 w-full rounded-sm bg-accent"
+        >
+          {t("setUpCase")}
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onLater}
+          className="h-9 w-full text-xs text-primary/50"
+        >
+          {t("Case.maybeLater")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// Step 3 (no): thanks, with other ways to get help
+function ThanksStep({ onDone }: { onDone: () => void }) {
+  const t = useTranslations("Client.Emergency.CallEnded");
+
+  return (
+    <div className="space-y-5 text-center">
+      <div className="space-y-1">
+        <p className="text-base font-semibold text-primary">
+          {t("thanksTitle")}
+        </p>
+        <p className="text-sm text-primary/55">{t("thanksDescription")}</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Button asChild variant="outline" className="h-11 rounded-sm">
+          <Link href={POST_CASE_HREF} onClick={onDone}>
+            {t("postCase")}
+          </Link>
+        </Button>
+        <Button asChild className="h-11 rounded-sm bg-accent">
+          <Link href={BOOK_CONSULTATION_HREF} onClick={onDone}>
+            {t("bookConsultation")}
+          </Link>
         </Button>
       </div>
 
@@ -250,128 +365,10 @@ function RateStep({
         type="button"
         variant="ghost"
         onClick={onDone}
-        className="w-full h-11 text-primary/50 text-xs"
+        className="h-9 w-full text-xs text-primary/50"
       >
         {t("close")}
       </Button>
     </div>
-  );
-}
-
-// Step 3: convert the emergency into a case. The client writes the title and
-// description; the legal area, city and urgency come from the request.
-function CreateCaseStep({
-  emergency,
-  onBack,
-  onDone,
-}: {
-  emergency: Emergency;
-  onBack: () => void;
-  onDone: () => void;
-}) {
-  const t = useTranslations("Client.Emergency.CallEnded");
-  const tCase = useTranslations("Client.Emergency.CallEnded.Case");
-  const router = useRouter();
-  const { referenceData } = useReferenceData();
-
-  // The request only stores the emirate; its main city is the first listed
-  const city = referenceData?.cities.find(
-    ({ emirate }) => toSnakeCase(emirate) === emergency.emirate,
-  )?.cities[0];
-
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<EmergencyCaseForm>({
-    resolver: zodResolver(emergencyCaseSchema(tCase)),
-    defaultValues: { title: "", description: "" },
-  });
-
-  async function onSubmit(values: EmergencyCaseForm) {
-    if (!city) {
-      toast.error(t("failed"));
-      return;
-    }
-
-    const response = await convertEmergencyToCase(emergency.id, {
-      ...values,
-      specialization_id: emergency.legal_area.id,
-      city,
-      urgency: "urgent",
-    });
-
-    if (!response.success) {
-      for (const [field, message] of Object.entries(response.errors ?? {})) {
-        setError(field as keyof EmergencyCaseForm, { message });
-      }
-      toast.error(response.message ?? t("failed"));
-      return;
-    }
-
-    toast.success(response.message ?? tCase("success"));
-    onDone();
-    if (response.caseId) router.push(`/client/my-cases/${response.caseId}`);
-  }
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <p className="text-sm font-semibold text-primary">{tCase("title")}</p>
-
-      {/* Fixed by the emergency request */}
-      <dl className="grid grid-cols-3 gap-3 rounded-sm border border-secondary p-3 text-xs">
-        <div className="space-y-1">
-          <dt className="text-primary/40">{tCase("legalArea")}</dt>
-          <dd className="text-primary/80">{emergency.legal_area.name}</dd>
-        </div>
-        <div className="space-y-1">
-          <dt className="text-primary/40">{tCase("city")}</dt>
-          <dd className="text-primary/80">{city ?? emergency.emirate_label}</dd>
-        </div>
-        <div className="space-y-1">
-          <dt className="text-primary/40">{tCase("urgency")}</dt>
-          <dd className="text-destructive">{tCase("urgent")}</dd>
-        </div>
-      </dl>
-
-      <FormInput
-        register={register}
-        errors={errors}
-        name="title"
-        label={tCase("titleLabel")}
-        placeholder={tCase("titlePlaceholder")}
-        required
-      />
-
-      <FormTextarea
-        register={register}
-        errors={errors}
-        name="description"
-        label={tCase("descriptionLabel")}
-        placeholder={tCase("descriptionPlaceholder")}
-        textareaClassName="border border-secondary"
-      />
-
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onBack}
-          disabled={isSubmitting}
-          className="h-11 rounded-sm border-secondary font-normal text-primary/60"
-        >
-          {tCase("back")}
-        </Button>
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="h-11 rounded-sm bg-accent"
-        >
-          {isSubmitting && <Spinner />}
-          {tCase("submit")}
-        </Button>
-      </div>
-    </form>
   );
 }

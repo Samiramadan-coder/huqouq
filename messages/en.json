@@ -1071,8 +1071,8 @@
       "CallEnded": {
         "title": "Call ended",
         "callDuration": "Your call with the lawyer lasted",
-        "continueQuestion": "Do you want to continue with this lawyer?",
-        "yes": "Yes, continue",
+        "continueQuestion": "Continue with this lawyer?",
+        "yes": "Yes, start a case with this lawyer",
         "no": "No, thanks",
         "rateTitle": "How was the call?",
         "commentPlaceholder": "Tell us about the call (optional)",
@@ -1097,12 +1097,24 @@
           "titleTooLong": "The title is too long",
           "descriptionRequired": "Please describe the case",
           "back": "Back",
-          "submit": "Create case",
-          "success": "Your case has been created."
+          "submit": "Start case",
+          "success": "Your case has been created.",
+          "normalFlowNote": "The case follows the normal flow: admin review, then the platform fee applies.",
+          "maybeLater": "Maybe later"
         },
         "timeEndedTitle": "Your emergency call time has ended",
         "connectionLostTitle": "The call was disconnected",
-        "next": "Continue"
+        "next": "Continue",
+        "skip": "Skip",
+        "nameRevealedHint": "The lawyer's name is revealed only if you start a case.",
+        "workingWith": "You're now working with Adv. {name}",
+        "workingWithLawyer": "You're now working with this lawyer",
+        "verifiedLawyer": "Verified UAE-licensed lawyer",
+        "setUpCase": "Set up my case",
+        "thanksTitle": "Thank you",
+        "thanksDescription": "We hope the call helped. If you need more help, you can post a case or book a consultation.",
+        "postCase": "Post a case",
+        "bookConsultation": "Book a consultation"
       },
       "descriptionTooLong": "Please keep it under 300 characters",
       "freeNote": "Free · 24/7 · We connect you to the nearest available lawyer",
@@ -1125,7 +1137,7 @@
         "callLength": "Call length",
         "action": "Action"
       },
-      "noRequests": "You have no emergency requests yet.",
+      "noRequests": "No emergency requests yet",
       "anonymousLawyer": "Anonymous lawyer",
       "viewCase": "View case",
       "reportedUnderReview": "Reported · Under review",
@@ -1135,7 +1147,10 @@
       "noDetails": "No details were provided.",
       "waitTime": "Wait time",
       "yourRating": "Your rating",
-      "verified": "Verified lawyer"
+      "verified": "Verified lawyer",
+      "getEmergencyHelp": "Get emergency help",
+      "startCase": "Start a case with this lawyer",
+      "startCaseExpired": "This option expired 7 days after the call."
     },
     "Dashboard": {
       "activeCases": "Active Cases",
@@ -2833,7 +2848,7 @@
       "alreadyTaken": "Another lawyer already took this request."
     },
     "EmergencyOutcome": {
-      "title": "Call ended",
+      "title": "Call outcome",
       "callDuration": "Your call with {name} lasted",
       "outcomeLabel": "What was the outcome?",
       "Outcomes": {
@@ -2841,13 +2856,16 @@
       },
       "noteLabel": "Private note",
       "notePlaceholder": "Anything to remember about this call (optional)",
-      "noteHint": "Only you can see this note.",
+      "noteHint": "Only you can see this note. It's not shown to the client.",
       "submit": "Save outcome",
       "later": "Later",
       "success": "Outcome saved.",
       "failed": "Failed to save the outcome. Please try again.",
       "outcomePlaceholder": "Select the outcome",
-      "clientNoShow": "The client didn't join the call, so it was closed."
+      "clientNoShow": "The client didn't join the call, so it was closed.",
+      "savedTitle": "Outcome saved",
+      "clientWillBeAsked": "The client will be asked if they want to continue with you.",
+      "done": "Done"
     }
   },
   "Call": {

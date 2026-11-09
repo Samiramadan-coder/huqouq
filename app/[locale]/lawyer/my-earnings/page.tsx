@@ -67,7 +67,13 @@ export default async function Page({
 
       <Filters counts={data.counts} />
 
-      <DataPreview earnings={data.data} pagination={data.meta} />
+      {/* Emergency help is free and never earns money: never list it here */}
+      <DataPreview
+        earnings={data.data.filter(
+          (earning) => !earning.type.startsWith("emergency"),
+        )}
+        pagination={data.meta}
+      />
     </div>
   );
 }

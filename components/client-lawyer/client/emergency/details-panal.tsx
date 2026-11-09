@@ -1,8 +1,19 @@
-import { useFormatters } from "@/lib/format";
+"use client";
+
+import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Emergency } from "@/types/client/emergency";
-import { Star } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useFormatters } from "@/lib/format";
+import { Button } from "@/components/ui/button";
+import { Briefcase, Clock, Star } from "lucide-react";
+import { Emergency } from "@/types/client/emergency";
+import EmergencyCaseFormStep from "./emergency-case-form";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 // Seconds as "mm:ss", e.g. 702 -> "11:42"
 export function toDuration(seconds: number) {
@@ -63,7 +74,63 @@ export function DetailsPanel({ emergency }: { emergency: Emergency }) {
           </div>
         )}
       </div>
+
+      <StartCase emergency={emergency} />
     </div>
+  );
+}
+
+// "Start a case with this lawyer" while the API allows it (up to 7 days after
+// the call); once that window has passed, a note says it expired
+function StartCase({ emergency }: { emergency: Emergency }) {
+  const t = useTranslations("Client.EmergencyHistory");
+  const [open, setOpen] = useState(false);
+  // Read once when the row opens; a past expiry date stays past
+  const [now] = useState(() => Date.now());
+
+  if (emergency.case_id) return null;
+
+  if (!emergency.can.start_case) {
+    const expiresAt = emergency.conversion_expires_at
+      ? new Date(emergency.conversion_expires_at).getTime()
+      : NaN;
+    const expired = !Number.isNaN(expiresAt) && expiresAt <= now;
+
+    return expired ? (
+      <p className="flex items-center gap-1.5 text-xs text-primary/45">
+        <Clock className="size-3.5" aria-hidden="true" />
+        {t("startCaseExpired")}
+      </p>
+    ) : null;
+  }
+
+  return (
+    <>
+      <Button
+        type="button"
+        variant="outline"
+        onClick={() => setOpen(true)}
+        className="h-10 rounded-sm border-accent/40 text-accent hover:bg-accent/5 hover:text-accent"
+      >
+        <Briefcase className="size-4" aria-hidden="true" />
+        {t("startCase")}
+      </Button>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-md rounded-sm ring-0! p-6">
+          <DialogTitle className="sr-only">{t("startCase")}</DialogTitle>
+          <DialogDescription className="sr-only">
+            {emergency.legal_area.name}
+          </DialogDescription>
+          {open && (
+            <EmergencyCaseFormStep
+              emergency={emergency}
+              onDone={() => setOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
