@@ -1065,7 +1065,8 @@
           "title": "لا يوجد محامٍ متاح",
           "description": "لا يوجد محامي طوارئ متاح الآن. تم إبلاغ فريقنا وقد يتواصل معك.",
           "tryAgain": "حاول مرة أخرى"
-        }
+        },
+        "emergencyLawyer": "محامي طوارئ حقوق"
       },
       "CallEnded": {
         "title": "انتهت المكالمة",
@@ -1098,7 +1099,10 @@
           "back": "رجوع",
           "submit": "إنشاء القضية",
           "success": "تم إنشاء قضيتك."
-        }
+        },
+        "timeEndedTitle": "انتهى وقت مكالمة الطوارئ",
+        "connectionLostTitle": "انقطع الاتصال بالمكالمة",
+        "next": "متابعة"
       },
       "descriptionTooLong": "يرجى ألا يتجاوز النص 300 حرف",
       "freeNote": "مجانًا · على مدار الساعة · نوصلك بأقرب محامٍ متاح",
@@ -2899,7 +2903,14 @@
     "speakerOff": "كتم الصوت",
     "startsInLabel": "تبدأ خلال",
     "timeLeftLabel": "الوقت المتبقي",
-    "extraTimeLabel": "وقت إضافي"
+    "extraTimeLabel": "وقت إضافي",
+    "reconnecting": "جارٍ إعادة الاتصال…",
+    "Emergency": {
+      "endingSoon": "{minutes, plural, one {تبقّت دقيقة واحدة} two {تبقّت دقيقتان} few {تبقّت # دقائق} other {تبقّت # دقيقة}}",
+      "emergencyClient": "عميل طوارئ",
+      "identityHidden": "هويتك مخفية عن العميل",
+      "whatHappened": "ما حدث"
+    }
   },
   "Notifications": {
     "Title": "الإشعارات",

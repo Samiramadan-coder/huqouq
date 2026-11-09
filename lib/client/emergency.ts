@@ -4,6 +4,7 @@ import { updateTag } from "next/cache";
 import { http, HttpError, ValidationError, apiErrorCode } from "../http";
 import { unstable_rethrow } from "next/navigation";
 import { fetchCallToken } from "../call-token";
+import type { EmergencyCallEvent } from "@/components/client-lawyer/reusable/call/config";
 import {
   Emergency,
   EmergencyCaseForm,
@@ -109,14 +110,16 @@ async function emergencyAction(
   }
 }
 
-// Tells the API the client joined (once the Agora token arrives) or left the call
+// Tells the API what happened in the call (joined, left, reconnected, or
+// ended with a reason)
 export async function reportEmergencyCallEvent(
   id: Emergency["id"],
-  event: "joined" | "left",
+  event: EmergencyCallEvent,
+  reason?: string,
 ) {
   return emergencyAction(
     `/api/emergency/requests/${id}/call-events`,
-    { event },
+    { event, reason },
     `Error reporting the emergency call event "${event}":`,
   );
 }

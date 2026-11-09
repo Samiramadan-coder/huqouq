@@ -13,7 +13,7 @@ import { useFormatters } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { Briefcase, PhoneOff } from "lucide-react";
+import { Briefcase, Hourglass, PhoneOff } from "lucide-react";
 import Rating from "@/components/client-lawyer/reusable/rating";
 import { toSnakeCase } from "@/lib/utils";
 import { useForm } from "react-hook-form";
@@ -51,17 +51,28 @@ export default function EmergencyCallEnded({
   const t = useTranslations("Client.Emergency.CallEnded");
   const format = useFormatters();
   const emergencyId = emergency.id;
-  const [step, setStep] = useState<"continue" | "rate" | "case">("continue");
+  // When the time limit ended the call, say so first, then continue
+  const [step, setStep] = useState<"timeUp" | "continue" | "rate" | "case">(
+    result.reason === "timeEnded" ? "timeUp" : "continue",
+  );
 
   return (
     <>
       <DialogHeader className="p-6 border-b border-secondary items-center text-center">
         <span className="mb-2 flex size-12 items-center justify-center rounded-full bg-accent/10 text-accent">
-          <PhoneOff className="size-5" aria-hidden="true" />
+          {result.reason === "timeEnded" ? (
+            <Hourglass className="size-5" aria-hidden="true" />
+          ) : (
+            <PhoneOff className="size-5" aria-hidden="true" />
+          )}
         </span>
 
         <DialogTitle className="ltr:font-lora text-xl font-bold text-primary">
-          {t("title")}
+          {result.reason === "timeEnded"
+            ? t("timeEndedTitle")
+            : result.reason === "connectionLost"
+              ? t("connectionLostTitle")
+              : t("title")}
         </DialogTitle>
 
         <DialogDescription className="text-sm text-primary/55">
@@ -71,7 +82,15 @@ export default function EmergencyCallEnded({
       </DialogHeader>
 
       <div className="p-6">
-        {step === "continue" ? (
+        {step === "timeUp" ? (
+          <Button
+            type="button"
+            onClick={() => setStep("continue")}
+            className="h-11 w-full rounded-sm"
+          >
+            {t("next")}
+          </Button>
+        ) : step === "continue" ? (
           <ContinueStep
             emergencyId={emergencyId}
             onContinue={() => setStep("rate")}

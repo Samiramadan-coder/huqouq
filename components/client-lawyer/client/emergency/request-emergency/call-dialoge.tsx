@@ -39,6 +39,15 @@ import EmergencyCall from "@/components/client-lawyer/reusable/call/emergency-ca
 // How often the open request is re-fetched
 const POLL_MS = 2_000;
 
+// How often the request is re-fetched in the call until `call_ends_at` is set
+const IN_CALL_POLL_MS = 3_000;
+
+// Local clock minus the server clock, from a response's `server_time`
+function clockOffsetFrom(serverTime: string | undefined) {
+  const server = serverTime ? new Date(serverTime).getTime() : NaN;
+  return Number.isNaN(server) ? 0 : Date.now() - server;
+}
+
 // Seconds shown on "Call starts in N" before the call opens
 const CALL_COUNTDOWN_SECONDS = 3;
 
@@ -76,6 +85,10 @@ export default function CallDialoge({
   const t = useTranslations("Client.Emergency.Waiting");
   const [emergency, setEmergency] = useState<Emergency>(initialEmergency);
   const [loadedAt, setLoadedAt] = useState(() => Date.now());
+  // Local clock minus the server clock, so the call countdown follows the server
+  const [clockOffsetMs, setClockOffsetMs] = useState(() =>
+    clockOffsetFrom(initialEmergency.server_time),
+  );
   const [callStartsAt, setCallStartsAt] = useState<string | null>(null);
   const [pending, setPending] = useState<Pending>(null);
   // The client chose "Keep waiting" after all lawyers were busy
@@ -101,6 +114,7 @@ export default function CallDialoge({
 
     setEmergency(data);
     setLoadedAt(Date.now());
+    setClockOffsetMs(clockOffsetFrom(data.server_time));
   }, [emergencyId]);
 
   const finished = FINISHED_STATUSES.includes(emergency.status);
@@ -117,6 +131,18 @@ export default function CallDialoge({
     const interval = setInterval(loadEmergency, POLL_MS);
     return () => clearInterval(interval);
   }, [callStartsAt, finished, loadEmergency]);
+
+  // In the call: re-fetch until the API sets `call_ends_at` (once both sides
+  // joined), so the countdown runs to the server's end time
+  const waitingForCallEnd =
+    Boolean(callStartsAt) && !emergency.call.call_ends_at;
+
+  useEffect(() => {
+    if (!waitingForCallEnd) return;
+
+    const interval = setInterval(loadEmergency, IN_CALL_POLL_MS);
+    return () => clearInterval(interval);
+  }, [waitingForCallEnd, loadEmergency]);
 
   // Cancelled elsewhere (e.g. another tab) -> nothing left to show
   useEffect(() => {
@@ -216,10 +242,12 @@ export default function CallDialoge({
       <EmergencyCall
         emergencyId={emergencyId}
         role="client"
-        remoteName={t("anonymousLawyer")}
+        remoteName={t("emergencyLawyer")}
         remoteSubtitle={emergency.legal_area.name}
         remoteIcon={<ShieldCheck aria-hidden="true" />}
-        startsAt={callStartsAt}
+        startsAt={emergency.call.connected_at ?? callStartsAt}
+        closesAt={emergency.call.call_ends_at ?? undefined}
+        clockOffsetMs={clockOffsetMs}
         onFinished={onClose}
         renderEnded={(result, onDone) => (
           <EmergencyCallEnded

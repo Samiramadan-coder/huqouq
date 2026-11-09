@@ -1,6 +1,6 @@
 "use client";
 
-import { Siren } from "lucide-react";
+import { EyeOff, Siren } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { playAlertSound } from "./alert-sound";
@@ -31,6 +31,7 @@ const ALERT_REPEAT_MS = 2_500;
 // Shows an incoming emergency request (announced by an `emergency_alert` push,
 // or found by polling while the lawyer is live) so they can accept or decline it.
 export default function EmergencyNotification({ isLive }: { isLive: boolean }) {
+  const tCall = useTranslations("Call.Emergency");
   const [open, setOpen] = useState(false);
   // Requests already shown, so polling doesn't reopen a handled/expired one
   const shownIds = useRef(new Set<Emergency["id"]>());
@@ -54,6 +55,10 @@ export default function EmergencyNotification({ isLive }: { isLive: boolean }) {
   const syncCall = useCallback(async (id: Emergency["id"]) => {
     const latest = await getLawyerEmergency(id);
     if (!latest) return;
+
+    // Re-sync with the server clock for the countdown
+    const serverTime = new Date(latest.server_time).getTime();
+    if (!Number.isNaN(serverTime)) setClockOffset(Date.now() - serverTime);
 
     setCall((current) => {
       if (!current || current.emergency.id !== id || current.clientJoined) {
@@ -169,10 +174,12 @@ export default function EmergencyNotification({ isLive }: { isLive: boolean }) {
           emergencyId={call.emergency.id}
           role="lawyer"
           remoteName={call.emergency.client_first_name}
-          remoteSubtitle={call.emergency.legal_area?.name}
+          remoteSubtitle={tCall("emergencyClient")}
           startsAt={call.startsAt}
           showTimer={call.clientJoined}
           closesAt={call.closesAt}
+          clockOffsetMs={clockOffset}
+          details={<LawyerCallNotes emergency={call.emergency} />}
           forceEnd={call.clientNoShow ? "remoteNoShow" : null}
           onFinished={() => setCall(null)}
           renderEnded={(result, onDone) => (
@@ -308,6 +315,31 @@ function EmergencyRequest({
         />
       )}
     </>
+  );
+}
+
+// On the lawyer's call screen: the anonymity note and what the client wrote
+function LawyerCallNotes({ emergency }: { emergency: Emergency }) {
+  const t = useTranslations("Call.Emergency");
+
+  return (
+    <div className="w-full max-w-md space-y-3 text-center">
+      <p className="flex items-center justify-center gap-2 text-xs text-white/60">
+        <EyeOff className="size-3.5 shrink-0" aria-hidden="true" />
+        {t("identityHidden")}
+      </p>
+
+      {emergency.description && (
+        <div className="rounded-sm border border-white/15 bg-white/5 p-4 text-start">
+          <p className="text-[11px] uppercase tracking-widest text-white/45">
+            {t("whatHappened")}
+          </p>
+          <p className="mt-1 text-sm text-white/85 wrap-break-word">
+            {emergency.description}
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
 

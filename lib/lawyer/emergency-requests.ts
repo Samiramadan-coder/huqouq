@@ -4,6 +4,7 @@ import { unstable_rethrow } from "next/navigation";
 import { http, HttpError, ValidationError, apiErrorCode } from "../http";
 import { fetchCallToken } from "../call-token";
 import { Emergency } from "@/types/lawyer/emergency-history";
+import type { EmergencyCallEvent } from "@/components/client-lawyer/reusable/call/config";
 
 type ActionResponse =
   | { success: true; message?: string }
@@ -80,15 +81,17 @@ export async function requestEmergencyCallToken(id: Emergency["id"]) {
   return fetchCallToken(`/api/lawyer/emergency/requests/${id}/call`, "get");
 }
 
-// Tells the API the lawyer joined (once the Agora token arrives) or left the call
+// Tells the API what happened in the call (joined, left, reconnected, or
+// ended with a reason)
 export async function reportLawyerEmergencyCallEvent(
   id: Emergency["id"],
-  event: "joined" | "left",
+  event: EmergencyCallEvent,
+  reason?: string,
 ): Promise<ActionResponse> {
   try {
     const { data } = await http.post<{ message?: string }>(
       `/api/lawyer/emergency/requests/${id}/call-events`,
-      { event },
+      { event, reason },
     );
 
     return { success: true, message: data?.message };

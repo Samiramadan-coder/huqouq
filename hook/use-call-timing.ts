@@ -31,15 +31,20 @@ const MINUTE = 60_000;
 // the time the call closes (schedule.closesAt), that is the hard end instead.
 export function useCallTiming(schedule: CallSchedule): CallTiming {
   const { consultations } = usePublicSettings();
-  const [now, setNow] = useState<number | null>(null);
+  const [localNow, setLocalNow] = useState<number | null>(null);
 
   useEffect(() => {
-    const update = () => setNow(Date.now());
+    const update = () => setLocalNow(Date.now());
 
     update();
     const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // The server's "now" when the schedule says how far off the browser clock is
+  const now =
+    localNow === null ? null : localNow - (schedule.clockOffsetMs ?? 0);
+  const endingSoonMinutes = schedule.endingSoonMinutes ?? ENDING_SOON_MINUTES;
 
   if (now === null) {
     return {
@@ -85,7 +90,7 @@ export function useCallTiming(schedule: CallSchedule): CallTiming {
     phase,
     canJoin: now >= opensAt && now < hardEndAt,
     isEndingSoon:
-      phase === "inProgress" && secondsToEnd <= ENDING_SOON_MINUTES * 60,
+      phase === "inProgress" && secondsToEnd <= endingSoonMinutes * 60,
     secondsToStart: Math.ceil((startsAt - now) / 1000),
     secondsToEnd,
     secondsToHardEnd: Math.ceil((hardEndAt - now) / 1000),

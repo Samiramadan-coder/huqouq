@@ -1065,7 +1065,8 @@
           "title": "No lawyer available",
           "description": "No emergency lawyer is available right now. Our team has been notified and may contact you.",
           "tryAgain": "Try again"
-        }
+        },
+        "emergencyLawyer": "Huqouq Emergency Lawyer"
       },
       "CallEnded": {
         "title": "Call ended",
@@ -1098,7 +1099,10 @@
           "back": "Back",
           "submit": "Create case",
           "success": "Your case has been created."
-        }
+        },
+        "timeEndedTitle": "Your emergency call time has ended",
+        "connectionLostTitle": "The call was disconnected",
+        "next": "Continue"
       },
       "descriptionTooLong": "Please keep it under 300 characters",
       "freeNote": "Free · 24/7 · We connect you to the nearest available lawyer",
@@ -2900,7 +2904,14 @@
     "speakerOff": "Turn speaker off",
     "startsInLabel": "Starts in",
     "timeLeftLabel": "Time left",
-    "extraTimeLabel": "Extra time"
+    "extraTimeLabel": "Extra time",
+    "reconnecting": "Reconnecting…",
+    "Emergency": {
+      "endingSoon": "{minutes, plural, one {# minute left} other {# minutes left}}",
+      "emergencyClient": "Emergency client",
+      "identityHidden": "Your identity is hidden from the client",
+      "whatHappened": "What happened"
+    }
   },
   "Notifications": {
     "Title": "Notifications",

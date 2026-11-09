@@ -42,10 +42,31 @@ export type CallSchedule = {
   bufferMinutes?: number;
   // When the call closes (the call-token API's ends_at); auto-leave happens then.
   closesAt?: string;
+  // Local clock minus the server clock (ms), so the countdown follows the
+  // server's time instead of the browser's. Defaults to 0.
+  clockOffsetMs?: number;
+  // When the "time almost up" warning shows (defaults to ENDING_SOON_MINUTES)
+  endingSoonMinutes?: number;
 };
 
 // "remoteNoShow": ended because the other side never joined (emergency calls)
-export type CallEndReason = "timeEnded" | "left" | "remoteNoShow";
+// "connectionLost": the connection didn't come back within RECONNECT_TIMEOUT_MS
+export type CallEndReason =
+  "timeEnded" | "left" | "remoteNoShow" | "connectionLost";
+
+// How long to keep trying to reconnect after the network drops
+export const RECONNECT_TIMEOUT_MS = 60_000;
+
+// Emergency call events reported to the API
+export type EmergencyCallEvent = "joined" | "left" | "reconnected" | "ended";
+
+// The `reason` sent with the "ended" event
+export const EMERGENCY_END_REASONS: Record<CallEndReason, string> = {
+  timeEnded: "time_up",
+  left: "hung_up",
+  remoteNoShow: "no_show",
+  connectionLost: "connection_lost",
+};
 
 export type CallEndResult = {
   reason: CallEndReason;
@@ -84,24 +105,21 @@ export async function getEmergencyCallCredentials(
       ? await requestEmergencyCallToken(emergencyRequestId)
       : await requestClientEmergencyCallToken(emergencyRequestId);
 
-  // Each side reports joining as soon as its token is issued; a failed
-  // report doesn't block the call
-  if (result.success) {
-    await reportEmergencyCallEventFor(emergencyRequestId, role, "joined");
-  }
-
+  // "joined" is reported once the Agora connection is up (see EmergencyCall)
   return toCallTokenResult(result);
 }
 
-// Sends a call event (joined / left) to the right side's emergency endpoint
+// Sends a call event to the right side's emergency endpoint; `reason` goes
+// with "ended". A failed report never blocks the call.
 export async function reportEmergencyCallEventFor(
   emergencyRequestId: number,
   role: CallRole,
-  event: "joined" | "left",
+  event: EmergencyCallEvent,
+  reason?: string,
 ) {
   return role === "lawyer"
-    ? reportLawyerEmergencyCallEvent(emergencyRequestId, event)
-    : reportEmergencyCallEvent(emergencyRequestId, event);
+    ? reportLawyerEmergencyCallEvent(emergencyRequestId, event, reason)
+    : reportEmergencyCallEvent(emergencyRequestId, event, reason);
 }
 
 function toCallTokenResult(result: CallTokenResponse): CallTokenResult {

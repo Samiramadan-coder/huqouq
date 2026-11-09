@@ -14,6 +14,7 @@ import {
   CallEndReason,
   CallEndResult,
   CALL_SCREEN_CLASS,
+  EMERGENCY_END_REASONS,
   getEmergencyCallCredentials,
   reportEmergencyCallEventFor,
 } from "@/components/client-lawyer/reusable/call/config";
@@ -39,8 +40,11 @@ const AgoraCall = dynamic(
 );
 
 // Emergency calls are short first-guidance voice calls (up to 15 minutes).
-// The call API's `ends_at`, when sent, takes precedence.
+// The request's `call_ends_at` (or the call API's `ends_at`) takes precedence.
 const EMERGENCY_CALL_MINUTES = 15;
+
+// The "time almost up" banner shows this many minutes before the end
+const EMERGENCY_ENDING_SOON_MINUTES = 2;
 
 // Either side of an accepted emergency request: joins the voice call right
 // away (the lawyer after accepting, the client after choosing to continue).
@@ -56,6 +60,8 @@ export default function EmergencyCall({
   forceEnd,
   remoteSubtitle,
   remoteIcon,
+  clockOffsetMs,
+  details,
 }: {
   emergencyId: number;
   role: CallRole;
@@ -75,6 +81,10 @@ export default function EmergencyCall({
   closesAt?: string;
   // Set to leave the call from outside (e.g. the client never joined)
   forceEnd?: CallEndReason | null;
+  // Local clock minus the server clock (from the request's `server_time`)
+  clockOffsetMs?: number;
+  // Extra content on the call screen (e.g. the lawyer's notes)
+  details?: React.ReactNode;
 }) {
   const router = useRouter();
   const t = useTranslations("Call");
@@ -114,6 +124,8 @@ export default function EmergencyCall({
     durationMinutes: EMERGENCY_CALL_MINUTES,
     bufferMinutes: 0,
     closesAt,
+    clockOffsetMs,
+    endingSoonMinutes: EMERGENCY_ENDING_SOON_MINUTES,
   };
 
   function finish() {
@@ -134,9 +146,7 @@ export default function EmergencyCall({
           {/* Named for screen readers; the call screen shows the details */}
           <DialogHeader className="sr-only">
             <DialogTitle>{t("title", { name: remoteName })}</DialogTitle>
-            <DialogDescription>
-              {t("audioDescription")}
-            </DialogDescription>
+            <DialogDescription>{t("audioDescription")}</DialogDescription>
           </DialogHeader>
 
           <div className="flex-1">
@@ -153,8 +163,22 @@ export default function EmergencyCall({
                 badge={{ label: t("emergencyBadge"), tone: "emergency" }}
                 showTimer={showTimer}
                 forceEnd={forceEnd}
+                endingSoonLabel={t("Emergency.endingSoon", {
+                  minutes: EMERGENCY_ENDING_SOON_MINUTES,
+                })}
+                details={details}
+                onConnectionEvent={(event) =>
+                  reportEmergencyCallEventFor(emergencyId, role, event)
+                }
                 onEnd={(result) => {
-                  // Left the Agora channel (hung up or time ran out)
+                  // Left the Agora channel: hung up, time ran out, the other
+                  // side never joined, or the connection didn't come back
+                  reportEmergencyCallEventFor(
+                    emergencyId,
+                    role,
+                    "ended",
+                    EMERGENCY_END_REASONS[result.reason],
+                  );
                   reportLeft();
                   setInCall(false);
                   setEndResult(result);
