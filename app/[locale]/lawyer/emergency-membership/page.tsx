@@ -19,8 +19,6 @@ export default async function Page() {
     },
   );
 
-  // console.log(data.data);
-
   return (
     <div className="container max-w-7xl space-y-6 py-10">
       <div>

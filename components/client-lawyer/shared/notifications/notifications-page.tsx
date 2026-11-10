@@ -10,8 +10,6 @@ export default async function NotificationsPage({ page }: { page?: string }) {
   const t = await getTranslations("Notifications");
   const data = await getNotifications(Number(page) || 1);
 
-  console.log(data);
-
   return (
     <div className="container py-10 max-w-4xl space-y-6">
       <div>
