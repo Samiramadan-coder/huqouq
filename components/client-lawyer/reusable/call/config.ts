@@ -60,12 +60,14 @@ export const RECONNECT_TIMEOUT_MS = 60_000;
 // Emergency call events reported to the API
 export type EmergencyCallEvent = "joined" | "left" | "reconnected" | "ended";
 
-// The `reason` sent with the "ended" event
+// The `reason` sent with the "ended" event. The API accepts only "hangup",
+// "time_limit" and "network" (anything else is a 422), so a no-show is sent
+// as a hang-up.
 export const EMERGENCY_END_REASONS: Record<CallEndReason, string> = {
-  timeEnded: "time_up",
-  left: "hung_up",
-  remoteNoShow: "no_show",
-  connectionLost: "connection_lost",
+  timeEnded: "time_limit",
+  left: "hangup",
+  remoteNoShow: "hangup",
+  connectionLost: "network",
 };
 
 export type CallEndResult = {
